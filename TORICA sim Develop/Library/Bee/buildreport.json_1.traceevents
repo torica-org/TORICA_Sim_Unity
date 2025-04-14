@@ -1,0 +1,487 @@
+{ "pid": 0, "tid": -1, "ph": "M", "name": "process_name", "args": { "name": "BeeDriver" } },
+{ "pid": 0, "tid": -1, "ph": "M", "name": "process_sort_index", "args": { "sort_index": "-2" } },
+{ "pid": 0, "tid": 1, "ph": "M", "name": "thread_name", "args": { "name": "" } },
+{ "pid": 0, "tid": 1, "ts": 1744373051482099, "dur": 967262, "ph": "X", "name": "Build Player", "args": {} },
+{ "pid": 0, "tid": 1, "ts": 1744373051482295, "dur": 14592, "ph": "X", "name": "WriteBuildProgramData", "args": {} },
+{ "pid": 0, "tid": 1, "ts": 1744373051496890, "dur": 945006, "ph": "X", "name": "Run Backend", "args": {} },
+{ "pid": 0, "tid": 1, "ts": 1744373052441898, "dur": 7462, "ph": "X", "name": "Finish", "args": {} },
+{ "pid": 0, "tid": 1, "ts": 1744373052449778, "dur": 6, "ph": "X", "name": "", "args": {} },
+{ "cat":"", "pid":12345, "tid":0, "ts":0, "ph":"M", "name":"process_name", "args": { "name":"bee_backend" } }
+,{ "pid":12345, "tid":0, "ts":1744373051538677, "dur":1961, "ph":"X", "name": "DriverInitData",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1744373051540647, "dur":130, "ph":"X", "name": "Tundra",  "args": { "detail":"RemoveStaleOutputs" }}
+,{ "pid":12345, "tid":0, "ts":1744373051540805, "dur":19, "ph":"X", "name": "Tundra",  "args": { "detail":"PrepareNodes" }}
+,{ "pid":12345, "tid":0, "ts":1744373051540825, "dur":899, "ph":"X", "name": "Tundra",  "args": { "detail":"BuildQueueInit" }}
+,{ "pid":12345, "tid":0, "ts":1744373051541774, "dur":697, "ph":"X", "name": "EnqueueRequestedNodes",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1744373051542471, "dur":2, "ph":"X", "name": "SortWorkingStack",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1744373052421623, "dur":676, "ph":"X", "name": "JoinBuildThread",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1744373052422299, "dur":31, "ph":"X", "name": "ThreadStateDestroy",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1744373052422330, "dur":6, "ph":"X", "name": "JoinBuildThread",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1744373052422336, "dur":18, "ph":"X", "name": "ThreadStateDestroy",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1744373052422354, "dur":2, "ph":"X", "name": "JoinBuildThread",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1744373052422356, "dur":16, "ph":"X", "name": "ThreadStateDestroy",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1744373052422372, "dur":1, "ph":"X", "name": "JoinBuildThread",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1744373052422373, "dur":16, "ph":"X", "name": "ThreadStateDestroy",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1744373052422389, "dur":2, "ph":"X", "name": "JoinBuildThread",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1744373052422391, "dur":15, "ph":"X", "name": "ThreadStateDestroy",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1744373052422406, "dur":2, "ph":"X", "name": "JoinBuildThread",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1744373052422408, "dur":16, "ph":"X", "name": "ThreadStateDestroy",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1744373052422424, "dur":2, "ph":"X", "name": "JoinBuildThread",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1744373052422426, "dur":15, "ph":"X", "name": "ThreadStateDestroy",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1744373052422442, "dur":1, "ph":"X", "name": "JoinBuildThread",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1744373052422443, "dur":17, "ph":"X", "name": "ThreadStateDestroy",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1744373052422460, "dur":2, "ph":"X", "name": "JoinBuildThread",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1744373052422462, "dur":16, "ph":"X", "name": "ThreadStateDestroy",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1744373052422478, "dur":2, "ph":"X", "name": "JoinBuildThread",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1744373052422480, "dur":17, "ph":"X", "name": "ThreadStateDestroy",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1744373052422497, "dur":3, "ph":"X", "name": "JoinBuildThread",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1744373052422500, "dur":15, "ph":"X", "name": "ThreadStateDestroy",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1744373052422515, "dur":2, "ph":"X", "name": "JoinBuildThread",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1744373052422517, "dur":21, "ph":"X", "name": "ThreadStateDestroy",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1744373052422538, "dur":2, "ph":"X", "name": "JoinBuildThread",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1744373052422540, "dur":17, "ph":"X", "name": "ThreadStateDestroy",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1744373052422557, "dur":2, "ph":"X", "name": "JoinBuildThread",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1744373052422559, "dur":17, "ph":"X", "name": "ThreadStateDestroy",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1744373052422576, "dur":3, "ph":"X", "name": "JoinBuildThread",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1744373052422579, "dur":18, "ph":"X", "name": "ThreadStateDestroy",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1744373052422597, "dur":1, "ph":"X", "name": "JoinBuildThread",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1744373052422598, "dur":16, "ph":"X", "name": "ThreadStateDestroy",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1744373052422614, "dur":3, "ph":"X", "name": "JoinBuildThread",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1744373052422617, "dur":17, "ph":"X", "name": "ThreadStateDestroy",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1744373052422634, "dur":2, "ph":"X", "name": "JoinBuildThread",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1744373052422636, "dur":23, "ph":"X", "name": "ThreadStateDestroy",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1744373052422659, "dur":2, "ph":"X", "name": "JoinBuildThread",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1744373052422661, "dur":20, "ph":"X", "name": "ThreadStateDestroy",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1744373052422681, "dur":2, "ph":"X", "name": "JoinBuildThread",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1744373052422683, "dur":26, "ph":"X", "name": "ThreadStateDestroy",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1744373052422709, "dur":2, "ph":"X", "name": "JoinBuildThread",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1744373052422711, "dur":20, "ph":"X", "name": "ThreadStateDestroy",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1744373052422731, "dur":1, "ph":"X", "name": "JoinBuildThread",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1744373052422732, "dur":19, "ph":"X", "name": "ThreadStateDestroy",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1744373052422751, "dur":0, "ph":"X", "name": "SharedResourceDestroy",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1744373052422783, "dur":3, "ph":"X", "name": "BuildQueueDestroyTail",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1744373052422812, "dur":5041, "ph":"X", "name": "Tundra",  "args": { "detail":"Write AllBuiltNodes" }}
+,{ "pid":12345, "tid":1, "ts":1744373051541932, "dur":883, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":1, "ts":1744373051542815, "dur":2955, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":1, "ts":1744373051545770, "dur":9655, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/MonoBleedingEdge/etc/mono/2.0/web.config" }}
+,{ "pid":12345, "tid":1, "ts":1744373051555427, "dur":107, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":1, "ts":1744373051555538, "dur":3848, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.UnityWebRequestAudioModule.dll" }}
+,{ "pid":12345, "tid":1, "ts":1744373051559387, "dur":173, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":1, "ts":1744373051559562, "dur":7951, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.UIModule.dll" }}
+,{ "pid":12345, "tid":1, "ts":1744373051567515, "dur":522, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":1, "ts":1744373051568041, "dur":4786, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.SpriteShapeModule.dll" }}
+,{ "pid":12345, "tid":1, "ts":1744373051572827, "dur":412, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":1, "ts":1744373051573242, "dur":13622, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.IMGUIModule.dll" }}
+,{ "pid":12345, "tid":1, "ts":1744373051586865, "dur":248, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":1, "ts":1744373051587115, "dur":171675, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/Unity.Timeline.dll" }}
+,{ "pid":12345, "tid":1, "ts":1744373051758797, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":1, "ts":1744373051758805, "dur":1080, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/Unity.Timeline.dll" }}
+,{ "pid":12345, "tid":1, "ts":1744373051759917, "dur":301570, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/System.Data.dll" }}
+,{ "pid":12345, "tid":1, "ts":1744373052061489, "dur":319, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":1, "ts":1744373052061811, "dur":360017, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":2, "ts":1744373051542188, "dur":357, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":2, "ts":1744373051542546, "dur":3268, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":2, "ts":1744373051545815, "dur":9690, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/MonoBleedingEdge/etc/mono/2.0/machine.config" }}
+,{ "pid":12345, "tid":2, "ts":1744373051555505, "dur":54, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":2, "ts":1744373051555560, "dur":4892, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.UnityTestProtocolModule.dll" }}
+,{ "pid":12345, "tid":2, "ts":1744373051560453, "dur":238, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":2, "ts":1744373051560693, "dur":10868, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.TextRenderingModule.dll" }}
+,{ "pid":12345, "tid":2, "ts":1744373051571562, "dur":34, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":2, "ts":1744373051571598, "dur":5471, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.LocalizationModule.dll" }}
+,{ "pid":12345, "tid":2, "ts":1744373051577070, "dur":249, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":2, "ts":1744373051577320, "dur":5543, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.CrashReportingModule.dll" }}
+,{ "pid":12345, "tid":2, "ts":1744373051582864, "dur":352, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":2, "ts":1744373051583218, "dur":12541, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.AIModule.dll" }}
+,{ "pid":12345, "tid":2, "ts":1744373051595760, "dur":277, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":2, "ts":1744373051596041, "dur":58028, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/Unity.Services.Core.Environments.Internal.dll" }}
+,{ "pid":12345, "tid":2, "ts":1744373051654074, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":2, "ts":1744373051654088, "dur":888, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/Unity.Services.Core.Environments.Internal.dll" }}
+,{ "pid":12345, "tid":2, "ts":1744373051654992, "dur":485147, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/System.Security.dll" }}
+,{ "pid":12345, "tid":2, "ts":1744373052140141, "dur":107, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":2, "ts":1744373052140251, "dur":281507, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1744373051541805, "dur":788, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1744373051542593, "dur":3154, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1744373051545748, "dur":14148, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/MonoBleedingEdge/etc/mono/4.0/machine.config" }}
+,{ "pid":12345, "tid":3, "ts":1744373051559897, "dur":407, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1744373051560306, "dur":15014, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.TilemapModule.dll" }}
+,{ "pid":12345, "tid":3, "ts":1744373051575321, "dur":103, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1744373051575426, "dur":8842, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.GridModule.dll" }}
+,{ "pid":12345, "tid":3, "ts":1744373051584269, "dur":213, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1744373051584485, "dur":419824, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/Unity.VisualScripting.Flow.dll" }}
+,{ "pid":12345, "tid":3, "ts":1744373052004330, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1744373052004336, "dur":788, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/Unity.VisualScripting.Flow.dll" }}
+,{ "pid":12345, "tid":3, "ts":1744373052005140, "dur":17, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/sharedassets2.assets" }}
+,{ "pid":12345, "tid":3, "ts":1744373052005159, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1744373052005163, "dur":1248, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/sharedassets2.assets" }}
+,{ "pid":12345, "tid":3, "ts":1744373052006429, "dur":19, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/sharedassets1.assets.resS" }}
+,{ "pid":12345, "tid":3, "ts":1744373052006452, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1744373052006457, "dur":21536, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/sharedassets1.assets.resS" }}
+,{ "pid":12345, "tid":3, "ts":1744373052028011, "dur":16, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/level0.resS" }}
+,{ "pid":12345, "tid":3, "ts":1744373052028030, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1744373052028035, "dur":645, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/level0.resS" }}
+,{ "pid":12345, "tid":3, "ts":1744373052028696, "dur":20, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/globalgamemanagers.assets" }}
+,{ "pid":12345, "tid":3, "ts":1744373052028719, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1744373052028722, "dur":731, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/globalgamemanagers.assets" }}
+,{ "pid":12345, "tid":3, "ts":1744373052029470, "dur":111, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/boot.config" }}
+,{ "pid":12345, "tid":3, "ts":1744373052029581, "dur":56, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1744373052029638, "dur":391989, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":4, "ts":1744373051542249, "dur":289, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":4, "ts":1744373051542538, "dur":3121, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":4, "ts":1744373051545666, "dur":41584, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/MonoBleedingEdge/etc/mono/mconfig/config.xml" }}
+,{ "pid":12345, "tid":4, "ts":1744373051587251, "dur":319, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":4, "ts":1744373051587572, "dur":99850, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/Unity.Services.Core.Telemetry.dll" }}
+,{ "pid":12345, "tid":4, "ts":1744373051687427, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":4, "ts":1744373051687433, "dur":683, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/Unity.Services.Core.Telemetry.dll" }}
+,{ "pid":12345, "tid":4, "ts":1744373051688131, "dur":79598, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/System.IO.Compression.FileSystem.dll" }}
+,{ "pid":12345, "tid":4, "ts":1744373051767730, "dur":530, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":4, "ts":1744373051768264, "dur":85613, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/System.Data.DataSetExtensions.dll" }}
+,{ "pid":12345, "tid":4, "ts":1744373051853879, "dur":736, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":4, "ts":1744373051854619, "dur":188649, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/Newtonsoft.Json.dll" }}
+,{ "pid":12345, "tid":4, "ts":1744373052043269, "dur":87, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":4, "ts":1744373052043359, "dur":378326, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":5, "ts":1744373051541871, "dur":919, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":5, "ts":1744373051542792, "dur":2959, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":5, "ts":1744373051545752, "dur":501, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/MonoBleedingEdge/etc/mono/2.0/Browsers/Compat.browser" }}
+,{ "pid":12345, "tid":5, "ts":1744373051546254, "dur":3226, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":5, "ts":1744373051549482, "dur":10026, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.VRModule.dll" }}
+,{ "pid":12345, "tid":5, "ts":1744373051559508, "dur":81, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":5, "ts":1744373051559591, "dur":12556, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.UIElementsModule.dll" }}
+,{ "pid":12345, "tid":5, "ts":1744373051572148, "dur":76, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":5, "ts":1744373051572226, "dur":8492, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.JSONSerializeModule.dll" }}
+,{ "pid":12345, "tid":5, "ts":1744373051580720, "dur":152, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":5, "ts":1744373051580875, "dur":8318, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.ClothModule.dll" }}
+,{ "pid":12345, "tid":5, "ts":1744373051589194, "dur":29, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":5, "ts":1744373051589224, "dur":49514, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/Unity.Services.Core.Registration.dll" }}
+,{ "pid":12345, "tid":5, "ts":1744373051638752, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":5, "ts":1744373051650033, "dur":3511, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/Unity.Services.Core.Registration.dll" }}
+,{ "pid":12345, "tid":5, "ts":1744373051653577, "dur":121737, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/System.Xml.Linq.dll" }}
+,{ "pid":12345, "tid":5, "ts":1744373051775315, "dur":75, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":5, "ts":1744373051775392, "dur":238156, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/System.Configuration.dll" }}
+,{ "pid":12345, "tid":5, "ts":1744373052013550, "dur":760, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":5, "ts":1744373052014315, "dur":55, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/sharedassets1.assets" }}
+,{ "pid":12345, "tid":5, "ts":1744373052014379, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":5, "ts":1744373052014388, "dur":9960, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/sharedassets1.assets" }}
+,{ "pid":12345, "tid":5, "ts":1744373052024370, "dur":18, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/resources.assets" }}
+,{ "pid":12345, "tid":5, "ts":1744373052024391, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":5, "ts":1744373052024397, "dur":976, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/resources.assets" }}
+,{ "pid":12345, "tid":5, "ts":1744373052025389, "dur":16, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/level2.resS" }}
+,{ "pid":12345, "tid":5, "ts":1744373052025408, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":5, "ts":1744373052025413, "dur":794, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/level2.resS" }}
+,{ "pid":12345, "tid":5, "ts":1744373052026230, "dur":18, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/level2" }}
+,{ "pid":12345, "tid":5, "ts":1744373052026252, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":5, "ts":1744373052026258, "dur":1017, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/level2" }}
+,{ "pid":12345, "tid":5, "ts":1744373052027289, "dur":14, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/level1" }}
+,{ "pid":12345, "tid":5, "ts":1744373052027306, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":5, "ts":1744373052027312, "dur":905, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/level1" }}
+,{ "pid":12345, "tid":5, "ts":1744373052028235, "dur":14, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/level0" }}
+,{ "pid":12345, "tid":5, "ts":1744373052028251, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":5, "ts":1744373052028254, "dur":504, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/level0" }}
+,{ "pid":12345, "tid":5, "ts":1744373052028774, "dur":18, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/globalgamemanagers" }}
+,{ "pid":12345, "tid":5, "ts":1744373052028794, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":5, "ts":1744373052028797, "dur":834, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/globalgamemanagers" }}
+,{ "pid":12345, "tid":5, "ts":1744373052029654, "dur":391960, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":6, "ts":1744373051541635, "dur":858, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":6, "ts":1744373051542493, "dur":3397, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":6, "ts":1744373051545890, "dur":64271, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/UnityPlayer.dll" }}
+,{ "pid":12345, "tid":6, "ts":1744373051610163, "dur":140, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":6, "ts":1744373051610306, "dur":75008, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/Unity.Services.Core.dll" }}
+,{ "pid":12345, "tid":6, "ts":1744373051685324, "dur":3, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":6, "ts":1744373051685335, "dur":1398, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/Unity.Services.Core.dll" }}
+,{ "pid":12345, "tid":6, "ts":1744373051686760, "dur":243987, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/System.Numerics.dll" }}
+,{ "pid":12345, "tid":6, "ts":1744373051930748, "dur":92, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":6, "ts":1744373051930843, "dur":405825, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/Assembly-CSharp.dll" }}
+,{ "pid":12345, "tid":6, "ts":1744373052336674, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":6, "ts":1744373052336682, "dur":1075, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/Assembly-CSharp.dll" }}
+,{ "pid":12345, "tid":6, "ts":1744373052337792, "dur":83838, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":7, "ts":1744373051541672, "dur":827, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":7, "ts":1744373051542499, "dur":3170, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":7, "ts":1744373051545671, "dur":649, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/MonoBleedingEdge/etc/mono/4.5/settings.map" }}
+,{ "pid":12345, "tid":7, "ts":1744373051546320, "dur":3412, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":7, "ts":1744373051549734, "dur":24281, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.UnityWebRequestWWWModule.dll" }}
+,{ "pid":12345, "tid":7, "ts":1744373051574016, "dur":770, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":7, "ts":1744373051574789, "dur":8584, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.ImageConversionModule.dll" }}
+,{ "pid":12345, "tid":7, "ts":1744373051583373, "dur":390, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":7, "ts":1744373051583765, "dur":9404, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.AccessibilityModule.dll" }}
+,{ "pid":12345, "tid":7, "ts":1744373051593170, "dur":506, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":7, "ts":1744373051593679, "dur":116404, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/Unity.Services.Core.Internal.dll" }}
+,{ "pid":12345, "tid":7, "ts":1744373051710090, "dur":3, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":7, "ts":1744373051710099, "dur":896, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/Unity.Services.Core.Internal.dll" }}
+,{ "pid":12345, "tid":7, "ts":1744373051711009, "dur":64272, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/System.EnterpriseServices.dll" }}
+,{ "pid":12345, "tid":7, "ts":1744373051775282, "dur":88, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":7, "ts":1744373051775373, "dur":375060, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/System.Core.dll" }}
+,{ "pid":12345, "tid":7, "ts":1744373052150435, "dur":365, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":7, "ts":1744373052150803, "dur":270971, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":8, "ts":1744373051541773, "dur":818, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":8, "ts":1744373051542591, "dur":3204, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":8, "ts":1744373051545795, "dur":615, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/MonoBleedingEdge/etc/mono/2.0/settings.map" }}
+,{ "pid":12345, "tid":8, "ts":1744373051546411, "dur":3205, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":8, "ts":1744373051549618, "dur":9716, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.VideoModule.dll" }}
+,{ "pid":12345, "tid":8, "ts":1744373051559335, "dur":245, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":8, "ts":1744373051559582, "dur":4713, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.UIElementsNativeModule.dll" }}
+,{ "pid":12345, "tid":8, "ts":1744373051564297, "dur":494, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":8, "ts":1744373051564794, "dur":4198, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.SubstanceModule.dll" }}
+,{ "pid":12345, "tid":8, "ts":1744373051568993, "dur":319, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":8, "ts":1744373051569314, "dur":5936, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.ProfilerModule.dll" }}
+,{ "pid":12345, "tid":8, "ts":1744373051575251, "dur":205, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":8, "ts":1744373051575458, "dur":5305, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.GIModule.dll" }}
+,{ "pid":12345, "tid":8, "ts":1744373051580764, "dur":287, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":8, "ts":1744373051581053, "dur":4883, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.AudioModule.dll" }}
+,{ "pid":12345, "tid":8, "ts":1744373051585937, "dur":69, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":8, "ts":1744373051586008, "dur":638759, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/Unity.VisualScripting.Core.dll" }}
+,{ "pid":12345, "tid":8, "ts":1744373052224778, "dur":4, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":8, "ts":1744373052224792, "dur":1584, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/Unity.VisualScripting.Core.dll" }}
+,{ "pid":12345, "tid":8, "ts":1744373052226401, "dur":195257, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":9, "ts":1744373051541729, "dur":792, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":9, "ts":1744373051542521, "dur":3140, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":9, "ts":1744373051545667, "dur":807, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/MonoBleedingEdge/etc/mono/4.5/Browsers/Compat.browser" }}
+,{ "pid":12345, "tid":9, "ts":1744373051546475, "dur":3247, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":9, "ts":1744373051549723, "dur":6280, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.VehiclesModule.dll" }}
+,{ "pid":12345, "tid":9, "ts":1744373051556004, "dur":42, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":9, "ts":1744373051556048, "dur":3412, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.UnityConnectModule.dll" }}
+,{ "pid":12345, "tid":9, "ts":1744373051559461, "dur":214, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":9, "ts":1744373051559676, "dur":88355, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.UI.dll" }}
+,{ "pid":12345, "tid":9, "ts":1744373051648037, "dur":3, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":9, "ts":1744373051650033, "dur":3680, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.UI.dll" }}
+,{ "pid":12345, "tid":9, "ts":1744373051653730, "dur":273903, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/System.Transactions.dll" }}
+,{ "pid":12345, "tid":9, "ts":1744373051927635, "dur":1998, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":9, "ts":1744373051929637, "dur":443623, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/Mono.Security.dll" }}
+,{ "pid":12345, "tid":9, "ts":1744373052373262, "dur":1753, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":9, "ts":1744373052375018, "dur":46601, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":10, "ts":1744373051541880, "dur":897, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":10, "ts":1744373051542778, "dur":3086, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":10, "ts":1744373051545892, "dur":4065, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/MonoBleedingEdge/EmbedRuntime/MonoPosixHelper.dll" }}
+,{ "pid":12345, "tid":10, "ts":1744373051549958, "dur":606, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":10, "ts":1744373051550604, "dur":15162, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.UnityWebRequestTextureModule.dll" }}
+,{ "pid":12345, "tid":10, "ts":1744373051565767, "dur":88, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":10, "ts":1744373051565857, "dur":4232, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.StreamingModule.dll" }}
+,{ "pid":12345, "tid":10, "ts":1744373051570090, "dur":535, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":10, "ts":1744373051570627, "dur":6493, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.PerformanceReportingModule.dll" }}
+,{ "pid":12345, "tid":10, "ts":1744373051577120, "dur":158, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":10, "ts":1744373051577281, "dur":4420, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.DirectorModule.dll" }}
+,{ "pid":12345, "tid":10, "ts":1744373051581701, "dur":353, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":10, "ts":1744373051582056, "dur":10143, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.AnimationModule.dll" }}
+,{ "pid":12345, "tid":10, "ts":1744373051592200, "dur":500, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":10, "ts":1744373051592705, "dur":57839, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/Unity.Services.Core.Networking.dll" }}
+,{ "pid":12345, "tid":10, "ts":1744373051650550, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":10, "ts":1744373051650556, "dur":2993, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/Unity.Services.Core.Networking.dll" }}
+,{ "pid":12345, "tid":10, "ts":1744373051653581, "dur":425734, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/System.Xml.dll" }}
+,{ "pid":12345, "tid":10, "ts":1744373052079316, "dur":522, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":10, "ts":1744373052079842, "dur":341983, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":11, "ts":1744373051541846, "dur":986, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":11, "ts":1744373051542832, "dur":2858, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":11, "ts":1744373051545690, "dur":105, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/MonoBleedingEdge/etc/mono/4.0/Browsers/Compat.browser" }}
+,{ "pid":12345, "tid":11, "ts":1744373051545795, "dur":2979, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":11, "ts":1744373051548777, "dur":9222, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.XRModule.dll" }}
+,{ "pid":12345, "tid":11, "ts":1744373051558000, "dur":76, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":11, "ts":1744373051558077, "dur":3819, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.UNETModule.dll" }}
+,{ "pid":12345, "tid":11, "ts":1744373051561897, "dur":293, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":11, "ts":1744373051562192, "dur":7968, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.TerrainModule.dll" }}
+,{ "pid":12345, "tid":11, "ts":1744373051570161, "dur":74, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":11, "ts":1744373051570236, "dur":5739, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.PhysicsModule.dll" }}
+,{ "pid":12345, "tid":11, "ts":1744373051575996, "dur":95, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":11, "ts":1744373051576107, "dur":20147, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.DSPGraphModule.dll" }}
+,{ "pid":12345, "tid":11, "ts":1744373051596255, "dur":328, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":11, "ts":1744373051596585, "dur":543021, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/Unity.Services.Core.Environments.dll" }}
+,{ "pid":12345, "tid":11, "ts":1744373052139613, "dur":3, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":11, "ts":1744373052139631, "dur":893, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/Unity.Services.Core.Environments.dll" }}
+,{ "pid":12345, "tid":11, "ts":1744373052140542, "dur":281242, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":12, "ts":1744373051541602, "dur":884, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":12, "ts":1744373051542492, "dur":3162, "ph":"X", "name": "CheckDagSignatures",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":12, "ts":1744373051545666, "dur":1, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"WriteText Library/Bee/artifacts/WinPlayerBuildProgram/Data/app.info" }}
+,{ "pid":12345, "tid":12, "ts":1744373051545667, "dur":1046, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":12, "ts":1744373051546721, "dur":2, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/app.info" }}
+,{ "pid":12345, "tid":12, "ts":1744373051546723, "dur":818, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":12, "ts":1744373051547543, "dur":4599, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/UnityCrashHandler64.exe" }}
+,{ "pid":12345, "tid":12, "ts":1744373051552143, "dur":312, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":12, "ts":1744373051552458, "dur":5019, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.UnityWebRequestModule.dll" }}
+,{ "pid":12345, "tid":12, "ts":1744373051557478, "dur":121, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":12, "ts":1744373051557602, "dur":5535, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.UnityAnalyticsModule.dll" }}
+,{ "pid":12345, "tid":12, "ts":1744373051563137, "dur":83, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":12, "ts":1744373051563222, "dur":5386, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.SubsystemsModule.dll" }}
+,{ "pid":12345, "tid":12, "ts":1744373051568609, "dur":361, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":12, "ts":1744373051568972, "dur":8377, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.RuntimeInitializeOnLoadManagerInitializerModule.dll" }}
+,{ "pid":12345, "tid":12, "ts":1744373051577350, "dur":74, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":12, "ts":1744373051577425, "dur":10058, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.CoreModule.dll" }}
+,{ "pid":12345, "tid":12, "ts":1744373051587483, "dur":26, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":12, "ts":1744373051587510, "dur":71019, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/Unity.Services.Core.Threading.dll" }}
+,{ "pid":12345, "tid":12, "ts":1744373051658536, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":12, "ts":1744373051658543, "dur":946, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/Unity.Services.Core.Threading.dll" }}
+,{ "pid":12345, "tid":12, "ts":1744373051659503, "dur":200343, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/System.Runtime.Serialization.dll" }}
+,{ "pid":12345, "tid":12, "ts":1744373051859848, "dur":103, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":12, "ts":1744373051859954, "dur":244519, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/netstandard.dll" }}
+,{ "pid":12345, "tid":12, "ts":1744373052104475, "dur":133, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":12, "ts":1744373052104611, "dur":317397, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":13, "ts":1744373051541922, "dur":909, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":13, "ts":1744373051542831, "dur":2844, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":13, "ts":1744373051545742, "dur":338, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/MonoBleedingEdge/etc/mono/4.5/DefaultWsdlHelpGenerator.aspx" }}
+,{ "pid":12345, "tid":13, "ts":1744373051546080, "dur":3637, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":13, "ts":1744373051549720, "dur":11079, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.VFXModule.dll" }}
+,{ "pid":12345, "tid":13, "ts":1744373051560799, "dur":77, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":13, "ts":1744373051560877, "dur":9287, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.TextCoreTextEngineModule.dll" }}
+,{ "pid":12345, "tid":13, "ts":1744373051570165, "dur":87, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":13, "ts":1744373051570254, "dur":4437, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.Physics2DModule.dll" }}
+,{ "pid":12345, "tid":13, "ts":1744373051574692, "dur":859, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":13, "ts":1744373051575553, "dur":12580, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.GameCenterModule.dll" }}
+,{ "pid":12345, "tid":13, "ts":1744373051588134, "dur":35, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":13, "ts":1744373051588170, "dur":98721, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/Unity.Services.Core.Scheduler.dll" }}
+,{ "pid":12345, "tid":13, "ts":1744373051686898, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":13, "ts":1744373051686917, "dur":1059, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/Unity.Services.Core.Scheduler.dll" }}
+,{ "pid":12345, "tid":13, "ts":1744373051687999, "dur":313763, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/System.Net.Http.dll" }}
+,{ "pid":12345, "tid":13, "ts":1744373052001764, "dur":499, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":13, "ts":1744373052002266, "dur":100, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/StreamingAssets/UnityServicesProjectConfiguration.json" }}
+,{ "pid":12345, "tid":13, "ts":1744373052002367, "dur":928, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":13, "ts":1744373052003297, "dur":31, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Resources/unity_builtin_extra" }}
+,{ "pid":12345, "tid":13, "ts":1744373052003333, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":13, "ts":1744373052003364, "dur":1519, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Resources/unity_builtin_extra" }}
+,{ "pid":12345, "tid":13, "ts":1744373052004897, "dur":17, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/sharedassets2.assets.resS" }}
+,{ "pid":12345, "tid":13, "ts":1744373052004916, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":13, "ts":1744373052004920, "dur":11265, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/sharedassets2.assets.resS" }}
+,{ "pid":12345, "tid":13, "ts":1744373052016216, "dur":19, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/sharedassets0.assets.resS" }}
+,{ "pid":12345, "tid":13, "ts":1744373052016257, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":13, "ts":1744373052016264, "dur":1045, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/sharedassets0.assets.resS" }}
+,{ "pid":12345, "tid":13, "ts":1744373052017336, "dur":22, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/sharedassets0.assets" }}
+,{ "pid":12345, "tid":13, "ts":1744373052017363, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":13, "ts":1744373052017370, "dur":1192, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/sharedassets0.assets" }}
+,{ "pid":12345, "tid":13, "ts":1744373052018586, "dur":85, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/ScriptingAssemblies.json" }}
+,{ "pid":12345, "tid":13, "ts":1744373052018676, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":13, "ts":1744373052018683, "dur":693, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/ScriptingAssemblies.json" }}
+,{ "pid":12345, "tid":13, "ts":1744373052019396, "dur":17576, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/RuntimeInitializeOnLoads.json" }}
+,{ "pid":12345, "tid":13, "ts":1744373052036974, "dur":105, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":13, "ts":1744373052037082, "dur":384719, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":14, "ts":1744373051542005, "dur":576, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":14, "ts":1744373051542581, "dur":3167, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":14, "ts":1744373051545749, "dur":674, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/MonoBleedingEdge/etc/mono/4.0/DefaultWsdlHelpGenerator.aspx" }}
+,{ "pid":12345, "tid":14, "ts":1744373051546424, "dur":1965, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":14, "ts":1744373051548390, "dur":71, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Resources/unity default resources" }}
+,{ "pid":12345, "tid":14, "ts":1744373051548462, "dur":958, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":14, "ts":1744373051549422, "dur":6278, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.WindModule.dll" }}
+,{ "pid":12345, "tid":14, "ts":1744373051555701, "dur":340, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":14, "ts":1744373051556042, "dur":4770, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.UnityCurlModule.dll" }}
+,{ "pid":12345, "tid":14, "ts":1744373051560812, "dur":216, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":14, "ts":1744373051561030, "dur":7409, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.TextCoreFontEngineModule.dll" }}
+,{ "pid":12345, "tid":14, "ts":1744373051568441, "dur":409, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":14, "ts":1744373051568852, "dur":6034, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.SharedInternalsModule.dll" }}
+,{ "pid":12345, "tid":14, "ts":1744373051574886, "dur":42, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":14, "ts":1744373051574929, "dur":5789, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.HotReloadModule.dll" }}
+,{ "pid":12345, "tid":14, "ts":1744373051580720, "dur":517, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":14, "ts":1744373051581239, "dur":56419, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.AssetBundleModule.dll" }}
+,{ "pid":12345, "tid":14, "ts":1744373051637660, "dur":12390, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":14, "ts":1744373051650054, "dur":764, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/Unity.Services.Core.Analytics.dll" }}
+,{ "pid":12345, "tid":14, "ts":1744373051650821, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":14, "ts":1744373051650831, "dur":2669, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/Unity.Services.Core.Analytics.dll" }}
+,{ "pid":12345, "tid":14, "ts":1744373051653525, "dur":480868, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/Unity.Postprocessing.Runtime.dll" }}
+,{ "pid":12345, "tid":14, "ts":1744373052134400, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":14, "ts":1744373052134408, "dur":813, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/Unity.Postprocessing.Runtime.dll" }}
+,{ "pid":12345, "tid":14, "ts":1744373052135237, "dur":286619, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":15, "ts":1744373051542027, "dur":545, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":15, "ts":1744373051542572, "dur":3287, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":15, "ts":1744373051545861, "dur":287, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/MonoBleedingEdge/etc/mono/browscap.ini" }}
+,{ "pid":12345, "tid":15, "ts":1744373051546148, "dur":2126, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":15, "ts":1744373051548277, "dur":64317, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator.exe" }}
+,{ "pid":12345, "tid":15, "ts":1744373051612596, "dur":53, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":15, "ts":1744373051612652, "dur":115244, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/Unity.Services.Core.Device.dll" }}
+,{ "pid":12345, "tid":15, "ts":1744373051727921, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":15, "ts":1744373051727938, "dur":2789, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/Unity.Services.Core.Device.dll" }}
+,{ "pid":12345, "tid":15, "ts":1744373051730742, "dur":306804, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/System.Drawing.dll" }}
+,{ "pid":12345, "tid":15, "ts":1744373052037547, "dur":72, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":15, "ts":1744373052037620, "dur":383996, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":16, "ts":1744373051542065, "dur":521, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":16, "ts":1744373051542586, "dur":3288, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":16, "ts":1744373051545876, "dur":24667, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/MonoBleedingEdge/EmbedRuntime/mono-2.0-bdwgc.dll" }}
+,{ "pid":12345, "tid":16, "ts":1744373051570543, "dur":233, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":16, "ts":1744373051570777, "dur":10935, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.ParticleSystemModule.dll" }}
+,{ "pid":12345, "tid":16, "ts":1744373051581713, "dur":110, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":16, "ts":1744373051581825, "dur":4884, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.ARModule.dll" }}
+,{ "pid":12345, "tid":16, "ts":1744373051586710, "dur":246, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":16, "ts":1744373051586958, "dur":149943, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/Unity.VisualScripting.Antlr3.Runtime.dll" }}
+,{ "pid":12345, "tid":16, "ts":1744373051736902, "dur":108, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":16, "ts":1744373051737013, "dur":684378, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/System.dll" }}
+,{ "pid":12345, "tid":16, "ts":1744373052421392, "dur":107, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":16, "ts":1744373052421503, "dur":0, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"Player" }}
+,{ "pid":12345, "tid":16, "ts":1744373052421503, "dur":0, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":17, "ts":1744373051542094, "dur":702, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":17, "ts":1744373051542798, "dur":3018, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":17, "ts":1744373051545817, "dur":604, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/MonoBleedingEdge/etc/mono/2.0/DefaultWsdlHelpGenerator.aspx" }}
+,{ "pid":12345, "tid":17, "ts":1744373051546421, "dur":3168, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":17, "ts":1744373051549591, "dur":21456, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.VirtualTexturingModule.dll" }}
+,{ "pid":12345, "tid":17, "ts":1744373051571048, "dur":68, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":17, "ts":1744373051571117, "dur":519461, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.NVIDIAModule.dll" }}
+,{ "pid":12345, "tid":17, "ts":1744373052090579, "dur":94, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":17, "ts":1744373052090675, "dur":331172, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":18, "ts":1744373051542121, "dur":446, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":18, "ts":1744373051542568, "dur":3286, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":18, "ts":1744373051545856, "dur":155, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/MonoBleedingEdge/etc/mono/config" }}
+,{ "pid":12345, "tid":18, "ts":1744373051546012, "dur":2577, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":18, "ts":1744373051548592, "dur":592017, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/XCharts.Runtime.dll" }}
+,{ "pid":12345, "tid":18, "ts":1744373052140613, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":18, "ts":1744373052140619, "dur":1209, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/XCharts.Runtime.dll" }}
+,{ "pid":12345, "tid":18, "ts":1744373052141866, "dur":280133, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":19, "ts":1744373051542152, "dur":412, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":19, "ts":1744373051542564, "dur":3108, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":19, "ts":1744373051545673, "dur":13696, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/MonoBleedingEdge/etc/mono/4.5/machine.config" }}
+,{ "pid":12345, "tid":19, "ts":1744373051559370, "dur":95, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":19, "ts":1744373051559468, "dur":8970, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.UmbraModule.dll" }}
+,{ "pid":12345, "tid":19, "ts":1744373051568439, "dur":90, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":19, "ts":1744373051568532, "dur":7766, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.SpriteMaskModule.dll" }}
+,{ "pid":12345, "tid":19, "ts":1744373051576298, "dur":456, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":19, "ts":1744373051576756, "dur":7442, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.dll" }}
+,{ "pid":12345, "tid":19, "ts":1744373051584199, "dur":182, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":19, "ts":1744373051584382, "dur":68687, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/Unity.VisualScripting.State.dll" }}
+,{ "pid":12345, "tid":19, "ts":1744373051653074, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":19, "ts":1744373051653081, "dur":865, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/Unity.VisualScripting.State.dll" }}
+,{ "pid":12345, "tid":19, "ts":1744373051653960, "dur":181469, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/System.ServiceModel.Internals.dll" }}
+,{ "pid":12345, "tid":19, "ts":1744373051835430, "dur":1777, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":19, "ts":1744373051837211, "dur":211756, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/System.ComponentModel.Composition.dll" }}
+,{ "pid":12345, "tid":19, "ts":1744373052048969, "dur":346, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":19, "ts":1744373052049318, "dur":372512, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":20, "ts":1744373051542180, "dur":396, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":20, "ts":1744373051542576, "dur":3155, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":20, "ts":1744373051545731, "dur":9740, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/MonoBleedingEdge/etc/mono/4.0/web.config" }}
+,{ "pid":12345, "tid":20, "ts":1744373051555472, "dur":79, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":20, "ts":1744373051555552, "dur":6439, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.UnityWebRequestAssetBundleModule.dll" }}
+,{ "pid":12345, "tid":20, "ts":1744373051561992, "dur":93, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":20, "ts":1744373051562088, "dur":6502, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.TerrainPhysicsModule.dll" }}
+,{ "pid":12345, "tid":20, "ts":1744373051568591, "dur":378, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":20, "ts":1744373051568971, "dur":3921, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.ScreenCaptureModule.dll" }}
+,{ "pid":12345, "tid":20, "ts":1744373051572893, "dur":228, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":20, "ts":1744373051573123, "dur":4465, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.InputLegacyModule.dll" }}
+,{ "pid":12345, "tid":20, "ts":1744373051577589, "dur":417, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":20, "ts":1744373051578008, "dur":4374, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.ClusterRendererModule.dll" }}
+,{ "pid":12345, "tid":20, "ts":1744373051582383, "dur":239, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":20, "ts":1744373051582624, "dur":42743, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.AndroidJNIModule.dll" }}
+,{ "pid":12345, "tid":20, "ts":1744373051625368, "dur":107, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":20, "ts":1744373051625478, "dur":261204, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/Unity.Services.Core.Configuration.dll" }}
+,{ "pid":12345, "tid":20, "ts":1744373051886691, "dur":3, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":20, "ts":1744373051886702, "dur":1054, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/Unity.Services.Core.Configuration.dll" }}
+,{ "pid":12345, "tid":20, "ts":1744373051887772, "dur":454329, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/mscorlib.dll" }}
+,{ "pid":12345, "tid":20, "ts":1744373052342103, "dur":1717, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":20, "ts":1744373052343823, "dur":77800, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":21, "ts":1744373051541698, "dur":813, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":21, "ts":1744373051542511, "dur":3153, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":21, "ts":1744373051545673, "dur":14083, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/MonoBleedingEdge/etc/mono/4.5/web.config" }}
+,{ "pid":12345, "tid":21, "ts":1744373051559757, "dur":243, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":21, "ts":1744373051560003, "dur":12918, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.TLSModule.dll" }}
+,{ "pid":12345, "tid":21, "ts":1744373051572922, "dur":76, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":21, "ts":1744373051573001, "dur":5844, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.InputModule.dll" }}
+,{ "pid":12345, "tid":21, "ts":1744373051578846, "dur":472, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":21, "ts":1744373051579322, "dur":7999, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/UnityEngine.ClusterInputModule.dll" }}
+,{ "pid":12345, "tid":21, "ts":1744373051587322, "dur":64, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":21, "ts":1744373051587387, "dur":387788, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/Unity.TextMeshPro.dll" }}
+,{ "pid":12345, "tid":21, "ts":1744373051975182, "dur":3, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":21, "ts":1744373051975191, "dur":1403, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/Unity.TextMeshPro.dll" }}
+,{ "pid":12345, "tid":21, "ts":1744373051976608, "dur":131070, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/Assembly-CSharp-firstpass.dll" }}
+,{ "pid":12345, "tid":21, "ts":1744373052107685, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":21, "ts":1744373052107694, "dur":1550, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/Assembly-CSharp-firstpass.dll" }}
+,{ "pid":12345, "tid":21, "ts":1744373052109275, "dur":312577, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":22, "ts":1744373051542220, "dur":320, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":22, "ts":1744373051542541, "dur":3205, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":22, "ts":1744373051545747, "dur":587, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/MonoBleedingEdge/etc/mono/4.0/settings.map" }}
+,{ "pid":12345, "tid":22, "ts":1744373051546334, "dur":2329, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":22, "ts":1744373051548665, "dur":143989, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/XCharts.Examples.dll" }}
+,{ "pid":12345, "tid":22, "ts":1744373051692661, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":22, "ts":1744373051692669, "dur":916, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/XCharts.Examples.dll" }}
+,{ "pid":12345, "tid":22, "ts":1744373051693599, "dur":376358, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/xpyuu/Documents/torica-sim2025/Unity/TORICA sim Build/TORICA simulator_Data/Managed/System.IO.Compression.dll" }}
+,{ "pid":12345, "tid":22, "ts":1744373052069958, "dur":102, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":22, "ts":1744373052070063, "dur":351747, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1744373052430172, "dur":1497, "ph":"X", "name": "ProfilerWriteOutput" }
+,{ "pid": 0, "tid": 1, "ts": 1744373052449847, "dur": 379, "ph": "X", "name": "backend_profiler0.traceevents", "args": {} },
+{ "pid": 0, "tid": 1, "ts": 1744373052449766, "dur": 478, "ph": "X", "name": "Write chrome-trace events", "args": {} },
