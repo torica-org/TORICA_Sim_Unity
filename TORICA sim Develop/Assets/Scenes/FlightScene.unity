@@ -24756,9 +24756,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "\n\n\n\n\n\t\u73FE\u5728\u306E\u5024\t\t\t\t\n\n\t\t\n\t\tFrontRight [g]\n\t\tFrontLeft
-    [g]\n\t\tBackwardRight [g]\n\t\tBackwardLeft [g]\n\n\t\t\u5408\u8A08 [g]\n\n\t\t\u5168\u4F53\u91CD\u5FC3
-    [cm]\n\t\tP\u91CD\u5FC3 [cm]\t\t\n\t\t\u30E9\u30C0\u30FC\n\t\t"
+  m_Text: "\n\n\n\n\n\t\u73FE\u5728\u306E\u5024\t\t\t\t\n\n\t\t\n\t\tFrontRight [kg]\n\t\tFrontLeft
+    [kg]\n\t\tBackwardRight [kg]\n\t\tBackwardLeft [kg]\n\n\t\t\u5408\u8A08 [kg]\n\n\t\t\u5168\u4F53\u91CD\u5FC3
+    [m]\n\t\tP\u91CD\u5FC3 [m]\t\t\n\t\t\u30E9\u30C0\u30FC\n\t\t"
 --- !u!222 &1326950823
 CanvasRenderer:
   m_ObjectHideFlags: 0

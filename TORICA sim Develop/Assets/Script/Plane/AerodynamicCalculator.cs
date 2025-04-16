@@ -27,6 +27,7 @@ public class AerodynamicCalculator : SerialReceive
     [System.NonSerialized] public float nz = 0.000f; // Load factor [-]
 
     [System.NonSerialized] public float Groundspeed = 0.000f; // Groundspeed [m/s]
+    [System.NonSerialized] public float ALT = 0.000f;
 
     //各センサーにかかる荷重
     [System.NonSerialized] public float massLeftRaw;
@@ -385,6 +386,7 @@ public class AerodynamicCalculator : SerialReceive
         // Calculate angles
         Airspeed =    Mathf.Sqrt((u+ug)*(u+ug) + (v+vg)*(v+vg)+(w+wg)*(w+wg));
         Groundspeed = Mathf.Sqrt(u*u + v*v);
+        ALT = PlaneRigidbody.position.y - 1.0f;
         //Debug.Log(Groundspeed);
         alpha = Mathf.Atan((w+wg)/(u+ug))*Mathf.Rad2Deg;
         //Debug.Log(alpha);

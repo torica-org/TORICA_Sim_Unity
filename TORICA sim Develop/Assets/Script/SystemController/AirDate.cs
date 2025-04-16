@@ -56,7 +56,7 @@ public class AirDate : MonoBehaviour
 
             //リストに追加
             MyGameManeger.instance.AirSpeedList.Add((float)Math.Round(script.Airspeed, 2,  MidpointRounding.AwayFromZero));
-            MyGameManeger.instance.AltList.Add((float)Math.Round(PlaneRigidbody.position.y-1f, 2,  MidpointRounding.AwayFromZero));
+            MyGameManeger.instance.AltList.Add((float)Math.Round(script.ALT, 2,  MidpointRounding.AwayFromZero));
             MyGameManeger.instance.AlphaList.Add((float)Math.Round(script.alpha, 2,  MidpointRounding.AwayFromZero));
             MyGameManeger.instance.BetaList.Add((float)Math.Round(script.beta, 2,  MidpointRounding.AwayFromZero));
             MyGameManeger.instance.ThetaList.Add((float)Math.Round(theta, 2,  MidpointRounding.AwayFromZero));
@@ -67,8 +67,7 @@ public class AirDate : MonoBehaviour
 
             if(MyGameManeger.instance.SaveCsv && MyGameManeger.instance.EnterFlight)
             {
-                float alt = PlaneRigidbody.position.y - 1f;
-                SaveCsvScript.SaveData(time.ToString() ,script.Airspeed.ToString() ,alt.ToString() ,script.alpha.ToString() ,script.beta.ToString() ,theta.ToString() ,phi.ToString() );
+                SaveCsvScript.SaveData(time.ToString() ,script.Airspeed.ToString() ,script.ALT.ToString() ,script.alpha.ToString() ,script.beta.ToString() ,theta.ToString() ,phi.ToString() );
             }
         }
         frameNumber++;//0.02秒経過
