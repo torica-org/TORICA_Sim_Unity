@@ -13,6 +13,7 @@ public class FrameInitialization : SerialReceive
     private float[] massLeftList = new float[20];
     private float[] massBackwardRightList = new float[20];
     private float[] massBackwardLeftList = new float[20];
+    private float[] JoyStickList = new float[20];
     public Text text;//通信状況を伝えるテキスト
     [SerializeField]private float loadTime = 1f;
     public GameObject startButton;
@@ -31,6 +32,7 @@ public class FrameInitialization : SerialReceive
             massLeftList[i]=massLeftNow;
             massBackwardRightList[i]=massBackwardRightNow;
             massBackwardLeftList[i]=massBackwardLeftNow;
+            JoyStickList[i]=JoyStickNow;
 
             i++;
             StartCoroutine(SetZero(i));
@@ -40,6 +42,7 @@ public class FrameInitialization : SerialReceive
                 MyGameManeger.instance.massLeft0 = findMedian(massLeftList);
                 MyGameManeger.instance.massBackwardRight0 = findMedian(massBackwardRightList);
                 MyGameManeger.instance.massBackwardLeft0 = findMedian(massBackwardLeftList);
+                MyGameManeger.instance.JoyStick0 = findMedian(JoyStickList);
                 
                 Debug.Log(MyGameManeger.instance.massRight0+","+MyGameManeger.instance.massLeft0+","+MyGameManeger.instance.massBackwardRight0+","+MyGameManeger.instance.massBackwardLeft0);
                 if(MyGameManeger.instance.massRight0 != 0 && MyGameManeger.instance.massLeft0 != 0 && MyGameManeger.instance.massBackwardRight0 != 0 && MyGameManeger.instance.massBackwardLeft0 != 0){

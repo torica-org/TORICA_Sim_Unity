@@ -39,6 +39,8 @@ public class ConnectionSettingText : MonoBehaviour
             scoreText.text += Math.Round(script.massBackwardLeftRaw,2,  MidpointRounding.AwayFromZero)+"\n\n";
             scoreText.text += Math.Round(script.massRightRaw+script.massLeftRaw,2,  MidpointRounding.AwayFromZero)+Math.Round(script.massBackwardRightRaw,2,  MidpointRounding.AwayFromZero)+Math.Round(script.massBackwardLeftRaw,2,  MidpointRounding.AwayFromZero)+"\n\n";
             scoreText.text += Math.Round(script.pitchGravity,2,  MidpointRounding.AwayFromZero)+"\n";
+            scoreText.text += Math.Round(script.pitchGravityPilot,2,  MidpointRounding.AwayFromZero)+"\n";
+            scoreText.text += Math.Round(script.dr,2,  MidpointRounding.AwayFromZero)+"\n";
         }
 
     }
