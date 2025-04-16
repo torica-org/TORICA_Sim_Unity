@@ -9711,7 +9711,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 412631567}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -59, y: -270.2331, z: 0}
+  m_LocalPosition: {x: -59, y: -293, z: 0}
   m_LocalScale: {x: 0.91733444, y: 0.91733444, z: 0.91733444}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -10309,7 +10309,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 30
+  m_SortingOrder: 10
   m_TargetDisplay: 0
 --- !u!224 &452740440
 RectTransform:
@@ -17249,6 +17249,8 @@ GameObject:
   - component: {fileID: 761511446}
   - component: {fileID: 761511447}
   - component: {fileID: 761511449}
+  - component: {fileID: 761511450}
+  - component: {fileID: 761511452}
   m_Layer: 0
   m_Name: SystemController
   m_TagString: Untagged
@@ -17409,6 +17411,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baudRate: 115200
+--- !u!114 &761511450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 761511435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b8f1a60c8d8e9a4dbe1853807c954d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  frequency: 0
+  gain: 0
+--- !u!81 &761511452
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 761511435}
+  m_Enabled: 1
 --- !u!1 &761619410
 GameObject:
   m_ObjectHideFlags: 1
@@ -24681,8 +24705,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -5.37236, y: -61}
-  m_SizeDelta: {x: 1280, y: 818.0906}
+  m_AnchoredPosition: {x: -5.37236, y: -7}
+  m_SizeDelta: {x: 1280, y: 1009.0908}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1326950821
 MonoBehaviour:
@@ -24732,9 +24756,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "\n\n\n\n\n\t\u73FE\u5728\u306E\u5024\t\t\t\t\t\t\u4F7F\u7528\u3055\u308C\u308B\u5024\t\t\u751F\u30C7\u30FC\u30BF\n\t\n\t\tFrontRight
-    [g]\n\t\tFrontLeft [g]\n\t\tBackwardRight [g]\n\t\tBackwardLeft [g]\n\n\t\t\u5408\u8A08
-    [g]\n\n\t\t\u91CD\u5FC3\u4F4D\u7F6E [cm]\n\t\t"
+  m_Text: "\n\n\n\n\n\t\u73FE\u5728\u306E\u5024\t\t\t\t\n\n\t\t\n\t\tFrontRight [g]\n\t\tFrontLeft
+    [g]\n\t\tBackwardRight [g]\n\t\tBackwardLeft [g]\n\n\t\t\u5408\u8A08 [g]\n\n\t\t\u5168\u4F53\u91CD\u5FC3
+    [cm]\n\t\tP\u91CD\u5FC3 [cm]\t\t\n\t\t\u30E9\u30C0\u30FC\n\t\t"
 --- !u!222 &1326950823
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -32563,7 +32587,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 106.18648, y: -162.12598}
+  m_AnchoredPosition: {x: 106.18648, y: -81.018456}
   m_SizeDelta: {x: 682.8136, y: 432.6177}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1819669755

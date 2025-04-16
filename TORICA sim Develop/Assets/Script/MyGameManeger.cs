@@ -35,6 +35,7 @@ public class MyGameManeger : MonoBehaviour
     [System.NonSerialized] public float massRight0=0;
     [System.NonSerialized] public float massBackwardRight0=0;
     [System.NonSerialized] public float massBackwardLeft0=0;
+    [System.NonSerialized] public float JoyStick0=0;
     //エアデータ保存リスト
     [System.NonSerialized] public List<float> AirSpeedList = new List<float>();
     [System.NonSerialized] public List<float> AltList = new List<float>();
@@ -52,6 +53,8 @@ public class MyGameManeger : MonoBehaviour
     [System.NonSerialized] public bool FirstLoad;
 
     [System.NonSerialized] public int SettingMode = 0;
+
+    [System.NonSerialized] public bool TakeOff = false;
 
     // Start is called before the first frame update
     void Awake()

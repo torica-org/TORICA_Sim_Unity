@@ -18,7 +18,7 @@ public class Altitude : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-        scoreText.text = PlaneRigidbody.position.y.ToString("0.000");
+        float alt = PlaneRigidbody.position.y - 1f;
+        scoreText.text = alt.ToString("0.000");
     }
 }

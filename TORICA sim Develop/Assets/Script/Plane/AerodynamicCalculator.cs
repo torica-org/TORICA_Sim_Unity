@@ -36,6 +36,8 @@ public class AerodynamicCalculator : SerialReceive
 
     
     [System.NonSerialized] public float pitchGravity;//ピッチ重心計算結果[m]
+    [System.NonSerialized] public float pitchGravityPilot;//ピッチ重心計算結果[m]
+
 
     // Phisics
     static private float rho = 1.164f;
@@ -252,7 +254,7 @@ public class AerodynamicCalculator : SerialReceive
             float NowMass = massLeftRaw + massRightRaw + massBackwardLeftRaw + massBackwardRightRaw;
 
             e = pilotMass/NowMass;
-            Debug.Log("e="+e);
+            //Debug.Log("e="+e);
             
             massRight=e*massRightRaw;
             massLeft=e*massLeftRaw;
@@ -262,12 +264,13 @@ public class AerodynamicCalculator : SerialReceive
             //massRight=e*massRightNow/1000;
             //massLeft=e*massLeftNow/1000;
             //massBackward=e*(massBackwardRightNow + massBackwardLeftNow)/1000;
-            Debug.Log("Right:"+massRightRaw+",Left:"+massLeftRaw+",Back:"+massBackward);
+            //Debug.Log("Right:"+massRightRaw+",Left:"+massLeftRaw+",Back:"+massBackward);
             //リジットボディに代入するピッチの値を計算
-            pitchGravity = (((lengthForward*massLeft)+(lengthForward*massRight)-(lengthBackward*massBackward)+(aircraftCenterOfMass*aircraftMass))/(massLeft+massRight+massBackward+aircraftMass))*0.85f;
-            Debug.Log("pitchGravity:"+pitchGravity+"NowMass"+NowMass);
+            pitchGravity = (((lengthForward*massLeft)+(lengthForward*massRight)-(lengthBackward*massBackward)+(aircraftCenterOfMass*aircraftMass))/(massLeft+massRight+massBackward+aircraftMass));
+            pitchGravityPilot = (((lengthForward*massLeft)+(lengthForward*massRight)-(lengthBackward*massBackward))/(massLeft+massRight+massBackward));
+            //Debug.Log("pitchGravity:"+pitchGravity+"NowMass"+NowMass);
             //hwに代入する重心位置(%MAC)を計算
-            hw2= hw0-(pitchGravity/cMAC);
+            hw2= hw0-(pitchGravity*0.85f/cMAC);
             //Debug.Log(hw2);
 
             //リジットボディに代入
@@ -275,8 +278,17 @@ public class AerodynamicCalculator : SerialReceive
             //hwに代入
             hw = hw2;
 
-            lt = lt0 + pitchGravity;
+            lt = lt0 + pitchGravity*0.85f;
         }
+
+        if(MyGameManeger.instance.FrameUseable){
+            //dr = (JoyStickNow/550)*drMAX;
+            
+            //↓必要な処理
+            dr = ((JoyStickNow-MyGameManeger.instance.JoyStick0)/500)*drMAX;
+        }
+        //Debug.Log("Rudder:"+dr);
+
 
     }
     
@@ -346,21 +358,20 @@ public class AerodynamicCalculator : SerialReceive
             dh = -(Input.mousePosition.y-dh0)*0.0002f*MyGameManeger.instance.MouseSensitivity;
         }
         //Debug.Log(dh);
+        if(!MyGameManeger.instance.FrameUseable){
+            de = Input.GetAxisRaw("Vertical")*deMAX;
+            dr = -Input.GetAxisRaw("Horizontal")*drMAX;
+        }
 
-        de = Input.GetAxisRaw("Vertical")*deMAX;
-        dr = -Input.GetAxisRaw("Horizontal")*drMAX;
+        if(Input.GetMouseButton(0)){dr = drMAX;}
+        else if(Input.GetMouseButton(1)){dr = -drMAX;}
 
         if(MyGameManeger.instance.FrameUseable){
             //dr = (JoyStickNow/550)*drMAX;
             
             //↓必要な処理
-            dr = ((JoyStickNow-6600)/889)*drMAX;
+            dr = ((JoyStickNow-MyGameManeger.instance.JoyStick0)/500)*drMAX;
         }
-        //Debug.Log("Rudder:"+dr);
-
-        if(Input.GetMouseButton(0)){dr = drMAX;}
-        else if(Input.GetMouseButton(1)){dr = -drMAX;}
-
         // Gust
         LocalGustMag = MyGameManeger.instance.GustMag*Mathf.Pow((hE/hE0),1f/7f);
         Gust = Quaternion.AngleAxis(MyGameManeger.instance.GustDirection,Vector3.up)*(Vector3.right*LocalGustMag);
@@ -376,7 +387,7 @@ public class AerodynamicCalculator : SerialReceive
         Groundspeed = Mathf.Sqrt(u*u + v*v);
         //Debug.Log(Groundspeed);
         alpha = Mathf.Atan((w+wg)/(u+ug))*Mathf.Rad2Deg;
-        Debug.Log(alpha);
+        //Debug.Log(alpha);
         
         beta = Mathf.Atan((v+vg)/Airspeed)*Mathf.Rad2Deg;
 
@@ -439,7 +450,7 @@ public class AerodynamicCalculator : SerialReceive
             TakeoffForce.z = -P*Mathf.Sin(Mathf.Deg2Rad*MyGameManeger.instance.StartRotation);
             
             AerodynamicForce.z = 0f;
-            //AerodynamicMomentum.x = 0f;
+            AerodynamicMomentum.x = 0f;//
             AerodynamicMomentum.y = 0f;
 
             transform.rotation = Quaternion.Euler(transform.localEulerAngles.x, transform.localEulerAngles.y, MyGameManeger.instance.TailRotation);
@@ -482,10 +493,12 @@ public class AerodynamicCalculator : SerialReceive
                 }
                 
             }
-            Debug.Log("YlMoment:"+YlMoment+"YrMoment:"+YrMoment+"aeroX:"+AerodynamicMomentum.x);
-            AerodynamicMomentum.x += YrMoment + YlMoment;//最終的なロールモーメントの計算//一旦消す
+            //Debug.Log("YlMoment:"+YlMoment+"YrMoment:"+YrMoment+"aeroX:"+AerodynamicMomentum.x);
+            //AerodynamicMomentum.x += YrMoment + YlMoment;//最終的なロールモーメントの計算//一旦消す
+            MyGameManeger.instance.TakeOff = false;
         }
         else{
+            MyGameManeger.instance.TakeOff = true;
             //PlaneRigidbody.constraints = RigidbodyConstraints.None;
         }
         //else if(MyGameManeger.instance.FlightMode=="BirdmanRally" && !AddTaleForce){
@@ -624,8 +637,8 @@ public class AerodynamicCalculator : SerialReceive
             //lengthBackward = 0.335f;//フレーム後方(フレームの端)から桁(原点)位置[m]
 
             //lengthForward = 0.955f + 0.16f;
-            lengthForward = 0.955f + 0.27f;
-            lengthBackward = 0.455f + 0.145f;
+            lengthForward = 0.61f;
+            lengthBackward = 0.47f;
 
             aircraftCenterOfMass = -0.225f;//機体のみ全重心(パイロットなし,ピッチのみ)[m]
             aircraftMass = 48.0f;//機体のみ全重量[kg]
