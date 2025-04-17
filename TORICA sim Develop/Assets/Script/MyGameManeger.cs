@@ -36,6 +36,11 @@ public class MyGameManeger : MonoBehaviour
     [System.NonSerialized] public float massBackwardRight0=0;
     [System.NonSerialized] public float massBackwardLeft0=0;
     [System.NonSerialized] public float JoyStick0=0;
+    //ロードセルの調整用係数(この係数をロードセルの値に掛ける)
+    [System.NonSerialized] public float massLeftFactor=1;
+    [System.NonSerialized] public float massRightFactor=1;
+    [System.NonSerialized] public float massBackwardRightFactor=1;
+    [System.NonSerialized] public float massBackwardLeftFactor=1;
     //エアデータ保存リスト
     [System.NonSerialized] public List<float> AirSpeedList = new List<float>();
     [System.NonSerialized] public List<float> AltList = new List<float>();

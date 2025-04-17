@@ -241,16 +241,17 @@ public class AerodynamicCalculator : SerialReceive
             //mass~Now ←センサー生データ
             //mass~0 ←オフセット
             //mass~Raw ←生データからオフセットを引いた実際の荷重
+            //mass~Factor ←Rawを調整するための係数、これを掛けたものがRawになる
             //mass~ ←計算用にパイロットの体重に換算したもの
 
             float e = 1;
             //e = pilotMass/(massRightNow+massLeftNow+massBackwardRightNow+massBackwardLeftNow);//センサー値を割合で使用
             e=53.0f/65.0f;
             
-            massRightRaw = (massRightNow - MyGameManeger.instance.massRight0)/1000;
-            massLeftRaw = (massLeftNow - MyGameManeger.instance.massLeft0)/1000;
-            massBackwardRightRaw = (massBackwardRightNow - MyGameManeger.instance.massBackwardRight0)/1000;
-            massBackwardLeftRaw = (massBackwardLeftNow - MyGameManeger.instance.massBackwardLeft0)/1000;
+            massRightRaw = MyGameManeger.instance.massRightFactor*(massRightNow - MyGameManeger.instance.massRight0)/1000;
+            massLeftRaw = MyGameManeger.instance.massLeftFactor*(massLeftNow - MyGameManeger.instance.massLeft0)/1000;
+            massBackwardRightRaw = MyGameManeger.instance.massBackwardRightFactor*(massBackwardRightNow - MyGameManeger.instance.massBackwardRight0)/1000;
+            massBackwardLeftRaw = MyGameManeger.instance.massBackwardLeftFactor*(massBackwardLeftNow - MyGameManeger.instance.massBackwardLeft0)/1000;
 
             float NowMass = massLeftRaw + massRightRaw + massBackwardLeftRaw + massBackwardRightRaw;
 
