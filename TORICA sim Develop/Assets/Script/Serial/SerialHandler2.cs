@@ -14,7 +14,6 @@ public class SerialHandler2 : SerialHandler
 
     void Start()
     {
-        Debug.Log("AE");
         inputField.text = portName;
     }
 

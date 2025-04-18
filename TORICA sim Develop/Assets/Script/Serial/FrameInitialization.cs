@@ -44,11 +44,9 @@ public class FrameInitialization : SerialReceive
                 MyGameManeger.instance.massBackwardLeft0 = findMedian(massBackwardLeftList);
                 MyGameManeger.instance.JoyStick0 = findMedian(JoyStickList);
                 
-                Debug.Log(MyGameManeger.instance.massRight0+","+MyGameManeger.instance.massLeft0+","+MyGameManeger.instance.massBackwardRight0+","+MyGameManeger.instance.massBackwardLeft0);
                 if(MyGameManeger.instance.massRight0 != 0 && MyGameManeger.instance.massLeft0 != 0 && MyGameManeger.instance.massBackwardRight0 != 0 && MyGameManeger.instance.massBackwardLeft0 != 0){
                     MyGameManeger.instance.FrameUseable = true;
                     text.text = "初期設定完了";
-                    Debug.Log(MyGameManeger.instance.massRight0+","+MyGameManeger.instance.massLeft0+","+MyGameManeger.instance.massBackwardRight0+","+MyGameManeger.instance.massBackwardLeft0);
 
                     //オフセットが独自に必要ならコメントアウトする
                     /*
@@ -82,7 +80,6 @@ public class FrameInitialization : SerialReceive
 
     public void SetZeroGate()//public IEnumeratorでエラー吐いたので作ったやつ(無知・怠惰)
     {
-        Debug.Log("HAy");
         StartCoroutine(SetZero(0));
     }
 }

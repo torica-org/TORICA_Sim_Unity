@@ -61,6 +61,8 @@ public class MyGameManeger : MonoBehaviour
 
     [System.NonSerialized] public bool TakeOff = false;
 
+    [System.NonSerialized] public float SoundBolume = 50;
+
     // Start is called before the first frame update
     void Awake()
     {

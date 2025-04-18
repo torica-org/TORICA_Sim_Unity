@@ -18,7 +18,6 @@ public class prohibitedArea : MonoBehaviour
     {
         MyGameManeger.instance.Landing = true;
         MyGameManeger.instance.SettingMode = 0;
-        Debug.Log("AAAAAAA");
         canvas.enabled = true;
         Time.timeScale=(float)Convert.ToInt32(!MyGameManeger.instance.SettingActive & !MyGameManeger.instance.Landing);
     }
