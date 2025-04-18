@@ -13,32 +13,11 @@ public class FlightSettingController : MonoBehaviour
 
     private SaveCsvScript SaveCsvScript;
     // Start is called before the first frame update
-    /*//旧バージョン
-    void Awake()
-    {
-        FlightSetting = GameObject.Find("FlightSetting");
-        TakeoffVelocitySlider = GameObject.Find("TakeOffVelocitySlider").GetComponent<Slider>();
-
-        MyGameManeger.instance.Airspeed_TO = TakeoffVelocitySlider.value*0.1f;
-        
-        MyGameManeger.instance.FlightSettingActive = false;
-        FlightSetting.SetActive(MyGameManeger.instance.FlightSettingActive);
-    }
-
-    void Start(){
-        MyGameManeger.instance.FlightSettingActive = !MyGameManeger.instance.FlightSettingActive;
-        FlightSetting.SetActive(MyGameManeger.instance.FlightSettingActive);
-
-        Time.timeScale=(float)Convert.ToInt32(!MyGameManeger.instance.FlightSettingActive &!MyGameManeger.instance.SettingActive & !MyGameManeger.instance.Landing);
-    }
-    */
     
     public void OnEnables()
     {
         FlightSetting = GameObject.Find("FlightSetting");
         TakeoffVelocitySlider = GameObject.Find("TakeOffVelocitySlider").GetComponent<Slider>();
-
-        //MyGameManeger.instance.Airspeed_TO = TakeoffVelocitySlider.value*0.1f;
         
         MyGameManeger.instance.FlightSettingActive = true;
         FlightSetting.SetActive(MyGameManeger.instance.FlightSettingActive);
@@ -56,7 +35,6 @@ public class FlightSettingController : MonoBehaviour
     {
         Debug.Log(Input.GetButtonDown("StartButton"));
         if(Input.GetButtonDown("StartButton") && !MyGameManeger.instance.EnterFlight){
-            Debug.Log("HEY");
             MyGameManeger.instance.EnterFlight = true;
             MyGameManeger.instance.FlightSettingActive = !MyGameManeger.instance.FlightSettingActive;
             FlightSetting.SetActive(MyGameManeger.instance.FlightSettingActive);

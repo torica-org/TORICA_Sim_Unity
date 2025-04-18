@@ -127,7 +127,7 @@ public class AerodynamicCalculator : SerialReceive
     static private float aircraftCenterOfMass;//機体のみ全重心(パイロットなし,ピッチのみ)[m]
     static private float aircraftMass;//機体のみ全重量[kg]
     static private float pilotMass;//パイロット重量[kg]
-
+    static private float SensorPosition = 1.0f;//超音波センサーから桁中心の垂直距離[m]
     //計算結果データ
     static private float hw2;//	主翼空力中心と全機重心の距離（cMACで無次元化）（再計算バージョン）
 
@@ -332,7 +332,7 @@ public class AerodynamicCalculator : SerialReceive
         // Calculate angles
         Airspeed =    Mathf.Sqrt((u+ug)*(u+ug) + (v+vg)*(v+vg)+(w+wg)*(w+wg));
         Groundspeed = Mathf.Sqrt(u*u + v*v);
-        ALT = PlaneRigidbody.position.y - 1.0f;
+        ALT = PlaneRigidbody.position.y - SensorPosition;
         //Debug.Log(Groundspeed);
         alpha = Mathf.Atan((w+wg)/(u+ug))*Mathf.Rad2Deg;
         //Debug.Log(alpha);
@@ -568,25 +568,14 @@ public class AerodynamicCalculator : SerialReceive
             Cnp = -0.100751f; // [1/rad]
             Cnr = -0.005821f; // [1/rad]
             Cndr = -0.000226f; // [1/deg]
-            
-            //追加機体データ//注意！仮データ
-            //↓正しいデータ
-            //955
-            //455
-            //↑正しいデータ
-            //lengthForward = 0.952f+0.16f;//フレーム前方(フレーム＋センサー部分)から桁(原点)位置[m]
-            //530
-            //840
-            //952+335
-            //lengthBackward = 0.335f;//フレーム後方(フレームの端)から桁(原点)位置[m]
 
-            //lengthForward = 0.955f + 0.16f;
+            //追加機体データ
             lengthForward = 0.61f;
             lengthBackward = 0.47f;
 
             aircraftCenterOfMass = -0.225f;//機体のみ全重心(パイロットなし,ピッチのみ)[m]
             aircraftMass = 48.0f;//機体のみ全重量[kg]
-            pilotMass = 52.0f;//パイロット体重[kg]
+            pilotMass = PlaneRigidbody.mass - aircraftMass;//パイロット体重[kg]
 
             YL = 2.8f;//機体中心から翼持ち棒までの長さ[m]
         }else if(MyGameManeger.instance.PlaneName == "QX-20"){
@@ -1106,11 +1095,16 @@ else if (MyGameManeger.instance.PlaneName == "Ray")
             Cnp = float.Parse(CsvList[14][6]); // [1/rad]
             Cnr = float.Parse(CsvList[15][6]); // [1/rad]
             Cndr = float.Parse(CsvList[16][6]); // [1/deg]
-            //追加機体データ//注意！仮データ
-            //lengthForward = 0.9f+0.34f;//フレーム前方(フレーム＋センサー部分)から桁(原点)位置[m]
-            //lengthBackward = 0.5f;//フレーム後方(フレームの端)から桁(原点)位置[m]
-            //aircraftCenterOfMass = -0.25f;//機体のみ全重心(パイロットなし,ピッチのみ)[m]
-            //aircraftMass = 50;//機体のみ全重量[kg]
+
+            //追加機体データ
+            lengthForward = float.Parse(CsvList[19][6]);//前センサーから吊り具(桁中心)までの長さ[m]
+            lengthBackward = float.Parse(CsvList[20][6]);//吊り具(桁中心)から後センサーまでの長さ[m]
+
+            aircraftCenterOfMass = float.Parse(CsvList[21][6]);;//機体のみ全重心(パイロットなし,ピッチのみ)[m]
+            aircraftMass = float.Parse(CsvList[22][6]);;//機体のみ全重量[kg]
+            pilotMass = PlaneRigidbody.mass - aircraftMass;//パイロット体重[kg]
+
+            YL = float.Parse(CsvList[23][6]);;//機体中心から翼持ち棒までの長さ[m]
 
             MyGameManeger.instance.error = true;
             MyGameManeger.instance.errorText = "CSVファイル読み込み成功";

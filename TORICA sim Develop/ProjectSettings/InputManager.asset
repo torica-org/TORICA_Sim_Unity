@@ -547,6 +547,6 @@ InputManager:
     snap: 0
     invert: 0
     type: 0
-    axis: 5
+    axis: 4
     joyNum: 0
   m_UsePhysicalKeys: 0

@@ -32,7 +32,6 @@ public class Speaker : MonoBehaviour
 
     void FixedUpdate(){
         if(MyGameManeger.instance.EnterFlight){
-            Debug.Log("ZZZ");
         
             if(script.Airspeed > 10){
                 frequency = 440;
@@ -52,24 +51,20 @@ public class Speaker : MonoBehaviour
             }
             else if(PlaneRigidbody.position.y > 1.3f){
                 interval = 0.24m;
-                Debug.Log("CCC");
             }
             else{
                 interval = 0.124m;
-                Debug.Log("DDD");
             }
 
             if(frameNumber%(interval/0.02m) == 0)//interval[s]ごとにリストに追加
             {
                 if(onoff){
-                    Debug.Log("OFF");
                     gain = 0;
                     onoff = false;
                 }
                 else
                 {
-                    Debug.Log("ON");
-                    gain = 0.1;
+                    gain = 0.1*MyGameManeger.instance.SoundBolume/50;
                     onoff = true;
                 }
             }
