@@ -24,15 +24,13 @@ public class ConnectionSettingText : MonoBehaviour
     {
         if(MyGameManeger.instance.FlightSettingActive){
             RefreshText();
-            Debug.Log("AAA");
         }
     }
 
     void RefreshText()
     {
         scoreText.text = "";
-        if(MyGameManeger.instance.FrameUseable){     
-            Debug.Log("BBB");   
+        //if(MyGameManeger.instance.FrameUseable){
             scoreText.text += Math.Round(script.massRightRaw,2,  MidpointRounding.AwayFromZero)+"\n";
             scoreText.text += Math.Round(script.massLeftRaw,2,  MidpointRounding.AwayFromZero)+"\n";
             scoreText.text += Math.Round(script.massBackwardRightRaw,2,  MidpointRounding.AwayFromZero)+"\n";
@@ -41,7 +39,7 @@ public class ConnectionSettingText : MonoBehaviour
             scoreText.text += Math.Round(script.pitchGravity,2,  MidpointRounding.AwayFromZero)+"\n";
             scoreText.text += Math.Round(script.pitchGravityPilot,2,  MidpointRounding.AwayFromZero)+"\n";
             scoreText.text += Math.Round(script.dr,2,  MidpointRounding.AwayFromZero)+"\n";
-        }
+        //}
 
     }
 }
