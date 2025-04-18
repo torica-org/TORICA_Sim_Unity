@@ -16,7 +16,7 @@ public class MyGameManeger : MonoBehaviour
     [System.NonSerialized] public bool SettingChanged = false;//設定変更
     [System.NonSerialized] public bool MousePitchControl = false;//マウス操作の可否
     [System.NonSerialized] public bool RandomWind = false;//ランダム風の可否
-    [System.NonSerialized] public bool SaveCsv = true;//CSVファイルへの保存の可否
+    [System.NonSerialized] public bool SaveCsv = false;//CSVファイルへの保存の可否
     [System.NonSerialized] public bool EnterFlight = false;//フライト開始
     [System.NonSerialized] public float MouseSensitivity = 1.000f; // Magnitude of Gust [m/s]
     [System.NonSerialized] public float GustMag = 0.000f; // Magnitude of Gust [m/s]
