@@ -19,7 +19,7 @@ public class LoadSceneController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown("r") || Input.GetMouseButton(2)){
+        if(Input.GetMouseButton(2) || Input.GetButtonDown("ResetButton")){
             if(MyGameManeger.instance.EnterFlight){
                 MyGameManeger.instance.SettingMode = 0;
             }

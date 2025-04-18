@@ -54,7 +54,9 @@ public class FlightSettingController : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKeyDown("e") && !MyGameManeger.instance.EnterFlight){
+        Debug.Log(Input.GetButtonDown("StartButton"));
+        if(Input.GetButtonDown("StartButton") && !MyGameManeger.instance.EnterFlight){
+            Debug.Log("HEY");
             MyGameManeger.instance.EnterFlight = true;
             MyGameManeger.instance.FlightSettingActive = !MyGameManeger.instance.FlightSettingActive;
             FlightSetting.SetActive(MyGameManeger.instance.FlightSettingActive);
