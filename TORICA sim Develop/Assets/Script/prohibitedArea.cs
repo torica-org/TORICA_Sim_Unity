@@ -26,6 +26,6 @@ public class prohibitedArea : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Result.SetActive(/*!MyGameManeger.instance.SettingActive & */MyGameManeger.instance.Landing);
+        //Result.SetActive(/*!MyGameManeger.instance.SettingActive & */MyGameManeger.instance.Landing);
     }
 }

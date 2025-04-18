@@ -16,7 +16,7 @@ public class MyGameManeger : MonoBehaviour
     [System.NonSerialized] public bool SettingChanged = false;//設定変更
     [System.NonSerialized] public bool MousePitchControl = false;//マウス操作の可否
     [System.NonSerialized] public bool RandomWind = false;//ランダム風の可否
-    [System.NonSerialized] public bool SaveCsv = true;//CSVファイルへの保存の可否
+    [System.NonSerialized] public bool SaveCsv = false;//CSVファイルへの保存の可否
     [System.NonSerialized] public bool EnterFlight = false;//フライト開始
     [System.NonSerialized] public float MouseSensitivity = 1.000f; // Magnitude of Gust [m/s]
     [System.NonSerialized] public float GustMag = 0.000f; // Magnitude of Gust [m/s]
@@ -36,6 +36,11 @@ public class MyGameManeger : MonoBehaviour
     [System.NonSerialized] public float massBackwardRight0=0;
     [System.NonSerialized] public float massBackwardLeft0=0;
     [System.NonSerialized] public float JoyStick0=0;
+    //ロードセルの調整用係数(この係数をロードセルの値に掛ける)
+    [System.NonSerialized] public float massLeftFactor=1;
+    [System.NonSerialized] public float massRightFactor=1;
+    [System.NonSerialized] public float massBackwardRightFactor=1;
+    [System.NonSerialized] public float massBackwardLeftFactor=1;
     //エアデータ保存リスト
     [System.NonSerialized] public List<float> AirSpeedList = new List<float>();
     [System.NonSerialized] public List<float> AltList = new List<float>();

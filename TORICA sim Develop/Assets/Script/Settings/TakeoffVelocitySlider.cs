@@ -29,7 +29,7 @@ public class TakeoffVelocitySlider : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        
     }
 
     public void Method()

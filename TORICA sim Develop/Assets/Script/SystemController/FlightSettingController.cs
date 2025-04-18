@@ -38,7 +38,7 @@ public class FlightSettingController : MonoBehaviour
         FlightSetting = GameObject.Find("FlightSetting");
         TakeoffVelocitySlider = GameObject.Find("TakeOffVelocitySlider").GetComponent<Slider>();
 
-        MyGameManeger.instance.Airspeed_TO = TakeoffVelocitySlider.value*0.1f;
+        //MyGameManeger.instance.Airspeed_TO = TakeoffVelocitySlider.value*0.1f;
         
         MyGameManeger.instance.FlightSettingActive = true;
         FlightSetting.SetActive(MyGameManeger.instance.FlightSettingActive);

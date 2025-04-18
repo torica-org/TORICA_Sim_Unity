@@ -49,6 +49,14 @@ public class FrameInitialization : SerialReceive
                     MyGameManeger.instance.FrameUseable = true;
                     text.text = "初期設定完了";
                     Debug.Log(MyGameManeger.instance.massRight0+","+MyGameManeger.instance.massLeft0+","+MyGameManeger.instance.massBackwardRight0+","+MyGameManeger.instance.massBackwardLeft0);
+
+                    //オフセットが独自に必要ならコメントアウトする
+                    /*
+                    MyGameManeger.instance.massRight0 = 0;
+                    MyGameManeger.instance.massLeft0 = 0;
+                    MyGameManeger.instance.massBackwardRight0 = 0;
+                    MyGameManeger.instance.massBackwardLeft0 = 0;
+                    */
                 }
                 else{
                     Debug.LogWarning("フレーム使用不可能");
