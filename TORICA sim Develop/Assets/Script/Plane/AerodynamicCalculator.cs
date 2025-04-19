@@ -127,7 +127,8 @@ public class AerodynamicCalculator : SerialReceive
     static private float aircraftCenterOfMass;//機体のみ全重心(パイロットなし,ピッチのみ)[m]
     static private float aircraftMass;//機体のみ全重量[kg]
     static private float pilotMass;//パイロット重量[kg]
-    static private float SensorPosition = 1.0f;//超音波センサーから桁中心の垂直距離[m]
+    static private float SensorPositionY = 1.0f;//桁中心から垂直に線を超音波センサーの位置までおろした時の線の長さ[m]
+    static private float SensorPositionZ = 0.0f;//↑の到達点から超音波センサーまでの長さ[m]
     //計算結果データ
     static private float hw2;//	主翼空力中心と全機重心の距離（cMACで無次元化）（再計算バージョン）
 
@@ -267,14 +268,9 @@ public class AerodynamicCalculator : SerialReceive
 
         dr = -Input.GetAxisRaw("Trigger")*drMAX;
         if(MyGameManeger.instance.FrameUseable){
-            //dr = (JoyStickNow/550)*drMAX;
-            
             //↓必要な処理
             dr = ((JoyStickNow-MyGameManeger.instance.JoyStick0)/500)*drMAX;
         }
-        //Debug.Log("Rudder:"+dr);
-
-
     }
     
     void FixedUpdate()
@@ -332,7 +328,7 @@ public class AerodynamicCalculator : SerialReceive
         // Calculate angles
         Airspeed =    Mathf.Sqrt((u+ug)*(u+ug) + (v+vg)*(v+vg)+(w+wg)*(w+wg));
         Groundspeed = Mathf.Sqrt(u*u + v*v);
-        ALT = PlaneRigidbody.position.y - SensorPosition;
+        ALT = PlaneRigidbody.position.y - SensorPositionY;
         //Debug.Log(Groundspeed);
         alpha = Mathf.Atan((w+wg)/(u+ug))*Mathf.Rad2Deg;
         //Debug.Log(alpha);
