@@ -21,10 +21,14 @@ public class Speaker : MonoBehaviour
         PlaneRigidbody = MyGameManeger.instance.Plane.GetComponent<Rigidbody>();
 
         frequency = 1320;
-        gain = 0;
+        gain = 0.1*MyGameManeger.instance.SoundBolume/50;
         interval = 1m;
     }
     void Update(){
+        if(!MyGameManeger.instance.EnterFlight){
+            gain = 0.1*MyGameManeger.instance.SoundBolume/50;
+        }
+
         if(MyGameManeger.instance.SettingActive){
             gain = 0;
         }

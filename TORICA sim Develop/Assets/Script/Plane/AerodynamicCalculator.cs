@@ -37,7 +37,7 @@ public class AerodynamicCalculator : SerialReceive
 
     
     [System.NonSerialized] public float pitchGravity = 0.000f;//ピッチ重心計算結果[m]
-    [System.NonSerialized] public float pitchGravityPilot;//ピッチ重心計算結果[m]
+    [System.NonSerialized] public float pitchGravityPilot =0.2f;//ピッチ重心計算結果[m]
 
 
     // Phisics
@@ -222,7 +222,13 @@ public class AerodynamicCalculator : SerialReceive
     //重心フレーム開発の名残
     void Update()
     {
-        pitchGravityPilot = 0.20f-Input.GetAxisRaw("GStick")*0.10f;
+        if (MyGameManeger.instance.MousePitchControl){
+            pitchGravityPilot = 0.20f+(((Input.mousePosition.y-dh0)*MyGameManeger.instance.MouseSensitivity)/250.0f)*0.10f;
+        }
+
+        if(Input.GetAxisRaw("GStick") != 0){
+            pitchGravityPilot = 0.20f-Input.GetAxisRaw("GStick")*0.10f;
+        }
         pitchGravity = ((pitchGravityPilot*pilotMass)+(aircraftCenterOfMass*aircraftMass))/(pilotMass+aircraftMass);
 
         if(MyGameManeger.instance.FrameUseable)
@@ -234,8 +240,6 @@ public class AerodynamicCalculator : SerialReceive
             //mass~ ←計算用にパイロットの体重に換算したもの
 
             float e = 1;//本来のP以外が搭乗したときの補正用係数
-            //e = pilotMass/(massRightNow+massLeftNow+massBackwardRightNow+massBackwardLeftNow);//センサー値を割合で使用
-            e=53.0f/65.0f;
             
             massRightRaw = MyGameManeger.instance.massRightFactor*(massRightNow - MyGameManeger.instance.massRight0)/1000;
             massLeftRaw = MyGameManeger.instance.massLeftFactor*(massLeftNow - MyGameManeger.instance.massLeft0)/1000;
@@ -266,7 +270,21 @@ public class AerodynamicCalculator : SerialReceive
 
         lt = lt0 + pitchGravity*0.85f;
 
-        dr = -Input.GetAxisRaw("Trigger")*drMAX;
+        // Get control surface angles
+        de = 0.000f;
+        dr = 0.000f;
+
+        if(!MyGameManeger.instance.FrameUseable){
+            de = Input.GetAxisRaw("Vertical")*deMAX;
+            dr = -Input.GetAxisRaw("Horizontal")*drMAX;
+        }
+        if(Input.GetMouseButton(0)){dr = drMAX;}
+        else if(Input.GetMouseButton(1)){dr = -drMAX;}
+        
+        if(Input.GetAxisRaw("Trigger")*drMAX != 0){
+            dr = -Input.GetAxisRaw("Trigger")*drMAX;
+        }
+
         if(MyGameManeger.instance.FrameUseable){
             //↓必要な処理
             dr = ((JoyStickNow-MyGameManeger.instance.JoyStick0)/500)*drMAX;
@@ -292,28 +310,9 @@ public class AerodynamicCalculator : SerialReceive
         // Hoerner and Borst (Modified)
         CGE = (CGEMIN+33f*Mathf.Pow((hE/bw),1.5f))/(1f+33f*Mathf.Pow((hE/bw),1.5f));
         
-        // Get control surface angles
-        de = 0.000f;
-        dr = 0.000f;
-        if (MyGameManeger.instance.MousePitchControl){
-            dh = -(Input.mousePosition.y-dh0)*0.0002f*MyGameManeger.instance.MouseSensitivity;
-        }
-        //Debug.Log(dh);
-        if(!MyGameManeger.instance.FrameUseable){
-            de = Input.GetAxisRaw("Vertical")*deMAX;
-            dr = -Input.GetAxisRaw("Horizontal")*drMAX;
-        }
-
-        if(Input.GetMouseButton(0)){dr = drMAX;}
-        else if(Input.GetMouseButton(1)){dr = -drMAX;}
-
-        if(Input.GetAxisRaw("Trigger")*drMAX != 0){
-            dr = -Input.GetAxisRaw("Trigger")*drMAX;
-        }
-
-        if(MyGameManeger.instance.FrameUseable){
-            dr = ((JoyStickNow-MyGameManeger.instance.JoyStick0)/500)*drMAX;
-        }
+        //if (MyGameManeger.instance.MousePitchControl){
+        //    dh = -(Input.mousePosition.y-dh0)*0.0002f*MyGameManeger.instance.MouseSensitivity;
+        //}
         
         // Gust
         LocalGustMag = MyGameManeger.instance.GustMag*Mathf.Pow((hE/hE0),1f/7f);

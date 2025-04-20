@@ -28,7 +28,6 @@ public class TailRotationSlider : MonoBehaviour
 
     public void Method()
     {
-        Debug.Log("ROTATION");
         MyGameManeger.instance.TailRotation = CurrentSlider.value;
         scoreText.text = MyGameManeger.instance.TailRotation.ToString("0.000");
         MyGameManeger.instance.SettingChanged = true;
