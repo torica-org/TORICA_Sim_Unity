@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class StartMethod : MonoBehaviour
 {
-    public ChangeAircraft changeAircraft;
-    public FlightSettingController flightSettingController;
-    public SettingController settingController;
-    public ModelController modelController;
+    [SerializeField] private ChangeAircraft changeAircraft;
+    [SerializeField] private FlightSettingController flightSettingController;
+    [SerializeField] private SettingController settingController;
+    [SerializeField] private ModelController modelController;
+    
 
     private GameObject PlaneParent;
 
@@ -22,9 +23,6 @@ public class StartMethod : MonoBehaviour
                 item.gameObject.GetComponent<AerodynamicCalculator>().OnEnables();
             }
         }
-
-        //MyGameManeger.instance.Plane.GetComponent<AerodynamicCalculator>().OnEnables();
-
         changeAircraft.OnEnables();
         modelController.OnEnables();
     }

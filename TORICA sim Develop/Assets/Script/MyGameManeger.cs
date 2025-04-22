@@ -26,6 +26,7 @@ public class MyGameManeger : MonoBehaviour
     [System.NonSerialized] public string PlaneName;
     [System.NonSerialized] public string FlightMode = "BirdmanRally";
     [System.NonSerialized] public GameObject Plane = null;
+    [SerializeField] public string DefaultPlane = "Tatsumi";
     [System.NonSerialized] public Vector3 PlatformPosition = new Vector3(0f,10.5f,0f);
     [System.NonSerialized] public float StartRotation=0.0f;
     [System.NonSerialized] public float TailRotation=0.0f;
@@ -52,18 +53,14 @@ public class MyGameManeger : MonoBehaviour
     [System.NonSerialized] public List<float> PhiList = new List<float>();
     //エラー関係
     [System.NonSerialized] public string errorText;
-    [System.NonSerialized] public bool error = false;
-    
+    [System.NonSerialized] public bool error = false;//エラーテキストが発行されるか否か
 
     [System.NonSerialized] public bool FrameUseable = false;
-
-    [System.NonSerialized] public bool FirstLoad;
-
+    [System.NonSerialized] public bool FirstLoad;//シミュ起動後最初のシーンロードか否か
     [System.NonSerialized] public int SettingMode = 0;
-
     [System.NonSerialized] public bool TakeOff = false;
-
     [System.NonSerialized] public float SoundBolume = 50;
+    [System.NonSerialized] public string FlightModel;
 
     // Start is called before the first frame update
     void Awake()

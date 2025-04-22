@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class ChangeAircraft : MonoBehaviour
 {
     private bool s=false;
-    public static string DefaultPlane="Tatsumi";
+    //public static string DefaultPlane="Tatsumi";
     private bool sameLoad;
 
     // Start is called before the first frame update
@@ -45,7 +45,7 @@ public class ChangeAircraft : MonoBehaviour
         //if(MyGameManeger.instance.PlaneName == null){
         //    MyGameManeger.instance.PlaneName=DefaultPlane;
         //}
-        if(MyGameManeger.instance.PlaneName == DefaultPlane){
+        if(MyGameManeger.instance.PlaneName == MyGameManeger.instance.DefaultPlane){
             sameLoad=true;
         }
 

@@ -157,14 +157,13 @@ public class AerodynamicCalculator : SerialReceive
             }
         }
         else{
-            if(this.gameObject.name == ChangeAircraft.DefaultPlane)
+            if(this.gameObject.name == MyGameManeger.instance.DefaultPlane)
             {
                 MyCamera = MyCameraTmp;
-                MyGameManeger.instance.PlaneName = ChangeAircraft.DefaultPlane;
+                MyGameManeger.instance.PlaneName = MyGameManeger.instance.DefaultPlane;
                 Aircraft = this.gameObject;
             }
         }
-
     }
 
     // Start is called before the first frame update
