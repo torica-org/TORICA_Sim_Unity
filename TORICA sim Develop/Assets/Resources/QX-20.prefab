@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 1803370494063078771}
   - component: {fileID: 3637771289985318401}
   - component: {fileID: 3637771289985318463}
-  - component: {fileID: 3637771289985318400}
   m_Layer: 6
   m_Name: QX-20
   m_TagString: Untagged
@@ -120,20 +119,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &3637771289985318400
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3637771289985318461}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 337f77b7df397ba4abd9a826165b7d54, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  serialHandler: {fileID: 0}
-  MyCameraTmp: {fileID: 2734282341134344767}
 --- !u!1 &5376512152386222160
 GameObject:
   m_ObjectHideFlags: 0
@@ -640,10 +625,5 @@ PrefabInstance:
 --- !u!4 &2734282341134344705 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7277445376450003780, guid: 820294dad31bba54e838e854a84995c9, type: 3}
-  m_PrefabInstance: {fileID: 4687316262050799941}
-  m_PrefabAsset: {fileID: 0}
---- !u!20 &2734282341134344767 stripped
-Camera:
-  m_CorrespondingSourceObject: {fileID: 7277445376450003834, guid: 820294dad31bba54e838e854a84995c9, type: 3}
   m_PrefabInstance: {fileID: 4687316262050799941}
   m_PrefabAsset: {fileID: 0}

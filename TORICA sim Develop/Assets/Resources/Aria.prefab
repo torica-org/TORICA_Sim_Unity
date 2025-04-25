@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 2571956848074370704}
   - component: {fileID: 2582460020165412195}
   - component: {fileID: 2582460020165412193}
-  - component: {fileID: 2582460020165412194}
   m_Layer: 6
   m_Name: Aria
   m_TagString: Untagged
@@ -120,20 +119,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &2582460020165412194
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2582460020165412192}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 337f77b7df397ba4abd9a826165b7d54, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  serialHandler: {fileID: 0}
-  MyCameraTmp: {fileID: 2987971626293575096}
 --- !u!1 &6531821869136665416
 GameObject:
   m_ObjectHideFlags: 0
@@ -518,11 +503,6 @@ PrefabInstance:
 --- !u!4 &2987971626293575046 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7277445376450003780, guid: 820294dad31bba54e838e854a84995c9, type: 3}
-  m_PrefabInstance: {fileID: 5587214927806873282}
-  m_PrefabAsset: {fileID: 0}
---- !u!20 &2987971626293575096 stripped
-Camera:
-  m_CorrespondingSourceObject: {fileID: 7277445376450003834, guid: 820294dad31bba54e838e854a84995c9, type: 3}
   m_PrefabInstance: {fileID: 5587214927806873282}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5587214928085169377

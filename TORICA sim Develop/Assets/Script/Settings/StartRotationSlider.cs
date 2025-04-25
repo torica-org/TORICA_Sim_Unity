@@ -28,7 +28,6 @@ public class StartRotationSlider : MonoBehaviour
 
     public void Method()
     {
-        Debug.Log("ROTATION");
         MyGameManeger.instance.StartRotation = CurrentSlider.value;
         scoreText.text = MyGameManeger.instance.StartRotation.ToString("0.000");
         MyGameManeger.instance.SettingChanged = true;

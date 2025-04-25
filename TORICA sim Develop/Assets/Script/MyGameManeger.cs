@@ -51,6 +51,8 @@ public class MyGameManeger : MonoBehaviour
     [System.NonSerialized] public List<float> BetaList = new List<float>();
     [System.NonSerialized] public List<float> ThetaList = new List<float>();
     [System.NonSerialized] public List<float> PhiList = new List<float>();
+    [System.NonSerialized] public List<float> PitchGravityList = new List<float>();
+    [System.NonSerialized] public List<float> drList = new List<float>();
     //エラー関係
     [System.NonSerialized] public string errorText;
     [System.NonSerialized] public bool error = false;//エラーテキストが発行されるか否か
@@ -59,14 +61,16 @@ public class MyGameManeger : MonoBehaviour
     [System.NonSerialized] public bool FirstLoad;//シミュ起動後最初のシーンロードか否か
     [System.NonSerialized] public int SettingMode = 0;
     [System.NonSerialized] public bool TakeOff = false;
-    [System.NonSerialized] public float SoundBolume = 50;
+    [System.NonSerialized] public float SoundBolume = 0;
     [System.NonSerialized] public string FlightModel;
+    [SerializeField] public string DefaultFlightModel = "isoSim1";
 
     // Start is called before the first frame update
     void Awake()
     {
         if(instance == null)
         {
+            Debug.Log("First");
             instance = this;
             FirstLoad = true;
             DontDestroyOnLoad(this.gameObject);
@@ -74,6 +78,7 @@ public class MyGameManeger : MonoBehaviour
         }
         else
         {
+            Debug.Log("Second");
             MyGameManeger.instance.FirstLoad = false;
             Destroy(this.gameObject);
         }

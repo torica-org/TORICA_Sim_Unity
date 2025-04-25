@@ -16,15 +16,9 @@ public class FieldOfViewController : MonoBehaviour
         CurrentSlider.value = MyGameManeger.instance.FieldOfView;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void Method()
     {
-        AerodynamicCalculator.MyCamera.fieldOfView = CurrentSlider.value ;
+        FieldOfViewSetter.MyCamera.fieldOfView = CurrentSlider.value ;
         scoreText.text = CurrentSlider.value.ToString();
         MyGameManeger.instance.SettingChanged = true;
         MyGameManeger.instance.FieldOfView = CurrentSlider.value;

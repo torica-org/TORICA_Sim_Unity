@@ -3,18 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class FactorChange : MonoBehaviour
+public class FactorChange3 : MonoBehaviour
 {
 
     private Slider CurrentSlider;
     private float factor;
-    [SerializeField] private int LoadSell;//0:Right 1:Left 2:BackwardRight 3:BackwardLeft
+    private int LoadSell = 3;//0:Right 1:Left 2:BackwardRight 3:BackwardLeft
 
     // Start is called before the first frame update
     void Start()
     {
         CurrentSlider = GetComponent<Slider>();
-        Debug.Log(LoadSell);
         switch(LoadSell){
             case 0:
                 CurrentSlider.value = MyGameManeger.instance.massRightFactor;
@@ -33,7 +32,6 @@ public class FactorChange : MonoBehaviour
 
     public void Method()
     {
-        Debug.Log(LoadSell);
         MyGameManeger.instance.SettingChanged = true;
 
         switch(LoadSell){
@@ -50,6 +48,5 @@ public class FactorChange : MonoBehaviour
                 MyGameManeger.instance.massBackwardLeftFactor = CurrentSlider.value;
                 break;
         }
-        Debug.Log(CurrentSlider.value+","+MyGameManeger.instance.massBackwardLeftFactor);
     }
 }

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7277445376450003780}
   - component: {fileID: 7277445376450003834}
   - component: {fileID: 7277445376450003781}
+  - component: {fileID: 1726037403116520822}
   m_Layer: 0
   m_Name: FPSCamera
   m_TagString: Untagged
@@ -84,3 +85,15 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7277445376450003835}
   m_Enabled: 0
+--- !u!114 &1726037403116520822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7277445376450003835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f3a1b8ff3ad07546be41d83da9d9a12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

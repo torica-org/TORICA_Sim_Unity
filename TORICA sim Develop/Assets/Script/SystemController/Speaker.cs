@@ -3,8 +3,8 @@ using System;  // Needed for Math
 
 public class Speaker : MonoBehaviour
 {
-	public double frequency = 0;
-	public double gain = 0;
+	double frequency = 0;
+	double gain = 0;
 	private double increment;
 	private double phase;
 	private double sampling_frequency = 48000;

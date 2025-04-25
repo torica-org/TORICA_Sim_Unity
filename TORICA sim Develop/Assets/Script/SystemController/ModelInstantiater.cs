@@ -11,13 +11,9 @@ public class ModelInstantiater : MonoBehaviour
         }
 
         GameObject PlaneObj = (GameObject)Resources.Load(MyGameManeger.instance.PlaneName);
-        Instantiate(PlaneObj, new Vector3( -1.0f, 0.0f, 0.0f), Quaternion.identity);
+        var obj = Instantiate(PlaneObj, new Vector3(PlaneObj.transform.position.x,PlaneObj.transform.position.y,PlaneObj.transform.position.z), Quaternion.identity);
+        obj.name = PlaneObj.name;
         
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        MyGameManeger.instance.Plane = GameObject.Find(MyGameManeger.instance.PlaneName);
     }
 }

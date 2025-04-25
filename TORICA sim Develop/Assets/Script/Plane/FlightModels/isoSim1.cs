@@ -4,15 +4,10 @@ using UnityEngine;
 
 public class isoSim1 : AerodynamicCalculator
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public override void FlightModelStart(){
 
-    // Update is called once per frame
-    void Update()
-    {
+    }
+    public override void FlightModelFixedUpdate(){
         
     }
 }
