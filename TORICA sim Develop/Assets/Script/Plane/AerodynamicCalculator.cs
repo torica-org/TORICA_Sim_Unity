@@ -181,8 +181,8 @@ public class AerodynamicCalculator : SerialReceive
 
         //pitchGravityPilotS = ((PlaneRigidbody.mass*pitchGravity)-(aircraftMass*aircraftCenterOfMass))/pilotMass;
         pitchGravityPilotS = -aircraftMass*aircraftCenterOfMass/pilotMass;
-        massLeftRightS = pilotMass*(pitchGravityPilotS+lengthBackward)/(lengthForward+lengthBackward);
-        massBackwardS = (pilotMass - massLeftRightS);
+        massLeftRightS = (pilotMass*(pitchGravityPilotS+lengthBackward)/(lengthForward+lengthBackward))/2;
+        massBackwardS = (pilotMass - massLeftRightS*2)/2;
 
         YMin = aircraftMass/2;
         YrMax = 80.0f;
@@ -231,42 +231,48 @@ public class AerodynamicCalculator : SerialReceive
         }
         //pitchGravity = ((pitchGravityPilot*pilotMass)+(aircraftCenterOfMass*aircraftMass))/(pilotMass+aircraftMass);
 
-        if(!MyGameManeger.instance.FrameUseable)
+        if(MyGameManeger.instance.FrameUseable)
         {
+            /*
             massLeftNow = 20000f;
             massRightNow = 20000f;
             massBackwardRightNow = 20000f;
             massBackwardLeftNow = 20000f;
-            
-            //mass~Now ←センサー生データ
-            //mass~0 ←オフセット
-            //mass~Raw ←生データからオフセットを引いた実際の荷重(Factorにより補正後)
-            //mass~Factor ←Rawを調整するための係数、これを掛けたものがRawになる
-            //mass~ ←計算用にパイロットの体重に換算したもの
+            */
 
-            float e = 1;//本来のP以外が搭乗したときの補正用係数
+            //mass~Now ←センサー生データ
+            //mass~0 ←オフセット,現在は使用されていません
+            //mass~Raw ←生データにFactorをかけて補正したもの
+            //mass~Factor ←Rawを調整するための係数
+            //mass~ ←計算用にパイロットの体重に換算したもの
             
-            massRightRaw = 0.625f*MyGameManeger.instance.massRightFactor*(massRightNow - MyGameManeger.instance.massRight0)/1000;
-            massLeftRaw = 0.625f*MyGameManeger.instance.massLeftFactor*(massLeftNow - MyGameManeger.instance.massLeft0)/1000;
-            massBackwardRightRaw = 0.625f*MyGameManeger.instance.massBackwardRightFactor*(massBackwardRightNow - MyGameManeger.instance.massBackwardRight0)/1000;
-            massBackwardLeftRaw = 0.625f*MyGameManeger.instance.massBackwardLeftFactor*(massBackwardLeftNow - MyGameManeger.instance.massBackwardLeft0)/1000;
+            massRightRaw = MyGameManeger.instance.massRightFactor*(massRightNow/1000);
+            massLeftRaw = MyGameManeger.instance.massLeftFactor*(massLeftNow/1000);
+            massBackwardRightRaw = MyGameManeger.instance.massBackwardRightFactor*(massBackwardRightNow/1000);
+            massBackwardLeftRaw = MyGameManeger.instance.massBackwardLeftFactor*(massBackwardLeftNow/1000);
 
             float NowMass = massLeftRaw + massRightRaw + massBackwardLeftRaw + massBackwardRightRaw;
 
-            e = pilotMass/NowMass;
+            //float e = 1;//本来のP以外が搭乗したときの補正用係数
+            //e = pilotMass/NowMass;
             //Debug.Log("e="+e);
             
-            massRight=e*massRightRaw;
-            massLeft=e*massLeftRaw;
-            massBackward=e*(massBackwardLeftRaw+massBackwardRightRaw);
+            massRight=massRightRaw;
+            massLeft=massLeftRaw;
+            massBackward=(massBackwardLeftRaw+massBackwardRightRaw);
 
             //リジットボディに代入するピッチの値を計算
             pitchGravity = (((lengthForward*massLeft)+(lengthForward*massRight)-(lengthBackward*massBackward)+(aircraftCenterOfMass*aircraftMass))/(massLeft+massRight+massBackward+aircraftMass));
             pitchGravityPilotS = ((PlaneRigidbody.mass*pitchGravity)-(aircraftMass*aircraftCenterOfMass))/pilotMass;
-            pitchGravityPilot = (((lengthForward*massLeft)+(lengthForward*massRight)-(lengthBackward*massBackward))/(massLeft+massRight+massBackward));
+            if(NowMass != 0 ){
+                pitchGravityPilot = (((lengthForward*massLeft)+(lengthForward*massRight)-(lengthBackward*massBackward))/(massLeft+massRight+massBackward)); 
+            }
+            else{
+                pitchGravityPilot = pitchGravityPilotS;
+            }
         }
         //リジットボディに代入
-        PlaneRigidbody.centerOfMass = new Vector3(pitchGravityPilot,PlaneRigidbody.centerOfMass.y,PlaneRigidbody.centerOfMass.z);
+        PlaneRigidbody.centerOfMass = new Vector3(pitchGravity,PlaneRigidbody.centerOfMass.y,PlaneRigidbody.centerOfMass.z);
 
         //hwに代入する重心位置(%MAC)を計算
         hw2= hw0-(pitchGravity*0.85f/cMAC);
@@ -318,7 +324,7 @@ public class AerodynamicCalculator : SerialReceive
         //if (MyGameManeger.instance.MousePitchControl){
         //    dh = -(Input.mousePosition.y-dh0)*0.0002f*MyGameManeger.instance.MouseSensitivity;
         //}
-        
+
         // Gust
         LocalGustMag = MyGameManeger.instance.GustMag*Mathf.Pow((hE/hE0),1f/7f);
         Gust = Quaternion.AngleAxis(MyGameManeger.instance.GustDirection,Vector3.up)*(Vector3.right*LocalGustMag);

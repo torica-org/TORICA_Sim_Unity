@@ -42,6 +42,7 @@ public class MyGameManeger : MonoBehaviour
     [System.NonSerialized] public float massRightFactor=1;
     [System.NonSerialized] public float massBackwardRightFactor=1;
     [System.NonSerialized] public float massBackwardLeftFactor=1;
+    [System.NonSerialized] public float DefaultFactor = 0.625f;
     //ジョイスティックの調整用係数(この係数をジョイスティックの値に割る)
     [System.NonSerialized] public float JoyStickFactor = 500;
     //エアデータ保存リスト
@@ -70,15 +71,12 @@ public class MyGameManeger : MonoBehaviour
     {
         if(instance == null)
         {
-            Debug.Log("First");
             instance = this;
             FirstLoad = true;
             DontDestroyOnLoad(this.gameObject);
-            //SceneManager.LoadScene("FlightScene");
         }
         else
         {
-            Debug.Log("Second");
             MyGameManeger.instance.FirstLoad = false;
             Destroy(this.gameObject);
         }

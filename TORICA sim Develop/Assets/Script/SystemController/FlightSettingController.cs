@@ -19,7 +19,6 @@ public class FlightSettingController : MonoBehaviour
         FlightSetting = GameObject.Find("FlightSetting");
 
         MyGameManeger.instance.FlightSettingActive = true;
-        Debug.Log(MyGameManeger.instance == null);
         FlightSetting.SetActive(MyGameManeger.instance.FlightSettingActive);
                 
         Time.timeScale=(float)Convert.ToInt32(!MyGameManeger.instance.FlightSettingActive &!MyGameManeger.instance.SettingActive & !MyGameManeger.instance.Landing);

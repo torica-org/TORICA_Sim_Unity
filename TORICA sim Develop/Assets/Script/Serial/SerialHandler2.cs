@@ -1,3 +1,4 @@
+/*
 using UnityEngine;
 using System.Collections;
 using System.IO.Ports;
@@ -7,50 +8,36 @@ using UnityEditor;
 using UnityEngine.SceneManagement;
 
 //Titleシーン用のUI関連機能付きSerialHandler
-public class SerialHandler2 : SerialHandler
+public class SerialHandler2 : MonoBehaviour
 {
     public Text text;//通信状況を伝えるテキスト
-    public InputField inputField;
+    public InputField inputField;//ポート番号入力フィールド
+    private bool Connection;
+    private bool refresh;
+    private bool frameError;
 
     void Start()
     {
         inputField.text = portName;
+        Connection = MyGameManeger.instance.FrameUseable;
     }
 
-    public void SetPort()
+    protected override void Update()
     {
-        Close();
-        portName=inputField.text;
-        text.text = "再設定中";
-        Open();
-
+        if (isNewMessageReceived_) {
+            OnDataReceived(message_);
+        }
+        isNewMessageReceived_ = false;
         
-        //SceneManager.LoadScene("FlightScene");
+    }
+
+    protected override void Read()
+    {
     }
     
     protected override void Open()
     {
-        try{
-            serialPort_ = new SerialPort(portName, baudRate, Parity.None, 8, StopBits.One);
-            serialPort_.DtrEnable= true;
 
-            serialPort_.ReadTimeout = 1000;
-            //serialPort_.WriteTimeout = 100;
-            //または
-            //serialPort_ = new SerialPort(portName, baudRate);
-
-            serialPort_.Open();
-
-            isRunning_ = true;
-
-            thread_ = new Thread(Read);
-            thread_.Start();
-        }
-        catch(System.Exception e)
-        {
-            Debug.LogWarning(e.Message);
-            Debug.LogWarning("フレーム使用不可能");
-            text.text = "再設定中";
-        }
     }
 }
+*/

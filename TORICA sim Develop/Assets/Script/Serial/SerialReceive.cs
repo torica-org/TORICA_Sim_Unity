@@ -30,7 +30,6 @@ public class SerialReceive : MonoBehaviour
     void OnDataReceived(string message)
     {
         var data = message.Split(new string[] { "\n" }, System.StringSplitOptions.None);
-        //Debug.Log(data[0]);
         try
         {
             try{
