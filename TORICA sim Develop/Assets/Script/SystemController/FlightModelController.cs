@@ -14,6 +14,8 @@ public class FlightModelController : MonoBehaviour
             case "isoSim1":
                 MyGameManeger.instance.Plane.AddComponent<isoSim1>();
                 break;
+            case "isoSim2":
+                break;
             default:
                 Debug.Log("error");
                 break;

@@ -37,10 +37,10 @@ public class Speaker : MonoBehaviour
     void FixedUpdate(){
         if(MyGameManeger.instance.EnterFlight){
         
-            if(script.Airspeed > 10){
+            if(script.Airspeed > 11){
                 frequency = 440;
             }
-            else if(script.Airspeed > 5){
+            else if(script.Airspeed > 10){
                 frequency = 880;
             }
             else{

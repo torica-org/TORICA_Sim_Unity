@@ -173,9 +173,9 @@ public class SerialHandler : MonoBehaviour
 
     public void SetPort()
     {
+        text.text = "再設定中";
         Close();
         portName=inputField.text;
-        text.text = "再設定中";
         frameError = false;
         refresh = false;
         Open();

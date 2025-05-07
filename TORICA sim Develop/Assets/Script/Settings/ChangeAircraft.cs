@@ -21,6 +21,7 @@ public class ChangeAircraft : MonoBehaviour
         AircraftList.Add("Ray");
         AircraftList.Add("Mio");
         AircraftList.Add("QX-18");
+        AircraftList.Add("QX-19");
         AircraftList.Add("QX-20");
         AircraftList.Add("ARG-2");
         AircraftList.Add("ORCA18");
@@ -30,6 +31,15 @@ public class ChangeAircraft : MonoBehaviour
         AircraftList.Add("Gardenia");
         AircraftList.Add("Aria");
         AircraftList.Add("Camellia");
+
+        /*
+        GameObject[] prefabs = Resources.LoadAll<GameObject>("");
+        // forループでLengthまで回す
+        for (int i = 0; i < prefabs.Length; i++)
+        {
+            AircraftList.Add(prefabs[i].name);
+        }
+        */
 
         //DropdownコンポーネントのOptionsという項目にOptionsのリストがありました
         //それを編集するためにDropdownコンポーネントを取得

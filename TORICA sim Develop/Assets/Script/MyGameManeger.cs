@@ -21,7 +21,7 @@ public class MyGameManeger : MonoBehaviour
     [System.NonSerialized] public float MouseSensitivity = 1.000f; // Magnitude of Gust [m/s]
     [System.NonSerialized] public float GustMag = 0.000f; // Magnitude of Gust [m/s]
     [System.NonSerialized] public float GustDirection = 0.000f; // Direction of Gust [deg]: -180~180
-    [System.NonSerialized] public float Airspeed_TO = 5.000f; // Airspeed at take-off [m/s]
+    [System.NonSerialized] public float Airspeed_TO = 5.800f; // Airspeed at take-off [m/s]
     [System.NonSerialized] public float alpha_TO = 0.000f; // Angle of attack at take-off [deg]
     [System.NonSerialized] public string PlaneName;
     [System.NonSerialized] public string FlightMode = "BirdmanRally";
