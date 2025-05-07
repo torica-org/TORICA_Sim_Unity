@@ -8,9 +8,6 @@ using System;
 public class FlightSettingController : MonoBehaviour
 {
     private GameObject FlightSetting;
-    private Slider TakeoffVelocitySlider;
-    //public FlightSettingCloseButton closeButton;
-
     private SaveCsvScript SaveCsvScript;
     private AerodynamicCalculator script;//AerodynamicCalculatorスクリプトにアクセスするための変数
     private bool OnStartTrigger;
@@ -20,13 +17,11 @@ public class FlightSettingController : MonoBehaviour
     public void OnEnables()
     {
         FlightSetting = GameObject.Find("FlightSetting");
-        TakeoffVelocitySlider = GameObject.Find("TakeOffVelocitySlider").GetComponent<Slider>();
 
         MyGameManeger.instance.FlightSettingActive = true;
         FlightSetting.SetActive(MyGameManeger.instance.FlightSettingActive);
                 
         Time.timeScale=(float)Convert.ToInt32(!MyGameManeger.instance.FlightSettingActive &!MyGameManeger.instance.SettingActive & !MyGameManeger.instance.Landing);
-
     }
     
     void Start()

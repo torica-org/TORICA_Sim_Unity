@@ -1,3 +1,4 @@
+/*現在は使用されていません
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,3 +19,4 @@ public class ModelController : MonoBehaviour
         MyGameManeger.instance.Plane = GameObject.Find(MyGameManeger.instance.PlaneName);
     }
 }
+*/

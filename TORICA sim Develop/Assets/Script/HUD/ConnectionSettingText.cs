@@ -31,11 +31,11 @@ public class ConnectionSettingText : MonoBehaviour
     {
         scoreText.text = "";
         //if(MyGameManeger.instance.FrameUseable){
-            scoreText.text += Math.Round(script.massRightRaw,3,  MidpointRounding.AwayFromZero)+"\n";
-            scoreText.text += Math.Round(script.massLeftRaw,3,  MidpointRounding.AwayFromZero)+"\n";
-            scoreText.text += Math.Round(script.massBackwardRightRaw,3,  MidpointRounding.AwayFromZero)+"\n";
-            scoreText.text += Math.Round(script.massBackwardLeftRaw,3,  MidpointRounding.AwayFromZero)+"\n\n";
-            scoreText.text += Math.Round(script.massRightRaw+script.massLeftRaw,3,  MidpointRounding.AwayFromZero)+Math.Round(script.massBackwardRightRaw,2,  MidpointRounding.AwayFromZero)+Math.Round(script.massBackwardLeftRaw,2,  MidpointRounding.AwayFromZero)+"\n\n";
+            scoreText.text += Math.Round(script.massRight,3,  MidpointRounding.AwayFromZero)+"\n";
+            scoreText.text += Math.Round(script.massLeft,3,  MidpointRounding.AwayFromZero)+"\n";
+            scoreText.text += Math.Round(script.massBackwardRight,3,  MidpointRounding.AwayFromZero)+"\n";
+            scoreText.text += Math.Round(script.massBackwardLeft,3,  MidpointRounding.AwayFromZero)+"\n\n";
+            scoreText.text += Math.Round(script.massRight+script.massLeft,3,  MidpointRounding.AwayFromZero)+Math.Round(script.massBackwardRight,2,  MidpointRounding.AwayFromZero)+Math.Round(script.massBackwardLeft,2,  MidpointRounding.AwayFromZero)+"\n\n";
             scoreText.text += Math.Round(script.pitchGravity,3,  MidpointRounding.AwayFromZero)+"\n";
             scoreText.text += Math.Round(script.pitchGravityPilot,3,  MidpointRounding.AwayFromZero)+"\n";
             scoreText.text += Math.Round(script.dr,3,  MidpointRounding.AwayFromZero)+"\n";

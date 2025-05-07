@@ -1,14 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class StartMethod : MonoBehaviour
 {
-    public ChangeAircraft changeAircraft;
-    public FlightSettingController flightSettingController;
-    public SettingController settingController;
-    public ModelController modelController;
-
+    [SerializeField] private ChangeAircraft changeAircraft;
+    [SerializeField] private FlightSettingController flightSettingController;
+    [SerializeField] private SettingController settingController;
+    [SerializeField] private ModelInstantiater modelInstantiater;
+    [SerializeField] private FlightModelController flightModelController;
     private GameObject PlaneParent;
 
     void OnEnable(){
@@ -16,16 +17,12 @@ public class StartMethod : MonoBehaviour
 
         settingController.OnEnables();
 
-        PlaneParent = GameObject.Find("Plane");
-        foreach(Transform item in PlaneParent.transform){
-            if(item.gameObject.activeSelf){
-                item.gameObject.GetComponent<AerodynamicCalculator>().OnEnables();
-            }
-        }
+        modelInstantiater.OnEnables();
 
-        //MyGameManeger.instance.Plane.GetComponent<AerodynamicCalculator>().OnEnables();
+        flightModelController.OnEnables();
+
+        MyGameManeger.instance.Plane.GetComponent<AerodynamicCalculator>().OnEnables();
 
         changeAircraft.OnEnables();
-        modelController.OnEnables();
     }
 }

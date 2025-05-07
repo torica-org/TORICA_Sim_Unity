@@ -29,7 +29,9 @@ public class AirDate : MonoBehaviour
         MyGameManeger.instance.BetaList.Clear();
         MyGameManeger.instance.ThetaList.Clear();
         MyGameManeger.instance.PhiList.Clear();
-
+        MyGameManeger.instance.PitchGravityList.Clear();
+        MyGameManeger.instance.drList.Clear();
+        
         SaveCsvScript = this.GetComponent<SaveCsvScript>();
     }
 
@@ -61,15 +63,33 @@ public class AirDate : MonoBehaviour
             MyGameManeger.instance.BetaList.Add((float)Math.Round(script.beta, 2,  MidpointRounding.AwayFromZero));
             MyGameManeger.instance.ThetaList.Add((float)Math.Round(theta, 2,  MidpointRounding.AwayFromZero));
             MyGameManeger.instance.PhiList.Add((float)Math.Round(phi, 2,  MidpointRounding.AwayFromZero));
-            //Debug.Log((float)Math.Round(script.Airspeed, 2,  MidpointRounding.AwayFromZero));
+            MyGameManeger.instance.PitchGravityList.Add((float)Math.Round(script.pitchGravity, 2, MidpointRounding.AwayFromZero));
+            MyGameManeger.instance.drList.Add((float)Math.Round(script.dr, 2 ,MidpointRounding.AwayFromZero));
+            
+            /*
+            MyGameManeger.instance.AirSpeedList.Add(RoundFloat(script.Airspeed, 2));
+            MyGameManeger.instance.AltList.Add(RoundFloat(script.ALT, 2));
+            MyGameManeger.instance.AlphaList.Add(RoundFloat(script.alpha, 2));
+            MyGameManeger.instance.BetaList.Add(RoundFloat(script.beta, 2));
+            MyGameManeger.instance.ThetaList.Add(RoundFloat(theta, 2)); 
+            MyGameManeger.instance.PhiList.Add(RoundFloat(phi, 2));
+            */
             
             ListNumber++;//リストの要素番号を進める
 
             if(MyGameManeger.instance.SaveCsv && MyGameManeger.instance.EnterFlight)
             {
-                SaveCsvScript.SaveData(time.ToString() ,script.Airspeed.ToString() ,script.ALT.ToString() ,script.alpha.ToString() ,script.beta.ToString() ,theta.ToString() ,phi.ToString() );
+                SaveCsvScript.SaveData(time.ToString("F1") ,script.Airspeed.ToString("F3") ,script.ALT.ToString("F3") ,script.alpha.ToString("F3") ,script.beta.ToString("F3") ,theta.ToString("F3") ,phi.ToString("F3") );
             }
         }
         frameNumber++;//0.02秒経過
     }
+
+    float RoundFloat(float value, int decimals)
+    {
+        float factor = Mathf.Pow(10f, decimals);
+        // 100 倍して四捨五入 → また 100 で割る
+        return Mathf.Round(value * factor) / factor;
+    }
+
 }

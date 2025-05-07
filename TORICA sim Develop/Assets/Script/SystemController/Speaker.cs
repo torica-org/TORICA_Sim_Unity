@@ -3,8 +3,8 @@ using System;  // Needed for Math
 
 public class Speaker : MonoBehaviour
 {
-	public double frequency = 0;
-	public double gain = 0;
+	double frequency = 0;
+	double gain = 0;
 	private double increment;
 	private double phase;
 	private double sampling_frequency = 48000;
@@ -37,10 +37,10 @@ public class Speaker : MonoBehaviour
     void FixedUpdate(){
         if(MyGameManeger.instance.EnterFlight){
         
-            if(script.Airspeed > 10){
+            if(script.Airspeed > 11){
                 frequency = 440;
             }
-            else if(script.Airspeed > 5){
+            else if(script.Airspeed > 10){
                 frequency = 880;
             }
             else{

@@ -10,10 +10,10 @@ using System;
 public class AerodynamicCalculator : SerialReceive
 {
     //設計データ書き込み用変数
-    private string path;//ファイルパス
-    private string fileName = "data.csv";//ファイル名
+    protected string path;//ファイルパス
+    protected string fileName = "data.csv";//ファイル名
     public static List<List<string>> CsvList = new List<List<string>>();//CSVファイルリスト
-    private bool CanReadCsv = false;
+    protected bool CanReadCsv = false;
 
     // public
     [System.NonSerialized] public float Airspeed = 0.000f; // Airspeed [m/s]
@@ -29,150 +29,144 @@ public class AerodynamicCalculator : SerialReceive
     [System.NonSerialized] public float Groundspeed = 0.000f; // Groundspeed [m/s]
     [System.NonSerialized] public float ALT = 0.000f;
 
-    //各センサーにかかる荷重
-    [System.NonSerialized] public float massLeftRaw;
-    [System.NonSerialized] public float massRightRaw;
-    [System.NonSerialized] public float massBackwardLeftRaw;
-    [System.NonSerialized] public float massBackwardRightRaw;
+    //計算で用いるセンサー値
+    [System.NonSerialized] public float massLeft;//左ひずみの値[kg]
+    [System.NonSerialized] public float massRight;//右ひずみの値[kg]
+    [System.NonSerialized] public float massBackwardRight;//後方左ひずみの値[kg]
+    [System.NonSerialized] public float massBackwardLeft;//後方右ひずみの値[kg]
 
-    
     [System.NonSerialized] public float pitchGravity = 0.000f;//ピッチ重心計算結果[m]
-    [System.NonSerialized] public float pitchGravityPilot =0.2f;//ピッチ重心計算結果[m]
+    [System.NonSerialized] public float pitchGravityPilot = 0.2f;//ピッチ重心計算結果[m]
+    [System.NonSerialized] public float pitchGravityPilotS;//定常状態(pitchGravity=0)のパイロット重心
 
-
+    [System.NonSerialized] public float massLeftRightS;//定常状態の前センサーの値(合計値ではなく一つのセンサーの値)
+    [System.NonSerialized] public float massBackwardS;//定常状態の後センサーの値(合計値ではなく一つのセンサーの値)
     // Phisics
-    static private float rho = 1.164f;
-    static private float hE0 = 10.500f; // Altitude at Take-off [m]
+    static protected float rho = 1.164f;
+    static protected float hE0 = 10.500f; // Altitude at Take-off [m]
     // At Cruise without Ground Effect
-    static private float Airspeed0; // Magnitude of ground speed [m/s]
-    static private float alpha0; // Angle of attack [deg]
-    static private float CDp0; // Parasitic drag [-]
-    static private float Cmw0; // Pitching momentum [-]
-    static private float CLMAX; // Lift Coefficient [-]
-    static private float CL0 = 0.000f; // Lift Coefficient [-]
-    static private float CLw0 = 0.000f; // Lift Coefficient [-]
-    static private float CLt0 = 0.000f; // Tail Coefficient [-]
-    static private float epsilon0 = 0.000f; // Downwash
+    static protected float Airspeed0; // Magnitude of ground speed [m/s]
+    static protected float alpha0; // Angle of attack [deg]
+    static protected float CDp0; // Parasitic drag [-]
+    static protected float Cmw0; // Pitching momentum [-]
+    static protected float CLMAX; // Lift Coefficient [-]
+    static protected float CL0 = 0.000f; // Lift Coefficient [-]
+    static protected float CLw0 = 0.000f; // Lift Coefficient [-]
+    static protected float CLt0 = 0.000f; // Tail Coefficient [-]
+    static protected float epsilon0 = 0.000f; // Downwash
     // Plane
-    static bool Downwash; // Conventional Tail: True, T-Tail: False
-    static private float CL = 0.000f; // Lift Coefficient [-]
-    static private float CD = 0.000f; // Drag Coefficient [-]
-    static private float Cx = 0.000f; // X Force Coefficient [-]
-    static private float Cy = 0.000f; // Y Force Coefficient [-]
-    static private float Cz = 0.000f; // Z Force Coefficient [-]
-    static private float Cl = 0.000f; // Rolling momentum [-]
-    static private float Cm = 0.000f; // Pitching momentum [-]
-    static private float Cn = 0.000f; // Yawing momentum [-]
-    static private float dh0 = 0.000f; // Initial Mouse Position
+    static protected bool Downwash; // Conventional Tail: True, T-Tail: False
+    static protected float CL = 0.000f; // Lift Coefficient [-]
+    static protected float CD = 0.000f; // Drag Coefficient [-]
+    static protected float Cx = 0.000f; // X Force Coefficient [-]
+    static protected float Cy = 0.000f; // Y Force Coefficient [-]
+    static protected float Cz = 0.000f; // Z Force Coefficient [-]
+    static protected float Cl = 0.000f; // Rolling momentum [-]
+    static protected float Cm = 0.000f; // Pitching momentum [-]
+    static protected float Cn = 0.000f; // Yawing momentum [-]
+    static protected float dh0 = 0.000f; // Initial Mouse Position
     // Wing
-    static private float Sw; // Wing area of wing [m^2]
-    static private float bw; // Wing span [m]
-    static private float cMAC; // Mean aerodynamic chord [m]
+    static protected float Sw; // Wing area of wing [m^2]
+    static protected float bw; // Wing span [m]
+    static protected float cMAC; // Mean aerodynamic chord [m]
     static public float aw; // Wing Lift Slope [1/deg]
     
-    static private float ac;
-    static private float cg;
+    static protected float ac;
+    static protected float cg;
 
-    static private float hw; // Length between Wing a.c. and c.g. [-] ac-cg
+    static protected float hw; // Length between Wing a.c. and c.g. [-] ac-cg
 
-    static private float hw0;
-    static private float lt0;
+    static protected float hw0;
+    static protected float lt0;
 
-    static private float AR; // Aspect Ratio [-]
-    static private float ew; // Wing efficiency [-]
-    static private float CLw = 0.000f; // Lift Coefficient [-]
+    static protected float AR; // Aspect Ratio [-]
+    static protected float ew; // Wing efficiency [-]
+    static protected float CLw = 0.000f; // Lift Coefficient [-]
     // Tail
-    static private float St; // Wing area of tail [m^2]
-    static private float at; // Tail Lift Slope [1/deg]
-    static private float lt; // Length between Tail a.c. and c.g. [m]
-    static private float VH; // Tail Volume [-]
-    static private float deMAX; // Maximum elevator angle [deg]
-    static private float tau; // Control surface angle of attack effectiveness [-]
-    static private float CLt = 0.000f; // Lift Coefficient [-]
+    static protected float St; // Wing area of tail [m^2]
+    static protected float at; // Tail Lift Slope [1/deg]
+    static protected float lt; // Length between Tail a.c. and c.g. [m]
+    static protected float VH; // Tail Volume [-]
+    static protected float deMAX; // Maximum elevator angle [deg]
+    static protected float tau; // Control surface angle of attack effectiveness [-]
+    static protected float CLt = 0.000f; // Lift Coefficient [-]
     // Fin
-    static private float drMAX; // Maximum rudder angle
+    static protected float drMAX; // Maximum rudder angle
     // Ground Effect
-    static private float CGEMIN; // Minimum Ground Effect Coefficient [-]
-    static private float CGE = 0f; // Ground Effect Coefficient: CDiGE/CDi [-]
+    static protected float CGEMIN; // Minimum Ground Effect Coefficient [-]
+    static protected float CGE = 0f; // Ground Effect Coefficient: CDiGE/CDi [-]
     // Stability derivatives
-    static private float Cyb; // [1/deg]
-    static private float Cyp; // [1/rad]
-    static private float Cyr; // [1/rad]
-    static private float Cydr; // [1/deg]
-    static private float Cnb; // [1/deg]
-    static private float Cnp; // [1/rad]
-    static private float Cnr; // [1/rad]
-    static private float Cndr; // [1/deg]
-    static private float Clb; // [1/deg]
-    static private float Clp; // [1/rad]
-    static private float Clr; // [1/rad]
-    static private float Cldr; // [1/deg]
+    static protected float Cyb; // [1/deg]
+    static protected float Cyp; // [1/rad]
+    static protected float Cyr; // [1/rad]
+    static protected float Cydr; // [1/deg]
+    static protected float Cnb; // [1/deg]
+    static protected float Cnp; // [1/rad]
+    static protected float Cnr; // [1/rad]
+    static protected float Cndr; // [1/deg]
+    static protected float Clb; // [1/deg]
+    static protected float Clp; // [1/rad]
+    static protected float Clr; // [1/rad]
+    static protected float Cldr; // [1/deg]
     // Gust
-    static private Vector3 Gust = Vector3.zero; // Gust [m/s]
+    static protected Vector3 Gust = Vector3.zero; // Gust [m/s]
     // Rotation
-    static private float phi; // [deg]
-    static private float theta;  // [deg]
-    static private float psi; // [deg]
+    static protected float phi; // [deg]
+    static protected float theta;  // [deg]
+    static protected float psi; // [deg]
 
-    private Rigidbody PlaneRigidbody;
-
-    //計算で用いるセンサー値
-    static private float massLeft;//左ひずみの値[kg]
-    static private float massRight;//右ひずみの値[kg]
-    static private float massBackward;//後方ひずみの値[kg]
+    protected Rigidbody PlaneRigidbody;
 
     //追加機体データ
-    static private float lengthForward;//フレーム前方(フレーム＋センサー部分)から桁(原点)位置[m]
-    static private float lengthBackward;//フレーム後方(フレームの端)から桁(原点)位置[m]
-    static private float aircraftCenterOfMass;//機体のみ全重心(パイロットなし,ピッチのみ)[m]
-    static private float aircraftMass;//機体のみ全重量[kg]
-    static private float pilotMass;//パイロット重量[kg]
-    static private float SensorPositionY = 1.0f;//桁中心から垂直に線を超音波センサーの位置までおろした時の線の長さ[m]
-    static private float SensorPositionZ = 0.0f;//↑の到達点から超音波センサーまでの長さ[m]
+    static protected float lengthForward;//フレーム前方(フレーム＋センサー部分)から桁(原点)位置[m]
+    static protected float lengthBackward;//フレーム後方(フレームの端)から桁(原点)位置[m]
+    static protected float aircraftCenterOfMass;//機体のみ全重心(パイロットなし,ピッチのみ)[m]
+    static protected float aircraftMass;//機体のみ全重量[kg]
+    static protected float pilotMass;//パイロット重量[kg]
+    static protected float SensorPositionY = 0.645f;//桁中心から垂直に線を超音波センサーの位置までおろした時の線の長さ[m]
+    static protected float SensorPositionZ = 0.0f;//↑の到達点から超音波センサーまでの長さ[m]
+    static protected float AircraftHight = 0.74f;//プラホからコクピ下部までの長さ[m]
+
+    static protected bool PlusData;//追加機体データが存在するか
     //計算結果データ
-    static private float hw2;//	主翼空力中心と全機重心の距離（cMACで無次元化）（再計算バージョン）
+    static protected float hw2;//	主翼空力中心と全機重心の距離（cMACで無次元化）（再計算バージョン）
 
     //翼持ちデータ
-    static private float YMin;//翼持ちの最小荷重(機体のみ重量/2)
-    static private float YrMax;//右翼持ちの許容最大荷重
-    static private float YlMax;//左翼持ちの許容最大荷重
-    static private float YrMoment;//右翼持ち本人がかけるモーメント
-    static private float YlMoment;//左翼持ち本人がかけるモーメント
+    static protected float YMin;//翼持ちの最小荷重(機体のみ重量/2)
+    static protected float YrMax;//右翼持ちの許容最大荷重
+    static protected float YlMax;//左翼持ちの許容最大荷重
+    static protected float YrMoment;//右翼持ち本人がかけるモーメント
+    static protected float YlMoment;//左翼持ち本人がかけるモーメント
 
-    static private float YL;//機体中心から翼持ち棒までの長さ[m]
+    static protected float YL;//機体中心から翼持ち棒までの長さ[m]
 
-    [SerializeField]private Camera MyCameraTmp;
-    public static Camera MyCamera;
+
     public static GameObject Aircraft;
 
-    private bool AddTaleForce;
+    protected bool AddTaleForce;
 
     public void OnEnables()
     {
         if(MyGameManeger.instance.PlaneName != null){
             if(this.gameObject.name == MyGameManeger.instance.PlaneName)
             {
-                MyCamera = MyCameraTmp;
                 Aircraft = this.gameObject;
             }
         }
         else{
-            if(this.gameObject.name == ChangeAircraft.DefaultPlane)
+            if(this.gameObject.name == MyGameManeger.instance.DefaultPlane)
             {
-                MyCamera = MyCameraTmp;
-                MyGameManeger.instance.PlaneName = ChangeAircraft.DefaultPlane;
+                MyGameManeger.instance.PlaneName = MyGameManeger.instance.DefaultPlane;
                 Aircraft = this.gameObject;
             }
         }
-
     }
 
     // Start is called before the first frame update
     void Start()
-    {        
+    {
         // Get rigidbody component
         PlaneRigidbody = this.GetComponent<Rigidbody>();
-
         this.transform.rotation = Quaternion.Euler(0.0f, MyGameManeger.instance.StartRotation, 0.0f);
         
         //設計データ読み込み用
@@ -181,95 +175,78 @@ public class AerodynamicCalculator : SerialReceive
         Debug.Log("File path: " + path);
         ReadFile();
         
+        
         // Input Specifications
         InputSpecifications();
+
+        //pitchGravityPilotS = ((PlaneRigidbody.mass*pitchGravity)-(aircraftMass*aircraftCenterOfMass))/pilotMass;
+        //Debug.Log(aircraftMass+","+aircraftCenterOfMass+","+pilotMass+","+lengthForward+","+lengthBackward);
+
+        if(aircraftMass != 0 && aircraftCenterOfMass != 0 && pilotMass != 0 && lengthForward != 0 && lengthBackward != 0){
+            PlusData = true;
+            pitchGravityPilotS = -aircraftMass*aircraftCenterOfMass/pilotMass;
+            massLeftRightS = (pilotMass*(pitchGravityPilotS+lengthBackward)/(lengthForward+lengthBackward))/2;
+            massBackwardS = (pilotMass - massLeftRightS*2)/2;
+        }
+        else{
+            PlusData = false;
+        }
 
         YMin = aircraftMass/2;
         YrMax = 80.0f;
         YlMax = 80.0f;
-        
-        // Set take-off speed
-        if(MyGameManeger.instance.FlightMode=="BirdmanRally"){
-            //MyGameManeger.instance.Airspeed_TO = 5.0f; // Airspeed at take-off [m/s]
-            PlaneRigidbody.velocity = Vector3.zero;
-        }else if(MyGameManeger.instance.FlightMode=="TestFlight"){ //
-            PlaneRigidbody.velocity = new Vector3(
-                Airspeed0*Mathf.Cos(Mathf.Deg2Rad*alpha0)*Mathf.Cos(Mathf.Deg2Rad*MyGameManeger.instance.StartRotation),
-                -Airspeed0*Mathf.Sin(Mathf.Deg2Rad*alpha0),
-                -Airspeed0*Mathf.Cos(Mathf.Deg2Rad*alpha0)*Mathf.Sin(Mathf.Deg2Rad*MyGameManeger.instance.StartRotation)
-            );
-        }
 
-        // Calculate CL at cluise
-        CL0 = (PlaneRigidbody.mass*Physics.gravity.magnitude)/(0.5f*rho*Airspeed0*Airspeed0*Sw);
-        CLt0 = (Cmw0+CL0*hw)/(VH+(St/Sw)*hw);
-        CLw0 = CL0-(St/Sw)*CLt0;
-        if(Downwash){epsilon0 = (CL0/(Mathf.PI*ew*AR))*Mathf.Rad2Deg;}
-
-        dh0 = Screen.height/2f; // Initial Mouse Position
-
-        //Debug.Log(CLw0);
-        hw0 =hw;
-        lt0 =lt;
-
-        //massBackwardNow=28000f;
-        //massLeftNow=10000f;
-        //massRightNow=10000f;
-        MyCamera.fieldOfView = MyGameManeger.instance.FieldOfView;
+        FlightModelStart();
     }
-    
 
-    //重心フレーム開発の名残
-    void Update()
+    void Update()//フライトモデルに関わらず実行されるINPUT関連の処理
     {
-        if (MyGameManeger.instance.MousePitchControl){
-            pitchGravityPilot = 0.20f+(((Input.mousePosition.y-dh0)*MyGameManeger.instance.MouseSensitivity)/250.0f)*0.10f;
+        if (MyGameManeger.instance.MousePitchControl){//マウスコントロール
+            if(PlusData){
+                //Debug.Log(PlusData);
+                pitchGravityPilotS = -aircraftMass*aircraftCenterOfMass/pilotMass;
+                pitchGravityPilot = pitchGravityPilotS + ((Input.mousePosition.y-dh0)*MyGameManeger.instance.MouseSensitivity)*0.0002f;
+            }
+            //pitchGravity = ((pitchGravityPilot*pilotMass)+(aircraftCenterOfMass*aircraftMass))/PlaneRigidbody.mass;
+            pitchGravity = ((Input.mousePosition.y-dh0)*MyGameManeger.instance.MouseSensitivity)*0.0002f;
         }
 
-        if(Input.GetAxisRaw("GStick") != 0){
-            pitchGravityPilot = 0.20f-Input.GetAxisRaw("GStick")*0.10f;
+        if(Input.GetAxisRaw("GStick") != 0){//ゲームパッドコントロールのトリガー
+            pitchGravityPilotS = -aircraftMass*aircraftCenterOfMass/pilotMass;
+            pitchGravityPilot = pitchGravityPilotS -Input.GetAxisRaw("GStick")*0.10f;
+            pitchGravity = ((pitchGravityPilot*pilotMass)+(aircraftCenterOfMass*aircraftMass))/PlaneRigidbody.mass;
         }
-        pitchGravity = ((pitchGravityPilot*pilotMass)+(aircraftCenterOfMass*aircraftMass))/(pilotMass+aircraftMass);
 
-        if(MyGameManeger.instance.FrameUseable)
+        if(MyGameManeger.instance.FrameUseable)//フレームコントロール
         {
+            /*
+            massLeftNow = 20000f;
+            massRightNow = 20000f;
+            massBackwardRightNow = 20000f;
+            massBackwardLeftNow = 20000f;
+            */
+
             //mass~Now ←センサー生データ
-            //mass~0 ←オフセット
-            //mass~Raw ←生データからオフセットを引いた実際の荷重(Factorにより補正後)
-            //mass~Factor ←Rawを調整するための係数、これを掛けたものがRawになる
-            //mass~ ←計算用にパイロットの体重に換算したもの
-
-            float e = 1;//本来のP以外が搭乗したときの補正用係数
+            //mass~Factor ←Rawを調整するための係数
+            //mass~ ←NowにFactorの値をかけて計算に使用する値
             
-            massRightRaw = MyGameManeger.instance.massRightFactor*(massRightNow - MyGameManeger.instance.massRight0)/1000;
-            massLeftRaw = MyGameManeger.instance.massLeftFactor*(massLeftNow - MyGameManeger.instance.massLeft0)/1000;
-            massBackwardRightRaw = MyGameManeger.instance.massBackwardRightFactor*(massBackwardRightNow - MyGameManeger.instance.massBackwardRight0)/1000;
-            massBackwardLeftRaw = MyGameManeger.instance.massBackwardLeftFactor*(massBackwardLeftNow - MyGameManeger.instance.massBackwardLeft0)/1000;
-
-            float NowMass = massLeftRaw + massRightRaw + massBackwardLeftRaw + massBackwardRightRaw;
-
-            e = pilotMass/NowMass;
-            //Debug.Log("e="+e);
+            massRight = MyGameManeger.instance.massRightFactor*(massRightNow/1000);
+            massLeft = MyGameManeger.instance.massLeftFactor*(massLeftNow/1000);
+            massBackwardRight = MyGameManeger.instance.massBackwardRightFactor*(massBackwardRightNow/1000);
+            massBackwardLeft = MyGameManeger.instance.massBackwardLeftFactor*(massBackwardLeftNow/1000);
             
-            massRight=e*massRightRaw;
-            massLeft=e*massLeftRaw;
-            massBackward=e*(massBackwardLeftRaw+massBackwardRightRaw);
-
+            float NowMass = massLeft + massRight + massBackwardRight + massBackwardLeft;
+            
             //リジットボディに代入するピッチの値を計算
-            pitchGravity = (((lengthForward*massLeft)+(lengthForward*massRight)-(lengthBackward*massBackward)+(aircraftCenterOfMass*aircraftMass))/(massLeft+massRight+massBackward+aircraftMass));
-            pitchGravityPilot = (((lengthForward*massLeft)+(lengthForward*massRight)-(lengthBackward*massBackward))/(massLeft+massRight+massBackward));
+            pitchGravity = (((lengthForward*massLeft)+(lengthForward*massRight)-(lengthBackward*(massBackwardRight + massBackwardLeft))+(aircraftCenterOfMass*aircraftMass))/(massLeft+massRight+(massBackwardRight + massBackwardLeft)+aircraftMass));
+            pitchGravityPilotS = ((PlaneRigidbody.mass*pitchGravity)-(aircraftMass*aircraftCenterOfMass))/pilotMass;
+            if(NowMass != 0 ){
+                pitchGravityPilot = (((lengthForward*massLeft)+(lengthForward*massRight)-(lengthBackward*(massBackwardRight + massBackwardLeft)))/(massLeft+massRight+(massBackwardRight + massBackwardLeft))); 
+            }
+            else{
+                pitchGravityPilot = pitchGravityPilotS;
+            }
         }
-
-        //リジットボディに代入
-        PlaneRigidbody.centerOfMass = new Vector3(pitchGravity,PlaneRigidbody.centerOfMass.y,PlaneRigidbody.centerOfMass.z);
-
-        //hwに代入する重心位置(%MAC)を計算
-        hw2= hw0-(pitchGravity*0.85f/cMAC);
-        //hwに代入
-        hw = hw2;
-
-        lt = lt0 + pitchGravity*0.85f;
-
         // Get control surface angles
         de = 0.000f;
         dr = 0.000f;
@@ -293,183 +270,12 @@ public class AerodynamicCalculator : SerialReceive
     
     void FixedUpdate()
     {
-        // Velocity and AngularVelocity
-        float u = transform.InverseTransformDirection(PlaneRigidbody.velocity).x;
-        float v = -transform.InverseTransformDirection(PlaneRigidbody.velocity).z;
-        float w = -transform.InverseTransformDirection(PlaneRigidbody.velocity).y;
-        float p = -transform.InverseTransformDirection(PlaneRigidbody.angularVelocity).x*Mathf.Rad2Deg;
-        float q = transform.InverseTransformDirection(PlaneRigidbody.angularVelocity).z*Mathf.Rad2Deg;
-        float r = transform.InverseTransformDirection(PlaneRigidbody.angularVelocity).y*Mathf.Rad2Deg;
-        float hE = PlaneRigidbody.position.y;
-
-        // Force and Momentum
-        Vector3 AerodynamicForce = Vector3.zero;
-        Vector3 AerodynamicMomentum = Vector3.zero;
-        Vector3 TakeoffForce = Vector3.zero;
-
-        // Hoerner and Borst (Modified)
-        CGE = (CGEMIN+33f*Mathf.Pow((hE/bw),1.5f))/(1f+33f*Mathf.Pow((hE/bw),1.5f));
-        
-        //if (MyGameManeger.instance.MousePitchControl){
-        //    dh = -(Input.mousePosition.y-dh0)*0.0002f*MyGameManeger.instance.MouseSensitivity;
-        //}
-        
-        // Gust
-        LocalGustMag = MyGameManeger.instance.GustMag*Mathf.Pow((hE/hE0),1f/7f);
-        Gust = Quaternion.AngleAxis(MyGameManeger.instance.GustDirection,Vector3.up)*(Vector3.right*LocalGustMag);
-        Vector3 LocalGust = this.transform.InverseTransformDirection(Gust);
-        float ug = LocalGust.x + 1e-10f;
-        float vg = -LocalGust.z;
-        float wg = -LocalGust.y;
-        if(ug>0){LocalGustDirection = Mathf.Atan(vg/(ug+1e-10f))*Mathf.Rad2Deg;}
-        else{LocalGustDirection = Mathf.Atan(vg/(ug+1e-10f))*Mathf.Rad2Deg+vg/Mathf.Abs((vg+1e-10f))*180;}
-
-        // Calculate angles
-        Airspeed =    Mathf.Sqrt((u+ug)*(u+ug) + (v+vg)*(v+vg)+(w+wg)*(w+wg));
-        Groundspeed = Mathf.Sqrt(u*u + v*v);
-        ALT = PlaneRigidbody.position.y - SensorPositionY;
-        //Debug.Log(Groundspeed);
-        alpha = Mathf.Atan((w+wg)/(u+ug))*Mathf.Rad2Deg;
-        //Debug.Log(alpha);
-        
-        beta = Mathf.Atan((v+vg)/Airspeed)*Mathf.Rad2Deg;
-
-        // Wing and Tail
-        CLw = CLw0+aw*(alpha-alpha0);
-        CLt = CLt0+at*((alpha-alpha0)+(1f-CGE*(CLw/CLw0))*epsilon0+de*tau+((lt-dh*cMAC)/Airspeed)*q);
-        if(Mathf.Abs(CLw)>CLMAX){CLw = (CLw/Mathf.Abs(CLw))*CLMAX;} // Stall
-        if(Mathf.Abs(CLt)>CLMAX){CLt = (CLt/Mathf.Abs(CLt))*CLMAX;} // Stall
-
-        // Lift and Drag
-        CL = CLw+(St/Sw)*CLt; // CL
-        CD = CDp0*(1f+Mathf.Abs(Mathf.Pow((alpha/9f),3f)))+((CL*CL)/(Mathf.PI*ew*AR))*CGE; // CD
-
-        // Force
-        Cx = CL*Mathf.Sin(Mathf.Deg2Rad*alpha)-CD*Mathf.Cos(Mathf.Deg2Rad*alpha); // Cx
-        Cy = Cyb*beta+Cyp*(1f/Mathf.Rad2Deg)*((p*bw)/(2f*Airspeed))+Cyr*(1f/Mathf.Rad2Deg)*((r*bw)/(2f*Airspeed))+Cydr*dr; // Cy
-        Cz = -CL*Mathf.Cos(Mathf.Deg2Rad*alpha)-CD*Mathf.Sin(Mathf.Deg2Rad*alpha); // Cz
-
-        // Torque
-        Cl = Clb*beta+Clp*(1f/Mathf.Rad2Deg)*((p*bw)/(2f*Airspeed))+Clr*(1f/Mathf.Rad2Deg)*((r*bw)/(2f*Airspeed))+Cldr*dr; // Cl
-        Cm = Cmw0+CLw*hw-VH*CLt+CL*dh; // Cm       
-        Cn = Cnb*beta+Cnp*(1f/Mathf.Rad2Deg)*((p*bw)/(2f*Airspeed))+Cnr*(1f/Mathf.Rad2Deg)*((r*bw)/(2f*Airspeed))+Cndr*dr; // Cn
-
-        AerodynamicForce.x = 0.5f*rho*Airspeed*Airspeed*Sw*Cx;
-        AerodynamicForce.y = 0.5f*rho*Airspeed*Airspeed*Sw*(-Cz);
-        AerodynamicForce.z = 0.5f*rho*Airspeed*Airspeed*Sw*(-Cy);
-
-        AerodynamicMomentum.x = 0.5f*rho*Airspeed*Airspeed*Sw*bw*(-Cl);//roll
-        AerodynamicMomentum.y = 0.5f*rho*Airspeed*Airspeed*Sw*bw*Cn;//yaw
-        AerodynamicMomentum.z = 0.5f*rho*Airspeed*Airspeed*Sw*cMAC*Cm;//pitch
-
-        float Distance = (PlaneRigidbody.position-MyGameManeger.instance.PlatformPosition).magnitude-10f;
-        if(MyGameManeger.instance.FlightMode=="BirdmanRally" && Distance<-0.5f){
-            
-            CalculateRotation();
-            
-            float W = PlaneRigidbody.mass*Physics.gravity.magnitude;//重力
-            float L = 0.5f*rho*Airspeed*Airspeed*Sw*(Cx*Mathf.Sin(Mathf.Deg2Rad*theta)-Cz*Mathf.Cos(Mathf.Deg2Rad*theta));//揚力
-            float N = (W-L)*Mathf.Cos(Mathf.Deg2Rad*3.5f); // N=(W-L)*cos(3.5deg)//翼持ちの抵抗力
-            float P = (PlaneRigidbody.mass*MyGameManeger.instance.Airspeed_TO*MyGameManeger.instance.Airspeed_TO)/(2f*10f); // P=m*Vto*Vto/2*L//推進力
-            
-            //離陸方向をYaw回転に合わせて水平方向に修正
-            //Vector3 takeoffDirection = Quaternion.Euler(0f, MyGameManeger.instance.StartRotation, 0f) * Vector3.forward;
-            //TakeoffForce = takeoffDirection * P;
-
-            //TakeoffForce.y = N*Mathf.Cos(Mathf.Deg2Rad*3.5f);
-
-            //float TOFh = P;
-            //float TOFv = N*Mathf.Cos(Mathf.Deg2Rad*3.5f);
-            //TakeoffForce.x = TOFv*Mathf.Sin(MyGameManeger.instance.TailRotation) + TOFh*Mathf.Cos(MyGameManeger.instance.TailRotation);
-            //TakeoffForce.y = TOFv*Mathf.Cos(MyGameManeger.instance.TailRotation) - TOFh*Mathf.Sin(MyGameManeger.instance.TailRotation);
-            //Debug.Log("Power:"+P);
-            
-            TakeoffForce.x = P*Mathf.Cos(Mathf.Deg2Rad*MyGameManeger.instance.StartRotation);
-            TakeoffForce.y = N*Mathf.Cos(Mathf.Deg2Rad*3.5f);
-            TakeoffForce.z = -P*Mathf.Sin(Mathf.Deg2Rad*MyGameManeger.instance.StartRotation);
-            
-            AerodynamicForce.z = 0f;
-            AerodynamicMomentum.x = 0f;//
-            AerodynamicMomentum.y = 0f;
-
-            transform.rotation = Quaternion.Euler(transform.localEulerAngles.x, transform.localEulerAngles.y, MyGameManeger.instance.TailRotation);
-            //PlaneRigidbody.constraints = RigidbodyConstraints.FreezePositionZ;
-
-            if(AerodynamicMomentum.x <= 0){//左から右に吹く風 左翼がより大きな揚力を生む
-                if(Mathf.Abs(AerodynamicMomentum.x) > YL*YMin){//左翼が翼持ちの手を離れている状態
-                    //Debug.Log("A1");
-                    YlMoment = 0;//既に翼持ちを離れている為、翼持ちはモーメントを与えられない
-                }
-                else{
-                    //Debug.Log("B1");
-                    YlMoment = -YL*YMin - AerodynamicMomentum.x;//翼持ちが与えるモーメントは、機体を支える最小限のモーメントから風が与えるそれを引いた値である
-                }
-
-                if(Mathf.Abs(AerodynamicMomentum.x + YlMoment) <= YL*YrMax){//右翼持ちにまだ余裕がある状態
-                    //Debug.Log("C1");
-                    YrMoment = -(AerodynamicMomentum.x + YlMoment);//翼持ちに風と逆の翼持ちのモーメントを足した大きな負荷が掛かるが、まだ耐えられる
-                }else{
-                    //Debug.Log("D1");
-                    YrMoment = YL*YrMax;//つり合いが取れずに右翼持ちのモーメントが足りない状態
-                }
-
-            }else{//右から左に吹く風 右翼がより大きな揚力を生む
-                if(Mathf.Abs(AerodynamicMomentum.x) > YL*YMin){//右翼が翼持ちの手を離れている状態
-                    //Debug.Log("A2");
-                    YrMoment = 0;
-                }
-                else{
-                    //Debug.Log("B2");
-                    YrMoment = YL*YMin - AerodynamicMomentum.x;
-                }
-
-                if(Mathf.Abs(AerodynamicMomentum.x + YrMoment) <= YL*YlMax){//左翼持ちにまだ余裕がある状態
-                    //Debug.Log("C2");
-                    YlMoment = AerodynamicMomentum.x + YrMoment;
-                }else{
-                    //Debug.Log("D2");
-                    YlMoment = YL*YlMax;
-                }
-                
-            }
-            //Debug.Log("YlMoment:"+YlMoment+"YrMoment:"+YrMoment+"aeroX:"+AerodynamicMomentum.x);
-            //AerodynamicMomentum.x += YrMoment + YlMoment;//最終的なロールモーメントの計算//一旦消す
-            MyGameManeger.instance.TakeOff = false;
-        }
-        else{
-            MyGameManeger.instance.TakeOff = true;
-            //PlaneRigidbody.constraints = RigidbodyConstraints.None;
-        }
-        //else if(MyGameManeger.instance.FlightMode=="BirdmanRally" && !AddTaleForce){
-        //    AddTaleForce =true;
-        //}
-        //Debug.Log(AerodynamicForce.z);
-        PlaneRigidbody.AddRelativeForce(AerodynamicForce, ForceMode.Force);
-        PlaneRigidbody.AddRelativeTorque(AerodynamicMomentum, ForceMode.Force);
-        PlaneRigidbody.AddForce(TakeoffForce, ForceMode.Force);
-        nz = AerodynamicForce.y/(PlaneRigidbody.mass*Physics.gravity.magnitude);
-    }
-
-    void CalculateRotation()
-    {
-        float q1 = MyGameManeger.instance.Plane.transform.rotation.x;
-        float q2 = -MyGameManeger.instance.Plane.transform.rotation.y;
-        float q3 = -MyGameManeger.instance.Plane.transform.rotation.z;
-        float q4 = MyGameManeger.instance.Plane.transform.rotation.w;
-        float C11 = q1*q1-q2*q2-q3*q3+q4*q4;
-        float C22 = -q1*q1+q2*q2-q3*q3+q4*q4;
-        float C12 = 2f*(q1*q2+q3*q4);
-        float C13 = 2f*(q1*q3-q2*q4);
-        float C32 = 2f*(q2*q3-q1*q4);
-
-        phi = -Mathf.Atan(-C32/C22)*Mathf.Rad2Deg;
-        theta = -Mathf.Asin(C12)*Mathf.Rad2Deg; 
-        psi = -Mathf.Atan(-C13/C11)*Mathf.Rad2Deg;
+        FlightModelFixedUpdate();
     }
 
     void InputSpecifications()
-    {
-            if(MyGameManeger.instance.PlaneName == "QX-18"){
+    {   
+        if(MyGameManeger.instance.PlaneName == "QX-18"){
             // Plane
             PlaneRigidbody.mass = 93.875f; // [kg]
             PlaneRigidbody.centerOfMass = new Vector3(0f,0.221f,0f); // [m]
@@ -514,6 +320,51 @@ public class AerodynamicCalculator : SerialReceive
             Cnp = -0.142441f; // [1/rad]
             Cnr = -0.000491f; // [1/rad]
             Cndr = -0.000262f; // [1/deg]
+        }else if(MyGameManeger.instance.PlaneName == "QX-19"){
+            // Plane
+            PlaneRigidbody.mass = 96.631f;
+            PlaneRigidbody.centerOfMass = new Vector3(0f,0.294f,0f);
+            PlaneRigidbody.inertiaTensor = new Vector3(991f,1032f,60f);
+            PlaneRigidbody.inertiaTensorRotation = Quaternion.AngleAxis(-9.134f, Vector3.forward);
+            // Specification At Cruise without Ground Effect
+            Airspeed0 = 8.800f; // Magnitude of ground speed [m/s]
+            alpha0 = 1.554f; // Angle of attack [deg]
+            CDp0 = 0.019f; // Parasitic drag [-]
+            Cmw0 = -0.170f; // Pitching momentum [-]
+            CLMAX = 1.700f;
+            // Wing
+            Sw = 18.275f; // Wing area of wing [m^2]
+            bw = 26.418f; // Wing span [m]
+            cMAC = 0.736f; // Mean aerodynamic chord [m]
+            aw = 0.105f; // Wing Lift Slope [1/deg]
+            hw = (0.323f-0.250f); // Length between Wing a.c. and c.g.
+            ew = 1.010f; // Wing efficiency
+            AR = (bw*bw)/Sw; // Aspect Ratio
+            // Tail
+            Downwash = true; // Conventional Tail: True, T-Tail: False
+            St = 1.548f; // Wing area of tail
+            at = 0.082f; // Tail Lift Slope [1/deg]
+            lt = 3.200f; // Length between Tail a.c. and c.g.
+            deMAX = 10.000f; // Maximum elevator angle
+            tau = 1.000f; // Control surface angle of attack effectiveness [-]
+            VH = (St*lt)/(Sw*cMAC); // Tail Volume
+            // Fin
+            drMAX = 10.000f; // Maximum rudder angle            
+            // Ground Effect
+            CGEMIN = 0.361f; // Minimum Ground Effect Coefficient [-]
+            // Stability derivatives
+            Cyb = -0.005300f; // [1/deg]
+            Cyp = -0.567798f; // [1/rad]
+            Cyr = 0.225280f; // [1/rad]
+            Cydr = 0.001721f; // [1/deg]
+            Clb = -0.005118f; // [1/deg]
+            Clp = -0.827488f; // [1/rad]
+            Clr = 0.296796f; // [1/rad]
+            Cldr = 0.000050f; // [1/deg]
+            Cnb = -0.000808f; // [1/deg]
+            Cnp = -0.165533f; // [1/rad]
+            Cnr = 0.001675f; // [1/rad]
+            Cndr = -0.000208f; // [1/deg]
         }else if(MyGameManeger.instance.PlaneName == "Tatsumi"){
             // Plane//と見せかけた竜海です
             PlaneRigidbody.mass = 100f;
@@ -938,7 +789,7 @@ public class AerodynamicCalculator : SerialReceive
         {
             // Plane
             PlaneRigidbody.mass = 95.351f;
-            PlaneRigidbody.centerOfMass = new Vector3(0.3662f, -0.7296f, 0);//バランスボードが無いとき用の設定
+            PlaneRigidbody.centerOfMass = new Vector3(0.3662f, -0.7296f, 0);//
             PlaneRigidbody.inertiaTensor = new Vector3(1062.324f, 1111.022f, 62.217f); //Ixx, Izz, Iyy);
             PlaneRigidbody.inertiaTensorRotation = Quaternion.AngleAxis(-3.710f, Vector3.forward);
             // Specification At Cruise without Ground Effect
@@ -1041,9 +892,7 @@ else if (MyGameManeger.instance.PlaneName == "Ray")
             aircraftMass = 50;//機体のみ全重量[kg]
         }
 
-        //Debug.Log(CanReadCsv);
         if(CanReadCsv){//CSVファイルが読み込まれた場合は優先的にそちらのデータを利用
-
             try{
             // Plane
             PlaneRigidbody.mass = float.Parse(CsvList[1][1]);
@@ -1095,12 +944,16 @@ else if (MyGameManeger.instance.PlaneName == "Ray")
             lengthForward = float.Parse(CsvList[19][6]);//前センサーから吊り具(桁中心)までの長さ[m]
             lengthBackward = float.Parse(CsvList[20][6]);//吊り具(桁中心)から後センサーまでの長さ[m]
 
-            aircraftCenterOfMass = float.Parse(CsvList[21][6]);;//機体のみ全重心(パイロットなし,ピッチのみ)[m]
-            aircraftMass = float.Parse(CsvList[22][6]);;//機体のみ全重量[kg]
+            aircraftCenterOfMass = float.Parse(CsvList[21][6]);//機体のみ全重心(パイロットなし,ピッチのみ)[m]
+            aircraftMass = float.Parse(CsvList[22][6]);//機体のみ全重量[kg]
             pilotMass = PlaneRigidbody.mass - aircraftMass;//パイロット体重[kg]
 
-            YL = float.Parse(CsvList[23][6]);;//機体中心から翼持ち棒までの長さ[m]
-
+            YL = float.Parse(CsvList[23][6]);//機体中心から翼持ち棒までの長さ[m]
+            
+            SensorPositionY = float.Parse(CsvList[24][6]);//桁中心から垂直に線を超音波センサーの位置までおろした時の線の長さ[m]
+            SensorPositionZ = float.Parse(CsvList[25][6]);//↑の到達点から超音波センサーまでの長さ[m]
+            AircraftHight = float.Parse(CsvList[26][6]);//プラホから桁中心までの高さ
+            
             MyGameManeger.instance.error = true;
             MyGameManeger.instance.errorText = "CSVファイル読み込み成功";
 
@@ -1125,7 +978,6 @@ void ReadFile() {
         Debug.LogWarning("CSV file not found at: " + path);
         return;
     }
-
     FileInfo fi = new FileInfo(path);
     try {
         using (StreamReader sr = new StreamReader(fi.OpenRead(), Encoding.UTF8)) {
@@ -1146,7 +998,6 @@ void ReadFile() {
                 CsvList.Add(new List<string>(values));
             }
             CanReadCsv = true;
-
             /*//デバッグ用
             for(int ii=0;ii<10;ii++){
                 for(int jj=0;jj<38;jj++){
@@ -1159,5 +1010,9 @@ void ReadFile() {
         Debug.LogWarning("Error reading CSV: " + e);
     }
 }
+
+public virtual void FlightModelStart(){}
+
+public virtual void FlightModelFixedUpdate(){}
 
 }

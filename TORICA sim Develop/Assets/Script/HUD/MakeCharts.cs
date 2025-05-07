@@ -41,15 +41,24 @@ public class MakeCharts : MonoBehaviour
 
         xAxis = chart.EnsureChartComponent<XAxis>();
         yAxis = chart.EnsureChartComponent<YAxis>();
+
+        /*
+        xAxis.axisLabel.numericFormatter = "F0";
+        yAxis.axisLabel.numericFormatter = "F0";
+        */
+        
         xAxis.show = true;
         yAxis.show = true;
-        xAxis.type = Axis.AxisType.Value;
+        xAxis.type = Axis.AxisType.Category;
         yAxis.type = Axis.AxisType.Value;
-
+                
         xAxis.splitNumber = 5;
         xAxis.boundaryGap = true;
 
         chart.RemoveData();
+        // 設定を反映
+        chart.RefreshChart();
+
         SetAxis();
     }
 

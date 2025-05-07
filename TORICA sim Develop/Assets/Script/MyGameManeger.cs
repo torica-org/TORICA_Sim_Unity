@@ -21,11 +21,12 @@ public class MyGameManeger : MonoBehaviour
     [System.NonSerialized] public float MouseSensitivity = 1.000f; // Magnitude of Gust [m/s]
     [System.NonSerialized] public float GustMag = 0.000f; // Magnitude of Gust [m/s]
     [System.NonSerialized] public float GustDirection = 0.000f; // Direction of Gust [deg]: -180~180
-    [System.NonSerialized] public float Airspeed_TO = 5.000f; // Airspeed at take-off [m/s]
+    [System.NonSerialized] public float Airspeed_TO = 5.800f; // Airspeed at take-off [m/s]
     [System.NonSerialized] public float alpha_TO = 0.000f; // Angle of attack at take-off [deg]
     [System.NonSerialized] public string PlaneName;
     [System.NonSerialized] public string FlightMode = "BirdmanRally";
     [System.NonSerialized] public GameObject Plane = null;
+    [SerializeField] public string DefaultPlane = "Tatsumi";
     [System.NonSerialized] public Vector3 PlatformPosition = new Vector3(0f,10.5f,0f);
     [System.NonSerialized] public float StartRotation=0.0f;
     [System.NonSerialized] public float TailRotation=0.0f;
@@ -41,6 +42,7 @@ public class MyGameManeger : MonoBehaviour
     [System.NonSerialized] public float massRightFactor=1;
     [System.NonSerialized] public float massBackwardRightFactor=1;
     [System.NonSerialized] public float massBackwardLeftFactor=1;
+    [System.NonSerialized] public float DefaultFactor = 0.625f;
     //ジョイスティックの調整用係数(この係数をジョイスティックの値に割る)
     [System.NonSerialized] public float JoyStickFactor = 500;
     //エアデータ保存リスト
@@ -50,20 +52,19 @@ public class MyGameManeger : MonoBehaviour
     [System.NonSerialized] public List<float> BetaList = new List<float>();
     [System.NonSerialized] public List<float> ThetaList = new List<float>();
     [System.NonSerialized] public List<float> PhiList = new List<float>();
+    [System.NonSerialized] public List<float> PitchGravityList = new List<float>();
+    [System.NonSerialized] public List<float> drList = new List<float>();
     //エラー関係
     [System.NonSerialized] public string errorText;
-    [System.NonSerialized] public bool error = false;
-    
+    [System.NonSerialized] public bool error = false;//エラーテキストが発行されるか否か
 
     [System.NonSerialized] public bool FrameUseable = false;
-
-    [System.NonSerialized] public bool FirstLoad;
-
+    [System.NonSerialized] public bool FirstLoad;//シミュ起動後最初のシーンロードか否か
     [System.NonSerialized] public int SettingMode = 0;
-
     [System.NonSerialized] public bool TakeOff = false;
-
-    [System.NonSerialized] public float SoundBolume = 50;
+    [System.NonSerialized] public float SoundBolume = 0;
+    [System.NonSerialized] public string FlightModel;
+    [SerializeField] public string DefaultFlightModel = "isoSim1";
 
     // Start is called before the first frame update
     void Awake()
@@ -73,7 +74,6 @@ public class MyGameManeger : MonoBehaviour
             instance = this;
             FirstLoad = true;
             DontDestroyOnLoad(this.gameObject);
-            //SceneManager.LoadScene("FlightScene");
         }
         else
         {

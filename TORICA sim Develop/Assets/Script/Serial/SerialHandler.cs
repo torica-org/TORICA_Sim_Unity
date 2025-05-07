@@ -3,9 +3,17 @@ using System.Collections;
 using System.IO.Ports;
 using System.Threading;
 using UnityEngine.UI;
+using UnityEditor;
+using UnityEngine.SceneManagement;
 
 public class SerialHandler : MonoBehaviour
 {
+    public Text text;//通信状況を伝えるテキスト
+    public InputField inputField;//ポート番号入力フィールド
+    private bool Connection;
+    private bool refresh;
+    private bool frameError;
+
     public delegate void SerialDataReceivedEventHandler(string message);
     public event SerialDataReceivedEventHandler OnDataReceived;
 
@@ -29,12 +37,57 @@ public class SerialHandler : MonoBehaviour
         Open();
     }
 
+    void Start()
+    {
+        inputField.text = portName;
+        Connection = MyGameManeger.instance.FrameUseable;
+    }
+
     void Update()
     {
         if (isNewMessageReceived_) {
             OnDataReceived(message_);
         }
         isNewMessageReceived_ = false;
+
+        
+        if(refresh){
+            if(Connection){
+                string errorText = "フレーム使用可能、搭乗してください";
+                Debug.LogWarning(errorText);
+                text.text = errorText;
+
+                MyGameManeger.instance.FrameUseable = true;
+                refresh = false;
+            }
+            else{
+                string errorText = "マイコンとの接続、ポート番号を確認して再接続してください";
+                Debug.LogWarning(errorText);
+                text.text = errorText;
+
+                MyGameManeger.instance.FrameUseable = false;
+                refresh = false;
+            }
+        }
+
+        if(MyGameManeger.instance.FrameUseable != Connection){
+            if(!MyGameManeger.instance.FrameUseable){
+
+                string errorText = "センサーに接続されていません。配線を確認して再接続してください";
+                Debug.LogWarning(errorText);
+                text.text = errorText;
+
+                MyGameManeger.instance.FrameUseable = false;
+                refresh = false;
+                frameError = true;
+            }
+            else{
+                string errorText = "例外発生:開発者はFrameUseable変数の動向を確認してください";
+                Debug.LogWarning(errorText);
+                text.text = errorText;
+            }
+        }
+
     }
 
     void OnDestroy()
@@ -44,7 +97,7 @@ public class SerialHandler : MonoBehaviour
 
     protected virtual void Open()
     {
-        try{
+         try{
             serialPort_ = new SerialPort(portName, baudRate, Parity.None, 8, StopBits.One);
             serialPort_.DtrEnable= true;
 
@@ -63,8 +116,12 @@ public class SerialHandler : MonoBehaviour
         catch(System.Exception e)
         {
             Debug.LogWarning(e.Message);
-            Debug.LogWarning("フレーム使用不可能");
-            //text.text = "フレームと接続できませんでした。フレームを使用しない操作に切り替えます。";
+            string errorText = "マイコンとの接続、ポート番号を確認して再接続してください";
+            Debug.LogWarning(errorText);
+            text.text = errorText;
+
+            MyGameManeger.instance.FrameUseable = false;
+            refresh = false;
         }
     }
 
@@ -90,11 +147,19 @@ public class SerialHandler : MonoBehaviour
                 //message_ = serialPort_.ReadExisting();
                 message_ = serialPort_.ReadLine();
                 isNewMessageReceived_ = true;
-                //Debug.Log(message_);
+                if(!refresh && !frameError){
+                    Connection = true;
+                    refresh = true;
+                }
             } catch (System.Exception e) {
                 Debug.LogWarning(e.Message);
+                if(!refresh && !frameError){
+                    Connection = false;
+                    refresh = true;
+                }
             }
         }
+
     }
 
     public void Write(string message)
@@ -105,4 +170,17 @@ public class SerialHandler : MonoBehaviour
             Debug.LogWarning(e.Message);
         }
     }
+
+    public void SetPort()
+    {
+        text.text = "再設定中";
+        Close();
+        portName=inputField.text;
+        frameError = false;
+        refresh = false;
+        Open();
+        
+        //SceneManager.LoadScene("FlightScene");
+    }
+
 }

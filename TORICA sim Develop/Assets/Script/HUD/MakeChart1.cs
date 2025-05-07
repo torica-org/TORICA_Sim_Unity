@@ -17,14 +17,9 @@ public class MakeChart1 : MakeCharts
     }
 
     protected override void AddData()
-    {
-        //Debug.Log(MyGameManeger.instance.AirSpeedList[i]);
-        
+    {   
         chart.AddXAxisData(i*airdata.interval  +"s");
 
-        //Debug.Log(MyGameManeger.instance.ThetaList[i]);
-        //chart.AddData(0, MyGameManeger.instance.AirSpeedList[i]);
-        //chart.AddData(1, MyGameManeger.instance.AltList[i]);
         chart.AddData(0, MyGameManeger.instance.ThetaList[i]);
         chart.AddData(1, MyGameManeger.instance.AlphaList[i]);
 
