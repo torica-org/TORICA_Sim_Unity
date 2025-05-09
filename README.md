@@ -1,4 +1,4 @@
-# name
+# Name
 TORICA simulator(Made from BRSimulator https://github.com/mtkbirdman/BRSimulator/tree/main)
 
 # Overview
