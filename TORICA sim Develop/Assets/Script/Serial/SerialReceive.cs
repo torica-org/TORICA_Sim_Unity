@@ -17,6 +17,8 @@ public class SerialReceive : MonoBehaviour
     
     private SerialHandler serialHandler;
 
+    private bool isFirst = true;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -39,6 +41,11 @@ public class SerialReceive : MonoBehaviour
                 massBackwardRightNow = ExtractFromData(data[0],2);
                 massBackwardLeftNow = ExtractFromData(data[0],3);
                 JoyStickNow = ExtractFromData(data[0],4);
+
+                if(MyGameManeger.instance.FrameUseable && MyGameManeger.instance.JoyStickFirst){
+                    MyGameManeger.instance.JoyStick0 = JoyStickNow;
+                    MyGameManeger.instance.JoyStickFirst = false;
+                }
                 //Debug.Log(massRightNow+","+massLeftNow+","+massBackwardRightNow+","+massBackwardLeftNow);
             }
             catch(System.Exception e)//シリアル通信が不正の場合

@@ -264,7 +264,7 @@ public class AerodynamicCalculator : SerialReceive
 
         if(MyGameManeger.instance.FrameUseable){
             //↓必要な処理
-            dr = ((JoyStickNow-MyGameManeger.instance.JoyStick0)/500)*drMAX;
+            dr = ((JoyStickNow-MyGameManeger.instance.JoyStick0)/MyGameManeger.instance.JoyStickFactor)*drMAX;
         }
     }
     

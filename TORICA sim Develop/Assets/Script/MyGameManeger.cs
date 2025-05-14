@@ -44,7 +44,8 @@ public class MyGameManeger : MonoBehaviour
     [System.NonSerialized] public float massBackwardLeftFactor=1;
     [System.NonSerialized] public float DefaultFactor = 0.625f;
     //ジョイスティックの調整用係数(この係数をジョイスティックの値に割る)
-    [System.NonSerialized] public float JoyStickFactor = 500;
+    [System.NonSerialized] public float JoyStickFactor = 260;
+    [System.NonSerialized] public bool JoyStickFirst = true;
     //エアデータ保存リスト
     [System.NonSerialized] public List<float> AirSpeedList = new List<float>();
     [System.NonSerialized] public List<float> AltList = new List<float>();

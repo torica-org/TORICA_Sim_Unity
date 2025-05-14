@@ -10,6 +10,7 @@ public class StartMethod : MonoBehaviour
     [SerializeField] private SettingController settingController;
     [SerializeField] private ModelInstantiater modelInstantiater;
     [SerializeField] private FlightModelController flightModelController;
+    [SerializeField] private ChangeFlightModel changeFlightModel;
     private GameObject PlaneParent;
 
     void OnEnable(){
@@ -18,6 +19,8 @@ public class StartMethod : MonoBehaviour
         settingController.OnEnables();
 
         modelInstantiater.OnEnables();
+
+        changeFlightModel.OnEnables();
 
         flightModelController.OnEnables();
 

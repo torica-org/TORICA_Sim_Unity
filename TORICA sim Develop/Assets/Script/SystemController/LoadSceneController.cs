@@ -23,7 +23,7 @@ public class LoadSceneController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetMouseButton(2) || Input.GetButtonDown("ResetButton") || (OnJoyStickReset && 0.9f <= ((script.JoyStickNow-MyGameManeger.instance.JoyStick0)/MyGameManeger.instance.JoyStickFactor) && ((script.JoyStickNow-MyGameManeger.instance.JoyStick0)/MyGameManeger.instance.JoyStickFactor) <= 1.0f)){
+        if(Input.GetMouseButton(2) || Input.GetButtonDown("ResetButton") || (OnJoyStickReset && 0.5f <= ((script.JoyStickNow-MyGameManeger.instance.JoyStick0)/MyGameManeger.instance.JoyStickFactor) && ((script.JoyStickNow-MyGameManeger.instance.JoyStick0)/MyGameManeger.instance.JoyStickFactor) <= 1.0f)){
             if(MyGameManeger.instance.EnterFlight){
                 MyGameManeger.instance.SettingMode = 0;
             }

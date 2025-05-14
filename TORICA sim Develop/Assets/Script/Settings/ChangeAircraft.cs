@@ -7,7 +7,6 @@ using UnityEngine.SceneManagement;
 public class ChangeAircraft : MonoBehaviour
 {
     private bool s=false;
-    //public static string DefaultPlane="Tatsumi";
     private bool sameLoad;
 
     // Start is called before the first frame update
@@ -31,15 +30,6 @@ public class ChangeAircraft : MonoBehaviour
         AircraftList.Add("Gardenia");
         AircraftList.Add("Aria");
         AircraftList.Add("Camellia");
-
-        /*
-        GameObject[] prefabs = Resources.LoadAll<GameObject>("");
-        // forループでLengthまで回す
-        for (int i = 0; i < prefabs.Length; i++)
-        {
-            AircraftList.Add(prefabs[i].name);
-        }
-        */
 
         //DropdownコンポーネントのOptionsという項目にOptionsのリストがありました
         //それを編集するためにDropdownコンポーネントを取得

@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class isoSim2 : AerodynamicCalculator
+public class isoSim1 : AerodynamicCalculator
 {
     public override void FlightModelStart(){
+        Debug.Log("isoSim1");
         // Set take-off speed
         if(MyGameManeger.instance.FlightMode=="BirdmanRally"){
             //MyGameManeger.instance.Airspeed_TO = 5.0f; // Airspeed at take-off [m/s]
@@ -36,12 +37,17 @@ public class isoSim2 : AerodynamicCalculator
         PlaneRigidbody.centerOfMass = new Vector3(pitchGravity,PlaneRigidbody.centerOfMass.y,PlaneRigidbody.centerOfMass.z);
 
         //hwに代入する重心位置(%MAC)を計算
-        hw2= hw0-(pitchGravity*0.85f/cMAC);
+        hw2= hw0-(pitchGravity/cMAC);
         //hwに代入
         hw = hw2;
 
-        lt = lt0 + pitchGravity*0.85f;
+        lt = lt0 + pitchGravity;
 
+        float Iyy = (85.6f*pitchGravity*pitchGravity)+(38.63f*pitchGravity)+1254.75f;
+        Vector3 tensor = PlaneRigidbody.inertiaTensor;
+        tensor.y = Iyy;
+        PlaneRigidbody.inertiaTensor = tensor;
+        Debug.Log(Iyy);
 
         // Velocity and AngularVelocity
         float u = transform.InverseTransformDirection(PlaneRigidbody.velocity).x;
@@ -51,6 +57,7 @@ public class isoSim2 : AerodynamicCalculator
         float q = transform.InverseTransformDirection(PlaneRigidbody.angularVelocity).z*Mathf.Rad2Deg;
         float r = transform.InverseTransformDirection(PlaneRigidbody.angularVelocity).y*Mathf.Rad2Deg;
         float hE = PlaneRigidbody.position.y;
+        float Distance = (PlaneRigidbody.position-MyGameManeger.instance.PlatformPosition).magnitude-10f;
 
         // Force and Momentum
         Vector3 AerodynamicForce = Vector3.zero;
@@ -59,7 +66,11 @@ public class isoSim2 : AerodynamicCalculator
 
         // Hoerner and Borst (Modified)
         CGE = (CGEMIN+33f*Mathf.Pow((hE/bw),1.5f))/(1f+33f*Mathf.Pow((hE/bw),1.5f));
-        
+        if(MyGameManeger.instance.FlightMode=="BirdmanRally" && Distance<-0.5f){
+            //CGE = (CGEMIN+33f*Mathf.Pow((hE/bw),1.5f))/(1f+33f*Mathf.Pow((hE/bw),1.5f));
+            CGE = (CGEMIN+33f*Mathf.Pow((AircraftHight/bw),1.5f))/(1f+33f*Mathf.Pow((AircraftHight/bw),1.5f));
+        }
+        //Debug.Log(CGE);
         //if (MyGameManeger.instance.MousePitchControl){
         //    dh = -(Input.mousePosition.y-dh0)*0.0002f*MyGameManeger.instance.MouseSensitivity;
         //}
@@ -107,12 +118,11 @@ public class isoSim2 : AerodynamicCalculator
         AerodynamicForce.x = 0.5f*rho*Airspeed*Airspeed*Sw*Cx;
         AerodynamicForce.y = 0.5f*rho*Airspeed*Airspeed*Sw*(-Cz);
         AerodynamicForce.z = 0.5f*rho*Airspeed*Airspeed*Sw*(-Cy);
-
+        Debug.Log("CLt"+CLt+"CL"+CL+"Cz"+Cz+"z"+AerodynamicForce.y);
         AerodynamicMomentum.x = 0.5f*rho*Airspeed*Airspeed*Sw*bw*(-Cl);//roll
         AerodynamicMomentum.y = 0.5f*rho*Airspeed*Airspeed*Sw*bw*Cn;//yaw
         AerodynamicMomentum.z = 0.5f*rho*Airspeed*Airspeed*Sw*cMAC*Cm;//pitch
 
-        float Distance = (PlaneRigidbody.position-MyGameManeger.instance.PlatformPosition).magnitude-10f;
         if(MyGameManeger.instance.FlightMode=="BirdmanRally" && Distance<-0.5f){
             
             CalculateRotation();
@@ -142,7 +152,7 @@ public class isoSim2 : AerodynamicCalculator
             AerodynamicMomentum.x = 0f;//
             AerodynamicMomentum.y = 0f;
 
-            transform.rotation = Quaternion.Euler(transform.localEulerAngles.x, transform.localEulerAngles.y, MyGameManeger.instance.TailRotation);
+            //transform.rotation = Quaternion.Euler(transform.localEulerAngles.x, transform.localEulerAngles.y, MyGameManeger.instance.TailRotation);
             //PlaneRigidbody.constraints = RigidbodyConstraints.FreezePositionZ;
 
             if(AerodynamicMomentum.x <= 0){//左から右に吹く風 左翼がより大きな揚力を生む

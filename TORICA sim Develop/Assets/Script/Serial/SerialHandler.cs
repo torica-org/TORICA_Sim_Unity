@@ -56,7 +56,6 @@ public class SerialHandler : MonoBehaviour
                 string errorText = "フレーム使用可能、搭乗してください";
                 Debug.LogWarning(errorText);
                 text.text = errorText;
-
                 MyGameManeger.instance.FrameUseable = true;
                 refresh = false;
             }
