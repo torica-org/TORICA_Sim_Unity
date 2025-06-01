@@ -7,6 +7,7 @@ public class FlightModelController : MonoBehaviour
     public void OnEnables()
     {
         if(MyGameManeger.instance.FlightModel == null){
+            Debug.Log("FlightModel is null");
             MyGameManeger.instance.FlightModel = MyGameManeger.instance.DefaultFlightModel;
         }
 
