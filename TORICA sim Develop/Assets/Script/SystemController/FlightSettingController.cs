@@ -34,7 +34,7 @@ public class FlightSettingController : MonoBehaviour
     void Update()
     {
         if(-0.5f >= ((script.JoyStickNow-MyGameManeger.instance.JoyStick0)/MyGameManeger.instance.JoyStickFactor) && ((script.JoyStickNow-MyGameManeger.instance.JoyStick0)/MyGameManeger.instance.JoyStickFactor) >= -1.0f && !MyGameManeger.instance.EnterFlight){
-            //OnStartTrigger = true;
+            OnStartTrigger = true;
         }
 
         if( (Input.GetButtonDown("StartButton") || OnStartTrigger) && !MyGameManeger.instance.EnterFlight){

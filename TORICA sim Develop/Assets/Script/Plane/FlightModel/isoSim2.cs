@@ -43,6 +43,10 @@ public class isoSim2 : AerodynamicCalculator
 
         lt = lt0 + pitchGravity*0.85f;
 
+        float Iyy = (85.6f*pitchGravity*pitchGravity)+(38.63f*pitchGravity)+1254.75f;
+        Vector3 tensor = PlaneRigidbody.inertiaTensor;
+        tensor.y = Iyy;
+        PlaneRigidbody.inertiaTensor = tensor;
 
         // Velocity and AngularVelocity
         float u = transform.InverseTransformDirection(PlaneRigidbody.velocity).x;
@@ -52,6 +56,7 @@ public class isoSim2 : AerodynamicCalculator
         float q = transform.InverseTransformDirection(PlaneRigidbody.angularVelocity).z*Mathf.Rad2Deg;
         float r = transform.InverseTransformDirection(PlaneRigidbody.angularVelocity).y*Mathf.Rad2Deg;
         float hE = PlaneRigidbody.position.y;
+        float Distance = (PlaneRigidbody.position-MyGameManeger.instance.PlatformPosition).magnitude-10f;
 
         // Force and Momentum
         Vector3 AerodynamicForce = Vector3.zero;
@@ -60,7 +65,12 @@ public class isoSim2 : AerodynamicCalculator
 
         // Hoerner and Borst (Modified)
         CGE = (CGEMIN+33f*Mathf.Pow((hE/bw),1.5f))/(1f+33f*Mathf.Pow((hE/bw),1.5f));
-        
+        if(MyGameManeger.instance.FlightMode=="BirdmanRally" && Distance<-0.5f){
+            //CGE = (CGEMIN+33f*Mathf.Pow((hE/bw),1.5f))/(1f+33f*Mathf.Pow((hE/bw),1.5f));
+            PlaneRigidbody.mass = aircraftMass;
+            CGE = (CGEMIN+33f*Mathf.Pow((AircraftHight/bw),1.5f))/(1f+33f*Mathf.Pow((AircraftHight/bw),1.5f));
+        }
+
         //if (MyGameManeger.instance.MousePitchControl){
         //    dh = -(Input.mousePosition.y-dh0)*0.0002f*MyGameManeger.instance.MouseSensitivity;
         //}
@@ -113,14 +123,13 @@ public class isoSim2 : AerodynamicCalculator
         AerodynamicMomentum.y = 0.5f*rho*Airspeed*Airspeed*Sw*bw*Cn;//yaw
         AerodynamicMomentum.z = 0.5f*rho*Airspeed*Airspeed*Sw*cMAC*Cm;//pitch
 
-        float Distance = (PlaneRigidbody.position-MyGameManeger.instance.PlatformPosition).magnitude-10f;
         if(MyGameManeger.instance.FlightMode=="BirdmanRally" && Distance<-0.5f){
-            
             CalculateRotation();
             
             float W = PlaneRigidbody.mass*Physics.gravity.magnitude;//重力
             float L = 0.5f*rho*Airspeed*Airspeed*Sw*(Cx*Mathf.Sin(Mathf.Deg2Rad*theta)-Cz*Mathf.Cos(Mathf.Deg2Rad*theta));//揚力
             float N = (W-L)*Mathf.Cos(Mathf.Deg2Rad*3.5f); // N=(W-L)*cos(3.5deg)//翼持ちの抵抗力
+            if(W-L<0){N=0;}
             float P = (PlaneRigidbody.mass*MyGameManeger.instance.Airspeed_TO*MyGameManeger.instance.Airspeed_TO)/(2f*10f); // P=m*Vto*Vto/2*L//推進力
             
             //離陸方向をYaw回転に合わせて水平方向に修正
@@ -136,11 +145,11 @@ public class isoSim2 : AerodynamicCalculator
             //Debug.Log("Power:"+P);
             
             TakeoffForce.x = P*Mathf.Cos(Mathf.Deg2Rad*MyGameManeger.instance.StartRotation);
-            TakeoffForce.y = N*Mathf.Cos(Mathf.Deg2Rad*3.5f);
+            TakeoffForce.y = N/* *Mathf.Cos(Mathf.Deg2Rad*3.5f)*/;
             TakeoffForce.z = -P*Mathf.Sin(Mathf.Deg2Rad*MyGameManeger.instance.StartRotation);
             
             AerodynamicForce.z = 0f;
-            AerodynamicMomentum.x = 0f;//
+            //AerodynamicMomentum.x = 0f;//
             AerodynamicMomentum.y = 0f;
 
             transform.rotation = Quaternion.Euler(transform.localEulerAngles.x, transform.localEulerAngles.y, MyGameManeger.instance.TailRotation);
@@ -184,17 +193,17 @@ public class isoSim2 : AerodynamicCalculator
                 
             }
             //Debug.Log("YlMoment:"+YlMoment+"YrMoment:"+YrMoment+"aeroX:"+AerodynamicMomentum.x);
-            //AerodynamicMomentum.x += YrMoment + YlMoment;//最終的なロールモーメントの計算//一旦消す
+            AerodynamicMomentum.x += YrMoment + YlMoment;//最終的なロールモーメントの計算//一旦消す
             MyGameManeger.instance.TakeOff = false;
         }
         else{
+            PlaneRigidbody.mass = pilotMass + aircraftMass;
             MyGameManeger.instance.TakeOff = true;
             //PlaneRigidbody.constraints = RigidbodyConstraints.None;
         }
         //else if(MyGameManeger.instance.FlightMode=="BirdmanRally" && !AddTaleForce){
         //    AddTaleForce =true;
         //}
-        //Debug.Log(AerodynamicForce.z);
         PlaneRigidbody.AddRelativeForce(AerodynamicForce, ForceMode.Force);
         PlaneRigidbody.AddRelativeTorque(AerodynamicMomentum, ForceMode.Force);
         PlaneRigidbody.AddForce(TakeoffForce, ForceMode.Force);

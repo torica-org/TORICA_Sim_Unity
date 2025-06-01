@@ -118,7 +118,7 @@ public class isoSim1 : AerodynamicCalculator
         AerodynamicForce.x = 0.5f*rho*Airspeed*Airspeed*Sw*Cx;
         AerodynamicForce.y = 0.5f*rho*Airspeed*Airspeed*Sw*(-Cz);
         AerodynamicForce.z = 0.5f*rho*Airspeed*Airspeed*Sw*(-Cy);
-        Debug.Log("CLt"+CLt+"CL"+CL+"Cz"+Cz+"z"+AerodynamicForce.y);
+        //Debug.Log("CLt"+CLt+"CL"+CL+"Cz"+Cz+"z"+AerodynamicForce.y);
         AerodynamicMomentum.x = 0.5f*rho*Airspeed*Airspeed*Sw*bw*(-Cl);//roll
         AerodynamicMomentum.y = 0.5f*rho*Airspeed*Airspeed*Sw*bw*Cn;//yaw
         AerodynamicMomentum.z = 0.5f*rho*Airspeed*Airspeed*Sw*cMAC*Cm;//pitch

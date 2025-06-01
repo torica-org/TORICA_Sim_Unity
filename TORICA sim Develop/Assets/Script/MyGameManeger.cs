@@ -44,7 +44,7 @@ public class MyGameManeger : MonoBehaviour
     [System.NonSerialized] public float massBackwardLeftFactor=1;
     [System.NonSerialized] public float DefaultFactor = 0.625f;
     //ジョイスティックの調整用係数(この係数をジョイスティックの値に割る)
-    [System.NonSerialized] public float JoyStickFactor = 260;
+    [System.NonSerialized] public float JoyStickFactor = 500;
     [System.NonSerialized] public bool JoyStickFirst = true;
     //エアデータ保存リスト
     [System.NonSerialized] public List<float> AirSpeedList = new List<float>();
@@ -65,7 +65,7 @@ public class MyGameManeger : MonoBehaviour
     [System.NonSerialized] public bool TakeOff = false;
     [System.NonSerialized] public float SoundBolume = 0;
     [System.NonSerialized] public string FlightModel;
-    [SerializeField] public string DefaultFlightModel = "isoSim1";
+    [SerializeField] public string DefaultFlightModel = "isoSim2";
 
     // Start is called before the first frame update
     void Awake()

@@ -16,8 +16,9 @@ public class ChangeFlightModel : MonoBehaviour
         List<string> FlightModelList = new List<string>();
 
         //Optionsに表示する文字列をリストに追加
-        FlightModelList.Add("isoSim1");
+        //
         FlightModelList.Add("isoSim2");
+        FlightModelList.Add("isoSim1");
 
         //DropdownコンポーネントのOptionsという項目にOptionsのリストがありました
         //それを編集するためにDropdownコンポーネントを取得
