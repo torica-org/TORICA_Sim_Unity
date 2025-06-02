@@ -11,7 +11,7 @@ public class MyCameraController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        FPSCamera = MyGameManeger.instance.Plane.transform.Find("FPSCamera").gameObject.GetComponent<Camera>();
+        FPSCamera = MyGameManeger.instance.Plane.transform.Find("[CameraRig]/FPSCamera").gameObject.GetComponent<Camera>();
         TPSCamera = MyGameManeger.instance.Plane.transform.Find("TPSCamera").gameObject.GetComponent<Camera>();
         HorizontalLine = GameObject.Find("HUD").transform.Find("HorizontalLine").gameObject;
 
