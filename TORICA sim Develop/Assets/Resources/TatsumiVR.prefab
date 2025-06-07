@@ -385,7 +385,7 @@ GameObject:
   - component: {fileID: 8113092960721996751}
   - component: {fileID: 8113092960721996749}
   m_Layer: 6
-  m_Name: Tatsumi
+  m_Name: TatsumiVR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
