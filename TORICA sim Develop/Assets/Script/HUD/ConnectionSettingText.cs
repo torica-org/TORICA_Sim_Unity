@@ -40,6 +40,6 @@ public class ConnectionSettingText : MonoBehaviour
             scoreText.text += Math.Round(script.pitchGravityPilot,3,  MidpointRounding.AwayFromZero)+"\n";
             scoreText.text += Math.Round(script.dr,3,  MidpointRounding.AwayFromZero)+"\n";
         //}
-
+        scoreText.text += MyGameManeger.instance.VRMode ? "VRモード" : "非VRモード";
     }
 }

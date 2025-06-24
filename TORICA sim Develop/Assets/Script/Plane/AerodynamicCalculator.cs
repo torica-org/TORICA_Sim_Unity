@@ -266,6 +266,10 @@ public class AerodynamicCalculator : SerialReceive
             //↓必要な処理
             dr = ((JoyStickNow-MyGameManeger.instance.JoyStick0)/MyGameManeger.instance.JoyStickFactor)*drMAX;
         }
+
+        if(MyGameManeger.instance.RudderError && MyGameManeger.instance.RudderErrorValue != 999f){
+            dr = MyGameManeger.instance.RudderErrorValue*drMAX;
+        }
     }
     
     void FixedUpdate()
