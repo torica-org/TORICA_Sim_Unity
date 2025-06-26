@@ -76,7 +76,7 @@ public class isoSim2 : AerodynamicCalculator
         //}
 
         // Gust
-        LocalGustMag = MyGameManeger.instance.GustMag*Mathf.Pow((hE/hE0),1f/7f);
+        LocalGustMag = (MyGameManeger.instance.GustMag + MyGameManeger.instance.GustRandValue)*Mathf.Pow((hE/hE0),1f/7f);
         Gust = Quaternion.AngleAxis(MyGameManeger.instance.GustDirection,Vector3.up)*(Vector3.right*LocalGustMag);
         Vector3 LocalGust = this.transform.InverseTransformDirection(Gust);
         float ug = LocalGust.x + 1e-10f;

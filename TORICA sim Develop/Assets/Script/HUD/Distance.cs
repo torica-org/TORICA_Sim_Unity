@@ -23,5 +23,8 @@ public class Distance : MonoBehaviour
         if(MyGameManeger.instance.FlightMode=="BirdmanRally"){Distance-=10f;}
 
         scoreText.text = "\n" + Distance.ToString("0.000");
+        if(MyGameManeger.instance.RudderErrorMode == 0){
+            
+        }        
     }
 }
