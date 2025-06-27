@@ -13,7 +13,7 @@ public class MyCameraController : MonoBehaviour
     {
         if (MyGameManeger.instance.VRMode)
         {
-            FPSCamera = MyGameManeger.instance.Plane.transform.Find("[CameraRig]/FPSCamera").gameObject.GetComponent<Camera>();
+            FPSCamera = MyGameManeger.instance.Plane.transform.Find("VRItem/[CameraRig]/FPSCamera").gameObject.GetComponent<Camera>();
         }
         else
         {
