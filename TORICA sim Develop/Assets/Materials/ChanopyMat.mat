@@ -34,7 +34,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Alpha: 0.3
+    - _Alpha: 0.5
     - _BlurAmount: 0
     - _FresnelColor: 0
     - _FresnelPower: 0
