@@ -43,10 +43,13 @@ public class isoSim2 : AerodynamicCalculator
 
         lt = lt0 + pitchGravity*0.85f;
 
-        float Iyy = (85.6f*pitchGravity*pitchGravity)+(38.63f*pitchGravity)+1254.75f;
-        Vector3 tensor = PlaneRigidbody.inertiaTensor;
-        tensor.y = Iyy;
-        PlaneRigidbody.inertiaTensor = tensor;
+        if(MyGameManeger.instance.PlaneName == "Tatsumi"){
+            float Iyy = (85.6f*pitchGravity*pitchGravity)+(38.63f*pitchGravity)+1241.85f;
+            Vector3 tensor = PlaneRigidbody.inertiaTensor;
+            tensor.y = Iyy;
+            PlaneRigidbody.inertiaTensor = tensor;
+        }
+
 
         // Velocity and AngularVelocity
         float u = transform.InverseTransformDirection(PlaneRigidbody.velocity).x;
