@@ -5,22 +5,26 @@ using UnityEngine;
 public class AircraftVrSetting : MonoBehaviour
 {
     private bool nowSetting;
-    [SerializeField] private GameObject VRModeObjects;
+    private GameObject VRModeObjects;
     [SerializeField] private GameObject NonVRModeObjects;
+    private GameObject obj;
 
     void Start()
     {
         nowSetting = MyGameManeger.instance.VRMode;
+        VRModeObjects = (GameObject)Resources.Load("VR_Item");
+
         if (nowSetting)
         {
             //VRモード
-            VRModeObjects.SetActive(true);
+            obj = Instantiate(VRModeObjects, new Vector3(VRModeObjects.transform.position.x,VRModeObjects.transform.position.y,VRModeObjects.transform.position.z), Quaternion.identity);
             NonVRModeObjects.SetActive(false);
+            obj.transform.parent = MyGameManeger.instance.Plane.transform;
         }
         else
         {
             //非VRモード
-            VRModeObjects.SetActive(false);
+            Destroy(obj);
             NonVRModeObjects.SetActive(true);
         }
     }
@@ -34,13 +38,14 @@ public class AircraftVrSetting : MonoBehaviour
             if (nowSetting)
             {
                 //VRモード
-                VRModeObjects.SetActive(true);
+                obj = Instantiate(VRModeObjects, new Vector3(VRModeObjects.transform.position.x,VRModeObjects.transform.position.y,VRModeObjects.transform.position.z), Quaternion.identity);
                 NonVRModeObjects.SetActive(false);
+                obj.transform.parent = MyGameManeger.instance.Plane.transform;
             }
             else
             {
                 //非VRモード
-                VRModeObjects.SetActive(false);
+                Destroy(obj);
                 NonVRModeObjects.SetActive(true);
             }
         }
