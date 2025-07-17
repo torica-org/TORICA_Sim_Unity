@@ -49,5 +49,12 @@ public class ErrorRandController : MonoBehaviour
         else{
             MyGameManeger.instance.RudderRandValue = 1f;
         }
+        if(MyGameManeger.instance.CgeRand){
+            MyGameManeger.instance.CgeRandValue = RandomUtils.RangeByCentralLimit(0.7f, 1.5f);//地面効果係数にかけてゆらぎをもたらす
+        }
+        else{
+            MyGameManeger.instance.CgeRandValue = 1f;
+        }
+
     }
 }

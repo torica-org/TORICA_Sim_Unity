@@ -25,7 +25,7 @@ public class SettingController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown("tab") && !MyGameManeger.instance.FlightSettingActive){
+        if(Input.GetKeyDown("tab") && !MyGameManeger.instance.FlightSettingActive && !MyGameManeger.instance.Landing){
             MyGameManeger.instance.SettingActive = !MyGameManeger.instance.SettingActive;
             Setting.SetActive(MyGameManeger.instance.SettingActive);
             Time.timeScale=(float)Convert.ToInt32(!MyGameManeger.instance.FlightSettingActive & !MyGameManeger.instance.SettingActive & !MyGameManeger.instance.Landing);

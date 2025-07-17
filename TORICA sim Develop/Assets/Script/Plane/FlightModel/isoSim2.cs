@@ -71,7 +71,7 @@ public class isoSim2 : AerodynamicCalculator
         if(MyGameManeger.instance.FlightMode=="BirdmanRally" && Distance<-0.5f){
             //CGE = (CGEMIN+33f*Mathf.Pow((hE/bw),1.5f))/(1f+33f*Mathf.Pow((hE/bw),1.5f));
             PlaneRigidbody.mass = aircraftMass;
-            CGE = (CGEMIN+33f*Mathf.Pow((AircraftHight/bw),1.5f))/(1f+33f*Mathf.Pow((AircraftHight/bw),1.5f));
+            CGE = (CGEMIN+33f*Mathf.Pow((1.5f/bw),1.5f))/(1f+33f*Mathf.Pow((1.5f/bw),1.5f));
         }
 
         //if (MyGameManeger.instance.MousePitchControl){
@@ -91,7 +91,8 @@ public class isoSim2 : AerodynamicCalculator
         // Calculate angles
         Airspeed =    Mathf.Sqrt((u+ug)*(u+ug) + (v+vg)*(v+vg)+(w+wg)*(w+wg));
         Groundspeed = Mathf.Sqrt(u*u + v*v);
-        ALT = PlaneRigidbody.position.y - SensorPositionY;
+        //ALT = PlaneRigidbody.position.y - SensorPositionY;
+        ALT = SensorPoint.transform.position.y;
         //Debug.Log(Groundspeed);
         alpha = Mathf.Atan((w+wg)/(u+ug))*Mathf.Rad2Deg;
         //Debug.Log(alpha);

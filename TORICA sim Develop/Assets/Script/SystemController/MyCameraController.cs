@@ -7,6 +7,7 @@ public class MyCameraController : MonoBehaviour
     private GameObject HorizontalLine;
     private Camera FPSCamera; // Camera
     private Camera TPSCamera; // Camera
+    private bool VRModeNow;
 
     // Start is called before the first frame update
     void Start()
@@ -21,6 +22,7 @@ public class MyCameraController : MonoBehaviour
         }
         TPSCamera = MyGameManeger.instance.Plane.transform.Find("TPSCamera").gameObject.GetComponent<Camera>();
         HorizontalLine = GameObject.Find("HUD").transform.Find("HorizontalLine").gameObject;
+        VRModeNow = MyGameManeger.instance.VRMode;
 
         //MyGameManeger.instance.CameraSwitch = true:FPS false:TPS
         TPSCamera.enabled = !MyGameManeger.instance.CameraSwitch;
@@ -31,6 +33,17 @@ public class MyCameraController : MonoBehaviour
     void Update()
     {
         if(Input.GetKeyDown("v")){SwitchCamera();}
+
+        if(VRModeNow != MyGameManeger.instance.VRMode){
+            if(MyGameManeger.instance.VRMode){
+                FPSCamera = MyGameManeger.instance.Plane.transform.Find("VR_Item(Clone)/[CameraRig]/FPSCamera").gameObject.GetComponent<Camera>();
+                VRModeNow = MyGameManeger.instance.VRMode;
+            }else{
+                FPSCamera = MyGameManeger.instance.Plane.transform.Find("FPSCamera").gameObject.GetComponent<Camera>();
+                VRModeNow = MyGameManeger.instance.VRMode;
+            }
+        }
+
     }
 
     void SwitchCamera()

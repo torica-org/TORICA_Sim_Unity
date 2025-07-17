@@ -43,11 +43,12 @@ public class isoSim1 : AerodynamicCalculator
 
         lt = lt0 + pitchGravity;
 
-        float Iyy = (85.6f*pitchGravity*pitchGravity)+(38.63f*pitchGravity)+1254.75f;
-        Vector3 tensor = PlaneRigidbody.inertiaTensor;
-        tensor.y = Iyy;
-        PlaneRigidbody.inertiaTensor = tensor;
-        Debug.Log(Iyy);
+        if(MyGameManeger.instance.PlaneName == "Tatsumi"){
+            float Iyy = (85.6f*pitchGravity*pitchGravity)+(38.63f*pitchGravity)+1241.85f;
+            Vector3 tensor = PlaneRigidbody.inertiaTensor;
+            tensor.y = Iyy;
+            PlaneRigidbody.inertiaTensor = tensor;
+        }
 
         // Velocity and AngularVelocity
         float u = transform.InverseTransformDirection(PlaneRigidbody.velocity).x;
@@ -68,7 +69,7 @@ public class isoSim1 : AerodynamicCalculator
         CGE = (CGEMIN+33f*Mathf.Pow((hE/bw),1.5f))/(1f+33f*Mathf.Pow((hE/bw),1.5f));
         if(MyGameManeger.instance.FlightMode=="BirdmanRally" && Distance<-0.5f){
             //CGE = (CGEMIN+33f*Mathf.Pow((hE/bw),1.5f))/(1f+33f*Mathf.Pow((hE/bw),1.5f));
-            CGE = (CGEMIN+33f*Mathf.Pow((AircraftHight/bw),1.5f))/(1f+33f*Mathf.Pow((AircraftHight/bw),1.5f));
+            CGE = (CGEMIN+33f*Mathf.Pow((1.5f/bw),1.5f))/(1f+33f*Mathf.Pow((1.5f/bw),1.5f));
         }
         //Debug.Log(CGE);
         //if (MyGameManeger.instance.MousePitchControl){
@@ -88,7 +89,7 @@ public class isoSim1 : AerodynamicCalculator
         // Calculate angles
         Airspeed =    Mathf.Sqrt((u+ug)*(u+ug) + (v+vg)*(v+vg)+(w+wg)*(w+wg));
         Groundspeed = Mathf.Sqrt(u*u + v*v);
-        ALT = PlaneRigidbody.position.y - SensorPositionY;
+        ALT = SensorPoint.transform.position.y;
         //Debug.Log(Groundspeed);
         alpha = Mathf.Atan((w+wg)/(u+ug))*Mathf.Rad2Deg;
         //Debug.Log(alpha);

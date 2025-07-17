@@ -82,7 +82,8 @@ public class MyGameManeger : MonoBehaviour
     [System.NonSerialized] public float RudderRandValue = 1;
     [System.NonSerialized] public bool GustRand = false;
     [System.NonSerialized] public float GustRandValue = 0;
-
+    [System.NonSerialized] public bool CgeRand = false;
+    [System.NonSerialized] public float CgeRandValue = 0;
     // Start is called before the first frame update
     void Awake()
     {

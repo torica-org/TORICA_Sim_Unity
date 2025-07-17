@@ -65,6 +65,12 @@ public class Result : MonoBehaviour
         if(MyGameManeger.instance.RudderRandValue != 1){
             scoreText.text += "ラダー×"+value;
         }
+
+        value = (float)Math.Round(MyGameManeger.instance.CgeRandValue,2,MidpointRounding.AwayFromZero);
+        if(MyGameManeger.instance.CgeRandValue != 1){
+            scoreText.text += "地面効果×"+value;
+        }
+
         
     }
 }
