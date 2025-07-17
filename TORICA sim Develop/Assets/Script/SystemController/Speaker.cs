@@ -12,7 +12,6 @@ public class Speaker : MonoBehaviour
     private double phase;
     private double sampling_frequency = 48000;
 
-
     private AerodynamicCalculator script;//AerodynamicCalculatorスクリプトにアクセスするための変数
     private Rigidbody PlaneRigidbody;
 
@@ -56,10 +55,10 @@ public class Speaker : MonoBehaviour
 
 
         if(MyGameManeger.instance.EnterFlight){
-            if(script.Airspeed > 11){
+            if(script.Airspeed > 10.8f){
                 frequency = 440;
             }
-            else if(script.Airspeed > 10){
+            else if(script.Airspeed > 9.5f){
                 frequency = 880;
             }
             else{
@@ -82,8 +81,6 @@ public class Speaker : MonoBehaviour
     }
 
     void FixedUpdate(){
-
-
             /*
             if(!onoff){
                 if(frameNumber%(interval/0.02m) == 0)//interval[s]ごとにリストに追加

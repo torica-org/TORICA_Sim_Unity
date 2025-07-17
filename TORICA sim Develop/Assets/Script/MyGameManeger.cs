@@ -67,6 +67,23 @@ public class MyGameManeger : MonoBehaviour
     [System.NonSerialized] public string FlightModel;
     [SerializeField] public string DefaultFlightModel = "isoSim2";
 
+    [System.NonSerialized] public bool VRMode = true;
+
+    //トラブルモード
+    [System.NonSerialized] public bool RudderError = false;
+    [System.NonSerialized] public float RudderErrorValue = 0;
+    [System.NonSerialized] public int RudderErrorMode = 0;
+    [System.NonSerialized] public bool CenterOfMassError = false;
+    [System.NonSerialized] public float CenterOfMassErrorValue = 0;
+    //ランダムモード
+    [System.NonSerialized] public bool CenterOfMassRand = false;
+    [System.NonSerialized] public float CenterOfMassRandValue = 1;
+    [System.NonSerialized] public bool RudderRand = false;
+    [System.NonSerialized] public float RudderRandValue = 1;
+    [System.NonSerialized] public bool GustRand = false;
+    [System.NonSerialized] public float GustRandValue = 0;
+    [System.NonSerialized] public bool CgeRand = false;
+    [System.NonSerialized] public float CgeRandValue = 0;
     // Start is called before the first frame update
     void Awake()
     {

@@ -123,9 +123,9 @@ public class AerodynamicCalculator : SerialReceive
     static protected float aircraftCenterOfMass;//機体のみ全重心(パイロットなし,ピッチのみ)[m]
     static protected float aircraftMass;//機体のみ全重量[kg]
     static protected float pilotMass;//パイロット重量[kg]
-    static protected float SensorPositionY = 0.645f;//桁中心から垂直に線を超音波センサーの位置までおろした時の線の長さ[m]
-    static protected float SensorPositionZ = 0.0f;//↑の到達点から超音波センサーまでの長さ[m]
-    static protected float AircraftHight = 0.74f;//プラホからコクピ下部までの長さ[m]
+    //static protected float SensorPositionY = 0.645f;//桁中心から垂直に線を超音波センサーの位置までおろした時の線の長さ[m]
+    //static protected float SensorPositionZ = 0.0f;//↑の到達点から超音波センサーまでの長さ[m]
+    //static protected float AircraftHight = 0.74f;//プラホからコクピ下部までの長さ[m]
 
     static protected bool PlusData;//追加機体データが存在するか
     //計算結果データ
@@ -142,6 +142,7 @@ public class AerodynamicCalculator : SerialReceive
 
 
     public static GameObject Aircraft;
+    static protected GameObject SensorPoint;
 
     protected bool AddTaleForce;
 
@@ -168,6 +169,8 @@ public class AerodynamicCalculator : SerialReceive
         // Get rigidbody component
         PlaneRigidbody = this.GetComponent<Rigidbody>();
         this.transform.rotation = Quaternion.Euler(0.0f, MyGameManeger.instance.StartRotation, 0.0f);
+
+        SensorPoint = GameObject.Find ("SensorPoint");
         
         //設計データ読み込み用
         fileName = MyGameManeger.instance.PlaneName + ".csv";
@@ -185,8 +188,13 @@ public class AerodynamicCalculator : SerialReceive
         if(aircraftMass != 0 && aircraftCenterOfMass != 0 && pilotMass != 0 && lengthForward != 0 && lengthBackward != 0){
             PlusData = true;
             pitchGravityPilotS = -aircraftMass*aircraftCenterOfMass/pilotMass;
+            /*今までのやつ
             massLeftRightS = (pilotMass*(pitchGravityPilotS+lengthBackward)/(lengthForward+lengthBackward))/2;
             massBackwardS = (pilotMass - massLeftRightS*2)/2;
+            */
+            massLeftRightS = (pilotMass*(pitchGravityPilotS+lengthBackward)/(lengthForward+lengthBackward));
+            massBackwardS = (pilotMass - massLeftRightS*2);
+
         }
         else{
             PlusData = false;
@@ -201,6 +209,8 @@ public class AerodynamicCalculator : SerialReceive
 
     void Update()//フライトモデルに関わらず実行されるINPUT関連の処理
     {
+        float pitchGravityBefore = pitchGravity;
+        float pitchGravityPilotBefore = pitchGravityPilot;
         if (MyGameManeger.instance.MousePitchControl){//マウスコントロール
             if(PlusData){
                 //Debug.Log(PlusData);
@@ -208,13 +218,13 @@ public class AerodynamicCalculator : SerialReceive
                 pitchGravityPilot = pitchGravityPilotS + ((Input.mousePosition.y-dh0)*MyGameManeger.instance.MouseSensitivity)*0.0002f;
             }
             //pitchGravity = ((pitchGravityPilot*pilotMass)+(aircraftCenterOfMass*aircraftMass))/PlaneRigidbody.mass;
-            pitchGravity = ((Input.mousePosition.y-dh0)*MyGameManeger.instance.MouseSensitivity)*0.0002f;
+            pitchGravity = (MyGameManeger.instance.CenterOfMassErrorValue + ((Input.mousePosition.y-dh0)*MyGameManeger.instance.MouseSensitivity)*0.0002f)*MyGameManeger.instance.CenterOfMassRandValue;
         }
 
         if(Input.GetAxisRaw("GStick") != 0){//ゲームパッドコントロールのトリガー
             pitchGravityPilotS = -aircraftMass*aircraftCenterOfMass/pilotMass;
             pitchGravityPilot = pitchGravityPilotS -Input.GetAxisRaw("GStick")*0.10f;
-            pitchGravity = ((pitchGravityPilot*pilotMass)+(aircraftCenterOfMass*aircraftMass))/PlaneRigidbody.mass;
+            pitchGravity = (MyGameManeger.instance.CenterOfMassErrorValue + ((pitchGravityPilot*pilotMass)+(aircraftCenterOfMass*aircraftMass))/PlaneRigidbody.mass)*MyGameManeger.instance.CenterOfMassRandValue;
         }
 
         if(MyGameManeger.instance.FrameUseable)//フレームコントロール
@@ -236,16 +246,22 @@ public class AerodynamicCalculator : SerialReceive
             massBackwardLeft = MyGameManeger.instance.massBackwardLeftFactor*(massBackwardLeftNow/1000);
             
             float NowMass = massLeft + massRight + massBackwardRight + massBackwardLeft;
-            
-            //リジットボディに代入するピッチの値を計算
-            pitchGravity = (((lengthForward*massLeft)+(lengthForward*massRight)-(lengthBackward*(massBackwardRight + massBackwardLeft))+(aircraftCenterOfMass*aircraftMass))/(massLeft+massRight+(massBackwardRight + massBackwardLeft)+aircraftMass));
-            pitchGravityPilotS = ((PlaneRigidbody.mass*pitchGravity)-(aircraftMass*aircraftCenterOfMass))/pilotMass;
-            if(NowMass != 0 ){
-                pitchGravityPilot = (((lengthForward*massLeft)+(lengthForward*massRight)-(lengthBackward*(massBackwardRight + massBackwardLeft)))/(massLeft+massRight+(massBackwardRight + massBackwardLeft))); 
+
+            if(-0.4f < pitchGravity && pitchGravity < 0.4f){//外れ値除去処理(基本的に重心は±0.4を超えることはない)
+                //リジットボディに代入するピッチの値を計算
+                pitchGravity = (MyGameManeger.instance.CenterOfMassErrorValue + (((lengthForward*massLeft)+(lengthForward*massRight)-(lengthBackward*(massBackwardRight + massBackwardLeft))+(aircraftCenterOfMass*aircraftMass))/(massLeft+massRight+(massBackwardRight + massBackwardLeft)+aircraftMass)))*MyGameManeger.instance.CenterOfMassRandValue;
+                pitchGravityPilotS = ((PlaneRigidbody.mass*pitchGravity)-(aircraftMass*aircraftCenterOfMass))/pilotMass;
+                if(NowMass != 0 ){
+                    pitchGravityPilot = (((lengthForward*massLeft)+(lengthForward*massRight)-(lengthBackward*(massBackwardRight + massBackwardLeft)))/(massLeft+massRight+(massBackwardRight + massBackwardLeft))); 
+                }
+                else{
+                    pitchGravityPilot = pitchGravityPilotS;
+                }
+            }else{
+                pitchGravity = pitchGravityBefore;
+                pitchGravityPilot = pitchGravityPilotBefore;
             }
-            else{
-                pitchGravityPilot = pitchGravityPilotS;
-            }
+
         }
         // Get control surface angles
         de = 0.000f;
@@ -253,18 +269,32 @@ public class AerodynamicCalculator : SerialReceive
 
         if(!MyGameManeger.instance.FrameUseable){
             de = Input.GetAxisRaw("Vertical")*deMAX;
-            dr = -Input.GetAxisRaw("Horizontal")*drMAX;
+            dr = -Input.GetAxisRaw("Horizontal")*drMAX*MyGameManeger.instance.RudderRandValue;
         }
-        if(Input.GetMouseButton(0)){dr = drMAX;}
-        else if(Input.GetMouseButton(1)){dr = -drMAX;}
+        if(Input.GetMouseButton(0)){dr = drMAX*MyGameManeger.instance.RudderRandValue;}
+        else if(Input.GetMouseButton(1)){dr = -drMAX*MyGameManeger.instance.RudderRandValue;}
         
         if(Input.GetAxisRaw("Trigger")*drMAX != 0){
-            dr = -Input.GetAxisRaw("Trigger")*drMAX;
+            dr = -Input.GetAxisRaw("Trigger")*drMAX*MyGameManeger.instance.RudderRandValue;
         }
 
         if(MyGameManeger.instance.FrameUseable){
             //↓必要な処理
-            dr = ((JoyStickNow-MyGameManeger.instance.JoyStick0)/MyGameManeger.instance.JoyStickFactor)*drMAX;
+            dr = ((JoyStickNow-MyGameManeger.instance.JoyStick0)/MyGameManeger.instance.JoyStickFactor)*drMAX*MyGameManeger.instance.RudderRandValue;
+        }
+
+        if(MyGameManeger.instance.RudderError && MyGameManeger.instance.RudderErrorMode != 0){
+            if(MyGameManeger.instance.RudderErrorMode == 1){
+                dr = MyGameManeger.instance.RudderErrorValue*drMAX;
+            }
+            else if(MyGameManeger.instance.RudderErrorMode == 2){
+                if(UnityEngine.Random.Range(0.0f,1.0f) < 0.5f){
+                    dr = MyGameManeger.instance.RudderErrorValue*drMAX;
+                }
+            }
+            else if(MyGameManeger.instance.RudderErrorMode == 3){
+                dr += MyGameManeger.instance.RudderErrorValue*drMAX;
+            }
         }
     }
     
@@ -274,7 +304,7 @@ public class AerodynamicCalculator : SerialReceive
     }
 
     void InputSpecifications()
-    {   
+    {
         if(MyGameManeger.instance.PlaneName == "QX-18"){
             // Plane
             PlaneRigidbody.mass = 93.875f; // [kg]
@@ -366,7 +396,7 @@ public class AerodynamicCalculator : SerialReceive
             Cnr = 0.001675f; // [1/rad]
             Cndr = -0.000208f; // [1/deg]
         }else if(MyGameManeger.instance.PlaneName == "Tatsumi"){
-            // Plane//と見せかけた竜海です
+            //竜海
             PlaneRigidbody.mass = 100f;
             PlaneRigidbody.centerOfMass = new Vector3(0f,0.053f,0f);
             PlaneRigidbody.inertiaTensor = new Vector3(993.022f,1028.254f,50.789f);
@@ -950,9 +980,9 @@ else if (MyGameManeger.instance.PlaneName == "Ray")
 
             YL = float.Parse(CsvList[23][6]);//機体中心から翼持ち棒までの長さ[m]
             
-            SensorPositionY = float.Parse(CsvList[24][6]);//桁中心から垂直に線を超音波センサーの位置までおろした時の線の長さ[m]
-            SensorPositionZ = float.Parse(CsvList[25][6]);//↑の到達点から超音波センサーまでの長さ[m]
-            AircraftHight = float.Parse(CsvList[26][6]);//プラホから桁中心までの高さ
+            //SensorPositionY = float.Parse(CsvList[24][6]);//桁中心から垂直に線を超音波センサーの位置までおろした時の線の長さ[m]
+            //SensorPositionZ = float.Parse(CsvList[25][6]);//↑の到達点から超音波センサーまでの長さ[m]
+            //AircraftHight = float.Parse(CsvList[26][6]);//プラホから桁中心までの高さ
             
             MyGameManeger.instance.error = true;
             MyGameManeger.instance.errorText = "CSVファイル読み込み成功";

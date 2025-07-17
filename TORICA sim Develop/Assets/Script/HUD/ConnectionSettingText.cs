@@ -38,8 +38,8 @@ public class ConnectionSettingText : MonoBehaviour
             scoreText.text += Math.Round(script.massRight+script.massLeft,3,  MidpointRounding.AwayFromZero)+Math.Round(script.massBackwardRight,2,  MidpointRounding.AwayFromZero)+Math.Round(script.massBackwardLeft,2,  MidpointRounding.AwayFromZero)+"\n\n";
             scoreText.text += Math.Round(script.pitchGravity,3,  MidpointRounding.AwayFromZero)+"\n";
             scoreText.text += Math.Round(script.pitchGravityPilot,3,  MidpointRounding.AwayFromZero)+"\n";
-            scoreText.text += Math.Round(script.dr,3,  MidpointRounding.AwayFromZero)+"\n";
+            scoreText.text += Math.Round(script.dr,3,  MidpointRounding.AwayFromZero)+"\n\n";
         //}
-
+        scoreText.text += MyGameManeger.instance.VRMode ? "VRモード" : "非VRモード";
     }
 }

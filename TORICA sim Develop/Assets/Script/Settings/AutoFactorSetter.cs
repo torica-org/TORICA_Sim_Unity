@@ -13,9 +13,29 @@ public class AutoFactorSetter : MonoBehaviour
     }
 
     public void OnPush(){
-        MyGameManeger.instance.massRightFactor = script.massLeftRightS/(script.massRightNow/1000);
-        MyGameManeger.instance.massLeftFactor = script.massLeftRightS/(script.massLeftNow/1000);
-        MyGameManeger.instance.massBackwardRightFactor = script.massBackwardS/(script.massBackwardRightNow/1000);
-        MyGameManeger.instance.massBackwardLeftFactor = script.massBackwardS/(script.massBackwardLeftNow/1000);
+        /*
+        if(script.massRightNow != 0){MyGameManeger.instance.massRightFactor = script.massLeftRightS/(script.massRightNow/1000);}
+        else{MyGameManeger.instance.massRightFactor = 0;}
+
+        if(script.massLeftNow != 0){MyGameManeger.instance.massLeftFactor = script.massLeftRightS/(script.massLeftNow/1000);}
+        else{MyGameManeger.instance.massLeftFactor = 0;}
+
+        if(script.massBackwardRightNow != 0){MyGameManeger.instance.massBackwardRightFactor = script.massBackwardS/(script.massBackwardRightNow/1000);}
+        else{MyGameManeger.instance.massBackwardRightFactor = 0;}
+
+        if(script.massBackwardLeftNow != 0){MyGameManeger.instance.massBackwardLeftFactor = script.massBackwardS/(script.massBackwardLeftNow/1000);}
+        else{MyGameManeger.instance.massBackwardLeftFactor = 0;}
+        */
+        if(script.massRightNow != 0){MyGameManeger.instance.massRightFactor = script.massLeftRightS/((script.massRightNow+script.massLeftNow)/1000);}
+        else{MyGameManeger.instance.massRightFactor = 0;}
+
+        if(script.massLeftNow != 0){MyGameManeger.instance.massLeftFactor = script.massLeftRightS/((script.massRightNow+script.massLeftNow)/1000);}
+        else{MyGameManeger.instance.massLeftFactor = 0;}
+
+        if(script.massBackwardRightNow != 0){MyGameManeger.instance.massBackwardRightFactor = script.massBackwardS/((script.massBackwardRightNow+script.massBackwardLeftNow)/1000);}
+        else{MyGameManeger.instance.massBackwardRightFactor = 0;}
+
+        if(script.massBackwardLeftNow != 0){MyGameManeger.instance.massBackwardLeftFactor = script.massBackwardS/((script.massBackwardRightNow+script.massBackwardLeftNow)/1000);}
+        else{MyGameManeger.instance.massBackwardLeftFactor = 0;}
     }
 }
