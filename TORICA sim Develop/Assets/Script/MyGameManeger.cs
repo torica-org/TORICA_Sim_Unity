@@ -30,6 +30,7 @@ public class MyGameManeger : MonoBehaviour
     [System.NonSerialized] public Vector3 PlatformPosition = new Vector3(0f,10.5f,0f);
     [System.NonSerialized] public float StartRotation=0.0f;
     [System.NonSerialized] public float TailRotation=0.0f;
+    [System.NonSerialized] public float StartRoll = 0.0f; //離陸時ロールを追加
     [System.NonSerialized] public float TailSetDeg=-1.0f;
     [System.NonSerialized] public float FieldOfView=90;
     //ロードセルのオフセット値
