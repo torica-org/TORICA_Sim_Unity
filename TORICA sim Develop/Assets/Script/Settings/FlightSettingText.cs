@@ -31,9 +31,9 @@ public class FlightSettingText : MonoBehaviour
         scoreText.text = "";
         
         if(MyGameManeger.instance.RandomWind){
-            scoreText.text += "ON"+"\n\n\n\n\n\n\n";
+            scoreText.text += "ON"+"\n\n\n\n\n\n\n\n";
         }else{
-            scoreText.text += "OFF"+"\n\n\n\n\n\n\n";
+            scoreText.text += "OFF"+"\n\n\n\n\n\n\n\n";
         }
         if(MyGameManeger.instance.SaveCsv){
             scoreText.text += "ON"+"\n";   

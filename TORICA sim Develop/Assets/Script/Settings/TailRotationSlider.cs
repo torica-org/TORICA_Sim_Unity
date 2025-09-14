@@ -31,7 +31,8 @@ public class TailRotationSlider : MonoBehaviour
         MyGameManeger.instance.TailRotation = CurrentSlider.value;
         scoreText.text = MyGameManeger.instance.TailRotation.ToString("0.000");
         MyGameManeger.instance.SettingChanged = true;
-        script.transform.rotation = Quaternion.Euler(0.0f, MyGameManeger.instance.StartRotation, MyGameManeger.instance.TailRotation);
+        //script.transform.rotation = Quaternion.Euler(0.0f, MyGameManeger.instance.StartRotation, MyGameManeger.instance.TailRotation);
+        script.transform.rotation = Quaternion.Euler(MyGameManeger.instance.StartRoll, MyGameManeger.instance.StartRotation, MyGameManeger.instance.TailRotation);
 
 
     }

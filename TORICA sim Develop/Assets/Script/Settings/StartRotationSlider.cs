@@ -31,6 +31,7 @@ public class StartRotationSlider : MonoBehaviour
         MyGameManeger.instance.StartRotation = CurrentSlider.value;
         scoreText.text = MyGameManeger.instance.StartRotation.ToString("0.000");
         MyGameManeger.instance.SettingChanged = true;
-        script.transform.rotation = Quaternion.Euler(0.0f, MyGameManeger.instance.StartRotation, MyGameManeger.instance.TailRotation);
+        //script.transform.rotation = Quaternion.Euler(0.0f, MyGameManeger.instance.StartRotation, MyGameManeger.instance.TailRotation);
+        script.transform.rotation = Quaternion.Euler(MyGameManeger.instance.StartRoll, MyGameManeger.instance.StartRotation, MyGameManeger.instance.TailRotation);
     }
 }
