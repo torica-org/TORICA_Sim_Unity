@@ -112,6 +112,7 @@ Library: lib_burst_generated
 --compilation-defines=ENABLE_INPUT_SYSTEM
 --compilation-defines=ENABLE_LEGACY_INPUT_MANAGER
 --compilation-defines=UNITY_POST_PROCESSING_STACK_V2
+--compilation-defines=USE_STEAMVR
 --compilation-defines=PACKAGE_PHYSICS
 --compilation-defines=PACKAGE_PHYSICS2D
 --compilation-defines=PACKAGE_TILEMAP
@@ -144,7 +145,11 @@ Library: lib_burst_generated
 --compilation-defines=XR_MGMT_GTE_320
 --compilation-defines=UNITY_ANALYTICS
 --compilation-defines=TIMELINE_FRAMEACCURATE
---linker-options=PdbAltPath="TORICA simulator_Data/Plugins/x86_64"
+--compilation-defines=OPENVR_XR_API
+--compilation-defines=UNITY_LEGACY_INPUT_HELPERS
+--compilation-defines=UNITY_URP
+--compilation-defines=UNITY_UGUI_UI
+--linker-options=PdbAltPath="TORICA Simulator_Data/Plugins/x86_64"
 --generate-link-xml=Temp\burst.link.xml
 --output=C:\Users\Corei7-11800H\0\_TORICA_Org\TORICA_Sim_Unity\TORICA sim Develop\Temp\StagingArea\Data\Plugins\x86_64\lib_burst_generated
 --root-assembly=C:\Users\Corei7-11800H\0\_TORICA_Org\TORICA_Sim_Unity\TORICA sim Develop\Temp\StagingArea\Data\Managed\UnityEngine.UI.dll
@@ -190,6 +195,8 @@ Library: lib_burst_generated
 --root-assembly=C:\Users\Corei7-11800H\0\_TORICA_Org\TORICA_Sim_Unity\TORICA sim Develop\Temp\StagingArea\Data\Managed\Unity.XR.OpenXR.Features.RuntimeDebugger.dll
 --root-assembly=C:\Users\Corei7-11800H\0\_TORICA_Org\TORICA_Sim_Unity\TORICA sim Develop\Temp\StagingArea\Data\Managed\Unity.RenderPipelines.Universal.Shaders.dll
 --root-assembly=C:\Users\Corei7-11800H\0\_TORICA_Org\TORICA_Sim_Unity\TORICA sim Develop\Temp\StagingArea\Data\Managed\Unity.XR.OpenXR.Features.OculusQuestSupport.dll
+--root-assembly=C:\Users\Corei7-11800H\0\_TORICA_Org\TORICA_Sim_Unity\TORICA sim Develop\Temp\StagingArea\Data\Managed\SteamVR.dll
+--root-assembly=C:\Users\Corei7-11800H\0\_TORICA_Org\TORICA_Sim_Unity\TORICA sim Develop\Temp\StagingArea\Data\Managed\SteamVR_Actions.dll
 --assembly-folder=C:\Users\Corei7-11800H\0\_TORICA_Org\TORICA_Sim_Unity\TORICA sim Develop\Temp\StagingArea\Data\Managed\
 --pdb-search-paths=Temp/ManagedSymbols/
 --method=Unity.Burst.Intrinsics.X86, Unity.Burst, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null::DoGetCSRTrampoline()--89425a97f3f500fa810ad03f0c382542
@@ -318,6 +325,7 @@ Library: lib_burst_generated
 --compilation-defines=ENABLE_INPUT_SYSTEM
 --compilation-defines=ENABLE_LEGACY_INPUT_MANAGER
 --compilation-defines=UNITY_POST_PROCESSING_STACK_V2
+--compilation-defines=USE_STEAMVR
 --compilation-defines=PACKAGE_PHYSICS
 --compilation-defines=PACKAGE_PHYSICS2D
 --compilation-defines=PACKAGE_TILEMAP
@@ -350,7 +358,11 @@ Library: lib_burst_generated
 --compilation-defines=XR_MGMT_GTE_320
 --compilation-defines=UNITY_ANALYTICS
 --compilation-defines=TIMELINE_FRAMEACCURATE
---linker-options=PdbAltPath="TORICA simulator_Data/Plugins/x86_64"
+--compilation-defines=OPENVR_XR_API
+--compilation-defines=UNITY_LEGACY_INPUT_HELPERS
+--compilation-defines=UNITY_URP
+--compilation-defines=UNITY_UGUI_UI
+--linker-options=PdbAltPath="TORICA Simulator_Data/Plugins/x86_64"
 --generate-link-xml=Temp\burst.link.xml
 --output=C:\Users\Corei7-11800H\0\_TORICA_Org\TORICA_Sim_Unity\TORICA sim Develop\Temp\StagingArea\Data\Plugins\x86_64\lib_burst_generated
 --root-assembly=C:\Users\Corei7-11800H\0\_TORICA_Org\TORICA_Sim_Unity\TORICA sim Develop\Temp\StagingArea\Data\Managed\UnityEngine.UI.dll
@@ -396,6 +408,8 @@ Library: lib_burst_generated
 --root-assembly=C:\Users\Corei7-11800H\0\_TORICA_Org\TORICA_Sim_Unity\TORICA sim Develop\Temp\StagingArea\Data\Managed\Unity.XR.OpenXR.Features.RuntimeDebugger.dll
 --root-assembly=C:\Users\Corei7-11800H\0\_TORICA_Org\TORICA_Sim_Unity\TORICA sim Develop\Temp\StagingArea\Data\Managed\Unity.RenderPipelines.Universal.Shaders.dll
 --root-assembly=C:\Users\Corei7-11800H\0\_TORICA_Org\TORICA_Sim_Unity\TORICA sim Develop\Temp\StagingArea\Data\Managed\Unity.XR.OpenXR.Features.OculusQuestSupport.dll
+--root-assembly=C:\Users\Corei7-11800H\0\_TORICA_Org\TORICA_Sim_Unity\TORICA sim Develop\Temp\StagingArea\Data\Managed\SteamVR.dll
+--root-assembly=C:\Users\Corei7-11800H\0\_TORICA_Org\TORICA_Sim_Unity\TORICA sim Develop\Temp\StagingArea\Data\Managed\SteamVR_Actions.dll
 --assembly-folder=C:\Users\Corei7-11800H\0\_TORICA_Org\TORICA_Sim_Unity\TORICA sim Develop\Temp\StagingArea\Data\Managed\
 --pdb-search-paths=Temp/ManagedSymbols/
 --method=Unity.Burst.Intrinsics.X86, Unity.Burst, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null::DoGetCSRTrampoline()--89425a97f3f500fa810ad03f0c382542
