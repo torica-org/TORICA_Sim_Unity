@@ -29,3 +29,11 @@ else if (MyGameManeger.instance.PlaneName == "Ray") {...}
 赤枠のところにドラッグ＆ドロップするのはオブジェクト（スライダー自体など）  
 **スクリプトではないことに注意**
 
+# Unity日本語化
+- https://www.midnightunity.net/unity-editor-japanese-language/
+
+# 全画面表示切り替え
+- https://qiita.com/konnbu/items/2b37afd9d98ac4a2cb31
+
+# UIの作り方
+- 
