@@ -70,7 +70,7 @@ public class MyGameManeger : MonoBehaviour
     [System.NonSerialized] public string FlightModel;
     [SerializeField] public string DefaultFlightModel = "isoSim2";
 
-    [System.NonSerialized] public bool VRMode = true;
+    [System.NonSerialized] public bool VRMode = false;
 
     //トラブルモード
     [System.NonSerialized] public bool RudderError = false;
