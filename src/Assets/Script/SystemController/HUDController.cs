@@ -14,11 +14,11 @@ public class HUDController : MonoBehaviour
     void Start()
     {
         HUDCanvas = GameObject.Find("HUD");
-        HorizontalLine = GameObject.Find("HUD").transform.Find("HorizontalLine").gameObject;
+        //HorizontalLine = GameObject.Find("HUD").transform.Find("HorizontalLine").gameObject;
         //SideViewCamera = GameObject.Find("SideViewCamera");
         
         HUDCanvas.SetActive(MyGameManeger.instance.HUDActive);
-        HorizontalLine.SetActive(MyGameManeger.instance.HorizontalLineActive);
+        //HorizontalLine.SetActive(MyGameManeger.instance.HorizontalLineActive);
         //SideViewCamera.SetActive(MyGameManeger.instance.HUDActive);
     }
 
@@ -32,8 +32,8 @@ public class HUDController : MonoBehaviour
         }
 
         if(MyGameManeger.instance.CameraSwitch && Input.GetKeyDown("l")){
-            HorizontalLine.SetActive(!MyGameManeger.instance.HorizontalLineActive);
-            MyGameManeger.instance.HorizontalLineActive = !MyGameManeger.instance.HorizontalLineActive;
+            //HorizontalLine.SetActive(!MyGameManeger.instance.HorizontalLineActive);
+            //MyGameManeger.instance.HorizontalLineActive = !MyGameManeger.instance.HorizontalLineActive;
         }
     }
 }

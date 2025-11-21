@@ -4,17 +4,22 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using System.IO;
+using TMPro;
 
 public class Result : MonoBehaviour
 {
     private Text scoreText;
     private Rigidbody PlaneRigidbody;
+    private TMP_Text distOnly;
+    private TMP_Text distOnlySimple;
     
     
     // Start is called before the first frame update
     void Start()
     {
         scoreText = this.GetComponent<Text>();
+        distOnly = GameObject.Find("ResultDist").GetComponent<TMP_Text>();
+        distOnlySimple = GameObject.Find("SimpleResultDist").GetComponent<TMP_Text>();
         PlaneRigidbody = MyGameManeger.instance.Plane.GetComponent<Rigidbody>();
     }
 
@@ -24,13 +29,15 @@ public class Result : MonoBehaviour
         float Distance = (PlaneRigidbody.position-MyGameManeger.instance.PlatformPosition).magnitude;
         if(MyGameManeger.instance.FlightMode=="BirdmanRally"){Distance-=10f;}
 
-        scoreText.text = "\n" +"距離:"+ Distance.ToString("0.000")+"\n";
-        if(MyGameManeger.instance.RudderErrorMode == 0){
+        string dist = Distance.ToString("0.000") + " m";
+        distOnly.text = dist;
+        distOnlySimple.text = dist;
+        if (MyGameManeger.instance.RudderErrorMode == 0){
             
         }
 
         float value = (float)Math.Round(MyGameManeger.instance.RudderErrorValue,2,MidpointRounding.AwayFromZero);
-        scoreText.text += "トラブル:\n";
+        scoreText.text = "トラブル:\n";
 
         switch(MyGameManeger.instance.RudderErrorMode){
             case 1:
