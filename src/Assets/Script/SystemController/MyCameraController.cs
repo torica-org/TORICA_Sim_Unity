@@ -7,11 +7,20 @@ public class MyCameraController : MonoBehaviour
     private GameObject HorizontalLine;
     private Camera FPSCamera; // Camera
     private Camera TPSCamera; // Camera
+    //private Camera SideCamera;;
     private bool VRModeNow;
 
     // Start is called before the first frame update
     void Start()
     {
+        Debug.Log("displays connected: " + Display.displays.Length);
+
+        // Display 1 は自動でつくので、Display 2 以降をループで有効化する
+        for (int i = 1; i < Display.displays.Length; i++)
+        {
+            Display.displays[i].Activate();
+        }
+
         if (MyGameManeger.instance.VRMode)
         {
             FPSCamera = MyGameManeger.instance.Plane.transform.Find("VR_Item(Clone)/[CameraRig]/FPSCamera").gameObject.GetComponent<Camera>();
@@ -21,7 +30,8 @@ public class MyCameraController : MonoBehaviour
             FPSCamera = MyGameManeger.instance.Plane.transform.Find("FPSCamera").gameObject.GetComponent<Camera>();
         }
         TPSCamera = MyGameManeger.instance.Plane.transform.Find("TPSCamera").gameObject.GetComponent<Camera>();
-        HorizontalLine = GameObject.Find("HUD").transform.Find("HorizontalLine").gameObject;
+        //SideCamera = GameObject.Find("SideViewCamera");
+        //HorizontalLine = GameObject.Find("HUD").transform.Find("HorizontalLine").gameObject;
         VRModeNow = MyGameManeger.instance.VRMode;
 
         //MyGameManeger.instance.CameraSwitch = true:FPS false:TPS
@@ -58,7 +68,7 @@ public class MyCameraController : MonoBehaviour
         //FPSCamera.enabled = !FPSCamera.enabled;
         //TPSCamera.enabled = !TPSCamera.enabled;
         MyGameManeger.instance.CameraSwitch = !MyGameManeger.instance.CameraSwitch;
-        MyGameManeger.instance.HorizontalLineActive = MyGameManeger.instance.HorizontalLineActive & !MyGameManeger.instance.CameraSwitch;
-        HorizontalLine.SetActive(MyGameManeger.instance.HorizontalLineActive);
+        //MyGameManeger.instance.HorizontalLineActive = MyGameManeger.instance.HorizontalLineActive & !MyGameManeger.instance.CameraSwitch;
+        //HorizontalLine.SetActive(MyGameManeger.instance.HorizontalLineActive);
     }
 }

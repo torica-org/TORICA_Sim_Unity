@@ -7,14 +7,17 @@ using System;
 public class Landing : MonoBehaviour
 {
     private GameObject Result;
+    private GameObject SimpleResult;
     [SerializeField] private Canvas canvas;
     // Start is called before the first frame update
     void Start()
     {
         Result = GameObject.Find("Result");
+        SimpleResult = GameObject.Find("SimpleResult");
         canvas.enabled = false;
 
         Result.SetActive(false);
+        SimpleResult.SetActive(false);
         MyGameManeger.instance.Landing = false;
     }
 
@@ -30,5 +33,6 @@ public class Landing : MonoBehaviour
     void Update()
     {
         Result.SetActive(!MyGameManeger.instance.SettingActive & MyGameManeger.instance.Landing);
+        SimpleResult.SetActive(!MyGameManeger.instance.SettingActive & MyGameManeger.instance.Landing);
     }
 }
