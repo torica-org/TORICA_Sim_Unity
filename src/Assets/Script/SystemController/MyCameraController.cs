@@ -25,8 +25,11 @@ public class MyCameraController : MonoBehaviour
         VRModeNow = MyGameManeger.instance.VRMode;
 
         //MyGameManeger.instance.CameraSwitch = true:FPS false:TPS
-        TPSCamera.enabled = !MyGameManeger.instance.CameraSwitch;
-        FPSCamera.enabled = MyGameManeger.instance.CameraSwitch;
+        //TPSCamera.enabled = !MyGameManeger.instance.CameraSwitch;
+        //FPSCamera.enabled = MyGameManeger.instance.CameraSwitch;
+
+        TPSCamera.enabled = true;
+        FPSCamera.enabled = true;
     }
 
     // Update is called once per frame
@@ -52,8 +55,8 @@ public class MyCameraController : MonoBehaviour
 
     void SwitchCamera()
     {
-        FPSCamera.enabled = !FPSCamera.enabled;
-        TPSCamera.enabled = !TPSCamera.enabled;
+        //FPSCamera.enabled = !FPSCamera.enabled;
+        //TPSCamera.enabled = !TPSCamera.enabled;
         MyGameManeger.instance.CameraSwitch = !MyGameManeger.instance.CameraSwitch;
         MyGameManeger.instance.HorizontalLineActive = MyGameManeger.instance.HorizontalLineActive & !MyGameManeger.instance.CameraSwitch;
         HorizontalLine.SetActive(MyGameManeger.instance.HorizontalLineActive);

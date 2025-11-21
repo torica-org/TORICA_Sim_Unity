@@ -464,66 +464,66 @@ public class AerodynamicCalculator : SerialReceive
             Cnp = -0.165533f; // [1/rad]
             Cnr = 0.001675f; // [1/rad]
             Cndr = -0.000208f; // [1/deg]
-        }else if(MyGameManeger.instance.PlaneName == "Tatsumi"){
-            //竜海
-            PlaneRigidbody.mass = 100f;
-            PlaneRigidbody.centerOfMass = new Vector3(0f,0.053f,0f);
-            PlaneRigidbody.inertiaTensor = new Vector3(993.022f,1028.254f,50.789f);
-            PlaneRigidbody.inertiaTensorRotation = Quaternion.AngleAxis(-9.134f, Vector3.forward);
-            // Specification At Cruise without Ground Effect
-            Airspeed0 = 10.500f; // Magnitude of ground speed [m/s]
-            alpha0 = 0f; // Angle of attack [deg]
-            CDp0 = 0.007f; // Parasitic drag [-]
-            Cmw0 = -0.132f; // Pitching momentum [-]
-            CLMAX = 1.700f;
-            // Wing
-            Sw = 18.989f; // Wing area of wing [m^2]
-            bw = 24.975f; // Wing span [m]
-            cMAC = 0.812f; // Mean aerodynamic chord [m]
-            aw = 0.103f; // Wing Lift Slope [1/deg]
-            
-            ac = 0.350f;//空力中心[MAC]
-            cg = 0.250f;//初期重心中心[MAC]
-            
-            hw = ac-cg; // Length between Wing a.c. and c.g.
-            ew = 0.987f; // Wing efficiency
-            AR = 32.848f; // Aspect Ratio
-            // Tail
-            Downwash = true; // Conventional Tail: True, T-Tail: False
-            St = 1.769f; // Wing area of tail
-            at = 0.082f; // Tail Lift Slope [1/deg]
-            lt = 2.900f; // Length between Tail a.c. and c.g.
-            deMAX = 10.000f; // Maximum elevator angle
-            tau = 1.000f; // Control surface angle of attack effectiveness [-]
-            VH = 0.333f; // Tail Volume
-            // Fin
-            drMAX = 20.000f; // Maximum rudder angle            
-            // Ground Effect
-            CGEMIN = 0.230f; // Minimum Ground Effect Coefficient [-]
-            // Stability derivatives
-            Cyb = -0.004943f; // [1/deg]
-            Cyp = -0.539872f; // [1/rad]
-            Cyr =  0.161102f; // [1/rad]
-            Cydr = 0.001612f; // [1/deg]
-            Clb = -0.004711f; // [1/deg]
-            Clp = -0.794525f; // [1/rad]
-            Clr =  0.203056f; // [1/rad]
-            Cldr = 0.000032f; // [1/deg]
-            Cnb = -0.000364f; // [1/deg]
-            Cnp = -0.100751f; // [1/rad]
-            Cnr = -0.005821f; // [1/rad]
-            Cndr = -0.000226f; // [1/deg]
+        //}else if(MyGameManeger.instance.PlaneName == "Tatsumi"){
+        //    //竜海
+        //    PlaneRigidbody.mass = 100f;
+        //    PlaneRigidbody.centerOfMass = new Vector3(0f,0.053f,0f);
+        //    PlaneRigidbody.inertiaTensor = new Vector3(993.022f,1028.254f,50.789f);
+        //    PlaneRigidbody.inertiaTensorRotation = Quaternion.AngleAxis(-9.134f, Vector3.forward);
+        //    // Specification At Cruise without Ground Effect
+        //    Airspeed0 = 10.500f; // Magnitude of ground speed [m/s]
+        //    alpha0 = 0f; // Angle of attack [deg]
+        //    CDp0 = 0.007f; // Parasitic drag [-]
+        //    Cmw0 = -0.132f; // Pitching momentum [-]
+        //    CLMAX = 1.700f;
+        //    // Wing
+        //    Sw = 18.989f; // Wing area of wing [m^2]
+        //    bw = 24.975f; // Wing span [m]
+        //    cMAC = 0.812f; // Mean aerodynamic chord [m]
+        //    aw = 0.103f; // Wing Lift Slope [1/deg]
 
-            //追加機体データ
-            lengthForward = 0.61f;
-            lengthBackward = 0.47f;
+        //    ac = 0.350f;//空力中心[MAC]
+        //    cg = 0.250f;//初期重心中心[MAC]
 
-            aircraftCenterOfMass = -0.225f;//機体のみ全重心(パイロットなし,ピッチのみ)[m]
-            aircraftMass = 48.0f;//機体のみ全重量[kg]
-            pilotMass = PlaneRigidbody.mass - aircraftMass;//パイロット体重[kg]
+        //    hw = ac-cg; // Length between Wing a.c. and c.g.
+        //    ew = 0.987f; // Wing efficiency
+        //    AR = 32.848f; // Aspect Ratio
+        //    // Tail
+        //    Downwash = true; // Conventional Tail: True, T-Tail: False
+        //    St = 1.769f; // Wing area of tail
+        //    at = 0.082f; // Tail Lift Slope [1/deg]
+        //    lt = 2.900f; // Length between Tail a.c. and c.g.
+        //    deMAX = 10.000f; // Maximum elevator angle
+        //    tau = 1.000f; // Control surface angle of attack effectiveness [-]
+        //    VH = 0.333f; // Tail Volume
+        //    // Fin
+        //    drMAX = 20.000f; // Maximum rudder angle            
+        //    // Ground Effect
+        //    CGEMIN = 0.230f; // Minimum Ground Effect Coefficient [-]
+        //    // Stability derivatives
+        //    Cyb = -0.004943f; // [1/deg]
+        //    Cyp = -0.539872f; // [1/rad]
+        //    Cyr =  0.161102f; // [1/rad]
+        //    Cydr = 0.001612f; // [1/deg]
+        //    Clb = -0.004711f; // [1/deg]
+        //    Clp = -0.794525f; // [1/rad]
+        //    Clr =  0.203056f; // [1/rad]
+        //    Cldr = 0.000032f; // [1/deg]
+        //    Cnb = -0.000364f; // [1/deg]
+        //    Cnp = -0.100751f; // [1/rad]
+        //    Cnr = -0.005821f; // [1/rad]
+        //    Cndr = -0.000226f; // [1/deg]
 
-            YL = 2.8f;//機体中心から翼持ち棒までの長さ[m]
-        }else if(MyGameManeger.instance.PlaneName == "QX-20"){
+        //    //追加機体データ
+        //    lengthForward = 0.61f;
+        //    lengthBackward = 0.47f;
+
+        //    aircraftCenterOfMass = -0.225f;//機体のみ全重心(パイロットなし,ピッチのみ)[m]
+        //    aircraftMass = 48.0f;//機体のみ全重量[kg]
+        //    pilotMass = PlaneRigidbody.mass - aircraftMass;//パイロット体重[kg]
+
+        //    YL = 2.8f;//機体中心から翼持ち棒までの長さ[m]
+    }else if(MyGameManeger.instance.PlaneName == "QX-20"){
             // Plane
             PlaneRigidbody.mass = 98.797f;
             PlaneRigidbody.centerOfMass = new Vector3(0f,0.29f,0f);

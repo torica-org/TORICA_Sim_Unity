@@ -1,13 +1,12 @@
 using UnityEngine;
-using TMPro; // TextMeshProを使用する場合
+using TMPro; // TextMeshProを使用
 
 public class DisplayVersion : MonoBehaviour
 {
-    public TMP_Text versionText; // TextMeshProのテキストコンポーネント
+    public TMP_Text versionText; // TextMeshProのオブジェクト
 
     void Start()
     {
-        // アプリケーションのバージョン番号を取得してテキストに設定
-        versionText.text = "v" + Application.version;
+        versionText.text = "TORICA Sim  v" + Application.version;
     }
 }
