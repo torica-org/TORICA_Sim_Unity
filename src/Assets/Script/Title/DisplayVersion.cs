@@ -7,6 +7,7 @@ public class DisplayVersion : MonoBehaviour
 
     void Start()
     {
-        versionText.text = "TORICA Sim  v" + Application.version;
+        versionText = GameObject.Find("DisplayVersion").GetComponent<TMP_Text>();
+        versionText.text = "TORICA Sim  " + Application.version;
     }
 }
