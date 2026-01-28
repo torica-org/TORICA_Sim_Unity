@@ -22,7 +22,7 @@ public class SerialHandler : MonoBehaviour
     //Linuxでは/dev/ttyUSB0
     //windowsではCOM1
     //Macでは/dev/tty.usbmodem1421など
-    public static string portName = "COM3";
+    public static string portName = "COM6";
     public int baudRate    = 115200;
 
     protected SerialPort serialPort_;
@@ -96,9 +96,11 @@ public class SerialHandler : MonoBehaviour
 
     protected virtual void Open()
     {
+        Debug.Log("Opening...");
          try{
             serialPort_ = new SerialPort(portName, baudRate, Parity.None, 8, StopBits.One);
             serialPort_.DtrEnable= true;
+            serialPort_.NewLine = "\n"; // 改行コードをLFに指定
 
             serialPort_.ReadTimeout = 1000;
             //serialPort_.WriteTimeout = 100;
@@ -126,6 +128,7 @@ public class SerialHandler : MonoBehaviour
 
     protected void Close()
     {
+        Debug.Log("Closing...");
         isNewMessageReceived_ = false;
         isRunning_ = false;
 
@@ -145,6 +148,8 @@ public class SerialHandler : MonoBehaviour
             try {
                 //message_ = serialPort_.ReadExisting();
                 message_ = serialPort_.ReadLine();
+                message_ = message_.Trim(); // 改行コードが含まれない文字列に（CRLFが来てもいいように）
+                Debug.Log(message_);
                 isNewMessageReceived_ = true;
                 if(!refresh && !frameError){
                     Connection = true;
@@ -174,11 +179,12 @@ public class SerialHandler : MonoBehaviour
     {
         text.text = "再設定中";
         Close();
+        Debug.Log("Closed!");
         portName=inputField.text;
         frameError = false;
         refresh = false;
         Open();
-        
+        Debug.Log("Opened!");
         //SceneManager.LoadScene("FlightScene");
     }
 

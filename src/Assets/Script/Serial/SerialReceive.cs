@@ -36,13 +36,17 @@ public class SerialReceive : MonoBehaviour
         {
             try{
                 //データをリストに書き込む
-                massRightNow = ExtractFromData(data[0],0);
-                massLeftNow = ExtractFromData(data[0],1);
-                massBackwardRightNow = ExtractFromData(data[0],2);
-                massBackwardLeftNow = ExtractFromData(data[0],3);
-                JoyStickNow = ExtractFromData(data[0],4);
+                // massRightNow = ExtractFromData(data[0],0);
+                // massLeftNow = ExtractFromData(data[0],1);
+                // massBackwardRightNow = ExtractFromData(data[0],2);
+                // massBackwardLeftNow = ExtractFromData(data[0],3);
+                // JoyStickNow = ExtractFromData(data[0],4);
 
-                if(MyGameManeger.instance.FrameUseable && MyGameManeger.instance.JoyStickFirst){//ジョイスティックオフセット取得処理
+                massRightNow = ExtractFromData(data[0], 0);
+                massBackwardRightNow = ExtractFromData(data[0], 1);
+                JoyStickNow = ExtractFromData(data[0], 2);
+
+                if (MyGameManeger.instance.FrameUseable && MyGameManeger.instance.JoyStickFirst){//ジョイスティックオフセット取得処理
                     MyGameManeger.instance.JoyStick0 = JoyStickNow;
                     MyGameManeger.instance.JoyStickFirst = false;
                 }
