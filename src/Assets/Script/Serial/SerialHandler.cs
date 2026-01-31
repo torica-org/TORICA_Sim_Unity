@@ -149,7 +149,7 @@ public class SerialHandler : MonoBehaviour
                 //message_ = serialPort_.ReadExisting();
                 message_ = serialPort_.ReadLine();
                 message_ = message_.Trim(); // 改行コードが含まれない文字列に（CRLFが来てもいいように）
-                Debug.Log(message_);
+                // Debug.Log(message_);
                 isNewMessageReceived_ = true;
                 if(!refresh && !frameError){
                     Connection = true;
