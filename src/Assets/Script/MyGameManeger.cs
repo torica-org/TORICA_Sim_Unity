@@ -44,7 +44,7 @@ public class MyGameManeger : MonoBehaviour
     [System.NonSerialized] public float massRightFactor=1;
     [System.NonSerialized] public float massBackwardRightFactor=1;
     [System.NonSerialized] public float massBackwardLeftFactor=1;
-    [System.NonSerialized] public float DefaultFactor = 0.625f;
+    [System.NonSerialized] public float DefaultFactor = 1.00f;
     //ジョイスティックの調整用係数(この係数をジョイスティックの値に割る)
     [System.NonSerialized] public float JoyStickFactor = 450;
     [System.NonSerialized] public bool JoyStickFirst = true;
@@ -70,6 +70,7 @@ public class MyGameManeger : MonoBehaviour
     [System.NonSerialized] public string FlightModel;
     [SerializeField] public string DefaultFlightModel = "isoSim2";
 
+    // VRモード
     [System.NonSerialized] public bool VRMode = false;
 
     //トラブルモード

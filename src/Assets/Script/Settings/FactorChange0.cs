@@ -8,6 +8,7 @@ public class FactorChange0 : MonoBehaviour
 
     private Slider CurrentSlider;
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -19,6 +20,8 @@ public class FactorChange0 : MonoBehaviour
             MyGameManeger.instance.massRightFactor = MyGameManeger.instance.DefaultFactor;
         }
     }
+
+
     void Update()
     {
         if(CurrentSlider.value != MyGameManeger.instance.massRightFactor){
@@ -26,9 +29,11 @@ public class FactorChange0 : MonoBehaviour
         }
     }
 
+
     public void Method()
     {
         MyGameManeger.instance.massRightFactor = CurrentSlider.value;
         MyGameManeger.instance.SettingChanged = true;
     }
+
 }
