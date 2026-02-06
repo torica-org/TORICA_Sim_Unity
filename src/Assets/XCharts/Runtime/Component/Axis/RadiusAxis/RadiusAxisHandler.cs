@@ -80,7 +80,7 @@ namespace XCharts.Runtime
                 InitRadiusAxis(axis);
             else
             {
-                axis.UpdateLabelText(polar.context.radius, null, false);
+                UpdateLabelText(axis, polar.context.radius, null, false);
             }
         }
 
@@ -99,7 +99,7 @@ namespace XCharts.Runtime
             var radius = polar.context.outsideRadius - polar.context.insideRadius;
             var objName = component.GetType().Name + axis.index;
             var axisObj = ChartHelper.AddObject(objName, chart.transform, chart.chartMinAnchor,
-                chart.chartMaxAnchor, chart.chartPivot, chart.chartSizeDelta);
+                chart.chartMaxAnchor, chart.chartPivot, chart.chartSizeDelta, -1, chart.childrenNodeNames);
             axisObj.transform.localPosition = Vector3.zero;
             axisObj.SetActive(axis.show && axis.axisLabel.show);
             axisObj.hideFlags = chart.chartHideFlags;
@@ -114,7 +114,7 @@ namespace XCharts.Runtime
                 var inside = axis.axisLabel.inside;
                 var isPercentStack = SeriesHelper.IsPercentStack<Bar>(chart.series);
                 var labelName = AxisHelper.GetLabelName(axis, radius, i, axis.context.minValue, axis.context.maxValue,
-                    null, isPercentStack);
+                    null, isPercentStack, chart.useUtc);
                 var label = ChartHelper.AddAxisLabelObject(splitNumber, i, objName + i, axisObj.transform,
                     new Vector2(labelWidth, txtHig), axis, chart.theme.axis, labelName, Color.clear);
 

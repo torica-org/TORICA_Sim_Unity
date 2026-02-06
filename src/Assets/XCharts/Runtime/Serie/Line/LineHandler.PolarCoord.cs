@@ -31,7 +31,7 @@ namespace XCharts.Runtime
                     foreach (var serieData in serie.data)
                     {
                         var symbol = SerieHelper.GetSerieSymbol(serie, serieData);
-                        var symbolSize = symbol.GetSize(serieData.data, chart.theme.serie.lineSymbolSize);
+                        var symbolSize = symbol.GetSize(serieData, chart.theme.serie.lineSymbolSize);
                         serieData.context.highlight = false;
                         serieData.interact.SetValue(ref needAnimation1, symbolSize);
                     }
@@ -275,7 +275,7 @@ namespace XCharts.Runtime
 
                     symbolSize = serie.animation.GetSysmbolSize(symbolSize);
                     chart.DrawSymbol(vh, symbol.type, symbolSize, symbolBorder, serieData.context.position,
-                        symbolColor, symbolToColor, symbolEmptyColor, borderColor, symbol.gap, cornerRadius);
+                        symbolColor, symbolToColor, symbolEmptyColor, borderColor, symbol.gap, cornerRadius, symbol.size2);
                 }
             }
         }

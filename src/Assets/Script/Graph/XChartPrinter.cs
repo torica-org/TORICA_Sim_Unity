@@ -1,13 +1,13 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.IO;
 using UnityEngine;
-using XCharts.Runtime; // XChart‚ğg‚¤‚½‚ß‚É•K—v
+using XCharts.Runtime; // XChartã‚’ä½¿ã†ãŸã‚ã«å¿…è¦
 
 public class XChartPrinter : MonoBehaviour
 {
-    private Camera graphCamera; // B‰e—pƒJƒƒ‰
-    private LineChart chart;    // XChart‚ÌƒOƒ‰ƒt–{‘Ì
-    private Vector2Int imageSize = new Vector2Int(1920, 1440); // •Û‘¶ƒTƒCƒY
+    private Camera graphCamera; // æ’®å½±ç”¨ã‚«ãƒ¡ãƒ©
+    private LineChart chart;    // XChartã®ã‚°ãƒ©ãƒ•æœ¬ä½“
+    private Vector2Int imageSize = new Vector2Int(1920, 1440); // ä¿å­˜ã‚µã‚¤ã‚º
 
     private void Start ()
     {
@@ -15,92 +15,347 @@ public class XChartPrinter : MonoBehaviour
         chart = GameObject.Find("ChartForPrinter").GetComponent<LineChart>();
     }
 
-    // ŠO•”‚©‚çŒÄ‚ÔŠÖ”
-    public void PrintGraph(float[] dataPoints, string fileName)
+    // ===============================================================================================
+
+    //private LineChart chart;
+    private Serie serie;
+    private int m_DataNum = 8;
+
+    private void OnEnable()
+    {
+        StartCoroutine(PieDemo());
+    }
+
+    IEnumerator PieDemo()
+    {
+        while (true)
+        {
+            StartCoroutine(AddSimpleLine());
+            yield return new WaitForSeconds(2);
+            StartCoroutine(ChangeLineType());
+            yield return new WaitForSeconds(8);
+            StartCoroutine(LineAreaStyleSettings());
+            yield return new WaitForSeconds(5);
+            StartCoroutine(LineArrowSettings());
+            yield return new WaitForSeconds(2);
+            StartCoroutine(LineSymbolSettings());
+            yield return new WaitForSeconds(7);
+            StartCoroutine(LineLabelSettings());
+            yield return new WaitForSeconds(3);
+            StartCoroutine(LineMutilSerie());
+            yield return new WaitForSeconds(5);
+        }
+    }
+
+    IEnumerator AddSimpleLine()
+    {
+        chart = gameObject.GetComponent<LineChart>();
+        if (chart == null)
+        {
+            chart = gameObject.AddComponent<LineChart>();
+            chart.Init();
+        }
+        chart.GetChartComponent<Title>().text = "LineChart - æŠ˜çº¿å›¾";
+        chart.GetChartComponent<Title>().subText = "æ™®é€šæŠ˜çº¿å›¾";
+
+        var yAxis = chart.GetChartComponent<YAxis>();
+        yAxis.minMaxType = Axis.AxisMinMaxType.Custom;
+        yAxis.min = 0;
+        yAxis.max = 100;
+
+        chart.RemoveData();
+        serie = chart.AddSerie<Line>("Line");
+
+        for (int i = 0; i < m_DataNum; i++)
+        {
+            chart.AddXAxisData("x" + (i + 1));
+            chart.AddData(0, UnityEngine.Random.Range(30, 90));
+        }
+        yield return new WaitForSeconds(1);
+    }
+
+    IEnumerator ChangeLineType()
+    {
+        chart.GetChartComponent<Title>().subText = "LineTyle - æ›²çº¿å›¾";
+        serie.lineType = LineType.Smooth;
+        chart.RefreshChart();
+        yield return new WaitForSeconds(1);
+
+        chart.GetChartComponent<Title>().subText = "LineTyle - é˜¶æ¢¯çº¿å›¾";
+        serie.lineType = LineType.StepStart;
+        chart.RefreshChart();
+        yield return new WaitForSeconds(1);
+
+        serie.lineType = LineType.StepMiddle;
+        chart.RefreshChart();
+        yield return new WaitForSeconds(1);
+
+        serie.lineType = LineType.StepEnd;
+        chart.RefreshChart();
+        yield return new WaitForSeconds(1);
+
+        chart.GetChartComponent<Title>().subText = "LineTyle - è™šçº¿";
+        serie.lineStyle.type = LineStyle.Type.Dashed;
+        chart.RefreshChart();
+        yield return new WaitForSeconds(1);
+
+        chart.GetChartComponent<Title>().subText = "LineTyle - ç‚¹çº¿";
+        serie.lineStyle.type = LineStyle.Type.Dotted;
+        chart.RefreshChart();
+        yield return new WaitForSeconds(1);
+
+        chart.GetChartComponent<Title>().subText = "LineTyle - ç‚¹åˆ’çº¿";
+        serie.lineStyle.type = LineStyle.Type.DashDot;
+        chart.RefreshChart();
+        yield return new WaitForSeconds(1);
+
+        chart.GetChartComponent<Title>().subText = "LineTyle - åŒç‚¹åˆ’çº¿";
+        serie.lineStyle.type = LineStyle.Type.DashDotDot;
+        chart.RefreshChart();
+
+        serie.lineType = LineType.Normal;
+        chart.RefreshChart();
+    }
+
+    IEnumerator LineAreaStyleSettings()
+    {
+        chart.GetChartComponent<Title>().subText = "AreaStyle é¢ç§¯å›¾";
+
+        serie.EnsureComponent<AreaStyle>();
+        serie.areaStyle.show = true;
+        chart.RefreshChart();
+        yield return new WaitForSeconds(1f);
+
+        chart.GetChartComponent<Title>().subText = "AreaStyle é¢ç§¯å›¾";
+        serie.lineType = LineType.Smooth;
+        serie.areaStyle.show = true;
+        chart.RefreshChart();
+        yield return new WaitForSeconds(1f);
+
+        chart.GetChartComponent<Title>().subText = "AreaStyle é¢ç§¯å›¾ - è°ƒæ•´é€æ˜åº¦";
+        while (serie.areaStyle.opacity > 0.4)
+        {
+            serie.areaStyle.opacity -= 0.6f * Time.deltaTime;
+            chart.RefreshChart();
+            yield return null;
+        }
+        yield return new WaitForSeconds(1);
+
+        chart.GetChartComponent<Title>().subText = "AreaStyle é¢ç§¯å›¾ - æ¸å˜";
+        serie.areaStyle.toColor = Color.white;
+        chart.RefreshChart();
+        yield return new WaitForSeconds(1);
+    }
+
+    IEnumerator LineArrowSettings()
+    {
+        chart.GetChartComponent<Title>().subText = "LineArrow å¤´éƒ¨ç®­å¤´";
+        chart.GetSerie(0).EnsureComponent<LineArrow>();
+        serie.lineArrow.show = true;
+        serie.lineArrow.position = LineArrow.Position.Start;
+        chart.RefreshChart();
+        yield return new WaitForSeconds(1);
+
+        chart.GetChartComponent<Title>().subText = "LineArrow å°¾éƒ¨ç®­å¤´";
+        serie.lineArrow.position = LineArrow.Position.End;
+        chart.RefreshChart();
+        yield return new WaitForSeconds(1);
+        serie.lineArrow.show = false;
+    }
+
+    /// <summary>
+    /// SerieSymbol ç›¸å…³è®¾ç½®
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator LineSymbolSettings()
+    {
+        chart.GetChartComponent<Title>().subText = "SerieSymbol å›¾å½¢æ ‡è®°";
+        while (serie.symbol.size < 5)
+        {
+            serie.symbol.size += 2.5f * Time.deltaTime;
+            chart.RefreshChart();
+            yield return null;
+        }
+        chart.GetChartComponent<Title>().subText = "SerieSymbol å›¾å½¢æ ‡è®° - ç©ºå¿ƒåœ†";
+        yield return new WaitForSeconds(1);
+
+        chart.GetChartComponent<Title>().subText = "SerieSymbol å›¾å½¢æ ‡è®° - å®å¿ƒåœ†";
+        serie.symbol.type = SymbolType.Circle;
+        chart.RefreshChart();
+        yield return new WaitForSeconds(1);
+
+        chart.GetChartComponent<Title>().subText = "SerieSymbol å›¾å½¢æ ‡è®° - ä¸‰è§’å½¢";
+        serie.symbol.type = SymbolType.Triangle;
+        chart.RefreshChart();
+        yield return new WaitForSeconds(1);
+
+        chart.GetChartComponent<Title>().subText = "SerieSymbol å›¾å½¢æ ‡è®° - æ­£æ–¹å½¢";
+        serie.symbol.type = SymbolType.Rect;
+        chart.RefreshChart();
+        yield return new WaitForSeconds(1);
+
+        chart.GetChartComponent<Title>().subText = "SerieSymbol å›¾å½¢æ ‡è®° - è±å½¢";
+        serie.symbol.type = SymbolType.Diamond;
+        chart.RefreshChart();
+        yield return new WaitForSeconds(1);
+
+        chart.GetChartComponent<Title>().subText = "SerieSymbol å›¾å½¢æ ‡è®°";
+        serie.symbol.type = SymbolType.EmptyCircle;
+        chart.RefreshChart();
+        yield return new WaitForSeconds(1);
+    }
+
+    /// <summary>
+    /// SerieLabelç›¸å…³é…ç½®
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator LineLabelSettings()
+    {
+        chart.GetChartComponent<Title>().subText = "SerieLabel æ–‡æœ¬æ ‡ç­¾";
+        serie.EnsureComponent<LabelStyle>();
+        chart.RefreshChart();
+        while (serie.label.offset[1] < 20)
+        {
+            serie.label.offset = new Vector3(serie.label.offset.x, serie.label.offset.y + 20f * Time.deltaTime);
+            chart.RefreshChart();
+            yield return null;
+        }
+        yield return new WaitForSeconds(1);
+
+        chart.RefreshChart();
+        yield return new WaitForSeconds(1);
+
+        serie.label.textStyle.color = Color.white;
+        serie.label.background.color = Color.grey;
+        serie.labelDirty = true;
+        chart.RefreshChart();
+        yield return new WaitForSeconds(1);
+
+        serie.label.show = false;
+        chart.RefreshChart();
+    }
+
+    /// <summary>
+    /// æ·»åŠ å¤šæ¡çº¿å›¾
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator LineMutilSerie()
+    {
+        chart.GetChartComponent<Title>().subText = "å¤šç³»åˆ—";
+        var serie2 = chart.AddSerie<Line>("Line2");
+        serie2.lineType = LineType.Normal;
+        for (int i = 0; i < m_DataNum; i++)
+        {
+            chart.AddData(1, UnityEngine.Random.Range(30, 90));
+        }
+        yield return new WaitForSeconds(1);
+
+        var serie3 = chart.AddSerie<Line>("Line3");
+        serie3.lineType = LineType.Normal;
+        for (int i = 0; i < m_DataNum; i++)
+        {
+            chart.AddData(2, UnityEngine.Random.Range(30, 90));
+        }
+        yield return new WaitForSeconds(1);
+
+        var yAxis = chart.GetChartComponent<YAxis>();
+        yAxis.minMaxType = Axis.AxisMinMaxType.Default;
+        chart.GetChartComponent<Title>().subText = "å¤šç³»åˆ— - å †å ";
+        serie.stack = "samename";
+        serie2.stack = "samename";
+        serie3.stack = "samename";
+        chart.RefreshChart();
+        yield return new WaitForSeconds(1);
+    }
+
+// ===============================================================================================
+
+// å¤–éƒ¨ã‹ã‚‰å‘¼ã¶é–¢æ•°
+public void PrintGraph(float[] dataPoints, string fileName)
     {
         StartCoroutine(CaptureProcess(dataPoints, fileName));
     }
 
     private IEnumerator CaptureProcess(float[] dataPoints, string fileName)
     {
-        // 1. XChart‚Éƒf[ƒ^‚ğƒZƒbƒg
+        // 1. XChartã«ãƒ‡ãƒ¼ã‚¿ã‚’ã‚»ãƒƒãƒˆ
         chart.ClearData();
 
-        // ƒVƒŠ[ƒY0”ÔiÜ‚êü‚È‚Çj‚Éƒf[ƒ^‚ğ’Ç‰Á
-        // ¦XCharts‚Ìƒo[ƒWƒ‡ƒ“‚É‚æ‚Á‚Ä‘‚«•û‚ªáŠ±ˆÙ‚È‚éê‡‚ª‚ ‚è‚Ü‚·
+        // ã‚·ãƒªãƒ¼ã‚º0ç•ªï¼ˆæŠ˜ã‚Œç·šãªã©ï¼‰ã«ãƒ‡ãƒ¼ã‚¿ã‚’è¿½åŠ 
+        // â€»XChartsã®ãƒãƒ¼ã‚¸ãƒ§ãƒ³ã«ã‚ˆã£ã¦æ›¸ãæ–¹ãŒè‹¥å¹²ç•°ãªã‚‹å ´åˆãŒã‚ã‚Šã¾ã™
         foreach (var val in dataPoints)
         {
             chart.AddData(0, val);
         }
 
-        // d—v: XChart‚Ì•`‰æXV‚ğ‘Ò‚Â
-        // ƒf[ƒ^‚ğƒZƒbƒg‚µ‚½uŠÔ‚ÉŒ©‚½–Ú‚Í•Ï‚í‚ç‚È‚¢‚½‚ßA1ƒtƒŒ[ƒ€‘Ò‚¿‚Ü‚·
+        // é‡è¦: XChartã®æç”»æ›´æ–°ã‚’å¾…ã¤
+        // ãƒ‡ãƒ¼ã‚¿ã‚’ã‚»ãƒƒãƒˆã—ãŸç¬é–“ã«è¦‹ãŸç›®ã¯å¤‰ã‚ã‚‰ãªã„ãŸã‚ã€1ãƒ•ãƒ¬ãƒ¼ãƒ å¾…ã¡ã¾ã™
         chart.RefreshChart();
         yield return new WaitForEndOfFrame();
-        // ‚à‚µ”½‰f‚³‚ê‚È‚¢ê‡‚Í‚à‚¤1ƒtƒŒ[ƒ€‘Ò‚Â
+        // ã‚‚ã—åæ˜ ã•ã‚Œãªã„å ´åˆã¯ã‚‚ã†1ãƒ•ãƒ¬ãƒ¼ãƒ å¾…ã¤
         // yield return null; 
 
-        // 2. RenderTexture‚ğì¬ (g‚¢Ì‚Ä)
+        // 2. RenderTextureã‚’ä½œæˆ (ä½¿ã„æ¨ã¦)
         RenderTexture rt = new RenderTexture(imageSize.x, imageSize.y, 24);
         graphCamera.targetTexture = rt;
 
-        // 3. ƒJƒƒ‰‚ÅB‰eiƒŒƒ“ƒ_ƒŠƒ“ƒOj
+        // 3. ã‚«ãƒ¡ãƒ©ã§æ’®å½±ï¼ˆãƒ¬ãƒ³ãƒ€ãƒªãƒ³ã‚°ï¼‰
         graphCamera.Render();
 
-        // 4. RenderTexture‚©‚çTexture2D‚ÉƒsƒNƒZƒ‹‚ğˆÚ‚·
-        RenderTexture.active = rt; // ReadPixels‚Ì“Ç‚İæ‚èŒ³‚ğrt‚ÉØ‚è‘Ö‚¦
+        // 4. RenderTextureã‹ã‚‰Texture2Dã«ãƒ”ã‚¯ã‚»ãƒ«ã‚’ç§»ã™
+        RenderTexture.active = rt; // ReadPixelsã®èª­ã¿å–ã‚Šå…ƒã‚’rtã«åˆ‡ã‚Šæ›¿ãˆ
         Texture2D texture = new Texture2D(imageSize.x, imageSize.y, TextureFormat.RGB24, false);
         texture.ReadPixels(new Rect(0, 0, imageSize.x, imageSize.y), 0, 0);
         texture.Apply();
 
-        // Œãn––
+        // å¾Œå§‹æœ«
         graphCamera.targetTexture = null;
         RenderTexture.active = null;
         Destroy(rt);
 
-        // 5. •Û‘¶
+        // 5. ä¿å­˜
         SaveTexture(texture, fileName);
 
-        Destroy(texture); // ƒƒ‚ƒŠ‰ğ•ú
+        Destroy(texture); // ãƒ¡ãƒ¢ãƒªè§£æ”¾
     }
 
-    // ŠO•”‚©‚çŒÄ‚ÔŠÖ”
+    // å¤–éƒ¨ã‹ã‚‰å‘¼ã¶é–¢æ•°
     public void PrintGraph(LineChart linechart, string fileName)
     {
-        // 2. RenderTexture‚ğì¬ (g‚¢Ì‚Ä)
+        // 2. RenderTextureã‚’ä½œæˆ (ä½¿ã„æ¨ã¦)
         RenderTexture rt = new RenderTexture(imageSize.x, imageSize.y, 24);
         graphCamera.targetTexture = rt;
 
-        // 3. ƒJƒƒ‰‚ÅB‰eiƒŒƒ“ƒ_ƒŠƒ“ƒOj
+        // 3. ã‚«ãƒ¡ãƒ©ã§æ’®å½±ï¼ˆãƒ¬ãƒ³ãƒ€ãƒªãƒ³ã‚°ï¼‰
         graphCamera.Render();
 
-        // 4. RenderTexture‚©‚çTexture2D‚ÉƒsƒNƒZƒ‹‚ğˆÚ‚·
-        RenderTexture.active = rt; // ReadPixels‚Ì“Ç‚İæ‚èŒ³‚ğrt‚ÉØ‚è‘Ö‚¦
+        // 4. RenderTextureã‹ã‚‰Texture2Dã«ãƒ”ã‚¯ã‚»ãƒ«ã‚’ç§»ã™
+        RenderTexture.active = rt; // ReadPixelsã®èª­ã¿å–ã‚Šå…ƒã‚’rtã«åˆ‡ã‚Šæ›¿ãˆ
         Texture2D texture = new Texture2D(imageSize.x, imageSize.y, TextureFormat.RGB24, false);
         texture.ReadPixels(new Rect(0, 0, imageSize.x, imageSize.y), 0, 0);
         texture.Apply();
 
-        // Œãn––
+        // å¾Œå§‹æœ«
         graphCamera.targetTexture = null;
         RenderTexture.active = null;
         Destroy(rt);
 
-        // 5. •Û‘¶
+        // 5. ä¿å­˜
         SaveTexture(texture, fileName);
 
-        Destroy(texture); // ƒƒ‚ƒŠ‰ğ•ú
+        Destroy(texture); // ãƒ¡ãƒ¢ãƒªè§£æ”¾
     }
 
     private void SaveTexture(Texture2D tex, string fileName)
     {
-        // exe‚Æ“¯‚¶ŠK‘w/Graphs ƒtƒHƒ‹ƒ_‚É•Û‘¶
+        // exeã¨åŒã˜éšå±¤/Graphs ãƒ•ã‚©ãƒ«ãƒ€ã«ä¿å­˜
         string dirPath = Path.Combine(Directory.GetParent(Application.dataPath).FullName, "Graphs");
         if (!Directory.Exists(dirPath)) Directory.CreateDirectory(dirPath);
 
         string fullPath = Path.Combine(dirPath, fileName);
         File.WriteAllBytes(fullPath, tex.EncodeToPNG());
 
-        Debug.Log("XChartƒOƒ‰ƒt‚ğ•Û‘¶‚µ‚Ü‚µ‚½: " + fullPath);
+        Debug.Log("XChartã‚°ãƒ©ãƒ•ã‚’ä¿å­˜ã—ã¾ã—ãŸ: " + fullPath);
         System.Diagnostics.Process.Start(@dirPath);
     }
 }

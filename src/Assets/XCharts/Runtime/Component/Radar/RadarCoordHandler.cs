@@ -41,7 +41,7 @@ namespace XCharts.Runtime
             {
                 radar.UpdateRadarCenter(chart);
                 var radarObject = ChartHelper.AddObject("Radar" + radar.index, chart.transform, chart.chartMinAnchor,
-                    chart.chartMaxAnchor, chart.chartPivot, chart.chartSizeDelta);
+                    chart.chartMaxAnchor, chart.chartPivot, chart.chartSizeDelta, -1, chart.childrenNodeNames);
                 radar.gameObject = radarObject;
                 radar.gameObject.hideFlags = chart.chartHideFlags;
                 ChartHelper.HideAllObject(radarObject.transform, INDICATOR_TEXT);
@@ -50,9 +50,9 @@ namespace XCharts.Runtime
                     var indicator = radar.indicatorList[i];
                     var pos = radar.GetIndicatorPosition(i);
                     var objName = INDICATOR_TEXT + "_" + i;
-
+                    var content = radar.GetFormatterIndicatorContent(i, radar.indicatorList.Count);
                     var label = ChartHelper.AddChartLabel(objName, radarObject.transform, radar.axisName.labelStyle,
-                        chart.theme.common, radar.GetFormatterIndicatorContent(i), Color.clear, TextAnchor.MiddleCenter);
+                        chart.theme.common, content, Color.clear, TextAnchor.MiddleCenter);
                     label.SetActive(radar.axisName.show && radar.indicator && radar.axisName.labelStyle.show, true);
                     AxisHelper.AdjustCircleLabelPos(label, pos, radar.context.center, txtHig, radar.axisName.labelStyle.offset);
                 }

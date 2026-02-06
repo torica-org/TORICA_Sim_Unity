@@ -16,7 +16,7 @@ namespace XCharts.Runtime
                 else
                     return !ChartHelper.IsClearColor(textStyle.color) ? textStyle.color : theme.legend.textColor;
             }
-            else return theme.legend.unableColor;
+            else return theme.legend.inactiveColor;
         }
 
         public static Color GetIconColor(BaseChart chart, Legend legend, int readIndex, string legendName, bool active)
@@ -30,7 +30,7 @@ namespace XCharts.Runtime
                 else
                     return legend.GetColor(readIndex);
             }
-            else return chart.theme.legend.unableColor;
+            else return chart.theme.legend.inactiveColor;
         }
 
         public static LegendItem AddLegendItem(BaseChart chart, Legend legend, int i, string legendName, Transform parent,
@@ -48,7 +48,7 @@ namespace XCharts.Runtime
             var objAnchorMin = new Vector2(0, 1);
             var objAnchorMax = new Vector2(0, 1);
             var objPivot = new Vector2(0, 1);
-            var btnObj = ChartHelper.AddObject(objName, parent, objAnchorMin, objAnchorMax, objPivot, sizeDelta);
+            var btnObj = ChartHelper.AddObject(objName, parent, objAnchorMin, objAnchorMax, objPivot, sizeDelta, -1, chart.childrenNodeNames);
             var iconObj = ChartHelper.AddObject("icon", btnObj.transform, anchorMin, anchorMax, pivot, iconSizeDelta);
             var img = ChartHelper.EnsureComponent<Image>(btnObj);
             img.color = Color.clear;

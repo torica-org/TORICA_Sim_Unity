@@ -15,7 +15,7 @@ public class GraphManager : MonoBehaviour
     {
         printer = GameObject.Find("XChartPrinter").GetComponent<XChartPrinter>();
         chart1 = GameObject.Find("ChartForPrinter").AddComponent<MakeChart1>();
-        
+        /*
         // テストデータ作成
         float[] data = new float[100];
         for (int i = 0; i < 100; i++) data[i] = Random.Range(0f, 100f);
@@ -36,13 +36,15 @@ public class GraphManager : MonoBehaviour
         // テストデータ作成
         for (int i = 0; i < 100; i++) data[i] = Random.Range(0f, 100f);
         printer.PrintGraph(data, "Chart5.png");
+        */
     }
 
     void OnGUI()
     {
-        if (GUILayout.Button("Export Graph"))
+        if (GUI.Button(new Rect(0, 40, 80, 20), "Export Graph"))
         {
-            chart1.SaveGraph("Theta_Alpha.png");
+            // chart1.SaveGraph("Theta_Alpha.png");
+            chart1.AddData_Debug();
         }
     }
 

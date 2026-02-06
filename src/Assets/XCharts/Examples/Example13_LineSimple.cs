@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 #if INPUT_SYSTEM_ENABLED
 using Input = XCharts.Runtime.InputHelper;
 #endif
@@ -38,7 +35,7 @@ namespace XCharts.Example
             chart.EnsureChartComponent<Title>().text = "Line Simple";
 
             chart.EnsureChartComponent<Tooltip>().show = true;
-            //chart.EnsureChartComponent<Legend>().show = true;
+            chart.EnsureChartComponent<Legend>().show = false;
 
             var xAxis = chart.EnsureChartComponent<XAxis>();
             var yAxis = chart.EnsureChartComponent<YAxis>();
@@ -57,8 +54,7 @@ namespace XCharts.Example
             {
                 chart.AddXAxisData("x" + i);
                 chart.AddData(0, Random.Range(10, 20));
-
-                chart.AddData(1, Random.Range(100, 200));
+                chart.AddData(1, Random.Range(10, 20));
             }
         }
     }
