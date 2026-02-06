@@ -270,7 +270,7 @@ public class AerodynamicCalculator : SerialReceive
             //mass~Factor ←Rawを調整するための係数
             //mass~ ←NowにFactorの値をかけて計算に使用する値
 
-            // (g -> kg)廃止 -> マイコン側でkgに変換する
+            // マイコン側でkgに変換する
             massRight = gm.massRightFactor*(massRightNow);
             massBackwardRight = gm.massBackwardRightFactor*(massBackwardRightNow);
 
@@ -372,7 +372,6 @@ public class AerodynamicCalculator : SerialReceive
                 centerOfG = pitchGravityBefore;
                 pilotCenterOfG = pitchGravityPilotBefore;
             }
-
 
         }
         // Get control surface angles

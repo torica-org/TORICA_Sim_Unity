@@ -67,12 +67,12 @@ public class AutoFactorSetter : MonoBehaviour
         script.pilotCenterOfGRaw = (script.massRightNow * AerodynamicCalculator.lengthForward + script.massBackwardRightNow * AerodynamicCalculator.lengthBackward) / gm.pilotMassReal; // 補正前のパイロット重心[m]
         Debug.Log("Raw: " + script.pilotCenterOfGRaw);
 
-        // 機体が定常であるためには，（パイロットの体重によるモーメント）＝（空虚重量〈パイロットなしの機体重量〉によるモーメント）である必要があることから，
-        // その両辺をパイロットの体重で割った式
+        // 機体が定常であるためには，（パイロットの体重によるモーメント）＝（空虚重量〈パイロットなしの機体重量〉によるモーメント）である必要があることを利用
+        // シミュレーター上での桁中心モーメントについて，（パイロットの体重によるモーメント）＝（空虚重量〈パイロットなしの機体重量〉によるモーメント）とし，その両辺をパイロットの体重で割った式
         float pilotCenterOfGTheoretical = (-1 * AerodynamicCalculator.aircraftMass * AerodynamicCalculator.aircraftCenterOfMass) / gm.pilotMassReal; // 定常におけるパイロット重心の理論値[m]
         Debug.Log("pilot_th: " + pilotCenterOfGTheoretical);
 
-        // 補正値の計算
+        // 補正値の算出
         script.pilotCenterOfGOffset = pilotCenterOfGTheoretical - script.pilotCenterOfGRaw; // パイロット重心の補正値
         Debug.Log("offset: " + script.pilotCenterOfGOffset);
 
