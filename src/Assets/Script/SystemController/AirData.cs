@@ -41,6 +41,7 @@ public class AirData : MonoBehaviour
         time += Time.deltaTime;
 
         if(frameNumber%(interval/0.02m) == 0)//interval[s]ごとにリストに追加
+        // if (true) // 毎フレーム追加
         {
             // Calculate rotation
             float q1 = MyGameManeger.instance.Plane.transform.rotation.x;
@@ -63,7 +64,7 @@ public class AirData : MonoBehaviour
             MyGameManeger.instance.BetaList.Add((float)Math.Round(script.beta, 2,  MidpointRounding.AwayFromZero));
             MyGameManeger.instance.ThetaList.Add((float)Math.Round(theta, 2,  MidpointRounding.AwayFromZero));
             MyGameManeger.instance.PhiList.Add((float)Math.Round(phi, 2,  MidpointRounding.AwayFromZero));
-            MyGameManeger.instance.PitchGravityList.Add((float)Math.Round(script.pitchGravity, 2, MidpointRounding.AwayFromZero));
+            MyGameManeger.instance.PitchGravityList.Add((float)Math.Round(script.centerOfG, 2, MidpointRounding.AwayFromZero));
             MyGameManeger.instance.drList.Add((float)Math.Round(script.dr, 2 ,MidpointRounding.AwayFromZero));
             
             /*
@@ -91,5 +92,37 @@ public class AirData : MonoBehaviour
         // 100 倍して四捨五入 → また 100 で割る
         return Mathf.Round(value * factor) / factor;
     }
+
+    /*
+    void OnGUI()
+    {
+        if (GUILayout.Button("Show Log"))
+        {
+            int i = 0;
+            while(true)
+            {
+                try
+                {
+                    float speed = MyGameManeger.instance.AirSpeedList[i];
+                    float alt = MyGameManeger.instance.AltList[i];
+                    float alpha = MyGameManeger.instance.AlphaList[i];
+                    float beta = MyGameManeger.instance.BetaList[i];
+                    float theta = MyGameManeger.instance.ThetaList[i]; ;
+                    float phi = MyGameManeger.instance.PhiList[i];
+                    float centerOfG = MyGameManeger.instance.PitchGravityList[i];
+                    float dr = MyGameManeger.instance.drList[i];
+                    Debug.Log("speed: " + speed + ", alt: " + alt + ", alpha: " + alpha + ", beta: " + beta + ", theta: " + theta + ", phi: " + phi + ", centerOfG: " + centerOfG + ", dr: " + dr);
+                    i++;
+                }
+                catch (System.Exception e)
+                {
+                    Debug.LogWarning(e.Message);
+                    Debug.Log(i);
+                    break;
+                }
+            }
+        }
+    }
+    */
 
 }

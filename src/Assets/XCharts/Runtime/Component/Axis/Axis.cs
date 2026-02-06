@@ -115,6 +115,13 @@ namespace XCharts.Runtime
 
         public AxisContext context = new AxisContext();
 
+        private Action<int, string> m_OnLabelClick;
+        /// <summary>
+        /// Callback function when click on the label. Parameters: labelIndex, labelName.
+        /// ||点击文本标签回调函数。参数：labelIndex, labelName。
+        /// </summary>
+        [Since("v3.15.0")]
+        public Action<int, string> onLabelClick { internal get { return m_OnLabelClick; } set { m_OnLabelClick = value; } }
         /// <summary>
         /// Whether to show axis.
         /// ||是否显示坐标轴。
@@ -478,6 +485,7 @@ namespace XCharts.Runtime
             context.maxValue = 0;
             context.destMinValue = 0;
             context.destMaxValue = 0;
+            context.labelValueList.Clear();
         }
 
         public Axis Clone()
@@ -609,13 +617,13 @@ namespace XCharts.Runtime
             return m_Position == AxisPosition.Bottom;
         }
 
-        public bool IsNeedShowLabel(int index, int total = 0)
+        public bool IsNeedShowLabel(int index, int total = 0, string content = null)
         {
             if (total == 0)
             {
                 total = context.labelValueList.Count;
             }
-            return axisLabel.IsNeedShowLabel(index, total);
+            return axisLabel.IsNeedShowLabel(index, total, content);
         }
 
         public void SetNeedUpdateFilterData()
@@ -834,22 +842,6 @@ namespace XCharts.Runtime
         internal int GetDataCount(DataZoom dataZoom)
         {
             return IsCategory() ? GetDataList(dataZoom).Count : 0;
-        }
-
-        /// <summary>
-        /// 更新刻度标签文字
-        /// </summary>
-        /// <param name="dataZoom"></param>
-        internal void UpdateLabelText(float coordinateWidth, DataZoom dataZoom, bool forcePercent)
-        {
-            for (int i = 0; i < context.labelObjectList.Count; i++)
-            {
-                if (context.labelObjectList[i] != null)
-                {
-                    var text = AxisHelper.GetLabelName(this, coordinateWidth, i, context.destMinValue, context.destMaxValue, dataZoom, forcePercent);
-                    context.labelObjectList[i].SetText(text);
-                }
-            }
         }
 
         internal Vector3 GetLabelObjectPosition(int index)

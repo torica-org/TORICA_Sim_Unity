@@ -18,7 +18,7 @@ public class MakeCharts : MonoBehaviour
 
     protected LineChart chart;
     protected XAxis xAxis;
-    protected YAxis yAxis; 
+    protected YAxis yAxis;
     protected int i;
     protected int DataN = 1;
 
@@ -42,7 +42,7 @@ public class MakeCharts : MonoBehaviour
             chart = GameObject.Find("ChartForPrinter").AddComponent<LineChart>();
             chart.Init();
         }
-
+        /*
         chart.EnsureChartComponent<Title>().show = false;
         //chart.EnsureChartComponent<Title>().text = "Line Simple";
 
@@ -52,16 +52,14 @@ public class MakeCharts : MonoBehaviour
         xAxis = chart.EnsureChartComponent<XAxis>();
         yAxis = chart.EnsureChartComponent<YAxis>();
 
-        /*
-        xAxis.axisLabel.numericFormatter = "F0";
-        yAxis.axisLabel.numericFormatter = "F0";
-        */
-        
+        // xAxis.axisLabel.numericFormatter = "F0";
+        // yAxis.axisLabel.numericFormatter = "F0";
+
         xAxis.show = true;
         yAxis.show = true;
         xAxis.type = Axis.AxisType.Category;
         yAxis.type = Axis.AxisType.Value;
-                
+
         xAxis.splitNumber = 5;
         xAxis.boundaryGap = true;
 
@@ -70,6 +68,7 @@ public class MakeCharts : MonoBehaviour
         chart.RefreshChart();
 
         SetAxis();
+        */
     }
 
 
@@ -88,6 +87,64 @@ public class MakeCharts : MonoBehaviour
     }
     */
 
+    public void AddData_Debug()
+    {
+        StartCoroutine(AddingProcess());
+    }
+
+    private IEnumerator AddingProcess()
+    {
+        chart.EnsureChartComponent<Title>().show = false;
+        //chart.EnsureChartComponent<Title>().text = "Line Simple";
+
+        chart.EnsureChartComponent<Tooltip>().show = true;
+        chart.EnsureChartComponent<Legend>().show = true;
+
+        xAxis = chart.EnsureChartComponent<XAxis>();
+        yAxis = chart.EnsureChartComponent<YAxis>();
+
+        // xAxis.axisLabel.numericFormatter = "F0";
+        // yAxis.axisLabel.numericFormatter = "F0";
+
+        xAxis.show = true;
+        yAxis.show = true;
+        //xAxis.type = Axis.AxisType.Category;
+        //yAxis.type = Axis.AxisType.Value;
+
+        xAxis.splitNumber = 5;
+        xAxis.boundaryGap = true;
+
+        chart.RemoveData();
+
+        SetAxis();
+
+        yield return new WaitForEndOfFrame();
+
+        int loopCount = 0;
+        while (true)
+        {
+            try
+            {
+                AddData();
+                loopCount++;
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogWarning(e.Message);
+                Debug.Log(loopCount);
+                Debug.Log(airdata.frameNumber);
+                i = 0;
+                break;
+            }
+        }
+
+        // 変更を反映
+        chart.RefreshChart();
+
+        yield return null;
+
+        yield return new WaitForEndOfFrame();
+    }
 
     public void SaveGraph(string fileName)
     {

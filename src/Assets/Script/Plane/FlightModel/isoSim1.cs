@@ -34,17 +34,17 @@ public class isoSim1 : AerodynamicCalculator
     public override void FlightModelFixedUpdate(){
         //入力系統
         //リジットボディに代入
-        PlaneRigidbody.centerOfMass = new Vector3(pitchGravity,PlaneRigidbody.centerOfMass.y,PlaneRigidbody.centerOfMass.z);
+        PlaneRigidbody.centerOfMass = new Vector3(centerOfG,PlaneRigidbody.centerOfMass.y,PlaneRigidbody.centerOfMass.z);
 
         //hwに代入する重心位置(%MAC)を計算
-        hw2= hw0-(pitchGravity/cMAC);
+        hw2= hw0-(centerOfG/cMAC);
         //hwに代入
         hw = hw2;
 
-        lt = lt0 + pitchGravity;
+        lt = lt0 + centerOfG;
 
         if(MyGameManeger.instance.PlaneName == "Tatsumi"){
-            float Iyy = (85.6f*pitchGravity*pitchGravity)+(38.63f*pitchGravity)+1241.85f;
+            float Iyy = (85.6f*centerOfG* centerOfG) +(38.63f* centerOfG) +1241.85f;
             Vector3 tensor = PlaneRigidbody.inertiaTensor;
             tensor.y = Iyy;
             PlaneRigidbody.inertiaTensor = tensor;

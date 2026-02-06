@@ -46,6 +46,9 @@ public class AutoFactorSetter : MonoBehaviour
         if(script.massBackwardLeftNow != 0){gm.massBackwardLeftFactor = script.massBackwardS/((script.massBackwardRightNow+script.massBackwardLeftNow)/1000);}
         else{gm.massBackwardLeftFactor = 0;}
         */
+
+        //float pilotMass;
+
         if (inputField.text != "")
         {
             gm.pilotMassReal = float.Parse(inputField.text);
@@ -53,29 +56,47 @@ public class AutoFactorSetter : MonoBehaviour
         }
         else
         {
-            gm.pilotMassReal = (script.massRightNow + script.massBackwardRightNow)/1000;
+            gm.pilotMassReal = script.massRightNow + script.massBackwardRightNow;
+            if (gm.VRMode)
+            {//HMDの質量を加算 -> 減算に修正
+                gm.pilotMassReal -= 0.588f;
+            }
         }
+
+        // 重心フレーム上での桁中心モーメントについて，（前後センサにかかる荷重によるモーメント）＝（パイロットの体重によるモーメント）とし，その両辺をパイロットの体重で割った式
+        script.pilotCenterOfGRaw = (script.massRightNow * AerodynamicCalculator.lengthForward + script.massBackwardRightNow * AerodynamicCalculator.lengthBackward) / gm.pilotMassReal; // 補正前のパイロット重心[m]
+        Debug.Log("Raw: " + script.pilotCenterOfGRaw);
+
+        // 機体が定常であるためには，（パイロットの体重によるモーメント）＝（空虚重量〈パイロットなしの機体重量〉によるモーメント）である必要があることから，
+        // その両辺をパイロットの体重で割った式
+        float pilotCenterOfGTheoretical = (-1 * AerodynamicCalculator.aircraftMass * AerodynamicCalculator.aircraftCenterOfMass) / gm.pilotMassReal; // 定常におけるパイロット重心の理論値[m]
+        Debug.Log("pilot_th: " + pilotCenterOfGTheoretical);
+
+        // 補正値の計算
+        script.pilotCenterOfGOffset = pilotCenterOfGTheoretical - script.pilotCenterOfGRaw; // パイロット重心の補正値
+        Debug.Log("offset: " + script.pilotCenterOfGOffset);
 
         // Debug.Log("pilotMassReal: " + gm.pilotMassReal);
 
-        float pilotMass;
-
+        /*
         if (gm.VRMode)
-        {//HMDの質量を加算
-            pilotMass = gm.pilotMassReal + 0.588f;
+        {//HMDの質量を加算 -> 減算に修正
+            pilotMass = gm.pilotMassReal - 0.588f;
         }
         else
         {
             pilotMass = gm.pilotMassReal;
         }
+        */
 
-        script.massLeftRightS = (pilotMass*AerodynamicCalculator.lengthBackward - AerodynamicCalculator.aircraftMass*AerodynamicCalculator.aircraftCenterOfMass) / (AerodynamicCalculator.lengthForward + AerodynamicCalculator.lengthBackward); // 前部荷重の理論値
-        script.massBackwardS = (pilotMass - script.massLeftRightS); // 後部荷重の理論値
+        //script.massLeftRightS = (pilotMass*AerodynamicCalculator.lengthBackward - AerodynamicCalculator.aircraftMass*AerodynamicCalculator.aircraftCenterOfMass) / (AerodynamicCalculator.lengthForward + AerodynamicCalculator.lengthBackward); // 前部荷重の理論値
+        //script.massBackwardS = (pilotMass - script.massLeftRightS); // 後部荷重の理論値
         // Debug.Log("lengthForward + lengthBackward" + (AerodynamicCalculator.lengthForward + AerodynamicCalculator.lengthBackward));
         // Debug.Log("pitchGravityPilotS: " + script.pitchGravityPilotS);
 
         // Debug.Log("Front: " + script.massLeftRightS + " Rear: " + script.massBackwardS);
 
+        /*
         if (script.massRightNow != 0) 
         { 
             gm.massRightFactor = script.massLeftRightS / (script.massRightNow / 1000);
@@ -95,6 +116,7 @@ public class AutoFactorSetter : MonoBehaviour
         { 
             gm.massBackwardRightFactor = 0; 
         }
+        */
 
     }
 }

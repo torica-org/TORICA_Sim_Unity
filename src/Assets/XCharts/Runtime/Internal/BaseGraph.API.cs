@@ -158,8 +158,8 @@ namespace XCharts.Runtime
         /// </summary>
         public void RebuildChartObject()
         {
-            ChartHelper.DestroyAllChildren(transform);
-            SetAllComponentDirty();
+            ChartHelper.DestoryGameObjectByMatch(transform, m_ChildNodeNames);
+            //SetAllComponentDirty();
         }
 
         public bool ScreenPointToChartPoint(Vector2 screenPoint, out Vector2 chartPoint)
@@ -218,6 +218,11 @@ namespace XCharts.Runtime
         {
             yield return new WaitForEndOfFrame();
             ChartHelper.SaveAsImage(rectTransform, canvas, imageType, path);
+        }
+
+        public Vector3 GetTitlePosition(Title title)
+        {
+            return graphPosition + title.location.GetPosition(graphWidth, graphHeight);
         }
     }
 }

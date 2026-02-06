@@ -156,6 +156,21 @@ namespace XCharts.Runtime
             }
         }
 
+        public static void DestoryGameObjectByMatch(Transform parent, List<string> children)
+        {
+            if (parent == null) return;
+            if (children == null || children.Count == 0) return;
+            var childCount = parent.childCount;
+            for (int i = childCount - 1; i >= 0; i--)
+            {
+                var go = parent.GetChild(i);
+                if (go != null && children.Contains(go.name))
+                {
+                    GameObject.DestroyImmediate(go.gameObject, true);
+                }
+            }
+        }
+
         public static void DestoryGameObject(GameObject go)
         {
             if (go != null) GameObject.DestroyImmediate(go, true);
@@ -186,6 +201,25 @@ namespace XCharts.Runtime
 #else
                 GameObject.Destroy(component as UnityEngine.Object);
 #endif
+            }
+        }
+
+        public static void RemoveTMPComponents(GameObject gameObject)
+        {
+            var coms = gameObject.GetComponents<Component>();
+            foreach (var com in coms)
+            {
+                if (com.GetType().FullName.Contains("TMPro"))
+                {
+#if UNITY_EDITOR
+                    if (!Application.isPlaying)
+                        GameObject.DestroyImmediate(com as UnityEngine.Object);
+                    else
+                        GameObject.Destroy(com as UnityEngine.Object);
+#else
+                    GameObject.Destroy(com as UnityEngine.Object);
+#endif
+                }
             }
         }
 
@@ -224,7 +258,13 @@ namespace XCharts.Runtime
         {
             if (gameObject.GetComponent<T>() == null)
             {
-                return gameObject.AddComponent<T>();
+                var com = gameObject.AddComponent<T>();
+                if (com == null)
+                {
+                    RemoveTMPComponents(gameObject);
+                    return gameObject.AddComponent<T>();
+                }
+                return com;
             }
             else
             {
@@ -233,7 +273,7 @@ namespace XCharts.Runtime
         }
 
         public static GameObject AddObject(string name, Transform parent, Vector2 anchorMin,
-            Vector2 anchorMax, Vector2 pivot, Vector2 sizeDelta, int replaceIndex = -1)
+            Vector2 anchorMax, Vector2 pivot, Vector2 sizeDelta, int replaceIndex = -1, List<string> cacheNames = null)
         {
             GameObject obj;
             if (parent.Find(name))
@@ -267,6 +307,8 @@ namespace XCharts.Runtime
             rect.anchorMax = anchorMax;
             rect.pivot = pivot;
             rect.anchoredPosition3D = Vector3.zero;
+
+            if (cacheNames != null && !cacheNames.Contains(name)) cacheNames.Add(name);
             return obj;
         }
 
@@ -297,7 +339,11 @@ namespace XCharts.Runtime
             chartText.tmpText.fontStyle = textStyle.tmpFontStyle;
             chartText.tmpText.richText = true;
             chartText.tmpText.raycastTarget = false;
+#if UNITY_2023_2_OR_NEWER
+            chartText.tmpText.textWrappingMode = textStyle.autoWrap ? TextWrappingModes.Normal : TextWrappingModes.NoWrap;
+#else
             chartText.tmpText.enableWordWrapping = textStyle.autoWrap;
+#endif
 #else
             chartText.text = EnsureComponent<Text>(txtObj);
             chartText.text.font = textStyle.font == null ? theme.font : textStyle.font;
@@ -319,7 +365,7 @@ namespace XCharts.Runtime
             chartText.SetActive(textStyle.show);
 
             RectTransform rect = EnsureComponent<RectTransform>(txtObj);
-            rect.localPosition = Vector3.zero;
+            rect.anchoredPosition3D = Vector3.zero;
             rect.sizeDelta = sizeDelta;
             rect.anchorMin = anchorMin;
             rect.anchorMax = anchorMax;
@@ -328,9 +374,9 @@ namespace XCharts.Runtime
         }
 
         public static Painter AddPainterObject(string name, Transform parent, Vector2 anchorMin, Vector2 anchorMax,
-            Vector2 pivot, Vector2 sizeDelta, HideFlags hideFlags, int siblingIndex)
+            Vector2 pivot, Vector2 sizeDelta, HideFlags hideFlags, int siblingIndex, List<string> childNodeNames)
         {
-            var painterObj = ChartHelper.AddObject(name, parent, anchorMin, anchorMax, pivot, sizeDelta);
+            var painterObj = ChartHelper.AddObject(name, parent, anchorMin, anchorMax, pivot, sizeDelta, -1, childNodeNames);
             painterObj.hideFlags = hideFlags;
             painterObj.transform.SetSiblingIndex(siblingIndex);
             return ChartHelper.EnsureComponent<Painter>(painterObj);
@@ -415,23 +461,28 @@ namespace XCharts.Runtime
         {
             var textStyle = axis.axisLabel.textStyle;
             var label = AddChartLabel(name, parent, axis.axisLabel, theme, content, autoColor, autoAlignment);
-            var labelShow = axis.IsNeedShowLabel(index, total);
+            var labelShow = axis.IsNeedShowLabel(index, total, content);
             label.UpdateIcon(axis.axisLabel.icon, axis.GetIcon(index), iconDefaultColor);
             label.text.SetActive(labelShow);
             return label;
         }
 
         public static ChartLabel AddChartLabel(string name, Transform parent, LabelStyle labelStyle,
-            ComponentTheme theme, string content, Color autoColor, TextAnchor autoAlignment = TextAnchor.MiddleCenter)
+            ComponentTheme theme, string content, Color autoColor, TextAnchor autoAlignment = TextAnchor.MiddleCenter,
+            bool isObjectAnchor = false)
         {
             Vector2 anchorMin, anchorMax, pivot;
             var sizeDelta = new Vector2(labelStyle.width, labelStyle.height);
             var textStyle = labelStyle.textStyle;
-            var alignment = textStyle.GetAlignment(autoAlignment);
+            var alignment = isObjectAnchor ? autoAlignment : textStyle.GetAlignment(autoAlignment);
             UpdateAnchorAndPivotByTextAlignment(alignment, out anchorMin, out anchorMax, out pivot);
             var labelObj = AddObject(name, parent, anchorMin, anchorMax, pivot, sizeDelta);
             //ChartHelper.RemoveComponent<Text>(labelObj);
             var label = EnsureComponent<ChartLabel>(labelObj);
+            if(isObjectAnchor)
+            {
+                UpdateAnchorAndPivotByTextAlignment(textStyle.GetAlignment(autoAlignment), out anchorMin, out anchorMax, out pivot);
+            }
             label.text = AddTextObject("Text", label.gameObject.transform, anchorMin, anchorMax, pivot,
                 sizeDelta, textStyle, theme, autoColor, autoAlignment, label.text);
             label.icon = ChartHelper.AddIcon("Icon", label.gameObject.transform, labelStyle.icon);
@@ -492,7 +543,7 @@ namespace XCharts.Runtime
             return label;
         }
 
-        private static void UpdateAnchorAndPivotByTextAlignment(TextAnchor alignment, out Vector2 anchorMin, out Vector2 anchorMax,
+        public static void UpdateAnchorAndPivotByTextAlignment(TextAnchor alignment, out Vector2 anchorMin, out Vector2 anchorMax,
             out Vector2 pivot)
         {
             switch (alignment)
@@ -770,7 +821,23 @@ namespace XCharts.Runtime
             return mod == 0 ? value : (value < 0 ? rate : rate + 1) * ceilRate;
         }
 
+        public static float GetMaxCeilRate(float value, float ceilRate)
+        {
+            if (ceilRate == 0) return value;
+            var mod = value % ceilRate;
+            int rate = (int)(value / ceilRate);
+            return mod == 0 ? value : (value < 0 ? rate : rate + 1) * ceilRate;
+        }
+
         public static double GetMinCeilRate(double value, double ceilRate)
+        {
+            if (ceilRate == 0) return value;
+            var mod = value % ceilRate;
+            int rate = (int)(value / ceilRate);
+            return mod == 0 ? value : (value < 0 ? rate - 1 : rate) * ceilRate;
+        }
+
+        public static float GetMinCeilRate(float value, float ceilRate)
         {
             if (ceilRate == 0) return value;
             var mod = value % ceilRate;
@@ -997,12 +1064,12 @@ namespace XCharts.Runtime
         {
             var cam = canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : canvas.worldCamera;
             var pos = RectTransformUtility.WorldToScreenPoint(cam, rectTransform.position);
-            var width = rectTransform.rect.width * canvas.scaleFactor;
-            var height = rectTransform.rect.height * canvas.scaleFactor;
+            var width = (int)(rectTransform.rect.width * canvas.scaleFactor);
+            var height = (int)(rectTransform.rect.height * canvas.scaleFactor);
             var posX = pos.x + rectTransform.rect.xMin * canvas.scaleFactor;
             var posY = pos.y + rectTransform.rect.yMin * canvas.scaleFactor;
             var rect = new Rect(posX, posY, width, height);
-            var tex = new Texture2D((int)width, (int)height, TextureFormat.RGBA32, false);
+            var tex = new Texture2D(width, height, TextureFormat.ARGB32, false);
             tex.ReadPixels(rect, 0, 0);
             tex.Apply();
             byte[] bytes;

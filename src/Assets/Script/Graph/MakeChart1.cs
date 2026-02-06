@@ -30,8 +30,9 @@ public class MakeChart1 : MakeCharts
     protected override void SetAxis()
     {
             for(int e = 0;e < DataN;e++){
-            var Chart = chart.AddSerie<Line>();
-            if(e==0||e==1){
+            var Chart = chart.AddSerie<Line>("Theta");
+            chart.AddSerie<Line>("Alpha");
+            if (e==0||e==1){
                 Chart.yAxisIndex = 0;
             }
             else{

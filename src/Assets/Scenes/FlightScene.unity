@@ -4641,11 +4641,11 @@ RectTransform:
   m_Father: {fileID: 97659250}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 480, y: -360}
+  m_AnchorMin: {x: 1, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: -480, y: 0}
   m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0, y: 1}
+  m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &109166982
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5022,7 +5022,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_EnableTextMeshPro: 0
+  m_ChildNodeNames: []
   m_ChartName: 
+  m_UseUtc: 1
   m_Theme:
     m_Show: 1
     m_SharedTheme: {fileID: 11400000, guid: e1dc23a10de1e4c5dbfbaf74c4dfd218, type: 2}
@@ -5069,6 +5071,8 @@ MonoBehaviour:
       m_NumericFormatter: 
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -5161,6 +5165,7 @@ MonoBehaviour:
     m_ItemGap: 10
     m_ItemAutoColor: 1
     m_ItemOpacity: 1
+    m_ItemInactiveOpacity: 1
     m_Formatter: 
     m_LabelStyle:
       m_Show: 1
@@ -5174,6 +5179,8 @@ MonoBehaviour:
       m_NumericFormatter: 
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -5255,6 +5262,8 @@ MonoBehaviour:
       m_NumericFormatter: 
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -5304,6 +5313,8 @@ MonoBehaviour:
       m_NumericFormatter: 
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -5380,6 +5391,8 @@ MonoBehaviour:
     m_BorderColor:
       serializedVersion: 2
       rgba: 4293322470
+    m_ColumnGapWidths:
+    - 15
     m_LineStyle:
       m_Show: 1
       m_Type: 5
@@ -5410,6 +5423,8 @@ MonoBehaviour:
       m_NumericFormatter: 
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -5459,6 +5474,8 @@ MonoBehaviour:
       m_NumericFormatter: 
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -5507,6 +5524,8 @@ MonoBehaviour:
       m_NumericFormatter: 
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -5555,6 +5574,8 @@ MonoBehaviour:
       m_NumericFormatter: 
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -5638,6 +5659,8 @@ MonoBehaviour:
         m_DotLength: 2
         m_GapLength: 2
       m_OnZero: 1
+      m_StartExtendLength: 0
+      m_EndExtendLength: 0
       m_ShowArrow: 0
       m_Arrow:
         m_Width: 10
@@ -5663,6 +5686,8 @@ MonoBehaviour:
         m_NumericFormatter: 
         m_Width: 0
         m_Height: 0
+        m_FixedX: 0
+        m_FixedY: 0
         m_Icon:
           m_Show: 0
           m_Layer: 0
@@ -5739,6 +5764,8 @@ MonoBehaviour:
       m_NumericFormatter: F0
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -5782,6 +5809,7 @@ MonoBehaviour:
       m_OnZero: 0
       m_ShowStartLabel: 1
       m_ShowEndLabel: 1
+      m_ShowZeroLabel: 1
       m_TextLimit:
         m_Enable: 1
         m_MaxWidth: 0
@@ -5876,6 +5904,8 @@ MonoBehaviour:
       m_NumericFormatter: f2
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -5958,6 +5988,8 @@ MonoBehaviour:
         m_DotLength: 2
         m_GapLength: 2
       m_OnZero: 1
+      m_StartExtendLength: 0
+      m_EndExtendLength: 0
       m_ShowArrow: 0
       m_Arrow:
         m_Width: 10
@@ -5983,6 +6015,8 @@ MonoBehaviour:
         m_NumericFormatter: 
         m_Width: 0
         m_Height: 0
+        m_FixedX: 0
+        m_FixedY: 0
         m_Icon:
           m_Show: 0
           m_Layer: 0
@@ -6059,6 +6093,8 @@ MonoBehaviour:
       m_NumericFormatter: F0
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -6102,6 +6138,7 @@ MonoBehaviour:
       m_OnZero: 0
       m_ShowStartLabel: 1
       m_ShowEndLabel: 1
+      m_ShowZeroLabel: 1
       m_TextLimit:
         m_Enable: 0
         m_MaxWidth: 0
@@ -6196,6 +6233,8 @@ MonoBehaviour:
       m_NumericFormatter: f2
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -6277,6 +6316,8 @@ MonoBehaviour:
         m_DotLength: 2
         m_GapLength: 2
       m_OnZero: 1
+      m_StartExtendLength: 0
+      m_EndExtendLength: 0
       m_ShowArrow: 0
       m_Arrow:
         m_Width: 10
@@ -6302,6 +6343,8 @@ MonoBehaviour:
         m_NumericFormatter: 
         m_Width: 0
         m_Height: 0
+        m_FixedX: 0
+        m_FixedY: 0
         m_Icon:
           m_Show: 0
           m_Layer: 0
@@ -6378,6 +6421,8 @@ MonoBehaviour:
       m_NumericFormatter: 
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -6421,6 +6466,7 @@ MonoBehaviour:
       m_OnZero: 0
       m_ShowStartLabel: 1
       m_ShowEndLabel: 1
+      m_ShowZeroLabel: 1
       m_TextLimit:
         m_Enable: 0
         m_MaxWidth: 0
@@ -6515,6 +6561,8 @@ MonoBehaviour:
       m_NumericFormatter: f2
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -6634,6 +6682,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
     m_InsertDataToHead: 0
+    m_RealtimeSort: 0
     m_LineStyle:
       m_Show: 1
       m_Type: 0
@@ -6665,6 +6714,11 @@ MonoBehaviour:
       m_Color:
         serializedVersion: 2
         rgba: 0
+      m_BorderWidth: 0
+      m_EmptyColor:
+        serializedVersion: 2
+        rgba: 0
+      m_Size2: 0
       m_SizeType: 0
       m_DataIndex: 1
       m_DataScale: 1
@@ -6685,31 +6739,37 @@ MonoBehaviour:
         m_Reverse: 0
         m_Delay: 0
         m_Duration: 1000
+        m_Speed: 0
       m_FadeOut:
         m_Enable: 1
         m_Reverse: 1
         m_Delay: 0
         m_Duration: 1000
+        m_Speed: 0
       m_Change:
         m_Enable: 1
         m_Reverse: 0
         m_Delay: 0
         m_Duration: 500
+        m_Speed: 0
       m_Addition:
         m_Enable: 1
         m_Reverse: 0
         m_Delay: 0
         m_Duration: 500
+        m_Speed: 0
       m_Hiding:
         m_Enable: 1
         m_Reverse: 0
         m_Delay: 0
         m_Duration: 500
+        m_Speed: 0
       m_Interaction:
         m_Enable: 1
         m_Reverse: 0
         m_Delay: 0
         m_Duration: 250
+        m_Speed: 0
         m_Width:
           m_Type: 0
           m_Value: 1.1
@@ -6719,6 +6779,12 @@ MonoBehaviour:
         m_Offset:
           m_Type: 1
           m_Value: 5
+      m_Exchange:
+        m_Enable: 1
+        m_Reverse: 0
+        m_Delay: 0
+        m_Duration: 250
+        m_Speed: 0
     m_ItemStyle:
       m_Show: 1
       m_Color:
@@ -6740,6 +6806,7 @@ MonoBehaviour:
         serializedVersion: 2
         rgba: 0
       m_BackgroundWidth: 0
+      m_BackgroundGap: 0
       m_CenterColor:
         serializedVersion: 2
         rgba: 0
@@ -6848,6 +6915,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
     m_InsertDataToHead: 0
+    m_RealtimeSort: 0
     m_LineStyle:
       m_Show: 1
       m_Type: 0
@@ -6879,6 +6947,11 @@ MonoBehaviour:
       m_Color:
         serializedVersion: 2
         rgba: 0
+      m_BorderWidth: 0
+      m_EmptyColor:
+        serializedVersion: 2
+        rgba: 0
+      m_Size2: 0
       m_SizeType: 0
       m_DataIndex: 1
       m_DataScale: 1
@@ -6899,31 +6972,37 @@ MonoBehaviour:
         m_Reverse: 0
         m_Delay: 0
         m_Duration: 1000
+        m_Speed: 0
       m_FadeOut:
         m_Enable: 1
         m_Reverse: 1
         m_Delay: 0
         m_Duration: 1000
+        m_Speed: 0
       m_Change:
         m_Enable: 1
         m_Reverse: 0
         m_Delay: 0
         m_Duration: 500
+        m_Speed: 0
       m_Addition:
         m_Enable: 1
         m_Reverse: 0
         m_Delay: 0
         m_Duration: 500
+        m_Speed: 0
       m_Hiding:
         m_Enable: 1
         m_Reverse: 0
         m_Delay: 0
         m_Duration: 500
+        m_Speed: 0
       m_Interaction:
         m_Enable: 1
         m_Reverse: 0
         m_Delay: 0
         m_Duration: 250
+        m_Speed: 0
         m_Width:
           m_Type: 0
           m_Value: 1.1
@@ -6933,6 +7012,12 @@ MonoBehaviour:
         m_Offset:
           m_Type: 1
           m_Value: 5
+      m_Exchange:
+        m_Enable: 1
+        m_Reverse: 0
+        m_Delay: 0
+        m_Duration: 250
+        m_Speed: 0
     m_ItemStyle:
       m_Show: 1
       m_Color:
@@ -6954,6 +7039,7 @@ MonoBehaviour:
         serializedVersion: 2
         rgba: 0
       m_BackgroundWidth: 0
+      m_BackgroundGap: 0
       m_CenterColor:
         serializedVersion: 2
         rgba: 0
@@ -8569,11 +8655,11 @@ RectTransform:
   m_Father: {fileID: 109166981}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 2, y: -0}
+  m_AnchorMin: {x: 1, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: -2, y: 0}
   m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0, y: 1}
+  m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &146759825
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8601,7 +8687,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 10
     m_MaxSize: 40
-    m_Alignment: 0
+    m_Alignment: 5
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 1
@@ -8921,6 +9007,7 @@ GameObject:
   - component: {fileID: 156321515}
   - component: {fileID: 156321517}
   - component: {fileID: 156321516}
+  - component: {fileID: 156321518}
   m_Layer: 3
   m_Name: ChartForPrinter
   m_TagString: Untagged
@@ -8989,7 +9076,29 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_EnableTextMeshPro: 0
+  m_ChildNodeNames:
+  - serie_0
+  - painter_b
+  - painter_0
+  - painter_1
+  - painter_2
+  - painter_3
+  - painter_4
+  - painter_5
+  - painter_6
+  - painter_7
+  - painter_8
+  - painter_9
+  - painter_u
+  - painter_t
+  - background
+  - Title0
+  - Tooltip0
+  - XAxis0
+  - YAxis0
+  - debug
   m_ChartName: 
+  m_UseUtc: 1
   m_Theme:
     m_Show: 1
     m_SharedTheme: {fileID: 11400000, guid: e1dc23a10de1e4c5dbfbaf74c4dfd218, type: 2}
@@ -9036,6 +9145,8 @@ MonoBehaviour:
       m_NumericFormatter: 
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -9134,6 +9245,8 @@ MonoBehaviour:
       m_NumericFormatter: 
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -9183,6 +9296,8 @@ MonoBehaviour:
       m_NumericFormatter: 
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -9259,6 +9374,8 @@ MonoBehaviour:
     m_BorderColor:
       serializedVersion: 2
       rgba: 4293322470
+    m_ColumnGapWidths:
+    - 15
     m_LineStyle:
       m_Show: 1
       m_Type: 5
@@ -9289,6 +9406,8 @@ MonoBehaviour:
       m_NumericFormatter: 
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -9338,6 +9457,8 @@ MonoBehaviour:
       m_NumericFormatter: 
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -9367,7 +9488,7 @@ MonoBehaviour:
         m_Show: 1
         m_Font: {fileID: 0}
         m_AutoWrap: 0
-        m_AutoAlign: 1
+        m_AutoAlign: 0
         m_Rotate: 0
         m_AutoColor: 0
         m_Color: {r: 0, g: 0, b: 0, a: 0}
@@ -9386,6 +9507,8 @@ MonoBehaviour:
       m_NumericFormatter: 
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -9415,7 +9538,7 @@ MonoBehaviour:
         m_Show: 1
         m_Font: {fileID: 0}
         m_AutoWrap: 0
-        m_AutoAlign: 1
+        m_AutoAlign: 0
         m_Rotate: 0
         m_AutoColor: 0
         m_Color: {r: 0, g: 0, b: 0, a: 0}
@@ -9434,6 +9557,8 @@ MonoBehaviour:
       m_NumericFormatter: 
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -9463,7 +9588,7 @@ MonoBehaviour:
         m_Show: 1
         m_Font: {fileID: 0}
         m_AutoWrap: 0
-        m_AutoAlign: 1
+        m_AutoAlign: 0
         m_Rotate: 0
         m_AutoColor: 0
         m_Color: {r: 0, g: 0, b: 0, a: 0}
@@ -9522,6 +9647,8 @@ MonoBehaviour:
         m_DotLength: 2
         m_GapLength: 2
       m_OnZero: 1
+      m_StartExtendLength: 0
+      m_EndExtendLength: 0
       m_ShowArrow: 0
       m_Arrow:
         m_Width: 10
@@ -9547,6 +9674,8 @@ MonoBehaviour:
         m_NumericFormatter: 
         m_Width: 0
         m_Height: 0
+        m_FixedX: 0
+        m_FixedY: 0
         m_Icon:
           m_Show: 0
           m_Layer: 0
@@ -9623,6 +9752,8 @@ MonoBehaviour:
       m_NumericFormatter: 
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -9666,6 +9797,7 @@ MonoBehaviour:
       m_OnZero: 0
       m_ShowStartLabel: 1
       m_ShowEndLabel: 1
+      m_ShowZeroLabel: 1
       m_TextLimit:
         m_Enable: 1
         m_MaxWidth: 0
@@ -9760,6 +9892,8 @@ MonoBehaviour:
       m_NumericFormatter: f2
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -9842,6 +9976,8 @@ MonoBehaviour:
         m_DotLength: 2
         m_GapLength: 2
       m_OnZero: 1
+      m_StartExtendLength: 0
+      m_EndExtendLength: 0
       m_ShowArrow: 0
       m_Arrow:
         m_Width: 10
@@ -9867,6 +10003,8 @@ MonoBehaviour:
         m_NumericFormatter: 
         m_Width: 0
         m_Height: 0
+        m_FixedX: 0
+        m_FixedY: 0
         m_Icon:
           m_Show: 0
           m_Layer: 0
@@ -9943,6 +10081,8 @@ MonoBehaviour:
       m_NumericFormatter: 
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -9986,6 +10126,7 @@ MonoBehaviour:
       m_OnZero: 0
       m_ShowStartLabel: 1
       m_ShowEndLabel: 1
+      m_ShowZeroLabel: 1
       m_TextLimit:
         m_Enable: 0
         m_MaxWidth: 0
@@ -10080,6 +10221,8 @@ MonoBehaviour:
       m_NumericFormatter: f2
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -10199,6 +10342,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
     m_InsertDataToHead: 0
+    m_RealtimeSort: 0
     m_LineStyle:
       m_Show: 1
       m_Type: 0
@@ -10230,6 +10374,11 @@ MonoBehaviour:
       m_Color:
         serializedVersion: 2
         rgba: 0
+      m_BorderWidth: 0
+      m_EmptyColor:
+        serializedVersion: 2
+        rgba: 0
+      m_Size2: 0
       m_SizeType: 0
       m_DataIndex: 1
       m_DataScale: 1
@@ -10250,31 +10399,37 @@ MonoBehaviour:
         m_Reverse: 0
         m_Delay: 0
         m_Duration: 1000
+        m_Speed: 0
       m_FadeOut:
         m_Enable: 1
         m_Reverse: 1
         m_Delay: 0
         m_Duration: 1000
+        m_Speed: 0
       m_Change:
         m_Enable: 1
         m_Reverse: 0
         m_Delay: 0
         m_Duration: 500
+        m_Speed: 0
       m_Addition:
         m_Enable: 1
         m_Reverse: 0
         m_Delay: 0
         m_Duration: 500
+        m_Speed: 0
       m_Hiding:
         m_Enable: 1
         m_Reverse: 0
         m_Delay: 0
         m_Duration: 500
+        m_Speed: 0
       m_Interaction:
         m_Enable: 1
         m_Reverse: 0
         m_Delay: 0
         m_Duration: 250
+        m_Speed: 0
         m_Width:
           m_Type: 0
           m_Value: 1.1
@@ -10284,6 +10439,12 @@ MonoBehaviour:
         m_Offset:
           m_Type: 1
           m_Value: 5
+      m_Exchange:
+        m_Enable: 1
+        m_Reverse: 0
+        m_Delay: 0
+        m_Duration: 250
+        m_Speed: 0
     m_ItemStyle:
       m_Show: 1
       m_Color:
@@ -10305,6 +10466,7 @@ MonoBehaviour:
         serializedVersion: 2
         rgba: 0
       m_BackgroundWidth: 0
+      m_BackgroundGap: 0
       m_CenterColor:
         serializedVersion: 2
         rgba: 0
@@ -10461,6 +10623,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 156321514}
   m_CullTransparentMesh: 1
+--- !u!114 &156321518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 156321514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84f12fce665ec67468b6acf301eb3a76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &157029486
 GameObject:
   m_ObjectHideFlags: 0
@@ -13825,11 +13999,11 @@ RectTransform:
   m_Father: {fileID: 97659250}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 480, y: -360}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0, y: 1}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &232215728
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24729,7 +24903,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_EnableTextMeshPro: 0
+  m_ChildNodeNames: []
   m_ChartName: 
+  m_UseUtc: 1
   m_Theme:
     m_Show: 1
     m_SharedTheme: {fileID: 11400000, guid: e1dc23a10de1e4c5dbfbaf74c4dfd218, type: 2}
@@ -24776,6 +24952,8 @@ MonoBehaviour:
       m_NumericFormatter: 
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -24868,6 +25046,7 @@ MonoBehaviour:
     m_ItemGap: 10
     m_ItemAutoColor: 1
     m_ItemOpacity: 1
+    m_ItemInactiveOpacity: 1
     m_Formatter: 
     m_LabelStyle:
       m_Show: 1
@@ -24881,6 +25060,8 @@ MonoBehaviour:
       m_NumericFormatter: 
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -24962,6 +25143,8 @@ MonoBehaviour:
       m_NumericFormatter: 
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -25011,6 +25194,8 @@ MonoBehaviour:
       m_NumericFormatter: 
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -25087,6 +25272,8 @@ MonoBehaviour:
     m_BorderColor:
       serializedVersion: 2
       rgba: 4293322470
+    m_ColumnGapWidths:
+    - 15
     m_LineStyle:
       m_Show: 1
       m_Type: 5
@@ -25117,6 +25304,8 @@ MonoBehaviour:
       m_NumericFormatter: 
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -25166,6 +25355,8 @@ MonoBehaviour:
       m_NumericFormatter: 
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -25214,6 +25405,8 @@ MonoBehaviour:
       m_NumericFormatter: 
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -25262,6 +25455,8 @@ MonoBehaviour:
       m_NumericFormatter: 
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -25345,6 +25540,8 @@ MonoBehaviour:
         m_DotLength: 2
         m_GapLength: 2
       m_OnZero: 1
+      m_StartExtendLength: 0
+      m_EndExtendLength: 0
       m_ShowArrow: 0
       m_Arrow:
         m_Width: 10
@@ -25370,6 +25567,8 @@ MonoBehaviour:
         m_NumericFormatter: 
         m_Width: 0
         m_Height: 0
+        m_FixedX: 0
+        m_FixedY: 0
         m_Icon:
           m_Show: 0
           m_Layer: 0
@@ -25446,6 +25645,8 @@ MonoBehaviour:
       m_NumericFormatter: F0
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -25489,6 +25690,7 @@ MonoBehaviour:
       m_OnZero: 0
       m_ShowStartLabel: 1
       m_ShowEndLabel: 1
+      m_ShowZeroLabel: 1
       m_TextLimit:
         m_Enable: 1
         m_MaxWidth: 0
@@ -25583,6 +25785,8 @@ MonoBehaviour:
       m_NumericFormatter: f2
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -25665,6 +25869,8 @@ MonoBehaviour:
         m_DotLength: 2
         m_GapLength: 2
       m_OnZero: 1
+      m_StartExtendLength: 0
+      m_EndExtendLength: 0
       m_ShowArrow: 0
       m_Arrow:
         m_Width: 10
@@ -25690,6 +25896,8 @@ MonoBehaviour:
         m_NumericFormatter: 
         m_Width: 0
         m_Height: 0
+        m_FixedX: 0
+        m_FixedY: 0
         m_Icon:
           m_Show: 0
           m_Layer: 0
@@ -25766,6 +25974,8 @@ MonoBehaviour:
       m_NumericFormatter: F0
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -25809,6 +26019,7 @@ MonoBehaviour:
       m_OnZero: 0
       m_ShowStartLabel: 1
       m_ShowEndLabel: 1
+      m_ShowZeroLabel: 1
       m_TextLimit:
         m_Enable: 0
         m_MaxWidth: 0
@@ -25903,6 +26114,8 @@ MonoBehaviour:
       m_NumericFormatter: f2
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -25984,6 +26197,8 @@ MonoBehaviour:
         m_DotLength: 2
         m_GapLength: 2
       m_OnZero: 1
+      m_StartExtendLength: 0
+      m_EndExtendLength: 0
       m_ShowArrow: 0
       m_Arrow:
         m_Width: 10
@@ -26009,6 +26224,8 @@ MonoBehaviour:
         m_NumericFormatter: 
         m_Width: 0
         m_Height: 0
+        m_FixedX: 0
+        m_FixedY: 0
         m_Icon:
           m_Show: 0
           m_Layer: 0
@@ -26085,6 +26302,8 @@ MonoBehaviour:
       m_NumericFormatter: 
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -26128,6 +26347,7 @@ MonoBehaviour:
       m_OnZero: 0
       m_ShowStartLabel: 1
       m_ShowEndLabel: 1
+      m_ShowZeroLabel: 1
       m_TextLimit:
         m_Enable: 0
         m_MaxWidth: 0
@@ -26222,6 +26442,8 @@ MonoBehaviour:
       m_NumericFormatter: f2
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -26341,6 +26563,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
     m_InsertDataToHead: 0
+    m_RealtimeSort: 0
     m_LineStyle:
       m_Show: 1
       m_Type: 0
@@ -26372,6 +26595,11 @@ MonoBehaviour:
       m_Color:
         serializedVersion: 2
         rgba: 0
+      m_BorderWidth: 0
+      m_EmptyColor:
+        serializedVersion: 2
+        rgba: 0
+      m_Size2: 0
       m_SizeType: 0
       m_DataIndex: 1
       m_DataScale: 1
@@ -26392,31 +26620,37 @@ MonoBehaviour:
         m_Reverse: 0
         m_Delay: 0
         m_Duration: 1000
+        m_Speed: 0
       m_FadeOut:
         m_Enable: 1
         m_Reverse: 1
         m_Delay: 0
         m_Duration: 1000
+        m_Speed: 0
       m_Change:
         m_Enable: 1
         m_Reverse: 0
         m_Delay: 0
         m_Duration: 500
+        m_Speed: 0
       m_Addition:
         m_Enable: 1
         m_Reverse: 0
         m_Delay: 0
         m_Duration: 500
+        m_Speed: 0
       m_Hiding:
         m_Enable: 1
         m_Reverse: 0
         m_Delay: 0
         m_Duration: 500
+        m_Speed: 0
       m_Interaction:
         m_Enable: 1
         m_Reverse: 0
         m_Delay: 0
         m_Duration: 250
+        m_Speed: 0
         m_Width:
           m_Type: 0
           m_Value: 1.1
@@ -26426,6 +26660,12 @@ MonoBehaviour:
         m_Offset:
           m_Type: 1
           m_Value: 5
+      m_Exchange:
+        m_Enable: 1
+        m_Reverse: 0
+        m_Delay: 0
+        m_Duration: 250
+        m_Speed: 0
     m_ItemStyle:
       m_Show: 1
       m_Color:
@@ -26447,6 +26687,7 @@ MonoBehaviour:
         serializedVersion: 2
         rgba: 0
       m_BackgroundWidth: 0
+      m_BackgroundGap: 0
       m_CenterColor:
         serializedVersion: 2
         rgba: 0
@@ -26555,6 +26796,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
     m_InsertDataToHead: 0
+    m_RealtimeSort: 0
     m_LineStyle:
       m_Show: 1
       m_Type: 0
@@ -26586,6 +26828,11 @@ MonoBehaviour:
       m_Color:
         serializedVersion: 2
         rgba: 0
+      m_BorderWidth: 0
+      m_EmptyColor:
+        serializedVersion: 2
+        rgba: 0
+      m_Size2: 0
       m_SizeType: 0
       m_DataIndex: 1
       m_DataScale: 1
@@ -26606,31 +26853,37 @@ MonoBehaviour:
         m_Reverse: 0
         m_Delay: 0
         m_Duration: 1000
+        m_Speed: 0
       m_FadeOut:
         m_Enable: 1
         m_Reverse: 1
         m_Delay: 0
         m_Duration: 1000
+        m_Speed: 0
       m_Change:
         m_Enable: 1
         m_Reverse: 0
         m_Delay: 0
         m_Duration: 500
+        m_Speed: 0
       m_Addition:
         m_Enable: 1
         m_Reverse: 0
         m_Delay: 0
         m_Duration: 500
+        m_Speed: 0
       m_Hiding:
         m_Enable: 1
         m_Reverse: 0
         m_Delay: 0
         m_Duration: 500
+        m_Speed: 0
       m_Interaction:
         m_Enable: 1
         m_Reverse: 0
         m_Delay: 0
         m_Duration: 250
+        m_Speed: 0
         m_Width:
           m_Type: 0
           m_Value: 1.1
@@ -26640,6 +26893,12 @@ MonoBehaviour:
         m_Offset:
           m_Type: 1
           m_Value: 5
+      m_Exchange:
+        m_Enable: 1
+        m_Reverse: 0
+        m_Delay: 0
+        m_Duration: 250
+        m_Speed: 0
     m_ItemStyle:
       m_Show: 1
       m_Color:
@@ -26661,6 +26920,7 @@ MonoBehaviour:
         serializedVersion: 2
         rgba: 0
       m_BackgroundWidth: 0
+      m_BackgroundGap: 0
       m_CenterColor:
         serializedVersion: 2
         rgba: 0
@@ -27045,7 +27305,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -24}
+  m_AnchoredPosition: {x: 0, y: -22}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &520390071
@@ -30634,7 +30894,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_EnableTextMeshPro: 0
+  m_ChildNodeNames: []
   m_ChartName: 
+  m_UseUtc: 1
   m_Theme:
     m_Show: 1
     m_SharedTheme: {fileID: 11400000, guid: e1dc23a10de1e4c5dbfbaf74c4dfd218, type: 2}
@@ -30681,6 +30943,8 @@ MonoBehaviour:
       m_NumericFormatter: 
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -30773,6 +31037,7 @@ MonoBehaviour:
     m_ItemGap: 10
     m_ItemAutoColor: 1
     m_ItemOpacity: 1
+    m_ItemInactiveOpacity: 1
     m_Formatter: 
     m_LabelStyle:
       m_Show: 1
@@ -30786,6 +31051,8 @@ MonoBehaviour:
       m_NumericFormatter: 
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -30867,6 +31134,8 @@ MonoBehaviour:
       m_NumericFormatter: 
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -30916,6 +31185,8 @@ MonoBehaviour:
       m_NumericFormatter: 
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -30992,6 +31263,8 @@ MonoBehaviour:
     m_BorderColor:
       serializedVersion: 2
       rgba: 4293322470
+    m_ColumnGapWidths:
+    - 15
     m_LineStyle:
       m_Show: 1
       m_Type: 5
@@ -31022,6 +31295,8 @@ MonoBehaviour:
       m_NumericFormatter: 
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -31071,6 +31346,8 @@ MonoBehaviour:
       m_NumericFormatter: 
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -31119,6 +31396,8 @@ MonoBehaviour:
       m_NumericFormatter: 
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -31167,6 +31446,8 @@ MonoBehaviour:
       m_NumericFormatter: 
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -31250,6 +31531,8 @@ MonoBehaviour:
         m_DotLength: 2
         m_GapLength: 2
       m_OnZero: 1
+      m_StartExtendLength: 0
+      m_EndExtendLength: 0
       m_ShowArrow: 0
       m_Arrow:
         m_Width: 10
@@ -31275,6 +31558,8 @@ MonoBehaviour:
         m_NumericFormatter: 
         m_Width: 0
         m_Height: 0
+        m_FixedX: 0
+        m_FixedY: 0
         m_Icon:
           m_Show: 0
           m_Layer: 0
@@ -31351,6 +31636,8 @@ MonoBehaviour:
       m_NumericFormatter: F0
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -31394,6 +31681,7 @@ MonoBehaviour:
       m_OnZero: 0
       m_ShowStartLabel: 1
       m_ShowEndLabel: 1
+      m_ShowZeroLabel: 1
       m_TextLimit:
         m_Enable: 1
         m_MaxWidth: 0
@@ -31488,6 +31776,8 @@ MonoBehaviour:
       m_NumericFormatter: f2
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -31570,6 +31860,8 @@ MonoBehaviour:
         m_DotLength: 2
         m_GapLength: 2
       m_OnZero: 1
+      m_StartExtendLength: 0
+      m_EndExtendLength: 0
       m_ShowArrow: 0
       m_Arrow:
         m_Width: 10
@@ -31595,6 +31887,8 @@ MonoBehaviour:
         m_NumericFormatter: 
         m_Width: 0
         m_Height: 0
+        m_FixedX: 0
+        m_FixedY: 0
         m_Icon:
           m_Show: 0
           m_Layer: 0
@@ -31671,6 +31965,8 @@ MonoBehaviour:
       m_NumericFormatter: F0
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -31714,6 +32010,7 @@ MonoBehaviour:
       m_OnZero: 0
       m_ShowStartLabel: 1
       m_ShowEndLabel: 1
+      m_ShowZeroLabel: 1
       m_TextLimit:
         m_Enable: 0
         m_MaxWidth: 0
@@ -31808,6 +32105,8 @@ MonoBehaviour:
       m_NumericFormatter: f2
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -31889,6 +32188,8 @@ MonoBehaviour:
         m_DotLength: 2
         m_GapLength: 2
       m_OnZero: 1
+      m_StartExtendLength: 0
+      m_EndExtendLength: 0
       m_ShowArrow: 0
       m_Arrow:
         m_Width: 10
@@ -31914,6 +32215,8 @@ MonoBehaviour:
         m_NumericFormatter: 
         m_Width: 0
         m_Height: 0
+        m_FixedX: 0
+        m_FixedY: 0
         m_Icon:
           m_Show: 0
           m_Layer: 0
@@ -31990,6 +32293,8 @@ MonoBehaviour:
       m_NumericFormatter: 
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -32033,6 +32338,7 @@ MonoBehaviour:
       m_OnZero: 0
       m_ShowStartLabel: 1
       m_ShowEndLabel: 1
+      m_ShowZeroLabel: 1
       m_TextLimit:
         m_Enable: 0
         m_MaxWidth: 0
@@ -32127,6 +32433,8 @@ MonoBehaviour:
       m_NumericFormatter: f2
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -32246,6 +32554,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
     m_InsertDataToHead: 0
+    m_RealtimeSort: 0
     m_LineStyle:
       m_Show: 1
       m_Type: 0
@@ -32277,6 +32586,11 @@ MonoBehaviour:
       m_Color:
         serializedVersion: 2
         rgba: 0
+      m_BorderWidth: 0
+      m_EmptyColor:
+        serializedVersion: 2
+        rgba: 0
+      m_Size2: 0
       m_SizeType: 0
       m_DataIndex: 1
       m_DataScale: 1
@@ -32297,31 +32611,37 @@ MonoBehaviour:
         m_Reverse: 0
         m_Delay: 0
         m_Duration: 1000
+        m_Speed: 0
       m_FadeOut:
         m_Enable: 1
         m_Reverse: 1
         m_Delay: 0
         m_Duration: 1000
+        m_Speed: 0
       m_Change:
         m_Enable: 1
         m_Reverse: 0
         m_Delay: 0
         m_Duration: 500
+        m_Speed: 0
       m_Addition:
         m_Enable: 1
         m_Reverse: 0
         m_Delay: 0
         m_Duration: 500
+        m_Speed: 0
       m_Hiding:
         m_Enable: 1
         m_Reverse: 0
         m_Delay: 0
         m_Duration: 500
+        m_Speed: 0
       m_Interaction:
         m_Enable: 1
         m_Reverse: 0
         m_Delay: 0
         m_Duration: 250
+        m_Speed: 0
         m_Width:
           m_Type: 0
           m_Value: 1.1
@@ -32331,6 +32651,12 @@ MonoBehaviour:
         m_Offset:
           m_Type: 1
           m_Value: 5
+      m_Exchange:
+        m_Enable: 1
+        m_Reverse: 0
+        m_Delay: 0
+        m_Duration: 250
+        m_Speed: 0
     m_ItemStyle:
       m_Show: 1
       m_Color:
@@ -32352,6 +32678,7 @@ MonoBehaviour:
         serializedVersion: 2
         rgba: 0
       m_BackgroundWidth: 0
+      m_BackgroundGap: 0
       m_CenterColor:
         serializedVersion: 2
         rgba: 0
@@ -32460,6 +32787,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
     m_InsertDataToHead: 0
+    m_RealtimeSort: 0
     m_LineStyle:
       m_Show: 1
       m_Type: 0
@@ -32491,6 +32819,11 @@ MonoBehaviour:
       m_Color:
         serializedVersion: 2
         rgba: 0
+      m_BorderWidth: 0
+      m_EmptyColor:
+        serializedVersion: 2
+        rgba: 0
+      m_Size2: 0
       m_SizeType: 0
       m_DataIndex: 1
       m_DataScale: 1
@@ -32511,31 +32844,37 @@ MonoBehaviour:
         m_Reverse: 0
         m_Delay: 0
         m_Duration: 1000
+        m_Speed: 0
       m_FadeOut:
         m_Enable: 1
         m_Reverse: 1
         m_Delay: 0
         m_Duration: 1000
+        m_Speed: 0
       m_Change:
         m_Enable: 1
         m_Reverse: 0
         m_Delay: 0
         m_Duration: 500
+        m_Speed: 0
       m_Addition:
         m_Enable: 1
         m_Reverse: 0
         m_Delay: 0
         m_Duration: 500
+        m_Speed: 0
       m_Hiding:
         m_Enable: 1
         m_Reverse: 0
         m_Delay: 0
         m_Duration: 500
+        m_Speed: 0
       m_Interaction:
         m_Enable: 1
         m_Reverse: 0
         m_Delay: 0
         m_Duration: 250
+        m_Speed: 0
         m_Width:
           m_Type: 0
           m_Value: 1.1
@@ -32545,6 +32884,12 @@ MonoBehaviour:
         m_Offset:
           m_Type: 1
           m_Value: 5
+      m_Exchange:
+        m_Enable: 1
+        m_Reverse: 0
+        m_Delay: 0
+        m_Duration: 250
+        m_Speed: 0
     m_ItemStyle:
       m_Show: 1
       m_Color:
@@ -32566,6 +32911,7 @@ MonoBehaviour:
         serializedVersion: 2
         rgba: 0
       m_BackgroundWidth: 0
+      m_BackgroundGap: 0
       m_CenterColor:
         serializedVersion: 2
         rgba: 0
@@ -47344,7 +47690,7 @@ Camera:
     m_Bits: 8
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
-  m_TargetDisplay: 0
+  m_TargetDisplay: 7
   m_TargetEye: 3
   m_HDR: 1
   m_AllowMSAA: 1
@@ -49372,11 +49718,11 @@ RectTransform:
   m_Father: {fileID: 1788294008}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.5}
-  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchorMin: {x: 1, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0, y: 0.5}
+  m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &1093993663
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49404,7 +49750,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 10
     m_MaxSize: 40
-    m_Alignment: 3
+    m_Alignment: 5
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 1
@@ -77950,7 +78296,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_EnableTextMeshPro: 0
+  m_ChildNodeNames: []
   m_ChartName: 
+  m_UseUtc: 1
   m_Theme:
     m_Show: 1
     m_SharedTheme: {fileID: 11400000, guid: e1dc23a10de1e4c5dbfbaf74c4dfd218, type: 2}
@@ -77997,6 +78345,8 @@ MonoBehaviour:
       m_NumericFormatter: 
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -78089,6 +78439,7 @@ MonoBehaviour:
     m_ItemGap: 10
     m_ItemAutoColor: 1
     m_ItemOpacity: 1
+    m_ItemInactiveOpacity: 1
     m_Formatter: 
     m_LabelStyle:
       m_Show: 1
@@ -78102,6 +78453,8 @@ MonoBehaviour:
       m_NumericFormatter: 
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -78183,6 +78536,8 @@ MonoBehaviour:
       m_NumericFormatter: 
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -78232,6 +78587,8 @@ MonoBehaviour:
       m_NumericFormatter: 
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -78308,6 +78665,8 @@ MonoBehaviour:
     m_BorderColor:
       serializedVersion: 2
       rgba: 4293322470
+    m_ColumnGapWidths:
+    - 15
     m_LineStyle:
       m_Show: 1
       m_Type: 5
@@ -78338,6 +78697,8 @@ MonoBehaviour:
       m_NumericFormatter: 
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -78387,6 +78748,8 @@ MonoBehaviour:
       m_NumericFormatter: 
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -78435,6 +78798,8 @@ MonoBehaviour:
       m_NumericFormatter: 
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -78483,6 +78848,8 @@ MonoBehaviour:
       m_NumericFormatter: 
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -78566,6 +78933,8 @@ MonoBehaviour:
         m_DotLength: 2
         m_GapLength: 2
       m_OnZero: 1
+      m_StartExtendLength: 0
+      m_EndExtendLength: 0
       m_ShowArrow: 0
       m_Arrow:
         m_Width: 10
@@ -78591,6 +78960,8 @@ MonoBehaviour:
         m_NumericFormatter: 
         m_Width: 0
         m_Height: 0
+        m_FixedX: 0
+        m_FixedY: 0
         m_Icon:
           m_Show: 0
           m_Layer: 0
@@ -78667,6 +79038,8 @@ MonoBehaviour:
       m_NumericFormatter: F0
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -78710,6 +79083,7 @@ MonoBehaviour:
       m_OnZero: 0
       m_ShowStartLabel: 1
       m_ShowEndLabel: 1
+      m_ShowZeroLabel: 1
       m_TextLimit:
         m_Enable: 1
         m_MaxWidth: 0
@@ -78804,6 +79178,8 @@ MonoBehaviour:
       m_NumericFormatter: f2
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -78886,6 +79262,8 @@ MonoBehaviour:
         m_DotLength: 2
         m_GapLength: 2
       m_OnZero: 1
+      m_StartExtendLength: 0
+      m_EndExtendLength: 0
       m_ShowArrow: 0
       m_Arrow:
         m_Width: 10
@@ -78911,6 +79289,8 @@ MonoBehaviour:
         m_NumericFormatter: 
         m_Width: 0
         m_Height: 0
+        m_FixedX: 0
+        m_FixedY: 0
         m_Icon:
           m_Show: 0
           m_Layer: 0
@@ -78987,6 +79367,8 @@ MonoBehaviour:
       m_NumericFormatter: F1
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -79030,6 +79412,7 @@ MonoBehaviour:
       m_OnZero: 0
       m_ShowStartLabel: 1
       m_ShowEndLabel: 1
+      m_ShowZeroLabel: 1
       m_TextLimit:
         m_Enable: 0
         m_MaxWidth: 0
@@ -79124,6 +79507,8 @@ MonoBehaviour:
       m_NumericFormatter: f2
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -79205,6 +79590,8 @@ MonoBehaviour:
         m_DotLength: 2
         m_GapLength: 2
       m_OnZero: 1
+      m_StartExtendLength: 0
+      m_EndExtendLength: 0
       m_ShowArrow: 0
       m_Arrow:
         m_Width: 10
@@ -79230,6 +79617,8 @@ MonoBehaviour:
         m_NumericFormatter: 
         m_Width: 0
         m_Height: 0
+        m_FixedX: 0
+        m_FixedY: 0
         m_Icon:
           m_Show: 0
           m_Layer: 0
@@ -79306,6 +79695,8 @@ MonoBehaviour:
       m_NumericFormatter: 
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -79349,6 +79740,7 @@ MonoBehaviour:
       m_OnZero: 0
       m_ShowStartLabel: 1
       m_ShowEndLabel: 1
+      m_ShowZeroLabel: 1
       m_TextLimit:
         m_Enable: 0
         m_MaxWidth: 0
@@ -79443,6 +79835,8 @@ MonoBehaviour:
       m_NumericFormatter: f2
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -79562,6 +79956,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
     m_InsertDataToHead: 0
+    m_RealtimeSort: 0
     m_LineStyle:
       m_Show: 1
       m_Type: 0
@@ -79593,6 +79988,11 @@ MonoBehaviour:
       m_Color:
         serializedVersion: 2
         rgba: 0
+      m_BorderWidth: 0
+      m_EmptyColor:
+        serializedVersion: 2
+        rgba: 0
+      m_Size2: 0
       m_SizeType: 0
       m_DataIndex: 1
       m_DataScale: 1
@@ -79613,31 +80013,37 @@ MonoBehaviour:
         m_Reverse: 0
         m_Delay: 0
         m_Duration: 1000
+        m_Speed: 0
       m_FadeOut:
         m_Enable: 1
         m_Reverse: 1
         m_Delay: 0
         m_Duration: 1000
+        m_Speed: 0
       m_Change:
         m_Enable: 1
         m_Reverse: 0
         m_Delay: 0
         m_Duration: 500
+        m_Speed: 0
       m_Addition:
         m_Enable: 1
         m_Reverse: 0
         m_Delay: 0
         m_Duration: 500
+        m_Speed: 0
       m_Hiding:
         m_Enable: 1
         m_Reverse: 0
         m_Delay: 0
         m_Duration: 500
+        m_Speed: 0
       m_Interaction:
         m_Enable: 1
         m_Reverse: 0
         m_Delay: 0
         m_Duration: 250
+        m_Speed: 0
         m_Width:
           m_Type: 0
           m_Value: 1.1
@@ -79647,6 +80053,12 @@ MonoBehaviour:
         m_Offset:
           m_Type: 1
           m_Value: 5
+      m_Exchange:
+        m_Enable: 1
+        m_Reverse: 0
+        m_Delay: 0
+        m_Duration: 250
+        m_Speed: 0
     m_ItemStyle:
       m_Show: 1
       m_Color:
@@ -79668,6 +80080,7 @@ MonoBehaviour:
         serializedVersion: 2
         rgba: 0
       m_BackgroundWidth: 0
+      m_BackgroundGap: 0
       m_CenterColor:
         serializedVersion: 2
         rgba: 0
@@ -79776,6 +80189,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
     m_InsertDataToHead: 0
+    m_RealtimeSort: 0
     m_LineStyle:
       m_Show: 1
       m_Type: 0
@@ -79807,6 +80221,11 @@ MonoBehaviour:
       m_Color:
         serializedVersion: 2
         rgba: 0
+      m_BorderWidth: 0
+      m_EmptyColor:
+        serializedVersion: 2
+        rgba: 0
+      m_Size2: 0
       m_SizeType: 0
       m_DataIndex: 1
       m_DataScale: 1
@@ -79827,31 +80246,37 @@ MonoBehaviour:
         m_Reverse: 0
         m_Delay: 0
         m_Duration: 1000
+        m_Speed: 0
       m_FadeOut:
         m_Enable: 1
         m_Reverse: 1
         m_Delay: 0
         m_Duration: 1000
+        m_Speed: 0
       m_Change:
         m_Enable: 1
         m_Reverse: 0
         m_Delay: 0
         m_Duration: 500
+        m_Speed: 0
       m_Addition:
         m_Enable: 1
         m_Reverse: 0
         m_Delay: 0
         m_Duration: 500
+        m_Speed: 0
       m_Hiding:
         m_Enable: 1
         m_Reverse: 0
         m_Delay: 0
         m_Duration: 500
+        m_Speed: 0
       m_Interaction:
         m_Enable: 1
         m_Reverse: 0
         m_Delay: 0
         m_Duration: 250
+        m_Speed: 0
         m_Width:
           m_Type: 0
           m_Value: 1.1
@@ -79861,6 +80286,12 @@ MonoBehaviour:
         m_Offset:
           m_Type: 1
           m_Value: 5
+      m_Exchange:
+        m_Enable: 1
+        m_Reverse: 0
+        m_Delay: 0
+        m_Duration: 250
+        m_Speed: 0
     m_ItemStyle:
       m_Show: 1
       m_Color:
@@ -79882,6 +80313,7 @@ MonoBehaviour:
         serializedVersion: 2
         rgba: 0
       m_BackgroundWidth: 0
+      m_BackgroundGap: 0
       m_CenterColor:
         serializedVersion: 2
         rgba: 0
@@ -89157,7 +89589,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_EnableTextMeshPro: 0
+  m_ChildNodeNames: []
   m_ChartName: 
+  m_UseUtc: 1
   m_Theme:
     m_Show: 1
     m_SharedTheme: {fileID: 11400000, guid: e1dc23a10de1e4c5dbfbaf74c4dfd218, type: 2}
@@ -89204,6 +89638,8 @@ MonoBehaviour:
       m_NumericFormatter: 
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -89296,6 +89732,7 @@ MonoBehaviour:
     m_ItemGap: 10
     m_ItemAutoColor: 1
     m_ItemOpacity: 1
+    m_ItemInactiveOpacity: 1
     m_Formatter: 
     m_LabelStyle:
       m_Show: 1
@@ -89309,6 +89746,8 @@ MonoBehaviour:
       m_NumericFormatter: 
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -89390,6 +89829,8 @@ MonoBehaviour:
       m_NumericFormatter: 
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -89439,6 +89880,8 @@ MonoBehaviour:
       m_NumericFormatter: 
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -89515,6 +89958,8 @@ MonoBehaviour:
     m_BorderColor:
       serializedVersion: 2
       rgba: 4293322470
+    m_ColumnGapWidths:
+    - 15
     m_LineStyle:
       m_Show: 1
       m_Type: 5
@@ -89545,6 +89990,8 @@ MonoBehaviour:
       m_NumericFormatter: 
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -89594,6 +90041,8 @@ MonoBehaviour:
       m_NumericFormatter: 
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -89642,6 +90091,8 @@ MonoBehaviour:
       m_NumericFormatter: 
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -89690,6 +90141,8 @@ MonoBehaviour:
       m_NumericFormatter: 
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -89773,6 +90226,8 @@ MonoBehaviour:
         m_DotLength: 2
         m_GapLength: 2
       m_OnZero: 1
+      m_StartExtendLength: 0
+      m_EndExtendLength: 0
       m_ShowArrow: 0
       m_Arrow:
         m_Width: 10
@@ -89798,6 +90253,8 @@ MonoBehaviour:
         m_NumericFormatter: 
         m_Width: 0
         m_Height: 0
+        m_FixedX: 0
+        m_FixedY: 0
         m_Icon:
           m_Show: 0
           m_Layer: 0
@@ -89874,6 +90331,8 @@ MonoBehaviour:
       m_NumericFormatter: F0
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -89917,6 +90376,7 @@ MonoBehaviour:
       m_OnZero: 0
       m_ShowStartLabel: 1
       m_ShowEndLabel: 1
+      m_ShowZeroLabel: 1
       m_TextLimit:
         m_Enable: 1
         m_MaxWidth: 0
@@ -90011,6 +90471,8 @@ MonoBehaviour:
       m_NumericFormatter: f2
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -90093,6 +90555,8 @@ MonoBehaviour:
         m_DotLength: 2
         m_GapLength: 2
       m_OnZero: 1
+      m_StartExtendLength: 0
+      m_EndExtendLength: 0
       m_ShowArrow: 0
       m_Arrow:
         m_Width: 10
@@ -90118,6 +90582,8 @@ MonoBehaviour:
         m_NumericFormatter: 
         m_Width: 0
         m_Height: 0
+        m_FixedX: 0
+        m_FixedY: 0
         m_Icon:
           m_Show: 0
           m_Layer: 0
@@ -90194,6 +90660,8 @@ MonoBehaviour:
       m_NumericFormatter: F0
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -90237,6 +90705,7 @@ MonoBehaviour:
       m_OnZero: 0
       m_ShowStartLabel: 1
       m_ShowEndLabel: 1
+      m_ShowZeroLabel: 1
       m_TextLimit:
         m_Enable: 0
         m_MaxWidth: 0
@@ -90331,6 +90800,8 @@ MonoBehaviour:
       m_NumericFormatter: f2
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -90412,6 +90883,8 @@ MonoBehaviour:
         m_DotLength: 2
         m_GapLength: 2
       m_OnZero: 1
+      m_StartExtendLength: 0
+      m_EndExtendLength: 0
       m_ShowArrow: 0
       m_Arrow:
         m_Width: 10
@@ -90437,6 +90910,8 @@ MonoBehaviour:
         m_NumericFormatter: 
         m_Width: 0
         m_Height: 0
+        m_FixedX: 0
+        m_FixedY: 0
         m_Icon:
           m_Show: 0
           m_Layer: 0
@@ -90513,6 +90988,8 @@ MonoBehaviour:
       m_NumericFormatter: 
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -90556,6 +91033,7 @@ MonoBehaviour:
       m_OnZero: 0
       m_ShowStartLabel: 1
       m_ShowEndLabel: 1
+      m_ShowZeroLabel: 1
       m_TextLimit:
         m_Enable: 0
         m_MaxWidth: 0
@@ -90650,6 +91128,8 @@ MonoBehaviour:
       m_NumericFormatter: f2
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -90769,6 +91249,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
     m_InsertDataToHead: 0
+    m_RealtimeSort: 0
     m_LineStyle:
       m_Show: 1
       m_Type: 0
@@ -90800,6 +91281,11 @@ MonoBehaviour:
       m_Color:
         serializedVersion: 2
         rgba: 0
+      m_BorderWidth: 0
+      m_EmptyColor:
+        serializedVersion: 2
+        rgba: 0
+      m_Size2: 0
       m_SizeType: 0
       m_DataIndex: 1
       m_DataScale: 1
@@ -90820,31 +91306,37 @@ MonoBehaviour:
         m_Reverse: 0
         m_Delay: 0
         m_Duration: 1000
+        m_Speed: 0
       m_FadeOut:
         m_Enable: 1
         m_Reverse: 1
         m_Delay: 0
         m_Duration: 1000
+        m_Speed: 0
       m_Change:
         m_Enable: 1
         m_Reverse: 0
         m_Delay: 0
         m_Duration: 500
+        m_Speed: 0
       m_Addition:
         m_Enable: 1
         m_Reverse: 0
         m_Delay: 0
         m_Duration: 500
+        m_Speed: 0
       m_Hiding:
         m_Enable: 1
         m_Reverse: 0
         m_Delay: 0
         m_Duration: 500
+        m_Speed: 0
       m_Interaction:
         m_Enable: 1
         m_Reverse: 0
         m_Delay: 0
         m_Duration: 250
+        m_Speed: 0
         m_Width:
           m_Type: 0
           m_Value: 1.1
@@ -90854,6 +91346,12 @@ MonoBehaviour:
         m_Offset:
           m_Type: 1
           m_Value: 5
+      m_Exchange:
+        m_Enable: 1
+        m_Reverse: 0
+        m_Delay: 0
+        m_Duration: 250
+        m_Speed: 0
     m_ItemStyle:
       m_Show: 1
       m_Color:
@@ -90875,6 +91373,7 @@ MonoBehaviour:
         serializedVersion: 2
         rgba: 0
       m_BackgroundWidth: 0
+      m_BackgroundGap: 0
       m_CenterColor:
         serializedVersion: 2
         rgba: 0
@@ -90983,6 +91482,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
     m_InsertDataToHead: 0
+    m_RealtimeSort: 0
     m_LineStyle:
       m_Show: 1
       m_Type: 0
@@ -91014,6 +91514,11 @@ MonoBehaviour:
       m_Color:
         serializedVersion: 2
         rgba: 0
+      m_BorderWidth: 0
+      m_EmptyColor:
+        serializedVersion: 2
+        rgba: 0
+      m_Size2: 0
       m_SizeType: 0
       m_DataIndex: 1
       m_DataScale: 1
@@ -91034,31 +91539,37 @@ MonoBehaviour:
         m_Reverse: 0
         m_Delay: 0
         m_Duration: 1000
+        m_Speed: 0
       m_FadeOut:
         m_Enable: 1
         m_Reverse: 1
         m_Delay: 0
         m_Duration: 1000
+        m_Speed: 0
       m_Change:
         m_Enable: 1
         m_Reverse: 0
         m_Delay: 0
         m_Duration: 500
+        m_Speed: 0
       m_Addition:
         m_Enable: 1
         m_Reverse: 0
         m_Delay: 0
         m_Duration: 500
+        m_Speed: 0
       m_Hiding:
         m_Enable: 1
         m_Reverse: 0
         m_Delay: 0
         m_Duration: 500
+        m_Speed: 0
       m_Interaction:
         m_Enable: 1
         m_Reverse: 0
         m_Delay: 0
         m_Duration: 250
+        m_Speed: 0
         m_Width:
           m_Type: 0
           m_Value: 1.1
@@ -91068,6 +91579,12 @@ MonoBehaviour:
         m_Offset:
           m_Type: 1
           m_Value: 5
+      m_Exchange:
+        m_Enable: 1
+        m_Reverse: 0
+        m_Delay: 0
+        m_Duration: 250
+        m_Speed: 0
     m_ItemStyle:
       m_Show: 1
       m_Color:
@@ -91089,6 +91606,7 @@ MonoBehaviour:
         serializedVersion: 2
         rgba: 0
       m_BackgroundWidth: 0
+      m_BackgroundGap: 0
       m_CenterColor:
         serializedVersion: 2
         rgba: 0
@@ -94060,11 +94578,11 @@ RectTransform:
   m_Father: {fileID: 232215727}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 2, y: -0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 2, y: 0}
   m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0, y: 1}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2124413164
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -94092,7 +94610,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 10
     m_MaxSize: 40
-    m_Alignment: 0
+    m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 1
