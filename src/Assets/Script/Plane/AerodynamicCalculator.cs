@@ -10,8 +10,8 @@ using System;
 public class AerodynamicCalculator : SerialReceive
 {
     //設計データ書き込み用変数
-    protected string path;//ファイルパス
-    protected string fileName = "data.csv";//ファイル名
+    protected string customCsvPath;//ファイルパス
+    protected string fileName = "CustomPlaneData.csv";//ファイル名
     public static List<List<string>> CsvList = new List<List<string>>();//CSVファイルリスト
     protected bool CanReadCsv = false;
 
@@ -179,9 +179,9 @@ public class AerodynamicCalculator : SerialReceive
         SensorPoint = GameObject.Find ("SensorPoint");
         
         //設計データ読み込み用
-        fileName = gm.PlaneName + ".csv";
-        path = Application.dataPath + "/" + fileName;
-        Debug.Log("File path: " + path);
+        // fileName = gm.PlaneName + ".csv";
+        customCsvPath = Path.Combine(Directory.GetParent(Application.dataPath).FullName, "CustomPlaneData.csv");
+        Debug.Log("File path: " + customCsvPath);
         ReadFile();
         
         
@@ -1166,20 +1166,20 @@ public class AerodynamicCalculator : SerialReceive
         }
     }
     void WriteFile(string txt) {
-        FileInfo fi = new FileInfo(path);
+        FileInfo fi = new FileInfo(customCsvPath);
         using (StreamWriter sw = fi.AppendText()) {
             sw.WriteLine(txt);
         }
     }
 
 void ReadFile() {
-    path = Application.dataPath + "/" + fileName;
+    customCsvPath = Application.dataPath + "/" + fileName;
 
-    if (!File.Exists(path)) {
-        Debug.LogWarning("CSV file not found at: " + path);
+    if (!File.Exists(customCsvPath)) {
+        Debug.LogWarning("CSV file not found at: " + customCsvPath);
         return;
     }
-    FileInfo fi = new FileInfo(path);
+    FileInfo fi = new FileInfo(customCsvPath);
     try {
         using (StreamReader sr = new StreamReader(fi.OpenRead(), Encoding.UTF8)) {
             string readTxt = sr.ReadToEnd();
