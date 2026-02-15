@@ -1172,48 +1172,56 @@ public class AerodynamicCalculator : SerialReceive
         }
     }
 
-void ReadFile() {
-    customCsvPath = Application.dataPath + "/" + fileName;
+    void ReadFile()
+    {
+        customCsvPath = Application.dataPath + "/" + fileName;
 
-    if (!File.Exists(customCsvPath)) {
-        Debug.LogWarning("CSV file not found at: " + customCsvPath);
-        return;
-    }
-    FileInfo fi = new FileInfo(customCsvPath);
-    try {
-        using (StreamReader sr = new StreamReader(fi.OpenRead(), Encoding.UTF8)) {
-            string readTxt = sr.ReadToEnd();
-            //Debug.Log("Read CSV content:\n" + readTxt);
-
-            CsvList.Clear(); // データリストの初期化
-
-            string[] lines = readTxt.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
-            foreach (string line in lines) {
-                //Debug.Log($"Parsed line: '{line}' (Length: {line.Length})");
-                string[] values = line.Split(new[] { ',' }, StringSplitOptions.None);
-
-                foreach (string value in values) {
-                    //Debug.Log($"Parsed value: '{value}' (Length: {value.Length})");
-                }
-
-                CsvList.Add(new List<string>(values));
-            }
-            CanReadCsv = true;
-            /*//デバッグ用
-            for(int ii=0;ii<10;ii++){
-                for(int jj=0;jj<38;jj++){
-                    Debug.Log(CsvList[jj][ii]);
-                }
-            }
-            */
+        if (!File.Exists(customCsvPath))
+        {
+            Debug.LogWarning("CSV file not found at: " + customCsvPath);
+            return;
         }
-    } catch (Exception e) {
-        Debug.LogWarning("Error reading CSV: " + e);
+        FileInfo fi = new FileInfo(customCsvPath);
+        try
+        {
+            using (StreamReader sr = new StreamReader(fi.OpenRead(), Encoding.UTF8))
+            {
+                string readTxt = sr.ReadToEnd();
+                //Debug.Log("Read CSV content:\n" + readTxt);
+
+                CsvList.Clear(); // データリストの初期化
+
+                string[] lines = readTxt.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
+                foreach (string line in lines)
+                {
+                    //Debug.Log($"Parsed line: '{line}' (Length: {line.Length})");
+                    string[] values = line.Split(new[] { ',' }, StringSplitOptions.None);
+
+                    foreach (string value in values)
+                    {
+                        //Debug.Log($"Parsed value: '{value}' (Length: {value.Length})");
+                    }
+
+                    CsvList.Add(new List<string>(values));
+                }
+                CanReadCsv = true;
+                /*//デバッグ用
+                for(int ii=0;ii<10;ii++){
+                    for(int jj=0;jj<38;jj++){
+                        Debug.Log(CsvList[jj][ii]);
+                    }
+                }
+                */
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogWarning("Error reading CSV: " + e);
+        }
     }
-}
 
-public virtual void FlightModelStart(){}
+    public virtual void FlightModelStart(){}
 
-public virtual void FlightModelFixedUpdate(){}
+    public virtual void FlightModelFixedUpdate(){}
 
 }
