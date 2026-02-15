@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class Airspeed : MonoBehaviour
 {
-    private Text scoreText;//Textコンポーネントにアクセスするための変数
-    private AerodynamicCalculator script;//AerodynamicCalculatorスクリプトにアクセスするための変数
+    private Text scoreText;//Textコンポーネントを保持するための変数
+    private AerodynamicCalculator script;//AerodynamicCalculatorスクリプトを保持するための変数
 
     // Start is called before the first frame update
     void Start()
