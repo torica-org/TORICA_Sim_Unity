@@ -6,34 +6,31 @@ using System.IO; // ファイル入出力
 
 public class IMGUI : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
+    [TextArea(3, 15)]
+    [Tooltip("備忘録や仕様のメモなどを自由に書き込めます")]
+    public string note = "IMGUIはデバッグ用のボタンを実装する仕組みです．";
 
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-    // デバッグ用
     void OnGUI()
     {
         if (GUI.Button(new Rect(10, 10, 100, 50), "Write CSV"))
         {
-            CsvIO csv = new();
-            csv.Write(1, 1, "Hello");
-            csv.Write(2, 1, "World");
-            csv.Flush(Path.Combine(Directory.GetParent(Application.dataPath).FullName, "Test.csv"));
+            using (CsvIO csv = new CsvIO(50, 20))
+            {
+                csv.Write(1, 1, "Hello");
+                csv.Write(2, 1, "World");
+                csv.Flush(Path.Combine(Directory.GetParent(Application.dataPath).FullName, "Test.csv"));
+            }
         }
+
         if (GUI.Button(new Rect(10, 70, 100, 50), "Read CSV"))
         {
-            CsvIO csv = new();
-            csv.Load(Path.Combine(Directory.GetParent(Application.dataPath).FullName, "Test.csv"));
-            print(csv.Read(1, 1));
-            print(csv.Read(2, 1));
+            using (CsvIO csv = new CsvIO(50, 20))
+            {
+                csv.Load(Path.Combine(Directory.GetParent(Application.dataPath).FullName, "Test.csv"));
+                print(csv.Read(1, 1));
+                print(csv.Read(2, 1));
+            }
         }
     }
 

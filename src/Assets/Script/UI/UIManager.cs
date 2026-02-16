@@ -30,7 +30,7 @@ public class UIManager : MonoBehaviour
         canvas = uiBase.GetComponent<Canvas>();
 
         // 中央原点から左上に向かって正
-        buttonExportGraph = InstantiateUIBtn(canvas, "Export Graph", 0, -250, OnClickedExportGraph);
+        buttonExportGraph = InstantiateUIBtn(canvas, "Export Graph", -50, 50, OnClickedExportGraph);
         canvas.enabled = false;
 
         printer = GameObject.Find("XChartPrinter").GetComponent<XChartPrinter>();
@@ -43,10 +43,24 @@ public class UIManager : MonoBehaviour
     public GameObject InstantiateUIBtn(Canvas _canvas, string name, float pos_x, float pos_y, UnityAction callback)
     {
         GameObject DefaultButton = (GameObject)Resources.Load("UIParts/DefaultButton");
-        GameObject ui_btn = Instantiate(DefaultButton, new Vector3(pos_x, pos_y, 0), Quaternion.identity);
 
-        // パネルを親に指定
-        ui_btn.transform.SetParent(_canvas.transform, false);
+        // 生成時に直接親キャンバスを指定し、ローカル座標を維持します
+        GameObject ui_btn = Instantiate(DefaultButton, _canvas.transform, false);
+
+        // RectTransformを取得して配置を設定します
+        RectTransform rect = ui_btn.GetComponent<RectTransform>();
+
+        // アンカーを画面の左下に設定 (0, 0)
+        rect.anchorMin = new Vector2(1f, 0f);
+        rect.anchorMax = new Vector2(1f, 0f);
+
+        // ピボット（ボタン自身の基準点）も左下に設定 (0, 0)
+        rect.pivot = new Vector2(1f, 0f);
+
+        // 左下を基準にした座標 (pos_x, pos_y) を設定
+        rect.anchoredPosition = new Vector2(pos_x, pos_y);
+
+        // その他の設定
         ui_btn.name = name;
         ui_btn.transform.Find("Text").gameObject.GetComponent<TMP_Text>().text = name;
 
