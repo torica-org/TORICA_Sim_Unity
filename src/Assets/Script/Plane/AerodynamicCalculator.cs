@@ -10,8 +10,8 @@ using System;
 public class AerodynamicCalculator : SerialReceive
 {
     //設計データ書き込み用変数
-    protected string path;//ファイルパス
-    protected string fileName = "data.csv";//ファイル名
+    protected string customCsvPath;//ファイルパス
+    protected string fileName = "CustomPlaneData.csv";//ファイル名
     public static List<List<string>> CsvList = new List<List<string>>();//CSVファイルリスト
     protected bool CanReadCsv = false;
 
@@ -177,11 +177,12 @@ public class AerodynamicCalculator : SerialReceive
         this.transform.rotation = Quaternion.Euler(0.0f, gm.StartRotation, 0.0f);
 
         SensorPoint = GameObject.Find ("SensorPoint");
-        
+
         //設計データ読み込み用
-        fileName = gm.PlaneName + ".csv";
-        path = Application.dataPath + "/" + fileName;
-        Debug.Log("File path: " + path);
+        // fileName = gm.PlaneName + ".csv";
+        customCsvPath = gm.PlaneName + ".csv";
+        // customCsvPath = Path.Combine(Directory.GetParent(Application.dataPath).FullName, "CustomPlaneData.csv");
+        Debug.Log("File path: " + customCsvPath);
         ReadFile();
         
         
@@ -1088,7 +1089,7 @@ public class AerodynamicCalculator : SerialReceive
             aircraftCenterOfMass = -0.25f;//機体のみ全重心(パイロットなし,ピッチのみ)[m]
             aircraftMass = 48;//機体のみ全重量[kg]
         }
-
+        
         if (CanReadCsv)
         {//CSVファイルが読み込まれた場合は優先的にそちらのデータを利用
             try
@@ -1164,56 +1165,149 @@ public class AerodynamicCalculator : SerialReceive
                 MyGameManeger.instance.errorText = "CSVファイルに不備があります。Dataフォルダ内のCSVファイルを確認するか、\n内蔵データを使用する為にそれを削除してください。";
             }
         }
+
+        CsvData csvData = new();
+        csvData.MakeCustomPlaneDataFile();
+
+        using (CsvIO csv = new CsvIO(50, 20))
+        {
+            csv.Load(Path.Combine(Directory.GetParent(Application.dataPath).FullName, "CustomPlaneData.csv"));
+
+            MyGameManeger.instance.error = true;
+            try
+            {
+                // Enabled
+                bool customPlaneDataEnabled = Convert.ToBoolean(csv.Read(1, 2));
+                // print("Enabled: " + customPlaneDataEnabled);
+
+                if (!customPlaneDataEnabled)
+                {
+                    MyGameManeger.instance.errorText = @"CustomPlaneData disabled. Press ""R"" to Refresh.";
+                    return;
+                }
+                // Plane
+                PlaneRigidbody.mass = float.Parse(csv.Read(3, 2));
+                PlaneRigidbody.centerOfMass = new Vector3(float.Parse(csv.Read(4, 2)), float.Parse(csv.Read(4, 3)), float.Parse(csv.Read(4, 4)));
+                PlaneRigidbody.inertiaTensor = new Vector3(float.Parse(csv.Read(5, 2)), float.Parse(csv.Read(5, 3)), float.Parse(csv.Read(5,4)));
+                PlaneRigidbody.inertiaTensorRotation = Quaternion.AngleAxis(float.Parse(csv.Read(6, 2)), Vector3.forward);
+                // Specification At Cruise without Ground Effect
+                Airspeed0 = float.Parse(csv.Read(8, 2)); // Magnitude of ground speed [m/s]
+                alpha0 = float.Parse(csv.Read(9, 2)); // Angle of attack [deg]
+                CDp0 = float.Parse(csv.Read(10, 2)); // Parasitic drag [-]
+                Cmw0 = float.Parse(csv.Read(11, 2)); // Pitching momentum [-]
+                CLMAX = float.Parse(csv.Read(12, 2));
+                // Wing
+                Sw = float.Parse(csv.Read(14, 2)); // Wing area of wing [m^2]
+                bw = float.Parse(csv.Read(15, 2)); // Wing span [m]
+                cMAC = float.Parse(csv.Read(16, 2)); // Mean aerodynamic chord [m]
+                aw = float.Parse(csv.Read(17, 2)); // Wing Lift Slope [1/deg]
+                hw = float.Parse(csv.Read(18, 2)); // Length between Wing a.c. and c.g.
+                ew = float.Parse(csv.Read(19, 2)); // Wing efficiency
+                AR = float.Parse(csv.Read(20, 2)); // Aspect Ratio
+                // Tail
+                Downwash = Convert.ToBoolean(csv.Read(22, 2)); // Conventional Tail: True, T-Tail: False
+                St = float.Parse(csv.Read(23, 2)); // Wing area of tail
+                at = float.Parse(csv.Read(24, 2)); // Tail Lift Slope [1/deg]
+                lt = float.Parse(csv.Read(25, 2)); // Length between Tail a.c. and c.g.
+                deMAX = float.Parse(csv.Read(26, 2)); // Maximum elevator angle
+                tau = float.Parse(csv.Read(27, 2)); // Control surface angle of attack effectiveness [-]
+                VH = float.Parse(csv.Read(28, 2)); // Tail Volume
+                // Fin
+                drMAX = float.Parse(csv.Read(39, 2)); // Maximum rudder angle            
+                // Ground Effect
+                CGEMIN = float.Parse(csv.Read(4, 7)); // Minimum Ground Effect Coefficient [-]
+                // Stability derivatives
+                Cyb = float.Parse(csv.Read(7, 7)); // [1/deg]
+                Cyp = float.Parse(csv.Read(8, 7)); // [1/rad]
+                Cyr = float.Parse(csv.Read(9, 7)); // [1/rad]
+                Cydr = float.Parse(csv.Read(10, 7)); // [1/deg]
+                Clb = float.Parse(csv.Read(11, 7)); // [1/deg]
+                Clp = float.Parse(csv.Read(12, 7)); // [1/rad]
+                Clr = float.Parse(csv.Read(13, 7)); // [1/rad]
+                Cldr = float.Parse(csv.Read(14, 7)); // [1/deg]
+                Cnb = float.Parse(csv.Read(15, 7)); // [1/deg]
+                Cnp = float.Parse(csv.Read(16, 7)); // [1/rad]
+                Cnr = float.Parse(csv.Read(17, 7)); // [1/rad]
+                Cndr = float.Parse(csv.Read(18, 7)); // [1/deg]
+
+                //追加機体データ
+                //lengthForward = float.Parse(CsvList[19][6]);//前センサーから吊り具(桁中心)までの長さ[m]
+                //lengthBackward = float.Parse(CsvList[20][6]);//吊り具(桁中心)から後センサーまでの長さ[m]
+
+                aircraftCenterOfMass = float.Parse(csv.Read(23, 7));//機体のみ全重心(パイロットなし,ピッチのみ)[m]
+                aircraftMass = float.Parse(csv.Read(24, 7));//機体のみ全重量[kg]
+                // pilotMass = PlaneRigidbody.mass - aircraftMass;//パイロット体重[kg]
+
+                YL = float.Parse(csv.Read(25, 7));//機体中心から翼持ち棒までの長さ[m]
+
+                MyGameManeger.instance.errorText = @"CustomPlaneData Enabled! (CsvIO.Read : success) Press ""R"" to Refresh.";
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning("CsvIO error" + e);
+
+                MyGameManeger.instance.errorText = @"CustomPlaneData Enabled! (CsvIO.Read : failure) Press ""R"" to Refresh.";
+            }
+        }
+
     }
     void WriteFile(string txt) {
-        FileInfo fi = new FileInfo(path);
+        FileInfo fi = new FileInfo(customCsvPath);
         using (StreamWriter sw = fi.AppendText()) {
             sw.WriteLine(txt);
         }
     }
 
-void ReadFile() {
-    path = Application.dataPath + "/" + fileName;
+    void ReadFile()
+    {
+        customCsvPath = Application.dataPath + "/" + fileName;
 
-    if (!File.Exists(path)) {
-        Debug.LogWarning("CSV file not found at: " + path);
-        return;
-    }
-    FileInfo fi = new FileInfo(path);
-    try {
-        using (StreamReader sr = new StreamReader(fi.OpenRead(), Encoding.UTF8)) {
-            string readTxt = sr.ReadToEnd();
-            //Debug.Log("Read CSV content:\n" + readTxt);
-
-            CsvList.Clear(); // データリストの初期化
-
-            string[] lines = readTxt.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
-            foreach (string line in lines) {
-                //Debug.Log($"Parsed line: '{line}' (Length: {line.Length})");
-                string[] values = line.Split(new[] { ',' }, StringSplitOptions.None);
-
-                foreach (string value in values) {
-                    //Debug.Log($"Parsed value: '{value}' (Length: {value.Length})");
-                }
-
-                CsvList.Add(new List<string>(values));
-            }
-            CanReadCsv = true;
-            /*//デバッグ用
-            for(int ii=0;ii<10;ii++){
-                for(int jj=0;jj<38;jj++){
-                    Debug.Log(CsvList[jj][ii]);
-                }
-            }
-            */
+        if (!File.Exists(customCsvPath))
+        {
+            Debug.LogWarning("CSV file not found at: " + customCsvPath);
+            return;
         }
-    } catch (Exception e) {
-        Debug.LogWarning("Error reading CSV: " + e);
+        FileInfo fi = new FileInfo(customCsvPath);
+        try
+        {
+            using (StreamReader sr = new StreamReader(fi.OpenRead(), Encoding.UTF8))
+            {
+                string readTxt = sr.ReadToEnd();
+                //Debug.Log("Read CSV content:\n" + readTxt);
+
+                CsvList.Clear(); // データリストの初期化
+
+                string[] lines = readTxt.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
+                foreach (string line in lines)
+                {
+                    //Debug.Log($"Parsed line: '{line}' (Length: {line.Length})");
+                    string[] values = line.Split(new[] { ',' }, StringSplitOptions.None);
+
+                    foreach (string value in values)
+                    {
+                        //Debug.Log($"Parsed value: '{value}' (Length: {value.Length})");
+                    }
+
+                    CsvList.Add(new List<string>(values));
+                }
+                CanReadCsv = true;
+                /*//デバッグ用
+                for(int ii=0;ii<10;ii++){
+                    for(int jj=0;jj<38;jj++){
+                        Debug.Log(CsvList[jj][ii]);
+                    }
+                }
+                */
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogWarning("Error reading CSV: " + e);
+        }
     }
-}
 
-public virtual void FlightModelStart(){}
+    public virtual void FlightModelStart(){}
 
-public virtual void FlightModelFixedUpdate(){}
+    public virtual void FlightModelFixedUpdate(){}
 
 }

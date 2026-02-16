@@ -1,361 +1,285 @@
 ﻿using System.Collections;
+using System.Collections.Generic; // Listを使うために必要
 using System.IO;
 using UnityEngine;
 using XCharts.Runtime; // XChartを使うために必要
 
 public class XChartPrinter : MonoBehaviour
 {
-    private Camera graphCamera; // 撮影用カメラ
+    protected MyGameManeger gm;
+    protected GameObject systemcontroller;
+    protected AirData airdata;
+
+    private Camera chartCamera; // 撮影用カメラ
     private LineChart chart;    // XChartのグラフ本体
     private Vector2Int imageSize = new Vector2Int(1920, 1440); // 保存サイズ
 
-    private void Start ()
+    private XAxis xAxis;
+    private YAxis yAxis;
+
+    private Serie serie1;
+    private Serie serie2;
+
+    private const int pickedDataNum = 100; // プロットするデータの数（数に根拠はない）
+    private int[] pickedIndex = new int[pickedDataNum]; // ピックするデータのインデックスを保持する配列
+
+
+    private void Start()
     {
-        graphCamera = GameObject.Find("GraphCamera").GetComponent<Camera>();
-        chart = GameObject.Find("ChartForPrinter").GetComponent<LineChart>();
-    }
+        gm = MyGameManeger.instance; // `GameManager.instance`を`gm`として保持
+        systemcontroller = GameObject.Find("SystemController"); // `SystemController`への参照を取得
+        airdata = systemcontroller.GetComponent<AirData>(); // `AirData`コンポーネントへの参照を取得
 
-    // ===============================================================================================
-
-    //private LineChart chart;
-    private Serie serie;
-    private int m_DataNum = 8;
-
-    private void OnEnable()
-    {
-        StartCoroutine(PieDemo());
-    }
-
-    IEnumerator PieDemo()
-    {
-        while (true)
+        chartCamera = GameObject.Find("ChartCamera").GetComponent<Camera>(); // `ChartCamera`の`Camera`コンポーネントへの参照を取得
+        chart = GameObject.Find("ChartForPrinter").GetComponent<LineChart>(); // `ChartForPrinter`の`LineChart`コンポーネントへの参照を取得
+        if (chart == null) // `LineChart`コンポーネントが取得できなかったら
         {
-            StartCoroutine(AddSimpleLine());
-            yield return new WaitForSeconds(2);
-            StartCoroutine(ChangeLineType());
-            yield return new WaitForSeconds(8);
-            StartCoroutine(LineAreaStyleSettings());
-            yield return new WaitForSeconds(5);
-            StartCoroutine(LineArrowSettings());
-            yield return new WaitForSeconds(2);
-            StartCoroutine(LineSymbolSettings());
-            yield return new WaitForSeconds(7);
-            StartCoroutine(LineLabelSettings());
-            yield return new WaitForSeconds(3);
-            StartCoroutine(LineMutilSerie());
-            yield return new WaitForSeconds(5);
+            chart = GameObject.Find("ChartForPrinter").AddComponent<LineChart>(); // `LineChart`コンポーネントを追加
+            chart.Init(); // グラフの初期化
+        }
+
+        chart.GetChartComponent<Title>().show = false; // タイトルの表示
+        chart.EnsureChartComponent<Tooltip>().show = false; // グラフ上にカーソルを当てた際の値の表示
+        chart.EnsureChartComponent<Legend>().show = true; // 凡例の表示
+
+        xAxis = chart.EnsureChartComponent<XAxis>(); // X軸（横軸：時間）を取得
+        xAxis.splitNumber = 7; // 表示する目盛りの数を7に設定
+        xAxis.axisLabel.numericFormatter = "f0";
+
+        yAxis = chart.EnsureChartComponent<YAxis>(); // Y軸（縦軸）を取得
+    }
+
+
+    public void ExportAllGraphs() // 外部から呼び出されるpublicな関数
+    {
+        PickIndex((int)airdata.frameNumber);
+        StartCoroutine(ExportProcess()); // コルーチンの開始
+        // コルーチンとは
+        // 時間経過を伴う処理を複数フレームにわたって実行する仕組み
+        // 開始：`StartCoroutine();`
+        // 定義：IEnumerator型を返す関数により定義する．yield return文が少なくとも1つ含まれるようにする．
+    }
+
+
+    private void PickIndex(int dataCount) // ピックするpickedDataNum個のインデックス（それ以下ならそのまま）の配列を返す．
+    {
+        if (dataCount <= pickedDataNum) // データ数がpickedDataNum個以下
+        {
+            for (int i = 0; i < dataCount; i++)
+            {
+                pickedIndex[i] = i; // インデックスと各要素を一致させる
+            }
+            // pickedDataNum = dataCount; // pickedDataNumを更新
+        }
+        else // データ数がpickedDataNumより大きい
+        {
+            int indexInterval = (int)((float)dataCount / (float)pickedDataNum); // pickedDataNum個に分割したときの間隔（小数点以下切り捨て）
+
+            for (int i = 0; i < pickedDataNum; i++)
+            {
+                if (indexInterval * i > dataCount) // 最終要素が最大値を超えた場合
+                {
+                    pickedIndex[i] = dataCount; // 最終要素に最大値を代入
+                }
+                else
+                {
+                    pickedIndex[i] = indexInterval * i; // indexInterval倍の値を次々に代入
+                }
+            }
         }
     }
 
-    IEnumerator AddSimpleLine()
+
+    IEnumerator ExportProcess() // グラフ出力処理のコルーチンの定義
     {
-        chart = gameObject.GetComponent<LineChart>();
-        if (chart == null)
+        SaveChartThetaAlpha();
+        yield return new WaitForSecondsRealtime(1); // 1秒待機（RealtimeなのでTime.timeScaleの影響を受けず，物理演算停止中でも処理が進む．）
+        CaptureProcess("ThetaAlpha.png");
+        yield return new WaitForSecondsRealtime(1);
+        SaveChartPhiBeta();
+        yield return new WaitForSecondsRealtime(1);
+        CaptureProcess("PhiBeta.png");
+        yield return new WaitForSecondsRealtime(1);
+        SaveChartAirspeedAlt();
+        yield return new WaitForSecondsRealtime(1);
+        CaptureProcess("AirspeedAlt.png");
+        yield return new WaitForSecondsRealtime(1);
+        SaveChartCenterOfG();
+        yield return new WaitForSecondsRealtime(1);
+        CaptureProcess("CenterOfG.png");
+        yield return new WaitForSecondsRealtime(1);
+        SaveChartRudder();
+        yield return new WaitForSecondsRealtime(1);
+        CaptureProcess("Rudder.png");
+        yield return new WaitForSecondsRealtime(1);
+        StartAtDirPath();
+    }
+
+
+    private void SaveChartThetaAlpha()
+    {
+        chart.RemoveData(); // データを除去
+
+        serie1 = chart.AddSerie<Line>("ピッチ(Theta)"); // Line型のSerieを追加
+        serie2 = chart.AddSerie<Line>("迎角(Alpha)");
+
+        foreach (var serie in chart.series) // Serie型配列要素それぞれに対して
         {
-            chart = gameObject.AddComponent<LineChart>();
-            chart.Init();
+            serie.AnimationEnable(false); // アニメーション無効
+            serie.symbol.show = false; // プロット点非表示
         }
-        chart.GetChartComponent<Title>().text = "LineChart - 折线图";
-        chart.GetChartComponent<Title>().subText = "普通折线图";
 
-        var yAxis = chart.GetChartComponent<YAxis>();
-        yAxis.minMaxType = Axis.AxisMinMaxType.Custom;
-        yAxis.min = 0;
-        yAxis.max = 100;
+        for (int i = 0; i < pickedDataNum; i++)
+        {
+            chart.AddXAxisData((0.02 * pickedIndex[i]) + "s"); // ピックしたインデックスは各時点でのフレーム数であるため
+            chart.AddData(0, gm.ThetaList[pickedIndex[i]]); // 系列0(serie1)に追加
+            chart.AddData(1, gm.AlphaList[pickedIndex[i]]); // 系列1(serie2)に追加
+        }
 
+        chart.RefreshChart(); // グラフを更新
+    }
+
+
+    private void SaveChartPhiBeta()
+    {
         chart.RemoveData();
-        serie = chart.AddSerie<Line>("Line");
 
-        for (int i = 0; i < m_DataNum; i++)
+        serie1 = chart.AddSerie<Line>("ロール(Phi)");
+        serie2 = chart.AddSerie<Line>("横滑り角(Beta)");
+
+        foreach (var serie in chart.series)
         {
-            chart.AddXAxisData("x" + (i + 1));
-            chart.AddData(0, UnityEngine.Random.Range(30, 90));
-        }
-        yield return new WaitForSeconds(1);
-    }
-
-    IEnumerator ChangeLineType()
-    {
-        chart.GetChartComponent<Title>().subText = "LineTyle - 曲线图";
-        serie.lineType = LineType.Smooth;
-        chart.RefreshChart();
-        yield return new WaitForSeconds(1);
-
-        chart.GetChartComponent<Title>().subText = "LineTyle - 阶梯线图";
-        serie.lineType = LineType.StepStart;
-        chart.RefreshChart();
-        yield return new WaitForSeconds(1);
-
-        serie.lineType = LineType.StepMiddle;
-        chart.RefreshChart();
-        yield return new WaitForSeconds(1);
-
-        serie.lineType = LineType.StepEnd;
-        chart.RefreshChart();
-        yield return new WaitForSeconds(1);
-
-        chart.GetChartComponent<Title>().subText = "LineTyle - 虚线";
-        serie.lineStyle.type = LineStyle.Type.Dashed;
-        chart.RefreshChart();
-        yield return new WaitForSeconds(1);
-
-        chart.GetChartComponent<Title>().subText = "LineTyle - 点线";
-        serie.lineStyle.type = LineStyle.Type.Dotted;
-        chart.RefreshChart();
-        yield return new WaitForSeconds(1);
-
-        chart.GetChartComponent<Title>().subText = "LineTyle - 点划线";
-        serie.lineStyle.type = LineStyle.Type.DashDot;
-        chart.RefreshChart();
-        yield return new WaitForSeconds(1);
-
-        chart.GetChartComponent<Title>().subText = "LineTyle - 双点划线";
-        serie.lineStyle.type = LineStyle.Type.DashDotDot;
-        chart.RefreshChart();
-
-        serie.lineType = LineType.Normal;
-        chart.RefreshChart();
-    }
-
-    IEnumerator LineAreaStyleSettings()
-    {
-        chart.GetChartComponent<Title>().subText = "AreaStyle 面积图";
-
-        serie.EnsureComponent<AreaStyle>();
-        serie.areaStyle.show = true;
-        chart.RefreshChart();
-        yield return new WaitForSeconds(1f);
-
-        chart.GetChartComponent<Title>().subText = "AreaStyle 面积图";
-        serie.lineType = LineType.Smooth;
-        serie.areaStyle.show = true;
-        chart.RefreshChart();
-        yield return new WaitForSeconds(1f);
-
-        chart.GetChartComponent<Title>().subText = "AreaStyle 面积图 - 调整透明度";
-        while (serie.areaStyle.opacity > 0.4)
-        {
-            serie.areaStyle.opacity -= 0.6f * Time.deltaTime;
-            chart.RefreshChart();
-            yield return null;
-        }
-        yield return new WaitForSeconds(1);
-
-        chart.GetChartComponent<Title>().subText = "AreaStyle 面积图 - 渐变";
-        serie.areaStyle.toColor = Color.white;
-        chart.RefreshChart();
-        yield return new WaitForSeconds(1);
-    }
-
-    IEnumerator LineArrowSettings()
-    {
-        chart.GetChartComponent<Title>().subText = "LineArrow 头部箭头";
-        chart.GetSerie(0).EnsureComponent<LineArrow>();
-        serie.lineArrow.show = true;
-        serie.lineArrow.position = LineArrow.Position.Start;
-        chart.RefreshChart();
-        yield return new WaitForSeconds(1);
-
-        chart.GetChartComponent<Title>().subText = "LineArrow 尾部箭头";
-        serie.lineArrow.position = LineArrow.Position.End;
-        chart.RefreshChart();
-        yield return new WaitForSeconds(1);
-        serie.lineArrow.show = false;
-    }
-
-    /// <summary>
-    /// SerieSymbol 相关设置
-    /// </summary>
-    /// <returns></returns>
-    IEnumerator LineSymbolSettings()
-    {
-        chart.GetChartComponent<Title>().subText = "SerieSymbol 图形标记";
-        while (serie.symbol.size < 5)
-        {
-            serie.symbol.size += 2.5f * Time.deltaTime;
-            chart.RefreshChart();
-            yield return null;
-        }
-        chart.GetChartComponent<Title>().subText = "SerieSymbol 图形标记 - 空心圆";
-        yield return new WaitForSeconds(1);
-
-        chart.GetChartComponent<Title>().subText = "SerieSymbol 图形标记 - 实心圆";
-        serie.symbol.type = SymbolType.Circle;
-        chart.RefreshChart();
-        yield return new WaitForSeconds(1);
-
-        chart.GetChartComponent<Title>().subText = "SerieSymbol 图形标记 - 三角形";
-        serie.symbol.type = SymbolType.Triangle;
-        chart.RefreshChart();
-        yield return new WaitForSeconds(1);
-
-        chart.GetChartComponent<Title>().subText = "SerieSymbol 图形标记 - 正方形";
-        serie.symbol.type = SymbolType.Rect;
-        chart.RefreshChart();
-        yield return new WaitForSeconds(1);
-
-        chart.GetChartComponent<Title>().subText = "SerieSymbol 图形标记 - 菱形";
-        serie.symbol.type = SymbolType.Diamond;
-        chart.RefreshChart();
-        yield return new WaitForSeconds(1);
-
-        chart.GetChartComponent<Title>().subText = "SerieSymbol 图形标记";
-        serie.symbol.type = SymbolType.EmptyCircle;
-        chart.RefreshChart();
-        yield return new WaitForSeconds(1);
-    }
-
-    /// <summary>
-    /// SerieLabel相关配置
-    /// </summary>
-    /// <returns></returns>
-    IEnumerator LineLabelSettings()
-    {
-        chart.GetChartComponent<Title>().subText = "SerieLabel 文本标签";
-        serie.EnsureComponent<LabelStyle>();
-        chart.RefreshChart();
-        while (serie.label.offset[1] < 20)
-        {
-            serie.label.offset = new Vector3(serie.label.offset.x, serie.label.offset.y + 20f * Time.deltaTime);
-            chart.RefreshChart();
-            yield return null;
-        }
-        yield return new WaitForSeconds(1);
-
-        chart.RefreshChart();
-        yield return new WaitForSeconds(1);
-
-        serie.label.textStyle.color = Color.white;
-        serie.label.background.color = Color.grey;
-        serie.labelDirty = true;
-        chart.RefreshChart();
-        yield return new WaitForSeconds(1);
-
-        serie.label.show = false;
-        chart.RefreshChart();
-    }
-
-    /// <summary>
-    /// 添加多条线图
-    /// </summary>
-    /// <returns></returns>
-    IEnumerator LineMutilSerie()
-    {
-        chart.GetChartComponent<Title>().subText = "多系列";
-        var serie2 = chart.AddSerie<Line>("Line2");
-        serie2.lineType = LineType.Normal;
-        for (int i = 0; i < m_DataNum; i++)
-        {
-            chart.AddData(1, UnityEngine.Random.Range(30, 90));
-        }
-        yield return new WaitForSeconds(1);
-
-        var serie3 = chart.AddSerie<Line>("Line3");
-        serie3.lineType = LineType.Normal;
-        for (int i = 0; i < m_DataNum; i++)
-        {
-            chart.AddData(2, UnityEngine.Random.Range(30, 90));
-        }
-        yield return new WaitForSeconds(1);
-
-        var yAxis = chart.GetChartComponent<YAxis>();
-        yAxis.minMaxType = Axis.AxisMinMaxType.Default;
-        chart.GetChartComponent<Title>().subText = "多系列 - 堆叠";
-        serie.stack = "samename";
-        serie2.stack = "samename";
-        serie3.stack = "samename";
-        chart.RefreshChart();
-        yield return new WaitForSeconds(1);
-    }
-
-// ===============================================================================================
-
-// 外部から呼ぶ関数
-public void PrintGraph(float[] dataPoints, string fileName)
-    {
-        StartCoroutine(CaptureProcess(dataPoints, fileName));
-    }
-
-    private IEnumerator CaptureProcess(float[] dataPoints, string fileName)
-    {
-        // 1. XChartにデータをセット
-        chart.ClearData();
-
-        // シリーズ0番（折れ線など）にデータを追加
-        // ※XChartsのバージョンによって書き方が若干異なる場合があります
-        foreach (var val in dataPoints)
-        {
-            chart.AddData(0, val);
+            serie.AnimationEnable(false);
+            serie.symbol.show = false;
         }
 
-        // 重要: XChartの描画更新を待つ
-        // データをセットした瞬間に見た目は変わらないため、1フレーム待ちます
-        chart.RefreshChart();
-        yield return new WaitForEndOfFrame();
-        // もし反映されない場合はもう1フレーム待つ
-        // yield return null; 
+        for (int i = 0; i < pickedDataNum; i++)
+        {
+            chart.AddXAxisData((0.02 * pickedIndex[i]) + "s");
+            chart.AddData(0, gm.PhiList[pickedIndex[i]]);
+            chart.AddData(1, gm.BetaList[pickedIndex[i]]);
+        }
 
-        // 2. RenderTextureを作成 (使い捨て)
+        chart.RefreshChart();
+    }
+
+
+    private void SaveChartAirspeedAlt()
+    {
+        chart.RemoveData();
+
+        serie1 = chart.AddSerie<Line>("対気速度(Airspeed)");
+        serie2 = chart.AddSerie<Line>("高度(Alt)");
+
+        foreach (var serie in chart.series)
+        {
+            serie.AnimationEnable(false);
+            serie.symbol.show = false;
+        }
+
+        for (int i = 0; i < pickedDataNum; i++)
+        {
+            chart.AddXAxisData((0.02 * pickedIndex[i]) + "s");
+            chart.AddData(0, gm.AirspeedList[pickedIndex[i]]);
+            chart.AddData(1, gm.AltList[pickedIndex[i]]);
+        }
+
+        chart.RefreshChart();
+    }
+
+
+    private void SaveChartCenterOfG()
+    {
+        chart.RemoveData();
+
+        serie1 = chart.AddSerie<Line>("全備重心(CenterOfG)");
+
+        foreach (var serie in chart.series)
+        {
+            serie.AnimationEnable(false);
+            serie.symbol.show = false;
+        }
+
+        yAxis.axisLabel.numericFormatter = "f2";
+
+        for (int i = 0; i < pickedDataNum; i++)
+        {
+            chart.AddXAxisData((0.02 * pickedIndex[i]) + "s");
+            chart.AddData(0, gm.CenterOfGList[pickedIndex[i]]);
+        }
+
+        chart.RefreshChart();
+    }
+
+
+    private void SaveChartRudder()
+    {
+        chart.RemoveData();
+
+        serie1 = chart.AddSerie<Line>("ラダー角(dr)");
+
+        foreach (var serie in chart.series)
+        {
+            serie.AnimationEnable(false);
+            serie.symbol.show = false;
+        }
+
+        for (int i = 0; i < pickedDataNum; i++)
+        {
+            chart.AddXAxisData((0.02 * pickedIndex[i]) + "s");
+            chart.AddData(0, gm.drList[pickedIndex[i]]);
+        }
+
+        chart.RefreshChart();
+    }
+
+
+    private void CaptureProcess(string fileName) // PNG画像をカメラを使って撮影する関数（Gemini制作）
+    {
+        // RenderTextureを作成 (使い捨て)
         RenderTexture rt = new RenderTexture(imageSize.x, imageSize.y, 24);
-        graphCamera.targetTexture = rt;
+        chartCamera.targetTexture = rt;
 
-        // 3. カメラで撮影（レンダリング）
-        graphCamera.Render();
+        // カメラで撮影（レンダリング）
+        chartCamera.Render();
 
-        // 4. RenderTextureからTexture2Dにピクセルを移す
+        // RenderTextureからTexture2Dにピクセルを移す
         RenderTexture.active = rt; // ReadPixelsの読み取り元をrtに切り替え
         Texture2D texture = new Texture2D(imageSize.x, imageSize.y, TextureFormat.RGB24, false);
         texture.ReadPixels(new Rect(0, 0, imageSize.x, imageSize.y), 0, 0);
         texture.Apply();
 
         // 後始末
-        graphCamera.targetTexture = null;
+        chartCamera.targetTexture = null;
         RenderTexture.active = null;
         Destroy(rt);
 
-        // 5. 保存
+        // 保存
         SaveTexture(texture, fileName);
 
         Destroy(texture); // メモリ解放
     }
 
-    // 外部から呼ぶ関数
-    public void PrintGraph(LineChart linechart, string fileName)
+
+    private void SaveTexture(Texture2D tex, string fileName) // 保存場所を
     {
-        // 2. RenderTextureを作成 (使い捨て)
-        RenderTexture rt = new RenderTexture(imageSize.x, imageSize.y, 24);
-        graphCamera.targetTexture = rt;
-
-        // 3. カメラで撮影（レンダリング）
-        graphCamera.Render();
-
-        // 4. RenderTextureからTexture2Dにピクセルを移す
-        RenderTexture.active = rt; // ReadPixelsの読み取り元をrtに切り替え
-        Texture2D texture = new Texture2D(imageSize.x, imageSize.y, TextureFormat.RGB24, false);
-        texture.ReadPixels(new Rect(0, 0, imageSize.x, imageSize.y), 0, 0);
-        texture.Apply();
-
-        // 後始末
-        graphCamera.targetTexture = null;
-        RenderTexture.active = null;
-        Destroy(rt);
-
-        // 5. 保存
-        SaveTexture(texture, fileName);
-
-        Destroy(texture); // メモリ解放
-    }
-
-    private void SaveTexture(Texture2D tex, string fileName)
-    {
-        // exeと同じ階層/Graphs フォルダに保存
-        string dirPath = Path.Combine(Directory.GetParent(Application.dataPath).FullName, "Graphs");
-        if (!Directory.Exists(dirPath)) Directory.CreateDirectory(dirPath);
-
+        string dirPath = GetGraphsDirPath();
         string fullPath = Path.Combine(dirPath, fileName);
         File.WriteAllBytes(fullPath, tex.EncodeToPNG());
+    }
 
-        Debug.Log("XChartグラフを保存しました: " + fullPath);
+    private void StartAtDirPath()
+    {
+        string dirPath = GetGraphsDirPath();
+        // Debug.Log("XChartグラフの場所を開く: " + dirPath);
         System.Diagnostics.Process.Start(@dirPath);
+    }
+
+    private string GetGraphsDirPath()
+    {
+        // exeと同じ階層/Graphs フォルダのパスを生成
+        string dirPath = Path.Combine(Directory.GetParent(Application.dataPath).FullName, "Graphs");
+        if (!Directory.Exists(dirPath)) Directory.CreateDirectory(dirPath);
+        return dirPath;
     }
 }

@@ -50,13 +50,13 @@ public class MyGameManeger : MonoBehaviour
     [System.NonSerialized] public bool JoyStickFirst = true;
     [System.NonSerialized] public float pilotMassReal = 0f;
     //エアデータ保存リスト
-    [System.NonSerialized] public List<float> AirSpeedList = new List<float>();
+    [System.NonSerialized] public List<float> AirspeedList = new List<float>();
     [System.NonSerialized] public List<float> AltList = new List<float>();
     [System.NonSerialized] public List<float> AlphaList = new List<float>();
     [System.NonSerialized] public List<float> BetaList = new List<float>();
     [System.NonSerialized] public List<float> ThetaList = new List<float>();
     [System.NonSerialized] public List<float> PhiList = new List<float>();
-    [System.NonSerialized] public List<float> PitchGravityList = new List<float>();
+    [System.NonSerialized] public List<float> CenterOfGList = new List<float>();
     [System.NonSerialized] public List<float> drList = new List<float>();
     //エラー関係
     [System.NonSerialized] public string errorText;
