@@ -13,14 +13,14 @@ public class FieldOfViewController : MonoBehaviour
     {
         CurrentSlider = GetComponent<Slider>();
 
-        CurrentSlider.value = MyGameManeger.instance.FieldOfView;
+        CurrentSlider.value = GameManager.instance.FieldOfView;
     }
 
     public void Method()
     {
         FieldOfViewSetter.MyCamera.fieldOfView = CurrentSlider.value ;
         scoreText.text = CurrentSlider.value.ToString();
-        MyGameManeger.instance.SettingChanged = true;
-        MyGameManeger.instance.FieldOfView = CurrentSlider.value;
+        GameManager.instance.SettingChanged = true;
+        GameManager.instance.FieldOfView = CurrentSlider.value;
     }
 }

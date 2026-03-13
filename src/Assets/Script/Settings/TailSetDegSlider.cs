@@ -13,24 +13,24 @@ public class TailSetDegSlider : MonoBehaviour
     void Start()
     {
         scoreText = GameObject.Find("TailSetDeg").GetComponent<Text>();
-        script = MyGameManeger.instance.Plane.GetComponent<AerodynamicCalculator>();
+        script = GameManager.instance.Plane.GetComponent<AerodynamicCalculator>();
         CurrentSlider = GetComponent<Slider>();
 
-        if(MyGameManeger.instance.SettingChanged){
-            CurrentSlider.value = MyGameManeger.instance.TailSetDeg;
+        if(GameManager.instance.SettingChanged){
+            CurrentSlider.value = GameManager.instance.TailSetDeg;
         }else{
-            MyGameManeger.instance.TailSetDeg = CurrentSlider.value;
+            GameManager.instance.TailSetDeg = CurrentSlider.value;
         }
         
-        scoreText.text = MyGameManeger.instance.TailSetDeg.ToString("0.000");
+        scoreText.text = GameManager.instance.TailSetDeg.ToString("0.000");
     }
 
     public void Method()
     {
         CurrentSlider.value = Mathf.Round(CurrentSlider.value / 0.5f) * 0.5f;
 
-        MyGameManeger.instance.TailSetDeg = CurrentSlider.value;
-        scoreText.text = MyGameManeger.instance.TailSetDeg.ToString("0.000");
-        MyGameManeger.instance.SettingChanged = true;
+        GameManager.instance.TailSetDeg = CurrentSlider.value;
+        scoreText.text = GameManager.instance.TailSetDeg.ToString("0.000");
+        GameManager.instance.SettingChanged = true;
     }
 }

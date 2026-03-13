@@ -20,9 +20,9 @@ public class SettingCloseButton : MonoBehaviour
     {
         if (!firstPush)
         {
-            MyGameManeger.instance.SettingActive = !MyGameManeger.instance.SettingActive;
-            Setting.SetActive(MyGameManeger.instance.SettingActive);
-            Time.timeScale=(float)Convert.ToInt32(!MyGameManeger.instance.FlightSettingActive & !MyGameManeger.instance.SettingActive & !MyGameManeger.instance.Landing);
+            GameManager.instance.SettingActive = !GameManager.instance.SettingActive;
+            Setting.SetActive(GameManager.instance.SettingActive);
+            Time.timeScale=(float)Convert.ToInt32(!GameManager.instance.FlightSettingActive & !GameManager.instance.SettingActive & !GameManager.instance.Landing);
         }
     }
 }

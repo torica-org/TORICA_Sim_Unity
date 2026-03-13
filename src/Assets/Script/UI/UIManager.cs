@@ -1,96 +1,130 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 
-// ===== ˆÈ‰ºC‹¤‘¶‚Å‚«‚È‚¢ =====
+// ===== ä»¥ä¸‹ï¼Œå…±å­˜ã§ããªã„ =====
 using UnityEngine.UI; // uGUI
 // using UnityEngine.UIElements; // UI Toolkit
 // ===== ================ =====
+using TMPro;
+using UnityEngine.Events;ã€€//UnityActionä½¿ã†ã«ã¯ã“ã‚Œå¿˜ã‚Œãªã„ã‚ˆã†ã«
+using UnityEngine.SceneManagement;
 
-using UnityEngine.Events;@//UnityActiong‚¤‚É‚Í‚±‚ê–Y‚ê‚È‚¢‚æ‚¤‚É
 
-
-public class UIManager : MonoBehaviour
+public class UIManager : UIHelper
 {
-    private MyGameManeger gm = MyGameManeger.instance;
+    [TextArea(5, 15)]
+    [Tooltip("å‚™å¿˜éŒ²ã‚„ä»•æ§˜ã®ãƒ¡ãƒ¢ãªã©ã‚’è‡ªç”±ã«æ›¸ãè¾¼ã‚ã¾ã™")]
+    public string note = "BasePanelã«ãƒœã‚¿ãƒ³ã‚„XChartã‚’Instantiateã—ã¦ï¼ŒUIã‚’çµ„ã¿ç«‹ã¦ã‚‹æ–¹å¼ã§ã™ï¼" +
+    "ãƒšãƒ¼ã‚¸ãŒåˆ‡ã‚Šæ›¿ã‚ã£ã¦ã„ã‚‹ç”¨ã«è¦‹ãˆã¦ï¼ŒåŒã˜Panelä¸Šã§çµ„ã¿ç«‹ã¦ç›´ã—ã¦ã„ã¾ã™ï¼" +
+    "`UIHelper.cs`ã«UIä½œæˆç”¨ã®ãƒ˜ãƒ«ãƒ‘ãƒ¼é–¢æ•°ãŒã‚ã‚Šã¾ã™ï¼";
 
-    private GameObject uiBase;
+
+    private GameObject um;
     private Canvas canvas;
-    private GameObject buttonExportGraph;
+
+    private PreFlightScreen preFlight;
+    private ResultScreen result;
+
+    private bool isPause = false; // ä¸€æ™‚åœæ­¢çŠ¶æ…‹ã‚’ç¤ºã™ãƒ•ãƒ©ã‚°.
 
 
-    private bool LandingEventExecuted = false;
+    // ===== ç”»é¢ç®¡ç† ===========================================
+    public enum Screens
+    {
+        None, // éè¡¨ç¤º.
+        InFlight, // ãƒ•ãƒ©ã‚¤ãƒˆä¸­.
 
-    private XChartPrinter printer;
+        // ===== ResultScreenã®ãƒšãƒ¼ã‚¸. =====
+        ResultTwoGraphs, // çµæœï¼ˆã‚°ãƒ©ãƒ•2ã¤ï¼‰.
+        ResultFourGraphs, // çµæœï¼ˆã‚°ãƒ©ãƒ•4ã¤ï¼‰.
+
+        // ===== PreFlightScreenã®ãƒšãƒ¼ã‚¸. =====
+        PreFlightTest, // ãƒ•ãƒ©ã‚¤ãƒˆå‰ã®è¨­å®šç”»é¢.
+    }
+
+    [System.NonSerialized] private Screens previousScreen = Screens.None; // å‰å›ã®ç”»é¢çŠ¶æ…‹ã‚’ä¿å­˜ã™ã‚‹å¤‰æ•°.
+    public static Screens screen = Screens.None;
+    // ==========================================================
+
 
     void Start()
     {
-        uiBase = GameObject.Find("UIBase");
-        canvas = uiBase.GetComponent<Canvas>();
+        InitUIHelper();
 
-        // ’†‰›Œ´“_‚©‚ç¶ã‚ÉŒü‚©‚Á‚Ä³
-        buttonExportGraph = InstantiateUIBtn(canvas, "Export Graph", -50, 50, OnClickedExportGraph);
-        canvas.enabled = false;
+        um = this.gameObject;
+        um.AddComponent<UIHelper>();
+        basePanel = GameObject.Find("BasePanel");
+        canvas = um.GetComponent<Canvas>();
+        if (canvas == null)
+        {
+            canvas = um.AddComponent<Canvas>();
+        }
+        if(um.GetComponent<CanvasScaler>() == null)
+        {
+            CanvasScaler scaler = um.AddComponent<CanvasScaler>();
+            scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+            scaler.referenceResolution = new Vector2(1920f, 1080f);
+        }
 
-        printer = GameObject.Find("XChartPrinter").GetComponent<XChartPrinter>();
-    }
+        canvas.enabled = true;
 
-
-    // ƒR[ƒ‹ƒoƒbƒN—p‚ÌƒfƒŠƒQ[ƒg‚ğ’è‹`
-    public UnityAction callback;
-
-    public GameObject InstantiateUIBtn(Canvas _canvas, string name, float pos_x, float pos_y, UnityAction callback)
-    {
-        GameObject DefaultButton = (GameObject)Resources.Load("UIParts/DefaultButton");
-
-        // ¶¬‚É’¼ÚeƒLƒƒƒ“ƒoƒX‚ğw’è‚µAƒ[ƒJƒ‹À•W‚ğˆÛ‚µ‚Ü‚·
-        GameObject ui_btn = Instantiate(DefaultButton, _canvas.transform, false);
-
-        // RectTransform‚ğæ“¾‚µ‚Ä”z’u‚ğİ’è‚µ‚Ü‚·
-        RectTransform rect = ui_btn.GetComponent<RectTransform>();
-
-        // ƒAƒ“ƒJ[‚ğ‰æ–Ê‚Ì¶‰º‚Éİ’è (0, 0)
-        rect.anchorMin = new Vector2(1f, 0f);
-        rect.anchorMax = new Vector2(1f, 0f);
-
-        // ƒsƒ{ƒbƒgiƒ{ƒ^ƒ“©g‚ÌŠî€“_j‚à¶‰º‚Éİ’è (0, 0)
-        rect.pivot = new Vector2(1f, 0f);
-
-        // ¶‰º‚ğŠî€‚É‚µ‚½À•W (pos_x, pos_y) ‚ğİ’è
-        rect.anchoredPosition = new Vector2(pos_x, pos_y);
-
-        // ‚»‚Ì‘¼‚Ìİ’è
-        ui_btn.name = name;
-        ui_btn.transform.Find("Text").gameObject.GetComponent<TMP_Text>().text = name;
-
-        // ƒNƒŠƒbƒNƒCƒxƒ“ƒg‚ğ•t—^
-        ui_btn.GetComponent<Button>().onClick.AddListener(callback);
-
-        return ui_btn;
+        preFlight = um.AddComponent<PreFlightScreen>(); // `PreFlightScreen`ã‚’ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã«è¿½åŠ 
+        result = um.AddComponent<ResultScreen>(); // `ResultScreen`ã‚’ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã«è¿½åŠ .
+       
+        screen = Screens.PreFlightTest;
+        // screen = Screens.Result;
     }
 
     void Update()
     {
-        if (gm.Landing && !LandingEventExecuted) // ’……‚©‚Â–¢Às
+        if (gm.FlightSettingActive)
         {
-            OnLandingEvent();
-            LandingEventExecuted = true;
+            screen = Screens.PreFlightTest;
         }
-        else if (!gm.FlightSettingActive && !gm.Landing) // ƒtƒ‰ƒCƒg’†
+        else if (!gm.FlightSettingActive && !gm.Landing) // ãƒ•ãƒ©ã‚¤ãƒˆä¸­.
         {
-            LandingEventExecuted= false;
+            screen = Screens.InFlight;
+            canvas.enabled = false;
         }
+        else if (gm.Landing && screen == Screens.InFlight) // ç€æ°´.
+        {
+            canvas.enabled = true;
+            screen = Screens.ResultTwoGraphs;
+        }
+
+        RefleshScreen();
     }
 
-    private void OnLandingEvent()
-    {
-        canvas.enabled = true;
-    }
 
-    private void OnClickedExportGraph()
+    public void RefleshScreen()
     {
-        Debug.Log("Clicked!!!");
-        printer.ExportAllGraphs();
-    }
+        if (screen != previousScreen)
+        {
+            previousScreen = screen; // ç¾åœ¨ã®ç”»é¢çŠ¶æ…‹ã‚’ä¿å­˜.
+
+            DestroyAllChildren(basePanel); // `basePanel`ä¸Šã®å…¨ã¦ã®å­ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç ´æ£„.
+
+            switch (screen)
+            {
+                case Screens.InFlight:
+                    break;
+                case Screens.ResultTwoGraphs:
+                    result.ShowResultTwoGraphs();
+                    break;
+                case Screens.ResultFourGraphs:
+                    result.ShowResultFourGraphs();
+                    break;
+                case Screens.PreFlightTest:
+                    preFlight.Test();
+                    break;
+                default:
+                    break;
+            } // switch (screen)
+
+        } // if (isScreenChanged)
+
+    } // RefleshScreen()
+
+
 }

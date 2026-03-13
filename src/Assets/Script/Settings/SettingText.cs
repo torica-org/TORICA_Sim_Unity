@@ -13,7 +13,7 @@ public class SettingText : MonoBehaviour
     void Start()
     {
         scoreText = this.GetComponent<Text>();
-        script = MyGameManeger.instance.Plane.GetComponent<AerodynamicCalculator>();
+        script = GameManager.instance.Plane.GetComponent<AerodynamicCalculator>();
 
         RefreshText();
     }
@@ -21,7 +21,7 @@ public class SettingText : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(MyGameManeger.instance.SettingMode == 1){
+        if(GameManager.instance.SettingMode == 1){
             RefreshText();
         }
     }
@@ -29,19 +29,19 @@ public class SettingText : MonoBehaviour
     void RefreshText()
     {
         scoreText.text = "\n";
-        scoreText.text += MyGameManeger.instance.FlightMode+"\n\n";
+        scoreText.text += GameManager.instance.FlightMode+"\n\n";
 
-        if(MyGameManeger.instance.CameraSwitch){
+        if(GameManager.instance.CameraSwitch){
             scoreText.text += "FPS"+"\n\n";
         }else{
             scoreText.text += "TPS"+"\n\n";
         }
-        if(MyGameManeger.instance.HUDActive){
+        if(GameManager.instance.HUDActive){
             scoreText.text += "ON"+"\n\n";
         }else{
             scoreText.text += "OFF"+"\n\n";
         }
-        if(MyGameManeger.instance.MousePitchControl){
+        if(GameManager.instance.MousePitchControl){
             scoreText.text += "Mouse"+"\n\n";
         }else{
             scoreText.text += "Keyboard"+"\n\n";

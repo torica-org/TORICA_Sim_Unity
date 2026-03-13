@@ -13,7 +13,7 @@ public class FlightSettingText : MonoBehaviour
     void Start()
     {
         scoreText = this.GetComponent<Text>();
-        script = MyGameManeger.instance.Plane.GetComponent<AerodynamicCalculator>();
+        script = GameManager.instance.Plane.GetComponent<AerodynamicCalculator>();
 
         RefreshText();
     }
@@ -21,7 +21,7 @@ public class FlightSettingText : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(MyGameManeger.instance.FlightSettingActive){
+        if(GameManager.instance.FlightSettingActive){
             RefreshText();
         }
     }
@@ -30,12 +30,12 @@ public class FlightSettingText : MonoBehaviour
     {
         scoreText.text = "";
         
-        if(MyGameManeger.instance.RandomWind){
+        if(GameManager.instance.RandomWind){
             scoreText.text += "ON"+"\n\n\n\n\n\n\n\n";
         }else{
             scoreText.text += "OFF"+"\n\n\n\n\n\n\n\n";
         }
-        if(MyGameManeger.instance.SaveCsv){
+        if(GameManager.instance.SaveCsv){
             scoreText.text += "ON"+"\n";   
         }else{
             scoreText.text += "OFF"+"\n";

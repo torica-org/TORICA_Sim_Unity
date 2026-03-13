@@ -14,31 +14,31 @@ public class GustDirectionSlider : MonoBehaviour
     void Start()
     {
         scoreText = GameObject.Find("GustDirection").GetComponent<Text>();
-        script = MyGameManeger.instance.Plane.GetComponent<AerodynamicCalculator>();
+        script = GameManager.instance.Plane.GetComponent<AerodynamicCalculator>();
         CurrentSlider = GetComponent<Slider>();
 
-        if(MyGameManeger.instance.SettingChanged){
-            CurrentSlider.value = MyGameManeger.instance.GustDirection/15f;
+        if(GameManager.instance.SettingChanged){
+            CurrentSlider.value = GameManager.instance.GustDirection/15f;
         }else{
-            MyGameManeger.instance.GustDirection = CurrentSlider.value*15f;
+            GameManager.instance.GustDirection = CurrentSlider.value*15f;
         }
         
-        scoreText.text = MyGameManeger.instance.GustDirection.ToString("0.000");
+        scoreText.text = GameManager.instance.GustDirection.ToString("0.000");
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(CurrentSlider.value != MyGameManeger.instance.GustDirection/15f)
+        if(CurrentSlider.value != GameManager.instance.GustDirection/15f)
         {
-            CurrentSlider.value = MyGameManeger.instance.GustDirection/15f;
+            CurrentSlider.value = GameManager.instance.GustDirection/15f;
         }
     }
 
     public void Method()
     {
-        MyGameManeger.instance.GustDirection = CurrentSlider.value*15f;
-        scoreText.text = MyGameManeger.instance.GustDirection.ToString("0.000");
-        MyGameManeger.instance.SettingChanged = true;
+        GameManager.instance.GustDirection = CurrentSlider.value*15f;
+        scoreText.text = GameManager.instance.GustDirection.ToString("0.000");
+        GameManager.instance.SettingChanged = true;
     }
 }

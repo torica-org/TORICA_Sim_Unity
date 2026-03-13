@@ -15,23 +15,23 @@ public class SettingController : MonoBehaviour
     {
         Setting = GameObject.Find("Setting");
 
-        MyGameManeger.instance.SettingActive = false;
-        Setting.SetActive(MyGameManeger.instance.SettingActive);
+        GameManager.instance.SettingActive = false;
+        Setting.SetActive(GameManager.instance.SettingActive);
     }
 
     void Start(){
-        //Time.timeScale=(float)Convert.ToInt32(!MyGameManeger.instance.SettingActive & !MyGameManeger.instance.Landing);
+        //Time.timeScale=(float)Convert.ToInt32(!GameManager.instance.SettingActive & !GameManager.instance.Landing);
     }
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown("tab") && !MyGameManeger.instance.FlightSettingActive && !MyGameManeger.instance.Landing){
-            MyGameManeger.instance.SettingActive = !MyGameManeger.instance.SettingActive;
-            Setting.SetActive(MyGameManeger.instance.SettingActive);
-            Time.timeScale=(float)Convert.ToInt32(!MyGameManeger.instance.FlightSettingActive & !MyGameManeger.instance.SettingActive & !MyGameManeger.instance.Landing);
+        if(Input.GetKeyDown("tab") && !GameManager.instance.FlightSettingActive && !GameManager.instance.Landing){
+            GameManager.instance.SettingActive = !GameManager.instance.SettingActive;
+            Setting.SetActive(GameManager.instance.SettingActive);
+            Time.timeScale=(float)Convert.ToInt32(!GameManager.instance.FlightSettingActive & !GameManager.instance.SettingActive & !GameManager.instance.Landing);
         }
         if(Input.GetKeyDown("c")){
-            MyGameManeger.instance.MousePitchControl = !MyGameManeger.instance.MousePitchControl;
+            GameManager.instance.MousePitchControl = !GameManager.instance.MousePitchControl;
         }
     }
 }

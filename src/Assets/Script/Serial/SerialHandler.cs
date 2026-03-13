@@ -40,7 +40,7 @@ public class SerialHandler : MonoBehaviour
     void Start()
     {
         inputField.text = portName;
-        Connection = MyGameManeger.instance.FrameUseable;
+        Connection = GameManager.instance.FrameUseable;
     }
 
     void Update()
@@ -56,7 +56,7 @@ public class SerialHandler : MonoBehaviour
                 string errorText = "フレーム使用可能、搭乗してください";
                 Debug.LogWarning(errorText);
                 text.text = errorText;
-                MyGameManeger.instance.FrameUseable = true;
+                GameManager.instance.FrameUseable = true;
                 refresh = false;
             }
             else{
@@ -64,19 +64,19 @@ public class SerialHandler : MonoBehaviour
                 Debug.LogWarning(errorText);
                 text.text = errorText;
 
-                MyGameManeger.instance.FrameUseable = false;
+                GameManager.instance.FrameUseable = false;
                 refresh = false;
             }
         }
 
-        if(MyGameManeger.instance.FrameUseable != Connection){
-            if(!MyGameManeger.instance.FrameUseable){
+        if(GameManager.instance.FrameUseable != Connection){
+            if(!GameManager.instance.FrameUseable){
 
                 string errorText = "センサーに接続されていません。配線を確認して再接続してください";
                 Debug.LogWarning(errorText);
                 text.text = errorText;
 
-                MyGameManeger.instance.FrameUseable = false;
+                GameManager.instance.FrameUseable = false;
                 refresh = false;
                 frameError = true;
             }
@@ -121,7 +121,7 @@ public class SerialHandler : MonoBehaviour
             Debug.LogWarning(errorText);
             text.text = errorText;
 
-            MyGameManeger.instance.FrameUseable = false;
+            GameManager.instance.FrameUseable = false;
             refresh = false;
         }
     }

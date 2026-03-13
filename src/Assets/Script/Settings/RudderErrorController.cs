@@ -7,8 +7,8 @@ public class RudderErrorController : MonoBehaviour
 {
     [SerializeField] private Text RudderErrorText;
     public void PushRudderErrorButton(){
-        MyGameManeger.instance.RudderError = !MyGameManeger.instance.RudderError;
-        if(MyGameManeger.instance.RudderError){
+        GameManager.instance.RudderError = !GameManager.instance.RudderError;
+        if(GameManager.instance.RudderError){
             RudderErrorText.text = "有効化中";
         }else{
             RudderErrorText.text = "無効化中";
@@ -16,7 +16,7 @@ public class RudderErrorController : MonoBehaviour
     }
 
     void Start(){
-        if(MyGameManeger.instance.RudderError){
+        if(GameManager.instance.RudderError){
             RudderErrorText.text = "有効化中";
         }else{
             RudderErrorText.text = "無効化中";

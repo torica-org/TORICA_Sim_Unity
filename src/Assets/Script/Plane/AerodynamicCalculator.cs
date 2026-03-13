@@ -113,9 +113,9 @@ public class AerodynamicCalculator : SerialReceive
     // Gust
     static protected Vector3 Gust = Vector3.zero; // Gust [m/s]
     // Rotation
-    static protected float phi; // [deg]
-    static protected float theta;  // [deg]
-    static protected float psi; // [deg]
+    static protected float phi; // ロール[deg]
+    static protected float theta;  // ピッチ[deg]
+    static protected float psi; // ヨー[deg]
 
     protected Rigidbody PlaneRigidbody;
 
@@ -148,7 +148,7 @@ public class AerodynamicCalculator : SerialReceive
 
     protected bool AddTaleForce;
 
-    private MyGameManeger gm = MyGameManeger.instance; // MyGameManagerをgmとして宣言
+    private GameManager gm = GameManager.instance; // MyGameManagerをgmとして宣言
 
 
     public void OnEnables()
@@ -340,7 +340,7 @@ public class AerodynamicCalculator : SerialReceive
 
             if (-0.4f < centerOfG && centerOfG < 0.4f){//外れ値除去処理(基本的に重心は±0.4を超えることはない)
                 //リジットボディに代入するピッチの値を計算
-                //pitchGravity = (MyGameManeger.instance.CenterOfMassErrorValue + (((lengthForward*massLeft)+(lengthForward*massRight)-(lengthBackward*(massBackwardRight + massBackwardLeft))+(aircraftCenterOfMass*aircraftMass))/(massLeft+massRight+(massBackwardRight + massBackwardLeft)+aircraftMass)))*MyGameManeger.instance.CenterOfMassRandValue;
+                //pitchGravity = (GameManager.instance.CenterOfMassErrorValue + (((lengthForward*massLeft)+(lengthForward*massRight)-(lengthBackward*(massBackwardRight + massBackwardLeft))+(aircraftCenterOfMass*aircraftMass))/(massLeft+massRight+(massBackwardRight + massBackwardLeft)+aircraftMass)))*GameManager.instance.CenterOfMassRandValue;
                 pilotCenterOfG = ((PlaneRigidbody.mass*centerOfG)-(aircraftMass*aircraftCenterOfMass))/pilotMass;
                 if(NowMass != 0 ){
                     // pitchGravityPilot = (((lengthForward*massLeft)+(lengthForward*massRight)-(lengthBackward*(massBackwardRight + massBackwardLeft)))/(massLeft+massRight+(massBackwardRight + massBackwardLeft))); 
@@ -417,7 +417,7 @@ public class AerodynamicCalculator : SerialReceive
 
     void InputSpecifications()
     {
-        if(MyGameManeger.instance.PlaneName == "QX-18"){
+        if(GameManager.instance.PlaneName == "QX-18"){
             // Plane
             PlaneRigidbody.mass = 93.875f; // [kg]
             PlaneRigidbody.centerOfMass = new Vector3(0f,0.221f,0f); // [m]
@@ -462,7 +462,7 @@ public class AerodynamicCalculator : SerialReceive
             Cnp = -0.142441f; // [1/rad]
             Cnr = -0.000491f; // [1/rad]
             Cndr = -0.000262f; // [1/deg]
-        }else if(MyGameManeger.instance.PlaneName == "QX-19"){
+        }else if(GameManager.instance.PlaneName == "QX-19"){
             // Plane
             PlaneRigidbody.mass = 96.631f;
             PlaneRigidbody.centerOfMass = new Vector3(0f,0.294f,0f);
@@ -507,7 +507,7 @@ public class AerodynamicCalculator : SerialReceive
             Cnp = -0.165533f; // [1/rad]
             Cnr = 0.001675f; // [1/rad]
             Cndr = -0.000208f; // [1/deg]
-        //}else if(MyGameManeger.instance.PlaneName == "Tatsumi"){
+        //}else if(GameManager.instance.PlaneName == "Tatsumi"){
         //    //竜海
         //    PlaneRigidbody.mass = 100f;
         //    PlaneRigidbody.centerOfMass = new Vector3(0f,0.053f,0f);
@@ -566,7 +566,7 @@ public class AerodynamicCalculator : SerialReceive
         //    pilotMass = PlaneRigidbody.mass - aircraftMass;//パイロット体重[kg]
 
         //    YL = 2.8f;//機体中心から翼持ち棒までの長さ[m]
-    }else if(MyGameManeger.instance.PlaneName == "QX-20"){
+    }else if(GameManager.instance.PlaneName == "QX-20"){
             // Plane
             PlaneRigidbody.mass = 98.797f;
             PlaneRigidbody.centerOfMass = new Vector3(0f,0.29f,0f);
@@ -611,7 +611,7 @@ public class AerodynamicCalculator : SerialReceive
             Cnp = -0.132307f; // [1/rad]
             Cnr = 0.000942f; // [1/rad]
             Cndr = -0.000106f; // [1/deg]
-        }else if(MyGameManeger.instance.PlaneName == "ARG-2"){
+        }else if(GameManager.instance.PlaneName == "ARG-2"){
             // Plane
             PlaneRigidbody.mass = 103.100f;
             PlaneRigidbody.centerOfMass = new Vector3(0f,-0.019f,0f);
@@ -656,7 +656,7 @@ public class AerodynamicCalculator : SerialReceive
             Cnp = -0.127263f; // [1/rad]
             Cnr = -0.002745f; // [1/rad]
             Cndr = -0.000308f; // [1/deg]
-        }else if(MyGameManeger.instance.PlaneName == "UL01B"){
+        }else if(GameManager.instance.PlaneName == "UL01B"){
             // Plane
             PlaneRigidbody.mass = 87.000f;
             PlaneRigidbody.centerOfMass = new Vector3(0f,0.290f,0f);
@@ -701,7 +701,7 @@ public class AerodynamicCalculator : SerialReceive
             Cnp = -0.135587f; // [1/rad]
             Cnr = -0.016244f; // [1/rad]
             Cndr = -0.000817f; // [1/deg]
-        }else if(MyGameManeger.instance.PlaneName == "ORCA18"){
+        }else if(GameManager.instance.PlaneName == "ORCA18"){
             // Plane
             PlaneRigidbody.mass = 96.000f;
             PlaneRigidbody.centerOfMass = new Vector3(0f,0.009f,0f);
@@ -746,7 +746,7 @@ public class AerodynamicCalculator : SerialReceive
             Cnp = -0.169856f; // [1/rad]
             Cnr = -0.003154f; // [1/rad]
             Cndr = -0.000233f; // [1/deg]
-        }else if(MyGameManeger.instance.PlaneName == "ORCA22"){
+        }else if(GameManager.instance.PlaneName == "ORCA22"){
             // Plane
             PlaneRigidbody.mass = 95.000f;
             PlaneRigidbody.centerOfMass = new Vector3(0f,0.014f,0f);
@@ -791,7 +791,7 @@ public class AerodynamicCalculator : SerialReceive
             Cnp = -0.155515f; // [1/rad]
             Cnr = -0.003774f; // [1/rad]
             Cndr = -0.000241f; // [1/deg]
-        }else if(MyGameManeger.instance.PlaneName == "Gardenia"){
+        }else if(GameManager.instance.PlaneName == "Gardenia"){
             // Plane
             PlaneRigidbody.mass = 104.700f;
             PlaneRigidbody.centerOfMass = new Vector3(0f,0.011f,0f);
@@ -836,7 +836,7 @@ public class AerodynamicCalculator : SerialReceive
             Cnp = -0.136255f; // [1/rad]
             Cnr = -0.001478f; // [1/rad]
             Cndr = -0.000306f; // [1/deg]
-        }else if(MyGameManeger.instance.PlaneName == "Aria"){
+        }else if(GameManager.instance.PlaneName == "Aria"){
             // Plane
             PlaneRigidbody.mass = 122.000f;
             PlaneRigidbody.centerOfMass = new Vector3(0f,0.007f,0f);
@@ -881,7 +881,7 @@ public class AerodynamicCalculator : SerialReceive
             Cnp = -0.120109f; // [1/rad]
             Cnr = -0.001328f; // [1/rad]
             Cndr = -0.000301f; // [1/deg]
-        }else if(MyGameManeger.instance.PlaneName == "Camellia"){
+        }else if(GameManager.instance.PlaneName == "Camellia"){
             // Plane
             PlaneRigidbody.mass = 109.800f;
             PlaneRigidbody.centerOfMass = new Vector3(0f,0.001f,0f);
@@ -927,7 +927,7 @@ public class AerodynamicCalculator : SerialReceive
             Cnr = -0.001558f; // [1/rad]
             Cndr = -0.000282f; // [1/deg]
         }
-        else if (MyGameManeger.instance.PlaneName == "Mio")
+        else if (GameManager.instance.PlaneName == "Mio")
         {
             // Plane
             PlaneRigidbody.mass = 95.351f;
@@ -978,7 +978,7 @@ public class AerodynamicCalculator : SerialReceive
             Cnr = -0.008080f; // [1/rad]
             Cndr = -0.000341f; // [1/deg]
         }
-        else if (MyGameManeger.instance.PlaneName == "Ray")
+        else if (GameManager.instance.PlaneName == "Ray")
         {
             // Plane
             PlaneRigidbody.mass = 100.402f;
@@ -1033,7 +1033,7 @@ public class AerodynamicCalculator : SerialReceive
             aircraftCenterOfMass = -0.25f;//機体のみ全重心(パイロットなし,ピッチのみ)[m]
             aircraftMass = 50;//機体のみ全重量[kg]
         }
-        else if (MyGameManeger.instance.PlaneName == "Tatsumi")
+        else if (GameManager.instance.PlaneName == "Tatsumi")
         {
             // Plane
             PlaneRigidbody.mass = 100f;
@@ -1154,15 +1154,15 @@ public class AerodynamicCalculator : SerialReceive
                 //SensorPositionZ = float.Parse(CsvList[25][6]);//↑の到達点から超音波センサーまでの長さ[m]
                 //AircraftHight = float.Parse(CsvList[26][6]);//プラホから桁中心までの高さ
 
-                MyGameManeger.instance.error = true;
-                MyGameManeger.instance.errorText = "CSVファイル読み込み成功";
+                GameManager.instance.error = true;
+                GameManager.instance.errorText = "CSVファイル読み込み成功";
 
             }
             catch (Exception e)
             {
                 Debug.LogWarning("CSV file error" + e);
-                MyGameManeger.instance.error = true;
-                MyGameManeger.instance.errorText = "CSVファイルに不備があります。Dataフォルダ内のCSVファイルを確認するか、\n内蔵データを使用する為にそれを削除してください。";
+                GameManager.instance.error = true;
+                GameManager.instance.errorText = "CSVファイルに不備があります。Dataフォルダ内のCSVファイルを確認するか、\n内蔵データを使用する為にそれを削除してください。";
             }
         }
 
@@ -1173,7 +1173,7 @@ public class AerodynamicCalculator : SerialReceive
         {
             csv.Load(Path.Combine(Directory.GetParent(Application.dataPath).FullName, "CustomPlaneData.csv"));
 
-            MyGameManeger.instance.error = true;
+            GameManager.instance.error = true;
             try
             {
                 // Enabled
@@ -1182,7 +1182,7 @@ public class AerodynamicCalculator : SerialReceive
 
                 if (!customPlaneDataEnabled)
                 {
-                    MyGameManeger.instance.errorText = @"CustomPlaneData disabled. Press ""R"" to Refresh.";
+                    GameManager.instance.errorText = @"CustomPlaneData disabled. Press ""R"" to Refresh.";
                     return;
                 }
                 // Plane
@@ -1240,13 +1240,13 @@ public class AerodynamicCalculator : SerialReceive
 
                 YL = float.Parse(csv.Read(25, 7));//機体中心から翼持ち棒までの長さ[m]
 
-                MyGameManeger.instance.errorText = @"CustomPlaneData Enabled! (CsvIO.Read : success) Press ""R"" to Refresh.";
+                GameManager.instance.errorText = @"CustomPlaneData Enabled! (CsvIO.Read : success) Press ""R"" to Refresh.";
             }
             catch (Exception e)
             {
                 Debug.LogWarning("CsvIO error" + e);
 
-                MyGameManeger.instance.errorText = @"CustomPlaneData Enabled! (CsvIO.Read : failure) Press ""R"" to Refresh.";
+                GameManager.instance.errorText = @"CustomPlaneData Enabled! (CsvIO.Read : failure) Press ""R"" to Refresh.";
             }
         }
 

@@ -24,13 +24,13 @@ public class FlightSettingCloseButton : MonoBehaviour
 
     public void OnClick()
     {
-        if (!MyGameManeger.instance.EnterFlight)
+        if (!GameManager.instance.EnterFlight)
         {
-            MyGameManeger.instance.EnterFlight = true;
+            GameManager.instance.EnterFlight = true;
             //firstPush = true;
-            MyGameManeger.instance.FlightSettingActive = !MyGameManeger.instance.FlightSettingActive;
-            FlightSetting.SetActive(MyGameManeger.instance.FlightSettingActive);
-            Time.timeScale=(float)Convert.ToInt32(!MyGameManeger.instance.FlightSettingActive & !MyGameManeger.instance.Landing);
+            GameManager.instance.FlightSettingActive = !GameManager.instance.FlightSettingActive;
+            FlightSetting.SetActive(GameManager.instance.FlightSettingActive);
+            Time.timeScale=(float)Convert.ToInt32(!GameManager.instance.FlightSettingActive & !GameManager.instance.Landing);
             SaveCsvScript.SetFile();
         }
     }

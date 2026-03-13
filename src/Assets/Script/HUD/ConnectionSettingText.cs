@@ -14,7 +14,7 @@ public class ConnectionSettingText : MonoBehaviour
     void Start()
     {
         scoreText = this.GetComponent<Text>();
-        script = MyGameManeger.instance.Plane.GetComponent<AerodynamicCalculator>();
+        script = GameManager.instance.Plane.GetComponent<AerodynamicCalculator>();
 
         RefreshText();
     }
@@ -22,7 +22,7 @@ public class ConnectionSettingText : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(MyGameManeger.instance.FlightSettingActive){
+        if(GameManager.instance.FlightSettingActive){
             RefreshText();
         }
     }
@@ -30,7 +30,7 @@ public class ConnectionSettingText : MonoBehaviour
     void RefreshText()
     {
         scoreText.text = "";
-        //if(MyGameManeger.instance.FrameUseable){
+        //if(GameManager.instance.FrameUseable){
             scoreText.text += Math.Round(script.massRight,3,  MidpointRounding.AwayFromZero)+"\n";
             scoreText.text += Math.Round(script.massLeft,3,  MidpointRounding.AwayFromZero)+"\n";
             scoreText.text += Math.Round(script.massBackwardRight,3,  MidpointRounding.AwayFromZero)+"\n";
@@ -40,6 +40,6 @@ public class ConnectionSettingText : MonoBehaviour
             scoreText.text += Math.Round(script.pilotCenterOfG, 3,  MidpointRounding.AwayFromZero)+"\n";
             scoreText.text += Math.Round(script.dr,3,  MidpointRounding.AwayFromZero)+"\n\n";
         //}
-        scoreText.text += MyGameManeger.instance.VRMode ? "VRモード" : "非VRモード";
+        scoreText.text += GameManager.instance.VRMode ? "VRモード" : "非VRモード";
     }
 }

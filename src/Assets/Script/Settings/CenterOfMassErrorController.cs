@@ -7,8 +7,8 @@ public class CenterOfMassErrorController : MonoBehaviour
 {
     [SerializeField] private Text CenterOfMassErrorText;
     public void PushCenterOfMassErrorButton(){
-        MyGameManeger.instance.CenterOfMassError = !MyGameManeger.instance.CenterOfMassError;
-        if(MyGameManeger.instance.CenterOfMassError){
+        GameManager.instance.CenterOfMassError = !GameManager.instance.CenterOfMassError;
+        if(GameManager.instance.CenterOfMassError){
             CenterOfMassErrorText.text = "有効化中";
         }else{
             CenterOfMassErrorText.text = "無効化中";
@@ -16,7 +16,7 @@ public class CenterOfMassErrorController : MonoBehaviour
     }
 
     void Start(){
-        if(MyGameManeger.instance.CenterOfMassError){
+        if(GameManager.instance.CenterOfMassError){
             CenterOfMassErrorText.text = "有効化中";
         }else{
             CenterOfMassErrorText.text = "無効化中";

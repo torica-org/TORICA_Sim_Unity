@@ -13,9 +13,9 @@ public class LoadSceneController : MonoBehaviour
     void Start()
     {
         Platform = GameObject.Find("Platform");
-        script = MyGameManeger.instance.Plane.GetComponent<AerodynamicCalculator>();
+        script = GameManager.instance.Plane.GetComponent<AerodynamicCalculator>();
 
-        if(MyGameManeger.instance.FlightMode == "TestFlight"){
+        if(GameManager.instance.FlightMode == "TestFlight"){
             Platform.SetActive(false);  
         }
     }
@@ -23,16 +23,16 @@ public class LoadSceneController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetMouseButton(2) || Input.GetButtonDown("ResetButton") || (OnJoyStickReset && 0.5f <= ((script.JoyStickNow-MyGameManeger.instance.JoyStick0)/MyGameManeger.instance.JoyStickFactor) && ((script.JoyStickNow-MyGameManeger.instance.JoyStick0)/MyGameManeger.instance.JoyStickFactor) <= 1.0f)){
-            if(MyGameManeger.instance.EnterFlight){
-                MyGameManeger.instance.SettingMode = 0;
+        if(Input.GetMouseButton(2) || Input.GetButtonDown("ResetButton") || (OnJoyStickReset && 0.5f <= ((script.JoyStickNow-GameManager.instance.JoyStick0)/GameManager.instance.JoyStickFactor) && ((script.JoyStickNow-GameManager.instance.JoyStick0)/GameManager.instance.JoyStickFactor) <= 1.0f)){
+            if(GameManager.instance.EnterFlight){
+                GameManager.instance.SettingMode = 0;
             }
             Time.timeScale=1f;
             OnJoyStickReset = false;
             SceneManager.LoadScene("FlightScene");
         }
 
-        if(MyGameManeger.instance.Landing){
+        if(GameManager.instance.Landing){
             seconds += 0.1f;
             if (seconds >= 2)
             {
@@ -42,12 +42,12 @@ public class LoadSceneController : MonoBehaviour
         }
 
         if(Input.GetKeyDown("m")){
-            if(MyGameManeger.instance.FlightMode == "BirdmanRally"){
-                MyGameManeger.instance.FlightMode = "TestFlight";
+            if(GameManager.instance.FlightMode == "BirdmanRally"){
+                GameManager.instance.FlightMode = "TestFlight";
                 Time.timeScale=1f;
                 SceneManager.LoadScene("FlightScene");
-            }else if(MyGameManeger.instance.FlightMode == "TestFlight"){
-                MyGameManeger.instance.FlightMode = "BirdmanRally";
+            }else if(GameManager.instance.FlightMode == "TestFlight"){
+                GameManager.instance.FlightMode = "BirdmanRally";
                 Time.timeScale=1f;
                 SceneManager.LoadScene("FlightScene");
             }

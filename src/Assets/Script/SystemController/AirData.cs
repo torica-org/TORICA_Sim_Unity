@@ -20,17 +20,17 @@ public class AirData : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        script = MyGameManeger.instance.Plane.GetComponent<AerodynamicCalculator>();
-        PlaneRigidbody = MyGameManeger.instance.Plane.GetComponent<Rigidbody>();
+        script = GameManager.instance.Plane.GetComponent<AerodynamicCalculator>();
+        PlaneRigidbody = GameManager.instance.Plane.GetComponent<Rigidbody>();
 
-        MyGameManeger.instance.AirspeedList.Clear();
-        MyGameManeger.instance.AltList.Clear();
-        MyGameManeger.instance.AlphaList.Clear();
-        MyGameManeger.instance.BetaList.Clear();
-        MyGameManeger.instance.ThetaList.Clear();
-        MyGameManeger.instance.PhiList.Clear();
-        MyGameManeger.instance.CenterOfGList.Clear();
-        MyGameManeger.instance.drList.Clear();
+        GameManager.instance.AirspeedList.Clear();
+        GameManager.instance.AltList.Clear();
+        GameManager.instance.AlphaList.Clear();
+        GameManager.instance.BetaList.Clear();
+        GameManager.instance.ThetaList.Clear();
+        GameManager.instance.PhiList.Clear();
+        GameManager.instance.CenterOfGList.Clear();
+        GameManager.instance.drList.Clear();
         
         SaveCsvScript = this.GetComponent<SaveCsvScript>();
     }
@@ -41,10 +41,10 @@ public class AirData : MonoBehaviour
         time += Time.deltaTime;
 
             // Calculate rotation
-            float q1 = MyGameManeger.instance.Plane.transform.rotation.x;
-            float q2 = -MyGameManeger.instance.Plane.transform.rotation.y;
-            float q3 = -MyGameManeger.instance.Plane.transform.rotation.z;
-            float q4 = MyGameManeger.instance.Plane.transform.rotation.w;
+            float q1 = GameManager.instance.Plane.transform.rotation.x;
+            float q2 = -GameManager.instance.Plane.transform.rotation.y;
+            float q3 = -GameManager.instance.Plane.transform.rotation.z;
+            float q4 = GameManager.instance.Plane.transform.rotation.w;
             float C11 = q1*q1-q2*q2-q3*q3+q4*q4;
             float C22 = -q1*q1+q2*q2-q3*q3+q4*q4;
             float C12 = 2f*(q1*q2+q3*q4);
@@ -55,29 +55,29 @@ public class AirData : MonoBehaviour
             float psi = -Mathf.Atan(-C13/C11)*Mathf.Rad2Deg; 
 
             //リストに追加
-            MyGameManeger.instance.AirspeedList.Add((float)Math.Round(script.Airspeed, 2,  MidpointRounding.AwayFromZero));
-            MyGameManeger.instance.AltList.Add((float)Math.Round(script.ALT, 2,  MidpointRounding.AwayFromZero));
-            MyGameManeger.instance.AlphaList.Add((float)Math.Round(script.alpha, 2,  MidpointRounding.AwayFromZero));
-            MyGameManeger.instance.BetaList.Add((float)Math.Round(script.beta, 2,  MidpointRounding.AwayFromZero));
-            MyGameManeger.instance.ThetaList.Add((float)Math.Round(theta, 2,  MidpointRounding.AwayFromZero));
-            MyGameManeger.instance.PhiList.Add((float)Math.Round(phi, 2,  MidpointRounding.AwayFromZero));
-            MyGameManeger.instance.CenterOfGList.Add((float)Math.Round(script.centerOfG, 2, MidpointRounding.AwayFromZero));
-            MyGameManeger.instance.drList.Add((float)Math.Round(script.dr, 2 ,MidpointRounding.AwayFromZero));
+            GameManager.instance.AirspeedList.Add((float)Math.Round(script.Airspeed, 2,  MidpointRounding.AwayFromZero));
+            GameManager.instance.AltList.Add((float)Math.Round(script.ALT, 2,  MidpointRounding.AwayFromZero));
+            GameManager.instance.AlphaList.Add((float)Math.Round(script.alpha, 2,  MidpointRounding.AwayFromZero));
+            GameManager.instance.BetaList.Add((float)Math.Round(script.beta, 2,  MidpointRounding.AwayFromZero));
+            GameManager.instance.ThetaList.Add((float)Math.Round(theta, 2,  MidpointRounding.AwayFromZero));
+            GameManager.instance.PhiList.Add((float)Math.Round(phi, 2,  MidpointRounding.AwayFromZero));
+            GameManager.instance.CenterOfGList.Add((float)Math.Round(script.centerOfG, 2, MidpointRounding.AwayFromZero));
+            GameManager.instance.drList.Add((float)Math.Round(script.dr, 2 ,MidpointRounding.AwayFromZero));
             
             /*
-            MyGameManeger.instance.AirspeedList.Add(RoundFloat(script.Airspeed, 2));
-            MyGameManeger.instance.AltList.Add(RoundFloat(script.ALT, 2));
-            MyGameManeger.instance.AlphaList.Add(RoundFloat(script.alpha, 2));
-            MyGameManeger.instance.BetaList.Add(RoundFloat(script.beta, 2));
-            MyGameManeger.instance.ThetaList.Add(RoundFloat(theta, 2)); 
-            MyGameManeger.instance.PhiList.Add(RoundFloat(phi, 2));
+            GameManager.instance.AirspeedList.Add(RoundFloat(script.Airspeed, 2));
+            GameManager.instance.AltList.Add(RoundFloat(script.ALT, 2));
+            GameManager.instance.AlphaList.Add(RoundFloat(script.alpha, 2));
+            GameManager.instance.BetaList.Add(RoundFloat(script.beta, 2));
+            GameManager.instance.ThetaList.Add(RoundFloat(theta, 2)); 
+            GameManager.instance.PhiList.Add(RoundFloat(phi, 2));
             */
             
             ListNumber++;//リストの要素番号を進める
 
         if (frameNumber % (interval / 0.02m) == 0)//interval[s]ごとにリストに追加
         {
-            if (MyGameManeger.instance.SaveCsv && MyGameManeger.instance.EnterFlight)
+            if (GameManager.instance.SaveCsv && GameManager.instance.EnterFlight)
             {
                 SaveCsvScript.SaveData(time.ToString("F1") ,script.Airspeed.ToString("F3") ,script.ALT.ToString("F3") ,script.alpha.ToString("F3") ,script.beta.ToString("F3") ,theta.ToString("F3") ,phi.ToString("F3") );
             }
@@ -102,14 +102,14 @@ public class AirData : MonoBehaviour
             {
                 try
                 {
-                    float speed = MyGameManeger.instance.AirspeedList[i];
-                    float alt = MyGameManeger.instance.AltList[i];
-                    float alpha = MyGameManeger.instance.AlphaList[i];
-                    float beta = MyGameManeger.instance.BetaList[i];
-                    float theta = MyGameManeger.instance.ThetaList[i]; ;
-                    float phi = MyGameManeger.instance.PhiList[i];
-                    float centerOfG = MyGameManeger.instance.CenterOfGList[i];
-                    float dr = MyGameManeger.instance.drList[i];
+                    float speed = GameManager.instance.AirspeedList[i];
+                    float alt = GameManager.instance.AltList[i];
+                    float alpha = GameManager.instance.AlphaList[i];
+                    float beta = GameManager.instance.BetaList[i];
+                    float theta = GameManager.instance.ThetaList[i]; ;
+                    float phi = GameManager.instance.PhiList[i];
+                    float centerOfG = GameManager.instance.CenterOfGList[i];
+                    float dr = GameManager.instance.drList[i];
                     Debug.Log("speed: " + speed + ", alt: " + alt + ", alpha: " + alpha + ", beta: " + beta + ", theta: " + theta + ", phi: " + phi + ", centerOfG: " + centerOfG + ", dr: " + dr);
                     i++;
                 }

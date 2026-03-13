@@ -6,17 +6,17 @@ public class FlightModelController : MonoBehaviour
 {
     public void OnEnables()
     {
-        if(MyGameManeger.instance.FlightModel == null){
+        if(GameManager.instance.FlightModel == null){
             Debug.Log("FlightModel is null");
-            MyGameManeger.instance.FlightModel = MyGameManeger.instance.DefaultFlightModel;
+            GameManager.instance.FlightModel = GameManager.instance.DefaultFlightModel;
         }
 
-        switch(MyGameManeger.instance.FlightModel){
+        switch(GameManager.instance.FlightModel){
             case "isoSim1":
-                MyGameManeger.instance.Plane.AddComponent<isoSim1>();
+                GameManager.instance.Plane.AddComponent<isoSim1>();
                 break;
             case "isoSim2":
-                MyGameManeger.instance.Plane.AddComponent<isoSim2>();
+                GameManager.instance.Plane.AddComponent<isoSim2>();
                 break;
             default:
                 Debug.Log("error");

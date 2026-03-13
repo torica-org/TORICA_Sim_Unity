@@ -15,28 +15,28 @@ public class MyCameraController : MonoBehaviour
     {
         Debug.Log("displays connected: " + Display.displays.Length);
 
-        // Display 1 ÇÕé©ìÆÇ≈Ç¬Ç≠ÇÃÇ≈ÅADisplay 2 à»ç~ÇÉãÅ[ÉvÇ≈óLå¯âªÇ∑ÇÈ
+        // Display 1 „ÅØËá™Âãï„Åß„Å§„Åè„ÅÆ„Åß„ÄÅDisplay 2 ‰ª•Èôç„Çí„É´„Éº„Éó„ÅßÊúâÂäπÂåñ„Åô„Çã
         for (int i = 1; i < Display.displays.Length; i++)
         {
             Display.displays[i].Activate();
         }
 
-        if (MyGameManeger.instance.VRMode)
+        if (GameManager.instance.VRMode)
         {
-            FPSCamera = MyGameManeger.instance.Plane.transform.Find("VR_Item(Clone)/[CameraRig]/FPSCamera").gameObject.GetComponent<Camera>();
+            FPSCamera = GameManager.instance.Plane.transform.Find("VR_Item(Clone)/[CameraRig]/FPSCamera").gameObject.GetComponent<Camera>();
         }
         else
         {
-            FPSCamera = MyGameManeger.instance.Plane.transform.Find("FPSCamera").gameObject.GetComponent<Camera>();
+            FPSCamera = GameManager.instance.Plane.transform.Find("FPSCamera").gameObject.GetComponent<Camera>();
         }
-        TPSCamera = MyGameManeger.instance.Plane.transform.Find("TPSCamera").gameObject.GetComponent<Camera>();
+        TPSCamera = GameManager.instance.Plane.transform.Find("TPSCamera").gameObject.GetComponent<Camera>();
         //SideCamera = GameObject.Find("SideViewCamera");
         //HorizontalLine = GameObject.Find("HUD").transform.Find("HorizontalLine").gameObject;
-        VRModeNow = MyGameManeger.instance.VRMode;
+        VRModeNow = GameManager.instance.VRMode;
 
-        //MyGameManeger.instance.CameraSwitch = true:FPS false:TPS
-        //TPSCamera.enabled = !MyGameManeger.instance.CameraSwitch;
-        //FPSCamera.enabled = MyGameManeger.instance.CameraSwitch;
+        //GameManager.instance.CameraSwitch = true:FPS false:TPS
+        //TPSCamera.enabled = !GameManager.instance.CameraSwitch;
+        //FPSCamera.enabled = GameManager.instance.CameraSwitch;
 
         TPSCamera.enabled = true;
         FPSCamera.enabled = true;
@@ -47,17 +47,17 @@ public class MyCameraController : MonoBehaviour
     {
         if(Input.GetKeyDown("v")){SwitchCamera();}
 
-        if(VRModeNow != MyGameManeger.instance.VRMode){
-            if(MyGameManeger.instance.VRMode){
-                FPSCamera = MyGameManeger.instance.Plane.transform.Find("VR_Item(Clone)/[CameraRig]/FPSCamera").gameObject.GetComponent<Camera>();
-                VRModeNow = MyGameManeger.instance.VRMode;
-                TPSCamera.enabled = !MyGameManeger.instance.CameraSwitch;
-                FPSCamera.enabled = MyGameManeger.instance.CameraSwitch;
+        if(VRModeNow != GameManager.instance.VRMode){
+            if(GameManager.instance.VRMode){
+                FPSCamera = GameManager.instance.Plane.transform.Find("VR_Item(Clone)/[CameraRig]/FPSCamera").gameObject.GetComponent<Camera>();
+                VRModeNow = GameManager.instance.VRMode;
+                TPSCamera.enabled = !GameManager.instance.CameraSwitch;
+                FPSCamera.enabled = GameManager.instance.CameraSwitch;
             }else{
-                FPSCamera = MyGameManeger.instance.Plane.transform.Find("FPSCamera").gameObject.GetComponent<Camera>();
-                VRModeNow = MyGameManeger.instance.VRMode;
-                TPSCamera.enabled = !MyGameManeger.instance.CameraSwitch;
-                FPSCamera.enabled = MyGameManeger.instance.CameraSwitch;
+                FPSCamera = GameManager.instance.Plane.transform.Find("FPSCamera").gameObject.GetComponent<Camera>();
+                VRModeNow = GameManager.instance.VRMode;
+                TPSCamera.enabled = !GameManager.instance.CameraSwitch;
+                FPSCamera.enabled = GameManager.instance.CameraSwitch;
             }
         }
 
@@ -67,8 +67,8 @@ public class MyCameraController : MonoBehaviour
     {
         //FPSCamera.enabled = !FPSCamera.enabled;
         //TPSCamera.enabled = !TPSCamera.enabled;
-        MyGameManeger.instance.CameraSwitch = !MyGameManeger.instance.CameraSwitch;
-        //MyGameManeger.instance.HorizontalLineActive = MyGameManeger.instance.HorizontalLineActive & !MyGameManeger.instance.CameraSwitch;
-        //HorizontalLine.SetActive(MyGameManeger.instance.HorizontalLineActive);
+        GameManager.instance.CameraSwitch = !GameManager.instance.CameraSwitch;
+        //GameManager.instance.HorizontalLineActive = GameManager.instance.HorizontalLineActive & !GameManager.instance.CameraSwitch;
+        //HorizontalLine.SetActive(GameManager.instance.HorizontalLineActive);
     }
 }

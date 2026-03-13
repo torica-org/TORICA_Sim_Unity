@@ -12,27 +12,27 @@ public class Landing : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Result = GameObject.Find("Result");
-        SimpleResult = GameObject.Find("SimpleResult");
+        // Result = GameObject.Find("Result");
+        // SimpleResult = GameObject.Find("SimpleResult");
         canvas.enabled = false;
 
-        Result.SetActive(false);
-        SimpleResult.SetActive(false);
-        MyGameManeger.instance.Landing = false;
+        // Result.SetActive(false);
+        // SimpleResult.SetActive(false);
+        GameManager.instance.Landing = false;
     }
 
     void OnCollisionEnter(Collision collision)
     {
-        MyGameManeger.instance.Landing = true;
-        MyGameManeger.instance.SettingMode = 0;
+        GameManager.instance.Landing = true;
+        GameManager.instance.SettingMode = 0;
         canvas.enabled = true;
-        Time.timeScale=(float)Convert.ToInt32(!MyGameManeger.instance.SettingActive & !MyGameManeger.instance.Landing);
+        Time.timeScale=(float)Convert.ToInt32(!GameManager.instance.SettingActive & !GameManager.instance.Landing);
     }
 
     // Update is called once per frame
     void Update()
     {
-        Result.SetActive(!MyGameManeger.instance.SettingActive & MyGameManeger.instance.Landing);
-        SimpleResult.SetActive(!MyGameManeger.instance.SettingActive & MyGameManeger.instance.Landing);
+        // Result.SetActive(!GameManager.instance.SettingActive & GameManager.instance.Landing);
+        // SimpleResult.SetActive(!GameManager.instance.SettingActive & GameManager.instance.Landing);
     }
 }

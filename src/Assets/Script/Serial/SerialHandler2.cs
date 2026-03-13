@@ -19,7 +19,7 @@ public class SerialHandler2 : MonoBehaviour
     void Start()
     {
         inputField.text = portName;
-        Connection = MyGameManeger.instance.FrameUseable;
+        Connection = GameManager.instance.FrameUseable;
     }
 
     protected override void Update()

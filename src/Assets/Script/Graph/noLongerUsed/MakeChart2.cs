@@ -19,13 +19,13 @@ public class MakeChart2 : MakeCharts
     protected override void AddData()
     {
         try{
-            if(MyGameManeger.instance.PhiList.Count >= i && MyGameManeger.instance.BetaList.Count >= i)
+            if(GameManager.instance.PhiList.Count >= i && GameManager.instance.BetaList.Count >= i)
             {
                 chart.AddXAxisData(i*airdata.interval  +"s");
-                //chart.AddData(0, MyGameManeger.instance.AirspeedList[i]);
-                //chart.AddData(1, MyGameManeger.instance.AltList[i]);
-                chart.AddData(0, MyGameManeger.instance.PhiList[i]);
-                chart.AddData(1, MyGameManeger.instance.BetaList[i]);
+                //chart.AddData(0, GameManager.instance.AirspeedList[i]);
+                //chart.AddData(1, GameManager.instance.AltList[i]);
+                chart.AddData(0, GameManager.instance.PhiList[i]);
+                chart.AddData(1, GameManager.instance.BetaList[i]);
                 i++;
             }
         }

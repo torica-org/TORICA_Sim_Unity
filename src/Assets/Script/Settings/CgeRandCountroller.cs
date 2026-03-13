@@ -7,8 +7,8 @@ public class CgeRandCountroller : MonoBehaviour
 {
     [SerializeField] private Text CgeRandText;
     public void PushCgeRandButton(){
-        MyGameManeger.instance.CgeRand = !MyGameManeger.instance.CgeRand;
-        if(MyGameManeger.instance.CgeRand){
+        GameManager.instance.CgeRand = !GameManager.instance.CgeRand;
+        if(GameManager.instance.CgeRand){
             CgeRandText.text = "有効化中";
         }else{
             CgeRandText.text = "無効化中";
@@ -16,7 +16,7 @@ public class CgeRandCountroller : MonoBehaviour
     }
 
     void Start(){
-        if(MyGameManeger.instance.CgeRand){
+        if(GameManager.instance.CgeRand){
             CgeRandText.text = "有効化中";
         }else{
             CgeRandText.text = "無効化中";

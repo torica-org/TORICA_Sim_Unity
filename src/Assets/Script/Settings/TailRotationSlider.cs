@@ -14,25 +14,25 @@ public class TailRotationSlider : MonoBehaviour
     void Start()
     {
         scoreText = GameObject.Find("TailRotation").GetComponent<Text>();
-        script = MyGameManeger.instance.Plane.GetComponent<AerodynamicCalculator>();
+        script = GameManager.instance.Plane.GetComponent<AerodynamicCalculator>();
         CurrentSlider = GetComponent<Slider>();
 
-        if(MyGameManeger.instance.SettingChanged){
-            CurrentSlider.value = MyGameManeger.instance.TailRotation;
+        if(GameManager.instance.SettingChanged){
+            CurrentSlider.value = GameManager.instance.TailRotation;
         }else{
-            MyGameManeger.instance.TailRotation = CurrentSlider.value;
+            GameManager.instance.TailRotation = CurrentSlider.value;
         }
         
-        scoreText.text = MyGameManeger.instance.TailRotation.ToString("0.000");
+        scoreText.text = GameManager.instance.TailRotation.ToString("0.000");
     }
 
     public void Method()
     {
-        MyGameManeger.instance.TailRotation = CurrentSlider.value;
-        scoreText.text = MyGameManeger.instance.TailRotation.ToString("0.000");
-        MyGameManeger.instance.SettingChanged = true;
-        //script.transform.rotation = Quaternion.Euler(0.0f, MyGameManeger.instance.StartRotation, MyGameManeger.instance.TailRotation);
-        script.transform.rotation = Quaternion.Euler(MyGameManeger.instance.StartRoll, MyGameManeger.instance.StartRotation, MyGameManeger.instance.TailRotation);
+        GameManager.instance.TailRotation = CurrentSlider.value;
+        scoreText.text = GameManager.instance.TailRotation.ToString("0.000");
+        GameManager.instance.SettingChanged = true;
+        //script.transform.rotation = Quaternion.Euler(0.0f, GameManager.instance.StartRotation, GameManager.instance.TailRotation);
+        script.transform.rotation = Quaternion.Euler(GameManager.instance.StartRoll, GameManager.instance.StartRotation, GameManager.instance.TailRotation);
 
 
     }

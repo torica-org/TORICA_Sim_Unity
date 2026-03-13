@@ -14,13 +14,13 @@ public class SerialSend : MonoBehaviour
 
     void Start()
     {
-        script = MyGameManeger.instance.Plane.GetComponent<AerodynamicCalculator>();
-        PlaneRigidbody = MyGameManeger.instance.Plane.GetComponent<Rigidbody>();
+        script = GameManager.instance.Plane.GetComponent<AerodynamicCalculator>();
+        PlaneRigidbody = GameManager.instance.Plane.GetComponent<Rigidbody>();
     }
 
     void FixedUpdate()
     {
-        if (frameNumber%(interval/0.02m) == 0 && MyGameManeger.instance.FrameUseable) //interval[s]ごとに送信
+        if (frameNumber%(interval/0.02m) == 0 && GameManager.instance.FrameUseable) //interval[s]ごとに送信
         {
             //Debug.Log(script.Airspeed+","+PlaneRigidbody.position.y);
             //serialHandler.Write(script.Airspeed+","+PlaneRigidbody.position.y);

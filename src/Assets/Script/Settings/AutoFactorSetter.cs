@@ -9,7 +9,7 @@ public class AutoFactorSetter : MonoBehaviour
     private AerodynamicCalculator script;
     [SerializeField] private InputField inputField;//ポート番号入力フィールド
 
-    private MyGameManeger gm = MyGameManeger.instance;
+    private GameManager gm = GameManager.instance;
 
     // Start is called before the first frame update
     void Start()
@@ -19,17 +19,17 @@ public class AutoFactorSetter : MonoBehaviour
 
     public void OnPush(){
         /*
-        if(script.massRightNow != 0){MyGameManeger.instance.massRightFactor = script.massLeftRightS/(script.massRightNow/1000);}
-        else{MyGameManeger.instance.massRightFactor = 0;}
+        if(script.massRightNow != 0){GameManager.instance.massRightFactor = script.massLeftRightS/(script.massRightNow/1000);}
+        else{GameManager.instance.massRightFactor = 0;}
 
-        if(script.massLeftNow != 0){MyGameManeger.instance.massLeftFactor = script.massLeftRightS/(script.massLeftNow/1000);}
-        else{MyGameManeger.instance.massLeftFactor = 0;}
+        if(script.massLeftNow != 0){GameManager.instance.massLeftFactor = script.massLeftRightS/(script.massLeftNow/1000);}
+        else{GameManager.instance.massLeftFactor = 0;}
 
-        if(script.massBackwardRightNow != 0){MyGameManeger.instance.massBackwardRightFactor = script.massBackwardS/(script.massBackwardRightNow/1000);}
-        else{MyGameManeger.instance.massBackwardRightFactor = 0;}
+        if(script.massBackwardRightNow != 0){GameManager.instance.massBackwardRightFactor = script.massBackwardS/(script.massBackwardRightNow/1000);}
+        else{GameManager.instance.massBackwardRightFactor = 0;}
 
-        if(script.massBackwardLeftNow != 0){MyGameManeger.instance.massBackwardLeftFactor = script.massBackwardS/(script.massBackwardLeftNow/1000);}
-        else{MyGameManeger.instance.massBackwardLeftFactor = 0;}
+        if(script.massBackwardLeftNow != 0){GameManager.instance.massBackwardLeftFactor = script.massBackwardS/(script.massBackwardLeftNow/1000);}
+        else{GameManager.instance.massBackwardLeftFactor = 0;}
         */
 
 

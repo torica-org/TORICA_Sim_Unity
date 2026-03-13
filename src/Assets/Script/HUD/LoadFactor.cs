@@ -12,7 +12,7 @@ public class LoadFactor : MonoBehaviour
     void Start()
     {
         scoreText = this.GetComponent<Text>();
-        script = MyGameManeger.instance.Plane.GetComponent<AerodynamicCalculator>();
+        script = GameManager.instance.Plane.GetComponent<AerodynamicCalculator>();
     }
 
     // Update is called once per frame

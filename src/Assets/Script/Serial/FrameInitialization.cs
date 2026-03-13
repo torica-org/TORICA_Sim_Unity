@@ -39,22 +39,22 @@ public class FrameInitialization : SerialReceive
             StartCoroutine(SetZero(i));
         }
         else{//20回測定を行ったら中央値を保存
-                MyGameManeger.instance.massRight0 = findMedian(massRightList);
-                MyGameManeger.instance.massLeft0 = findMedian(massLeftList);
-                MyGameManeger.instance.massBackwardRight0 = findMedian(massBackwardRightList);
-                MyGameManeger.instance.massBackwardLeft0 = findMedian(massBackwardLeftList);
-                MyGameManeger.instance.JoyStick0 = findMedian(JoyStickList);
+                GameManager.instance.massRight0 = findMedian(massRightList);
+                GameManager.instance.massLeft0 = findMedian(massLeftList);
+                GameManager.instance.massBackwardRight0 = findMedian(massBackwardRightList);
+                GameManager.instance.massBackwardLeft0 = findMedian(massBackwardLeftList);
+                GameManager.instance.JoyStick0 = findMedian(JoyStickList);
                 
-                if(MyGameManeger.instance.massRight0 != 0 && MyGameManeger.instance.massLeft0 != 0 && MyGameManeger.instance.massBackwardRight0 != 0 && MyGameManeger.instance.massBackwardLeft0 != 0){
-                    MyGameManeger.instance.FrameUseable = true;
+                if(GameManager.instance.massRight0 != 0 && GameManager.instance.massLeft0 != 0 && GameManager.instance.massBackwardRight0 != 0 && GameManager.instance.massBackwardLeft0 != 0){
+                    GameManager.instance.FrameUseable = true;
                     text.text = "初期設定完了";
 
                     //オフセットが独自に必要ならコメントアウトする
                 
-                    MyGameManeger.instance.massRight0 = 0;
-                    MyGameManeger.instance.massLeft0 = 0;
-                    MyGameManeger.instance.massBackwardRight0 = 0;
-                    MyGameManeger.instance.massBackwardLeft0 = 0;
+                    GameManager.instance.massRight0 = 0;
+                    GameManager.instance.massLeft0 = 0;
+                    GameManager.instance.massBackwardRight0 = 0;
+                    GameManager.instance.massBackwardLeft0 = 0;
                     
                 }
                 else{

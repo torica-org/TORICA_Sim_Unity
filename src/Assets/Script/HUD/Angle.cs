@@ -13,7 +13,7 @@ public class Angle : MonoBehaviour
     void Start()
     {
         scoreText = this.GetComponent<Text>();
-        script = MyGameManeger.instance.Plane.GetComponent<AerodynamicCalculator>();
+        script = GameManager.instance.Plane.GetComponent<AerodynamicCalculator>();
 
         nz_max=0.000f;
     }

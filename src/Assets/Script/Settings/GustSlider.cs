@@ -14,31 +14,31 @@ public class GustSlider : MonoBehaviour
     void Start()
     {
         scoreText = GameObject.Find("Gust").GetComponent<Text>();
-        script = MyGameManeger.instance.Plane.GetComponent<AerodynamicCalculator>();
+        script = GameManager.instance.Plane.GetComponent<AerodynamicCalculator>();
         CurrentSlider = GetComponent<Slider>();
 
-        if(MyGameManeger.instance.SettingChanged){
-            CurrentSlider.value = MyGameManeger.instance.GustMag*10f;
+        if(GameManager.instance.SettingChanged){
+            CurrentSlider.value = GameManager.instance.GustMag*10f;
         }else{
-            MyGameManeger.instance.GustMag = CurrentSlider.value*0.1f;
+            GameManager.instance.GustMag = CurrentSlider.value*0.1f;
         }
         
-        scoreText.text = MyGameManeger.instance.GustMag.ToString("0.000");
+        scoreText.text = GameManager.instance.GustMag.ToString("0.000");
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(CurrentSlider.value != MyGameManeger.instance.GustMag*10f){
-            CurrentSlider.value = MyGameManeger.instance.GustMag*10f;
+        if(CurrentSlider.value != GameManager.instance.GustMag*10f){
+            CurrentSlider.value = GameManager.instance.GustMag*10f;
         }
     }
 
     public void Method()
     {
-        MyGameManeger.instance.GustMag = CurrentSlider.value*0.1f;
-        scoreText.text = MyGameManeger.instance.GustMag.ToString("0.000");
-        MyGameManeger.instance.SettingChanged = true;
+        GameManager.instance.GustMag = CurrentSlider.value*0.1f;
+        scoreText.text = GameManager.instance.GustMag.ToString("0.000");
+        GameManager.instance.SettingChanged = true;
     }
 }

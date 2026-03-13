@@ -19,10 +19,10 @@ public class MakeChart5 : MakeCharts
     protected override void AddData()
     {
         try{
-            if(MyGameManeger.instance.drList.Count >= i)
+            if(GameManager.instance.drList.Count >= i)
             {
                 chart.AddXAxisData(i*airdata.interval  +"s");
-                chart.AddData(1, MyGameManeger.instance.drList[i]);
+                chart.AddData(1, GameManager.instance.drList[i]);
                 i++;
             }
         }

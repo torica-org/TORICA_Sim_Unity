@@ -12,7 +12,7 @@ using XCharts.Runtime;
 [ExecuteInEditMode]
 public class MakeCharts : MonoBehaviour
 {
-    protected MyGameManeger gm;
+    protected GameManager gm;
     protected GameObject systemcontroller;
     protected AirData airdata;
 
@@ -30,7 +30,7 @@ public class MakeCharts : MonoBehaviour
 
     protected void Awake()
     {
-        gm = MyGameManeger.instance;
+        gm = GameManager.instance;
         systemcontroller = GameObject.Find("SystemController");
         airdata = systemcontroller.GetComponent<AirData>();
 

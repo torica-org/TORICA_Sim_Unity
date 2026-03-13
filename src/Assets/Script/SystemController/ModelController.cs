@@ -12,11 +12,11 @@ public class ModelController : MonoBehaviour
     {
         PlaneParent = GameObject.Find("Plane");
         foreach(Transform item in PlaneParent.transform){
-            if(item.gameObject.name != MyGameManeger.instance.PlaneName){
+            if(item.gameObject.name != GameManager.instance.PlaneName){
                 item.gameObject.SetActive(false);
             }
         }
-        MyGameManeger.instance.Plane = GameObject.Find(MyGameManeger.instance.PlaneName);
+        GameManager.instance.Plane = GameObject.Find(GameManager.instance.PlaneName);
     }
 }
 */

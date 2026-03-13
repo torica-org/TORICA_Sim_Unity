@@ -31,19 +31,19 @@ public class ChangeFlightModel : MonoBehaviour
         FlightModelDdtmp.AddOptions(FlightModelList);
         s=false;
 
-        //if(MyGameManeger.instance.PlaneName == null){
-        //    MyGameManeger.instance.PlaneName=DefaultPlane;
+        //if(GameManager.instance.PlaneName == null){
+        //    GameManager.instance.PlaneName=DefaultPlane;
         //}
-        if(MyGameManeger.instance.FlightModel == MyGameManeger.instance.DefaultFlightModel){
+        if(GameManager.instance.FlightModel == GameManager.instance.DefaultFlightModel){
             sameLoad=true;
         }
 
-        FlightModelDdtmp.value = FlightModelList.IndexOf(MyGameManeger.instance.FlightModel);
+        FlightModelDdtmp.value = FlightModelList.IndexOf(GameManager.instance.FlightModel);
     }
     
     public void OnSelected()
     {
-        if(s || MyGameManeger.instance.FirstLoad || sameLoad){
+        if(s || GameManager.instance.FirstLoad || sameLoad){
             Dropdown FlightModelDdtmp;
 
             //DropdownコンポーネントをGet
@@ -52,7 +52,7 @@ public class ChangeFlightModel : MonoBehaviour
             //Dropdownコンポーネントから選択されている文字を取得
             string selectedvalue = FlightModelDdtmp.options[FlightModelDdtmp.value].text;
 
-            MyGameManeger.instance.FlightModel = selectedvalue;
+            GameManager.instance.FlightModel = selectedvalue;
 
             Time.timeScale=1f;
             SceneManager.LoadScene("FlightScene");

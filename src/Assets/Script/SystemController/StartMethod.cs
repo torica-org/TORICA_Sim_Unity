@@ -24,7 +24,7 @@ public class StartMethod : MonoBehaviour
 
         flightModelController.OnEnables();
 
-        MyGameManeger.instance.Plane.GetComponent<AerodynamicCalculator>().OnEnables();
+        GameManager.instance.Plane.GetComponent<AerodynamicCalculator>().OnEnables();
 
         changeAircraft.OnEnables();
     }

@@ -23,11 +23,11 @@ public class Speaker : MonoBehaviour
     private float interval;
 
     void Start(){
-        script = MyGameManeger.instance.Plane.GetComponent<AerodynamicCalculator>();
-        PlaneRigidbody = MyGameManeger.instance.Plane.GetComponent<Rigidbody>();
+        script = GameManager.instance.Plane.GetComponent<AerodynamicCalculator>();
+        PlaneRigidbody = GameManager.instance.Plane.GetComponent<Rigidbody>();
 
         frequency = 1320;
-        gain = 0.1*MyGameManeger.instance.SoundBolume/50;
+        gain = 0.1*GameManager.instance.SoundBolume/50;
         interval = 1f;
     }
 
@@ -36,7 +36,7 @@ public class Speaker : MonoBehaviour
         off_duration = interval - sound_duration;
 
         if(!spk_flag  && (currentTime - speaker_last_change_time) > off_duration){
-            gain = 0.1f*MyGameManeger.instance.SoundBolume/50;
+            gain = 0.1f*GameManager.instance.SoundBolume/50;
             speaker_last_change_time = currentTime;
             spk_flag  = true;
         }else if(spk_flag  && (currentTime - speaker_last_change_time) > sound_duration){
@@ -45,16 +45,16 @@ public class Speaker : MonoBehaviour
             spk_flag = false;
         }
         
-        if(!MyGameManeger.instance.EnterFlight){
-            gain = 0.1*MyGameManeger.instance.SoundBolume/50;
+        if(!GameManager.instance.EnterFlight){
+            gain = 0.1*GameManager.instance.SoundBolume/50;
         }
 
-        if(MyGameManeger.instance.SettingActive){
+        if(GameManager.instance.SettingActive){
             gain = 0;
         }
 
 
-        if(MyGameManeger.instance.EnterFlight){
+        if(GameManager.instance.EnterFlight){
             if(script.Airspeed > 10.8f){
                 frequency = 440;
             }
@@ -65,7 +65,7 @@ public class Speaker : MonoBehaviour
                 frequency = 1320;
             }
 
-            if(!MyGameManeger.instance.TakeOff){
+            if(!GameManager.instance.TakeOff){
                 interval = 1.0f;
             }
             else if(script.ALT > 1.5f){
@@ -91,7 +91,7 @@ public class Speaker : MonoBehaviour
             if(!onoff){
                 if(frameNumber%(interval/0.02m) == 0)//interval[s]ごとにリストに追加
                 {
-                    gain = 0.1*MyGameManeger.instance.SoundBolume/50;
+                    gain = 0.1*GameManager.instance.SoundBolume/50;
                     onoff = true;
                     frameNumber = 0;
                 }
@@ -114,7 +114,7 @@ public class Speaker : MonoBehaviour
                 }
                 else
                 {
-                    gain = 0.1*MyGameManeger.instance.SoundBolume/50;
+                    gain = 0.1*GameManager.instance.SoundBolume/50;
                     onoff = true;
                 }
             }

@@ -12,7 +12,7 @@ public class SoundBolumeController : MonoBehaviour
     {
         CurrentSlider = GetComponent<Slider>();
 
-        CurrentSlider.value = MyGameManeger.instance.SoundBolume;
+        CurrentSlider.value = GameManager.instance.SoundBolume;
     }
 
     // Update is called once per frame
@@ -24,7 +24,7 @@ public class SoundBolumeController : MonoBehaviour
     public void Method()
     {
         scoreText.text = CurrentSlider.value.ToString();
-        MyGameManeger.instance.SettingChanged = true;
-        MyGameManeger.instance.SoundBolume = CurrentSlider.value;
+        GameManager.instance.SettingChanged = true;
+        GameManager.instance.SoundBolume = CurrentSlider.value;
     }
 }

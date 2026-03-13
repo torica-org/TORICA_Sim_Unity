@@ -17,23 +17,23 @@ public class HUDController : MonoBehaviour
         //HorizontalLine = GameObject.Find("HUD").transform.Find("HorizontalLine").gameObject;
         //SideViewCamera = GameObject.Find("SideViewCamera");
         
-        HUDCanvas.SetActive(MyGameManeger.instance.HUDActive);
-        //HorizontalLine.SetActive(MyGameManeger.instance.HorizontalLineActive);
-        //SideViewCamera.SetActive(MyGameManeger.instance.HUDActive);
+        HUDCanvas.SetActive(GameManager.instance.HUDActive);
+        //HorizontalLine.SetActive(GameManager.instance.HorizontalLineActive);
+        //SideViewCamera.SetActive(GameManager.instance.HUDActive);
     }
 
     // Update is called once per frame
     void Update()
     {
         if(Input.GetKeyDown("h")){
-            MyGameManeger.instance.HUDActive = !MyGameManeger.instance.HUDActive;
-            HUDCanvas.SetActive(MyGameManeger.instance.HUDActive);
-            //SideViewCamera.SetActive(MyGameManeger.instance.HUDActive);
+            GameManager.instance.HUDActive = !GameManager.instance.HUDActive;
+            HUDCanvas.SetActive(GameManager.instance.HUDActive);
+            //SideViewCamera.SetActive(GameManager.instance.HUDActive);
         }
 
-        if(MyGameManeger.instance.CameraSwitch && Input.GetKeyDown("l")){
-            //HorizontalLine.SetActive(!MyGameManeger.instance.HorizontalLineActive);
-            //MyGameManeger.instance.HorizontalLineActive = !MyGameManeger.instance.HorizontalLineActive;
+        if(GameManager.instance.CameraSwitch && Input.GetKeyDown("l")){
+            //HorizontalLine.SetActive(!GameManager.instance.HorizontalLineActive);
+            //GameManager.instance.HorizontalLineActive = !GameManager.instance.HorizontalLineActive;
         }
     }
 }

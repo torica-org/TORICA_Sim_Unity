@@ -46,9 +46,9 @@ public class SerialReceive : MonoBehaviour
                 massBackwardRightNow = ExtractFromData(data[0], 1);
                 JoyStickNow = ExtractFromData(data[0], 2);
 
-                if (MyGameManeger.instance.FrameUseable && MyGameManeger.instance.JoyStickFirst){//ジョイスティックオフセット取得処理
-                    MyGameManeger.instance.JoyStick0 = JoyStickNow;
-                    MyGameManeger.instance.JoyStickFirst = false;
+                if (GameManager.instance.FrameUseable && GameManager.instance.JoyStickFirst){//ジョイスティックオフセット取得処理
+                    GameManager.instance.JoyStick0 = JoyStickNow;
+                    GameManager.instance.JoyStickFirst = false;
                 }
                 //Debug.Log(massRightNow+","+massLeftNow+","+massBackwardRightNow+","+massBackwardLeftNow);
             }

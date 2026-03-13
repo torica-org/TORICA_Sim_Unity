@@ -13,8 +13,8 @@ public class Altitude : MonoBehaviour
     void Start()
     {
         scoreText = this.GetComponent<Text>();
-        PlaneRigidbody = MyGameManeger.instance.Plane.GetComponent<Rigidbody>();
-        script = MyGameManeger.instance.Plane.GetComponent<AerodynamicCalculator>();
+        PlaneRigidbody = GameManager.instance.Plane.GetComponent<Rigidbody>();
+        script = GameManager.instance.Plane.GetComponent<AerodynamicCalculator>();
     }
 
     // Update is called once per frame

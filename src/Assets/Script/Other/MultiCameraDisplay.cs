@@ -28,7 +28,7 @@ public class MultiCameraDisplay : MonoBehaviour
     {
         _thirdViewCamera.enabled = false;
 
-        if (MyGameManeger.instance.VRMode)
+        if (GameManager.instance.VRMode)
         {
             XRSettings.gameViewRenderMode = GameViewRenderMode.LeftEye;
         }
@@ -39,7 +39,7 @@ public class MultiCameraDisplay : MonoBehaviour
     {
         _thirdViewCamera.enabled = true;
 
-        if (MyGameManeger.instance.VRMode)
+        if (GameManager.instance.VRMode)
         {
             XRSettings.gameViewRenderMode = GameViewRenderMode.None;
         }
