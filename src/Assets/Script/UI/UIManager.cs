@@ -19,9 +19,11 @@ public class UIManager : UIHelper
     "ページが切り替わっている用に見えて，同じPanel上で組み立て直しています．" +
     "`UIHelper.cs`にUI作成用のヘルパー関数があります．";
 
-
+    private GameManager gm = GameManager.instance;
     private GameObject um;
     private Canvas canvas;
+
+    private GameObject basePanel;
 
     private PreFlightScreen preFlight;
     private ResultScreen result;
@@ -50,8 +52,6 @@ public class UIManager : UIHelper
 
     void Start()
     {
-        InitUIHelper();
-
         um = this.gameObject;
         um.AddComponent<UIHelper>();
         basePanel = GameObject.Find("BasePanel");
@@ -69,8 +69,8 @@ public class UIManager : UIHelper
 
         canvas.enabled = true;
 
-        preFlight = um.AddComponent<PreFlightScreen>(); // `PreFlightScreen`をコンポーネントに追加
-        result = um.AddComponent<ResultScreen>(); // `ResultScreen`をコンポーネントに追加.
+        preFlight = new(basePanel); // `PreFlightScreen`をインスタンス化.
+        result = new(basePanel, gm.Plane.GetComponent<Rigidbody>()); // `ResultScreen`をインスタンス化.
        
         screen = Screens.PreFlightTest;
         // screen = Screens.Result;

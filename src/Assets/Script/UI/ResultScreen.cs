@@ -5,12 +5,16 @@ using UnityEngine;
 using UnityEngine.Events; // UnityActionのために必要
 using UnityEngine.SceneManagement; // `LoadScene`のために必要
 
-public class ResultScreen : UIHelper // `UIHelper`を継承し，クラスに含まれるメンバ関数を利用
+public class ResultScreen
 {
+    private GameManager gm = GameManager.instance;
+    private GameObject basePanel;
+    private Rigidbody PlaneRigidbody;
 
-    void Start()
+    public ResultScreen(GameObject basePanel, Rigidbody PlaneRigidBody)
     {
-        InitUIHelper();
+        this.basePanel = basePanel;
+        this.PlaneRigidbody = PlaneRigidBody;
     }
 
 
@@ -36,7 +40,8 @@ public class ResultScreen : UIHelper // `UIHelper`を継承し，クラスに含
         */
 
         // `>`ボタンの生成
-        RectTransform buttonChangePageRightRect = NewButtonRect(basePanel, "ButtonChangePageRight", ">", 50.0f, OnClickChangePage);
+        ActionButton buttonChangePageRight = new(basePanel, "ButtonChangePageRight", ">", 50.0f, OnClickChangePage);
+        RectTransform buttonChangePageRightRect = buttonChangePageRight.rectTransform;
         buttonChangePageRightRect.anchorMin = new Vector2(1f, 0.5f); // アンカーの最小値
         buttonChangePageRightRect.anchorMax = new Vector2(1f, 0.5f); // アンカーの最大値
         buttonChangePageRightRect.pivot = new Vector2(1f, 0.5f); // ピボット（ボタン自身の基準点）
@@ -45,7 +50,8 @@ public class ResultScreen : UIHelper // `UIHelper`を継承し，クラスに含
         buttonChangePageRightRect.anchoredPosition = new Vector2(-20, 0); // アンカーを基準にした座標 (pos_x, pos_y) を設定
 
         // `<`ボタンの生成
-        RectTransform buttonChangePageLeftRect = NewButtonRect(basePanel, "ButtonChangePageLeft", "<", 50.0f, OnClickChangePage);
+        ActionButton buttonChangePageLeft = new(basePanel, "ButtonChangePageLeft", "<", 50.0f, OnClickChangePage);
+        RectTransform buttonChangePageLeftRect = buttonChangePageLeft.rectTransform;
         buttonChangePageLeftRect.anchorMin = new Vector2(0f, 0.5f); // アンカーの最小値
         buttonChangePageLeftRect.anchorMax = new Vector2(0f, 0.5f); // アンカーの最大値
         buttonChangePageLeftRect.pivot = new Vector2(0f, 0.5f); // ピボット（ボタン自身の基準点）
@@ -57,7 +63,8 @@ public class ResultScreen : UIHelper // `UIHelper`を継承し，クラスに含
         float Distance = (PlaneRigidbody.position - GameManager.instance.PlatformPosition).magnitude;
         if (GameManager.instance.FlightMode == "BirdmanRally") Distance -= 10f;
         string dist = Distance.ToString("0.000") + " m";
-        RectTransform textDistRect = NewStaticTextRect(basePanel, "TextDist", dist, 150.0f);
+        StaticText textDist = new(basePanel, "TextDist", dist, 150.0f);
+        RectTransform textDistRect = textDist.rectTransform;
         textDistRect.anchorMin = new Vector2(0.05f, 0.75f); // アンカーの最小値
         textDistRect.anchorMax = new Vector2(0.5f, 0.75f); // アンカーの最大値
         textDistRect.pivot = new Vector2(0.5f, 0.5f); // ピボット（ボタン自身の基準点）
@@ -66,7 +73,8 @@ public class ResultScreen : UIHelper // `UIHelper`を継承し，クラスに含
         textDistRect.anchoredPosition = new Vector2(0, 0); // アンカーを基準にした座標 (pos_x, pos_y) を設定
 
         // `Retry(R)`ボタンの生成
-        RectTransform buttonRetryRect = NewButtonRect(basePanel, "ButtonRetry", "Retry(R)", 70.0f, OnClickReloadScene);
+        ActionButton buttonRetry = new(basePanel, "ButtonRetry", "Retry(R)", 70.0f, OnClickReloadScene);
+        RectTransform buttonRetryRect = buttonRetry.rectTransform;
         buttonRetryRect.anchorMin = new Vector2(0.5f, 0.75f); // アンカーの最小値
         buttonRetryRect.anchorMax = new Vector2(0.95f, 0.75f); // アンカーの最大値
         buttonRetryRect.pivot = new Vector2(0.5f, 0.5f); // ピボット（ボタン自身の基準点）
@@ -75,20 +83,20 @@ public class ResultScreen : UIHelper // `UIHelper`を継承し，クラスに含
         buttonRetryRect.anchoredPosition = new Vector2(0, 0); // アンカーを基準にした座標 (pos_x, pos_y) を設定
 
         // 左下のグラフの生成
-        RectTransform AirdataChart1Rect = NewChartRect(basePanel, "ChartAirspeed", "機速", gm.AirspeedList);
+        Chart airdataChart1 = new(basePanel, "ChartAirspeed", "機速", gm.AirspeedList);
+        RectTransform AirdataChart1Rect = airdataChart1.rectTransform;
         AirdataChart1Rect.anchorMin = new Vector2(0.05f, 0.01f); // アンカーの最小値
         AirdataChart1Rect.anchorMax = new Vector2(0.49f, 0.49f); // アンカーの最大値
         AirdataChart1Rect.pivot = new Vector2(0.5f, 0.5f); // ピボット（ボタン自身の基準点）
         AirdataChart1Rect.anchoredPosition = new Vector2(0, 0); // アンカーを基準にした座標 (pos_x, pos_y) を設定
 
         // 右下のグラフの生成
-        RectTransform AirdataChart2Rect = NewChartRect(basePanel, "ChartAlt", "高度", gm.AltList);
+        Chart airdataChart2 = new(basePanel, "ChartAlt", "高度", gm.AltList);
+        RectTransform AirdataChart2Rect = airdataChart2.rectTransform;
         AirdataChart2Rect.anchorMin = new Vector2(0.51f, 0.01f); // アンカーの最小値
         AirdataChart2Rect.anchorMax = new Vector2(0.95f, 0.49f); // アンカーの最大値
         AirdataChart2Rect.pivot = new Vector2(0.5f, 0.5f); // ピボット（ボタン自身の基準点）
         AirdataChart2Rect.anchoredPosition = new Vector2(0, 0); // アンカーを基準にした座標 (pos_x, pos_y) を設定
-
-        print("ShowResultTwoGraphs");
     }
 
 
@@ -101,7 +109,8 @@ public class ResultScreen : UIHelper // `UIHelper`を継承し，クラスに含
         };
 
         // `>`ボタンの生成
-        RectTransform buttonChangePageRightRect = NewButtonRect(basePanel, "ButtonChangePageRight", ">", 50.0f, OnClickChangePage);
+        ActionButton buttonChangePageRight = new(basePanel, "ButtonChangePageRight", ">", 50.0f, OnClickChangePage);
+        RectTransform buttonChangePageRightRect = buttonChangePageRight.rectTransform;
         buttonChangePageRightRect.anchorMin = new Vector2(1f, 0.5f); // アンカーの最小値
         buttonChangePageRightRect.anchorMax = new Vector2(1f, 0.5f); // アンカーの最大値
         buttonChangePageRightRect.pivot = new Vector2(1f, 0.5f); // ピボット（ボタン自身の基準点）
@@ -110,7 +119,8 @@ public class ResultScreen : UIHelper // `UIHelper`を継承し，クラスに含
         buttonChangePageRightRect.anchoredPosition = new Vector2(-20, 0); // アンカーを基準にした座標 (pos_x, pos_y) を設定
 
         // `<`ボタンの生成
-        RectTransform buttonChangePageLeftRect = NewButtonRect(basePanel, "ButtonChangePageLeft", "<", 50.0f, OnClickChangePage);
+        ActionButton buttonChangePageLeft = new(basePanel, "ButtonChangePageLeft", "<", 50.0f, OnClickChangePage);
+        RectTransform buttonChangePageLeftRect = buttonChangePageLeft.rectTransform;
         buttonChangePageLeftRect.anchorMin = new Vector2(0f, 0.5f); // アンカーの最小値
         buttonChangePageLeftRect.anchorMax = new Vector2(0f, 0.5f); // アンカーの最大値
         buttonChangePageLeftRect.pivot = new Vector2(0f, 0.5f); // ピボット（ボタン自身の基準点）
@@ -119,28 +129,32 @@ public class ResultScreen : UIHelper // `UIHelper`を継承し，クラスに含
         buttonChangePageLeftRect.anchoredPosition = new Vector2(20, 0); // アンカーを基準にした座標 (pos_x, pos_y) を設定
 
         // 左上のグラフの生成
-        RectTransform AirdataChart1Rect = NewChartRect(basePanel, "ChartPitchAlpha", "ピッチ(theta)", gm.ThetaList, "迎角(alpha)", gm.AlphaList);
+        Chart airdataChart1 = new(basePanel, "ChartPitchAlpha", "ピッチ(theta)", gm.ThetaList, "迎角(alpha)", gm.AlphaList);
+        RectTransform AirdataChart1Rect = airdataChart1.rectTransform;
         AirdataChart1Rect.anchorMin = new Vector2(0.05f, 0.51f); // アンカーの最小値
         AirdataChart1Rect.anchorMax = new Vector2(0.49f, 0.99f); // アンカーの最大値
         AirdataChart1Rect.pivot = new Vector2(0.5f, 0.5f); // ピボット（ボタン自身の基準点）
         AirdataChart1Rect.anchoredPosition = new Vector2(0, 0); // アンカーを基準にした座標 (pos_x, pos_y) を設定
 
         // 右上のグラフの生成
-        RectTransform AirdataChart2Rect = NewChartRect(basePanel, "ChartRollBeta", "ロール(phi)", gm.PhiList, "横滑り角(beta)", gm.BetaList);
+        Chart airdataChart2 = new(basePanel, "ChartRollBeta", "ロール(phi)", gm.PhiList, "横滑り角(beta)", gm.BetaList);
+        RectTransform AirdataChart2Rect = airdataChart2.rectTransform;
         AirdataChart2Rect.anchorMin = new Vector2(0.51f, 0.51f); // アンカーの最小値
         AirdataChart2Rect.anchorMax = new Vector2(0.95f, 0.99f); // アンカーの最大値
         AirdataChart2Rect.pivot = new Vector2(0.5f, 0.5f); // ピボット（ボタン自身の基準点）
         AirdataChart2Rect.anchoredPosition = new Vector2(0, 0); // アンカーを基準にした座標 (pos_x, pos_y) を設定
 
         //左下のグラフの生成
-        RectTransform AirdataChart3Rect = NewChartRect(basePanel, "ChartCenterOfG", "全備重心", gm.CenterOfGList);
+        Chart airdataChart3 = new(basePanel, "ChartCenterOfG", "全備重心", gm.CenterOfGList);
+        RectTransform AirdataChart3Rect = airdataChart3.rectTransform;
         AirdataChart3Rect.anchorMin = new Vector2(0.05f, 0.01f); // アンカーの最小値
         AirdataChart3Rect.anchorMax = new Vector2(0.49f, 0.49f); // アンカーの最大値
         AirdataChart3Rect.pivot = new Vector2(0.5f, 0.5f); // ピボット（ボタン自身の基準点）
         AirdataChart3Rect.anchoredPosition = new Vector2(0, 0); // アンカーを基準にした座標 (pos_x, pos_y) を設定
 
         // 右下のグラフの生成
-        RectTransform AirdataChart4Rect = NewChartRect(basePanel, "ChartRudder", "ラダー", gm.drList);
+        Chart airdataChart4 = new(basePanel, "ChartRudder", "ラダー", gm.drList);
+        RectTransform AirdataChart4Rect = airdataChart4.rectTransform;
         AirdataChart4Rect.anchorMin = new Vector2(0.51f, 0.01f); // アンカーの最小値
         AirdataChart4Rect.anchorMax = new Vector2(0.95f, 0.49f); // アンカーの最大値
         AirdataChart4Rect.pivot = new Vector2(0.5f, 0.5f); // ピボット（ボタン自身の基準点）

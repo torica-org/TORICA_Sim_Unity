@@ -17,6 +17,7 @@ using System.Threading.Tasks; // `Task`型を使用するために必要
 
 public class UIHelper : MonoBehaviour
 {
+    /*
     // ===== 初期設定 =====
     protected GameManager gm;
     protected Rigidbody PlaneRigidbody;
@@ -32,11 +33,12 @@ public class UIHelper : MonoBehaviour
         PlaneRigidbody = gm.Plane.GetComponent<Rigidbody>();
         basePanel = GameObject.Find("BasePanel");
     }
+    */
 
 
 
     // ===== ボタンの生成 ==========================
-    public RectTransform NewButtonRect(GameObject parent, string objectName, string displayContent, float fontSize, UnityAction callback)
+    public static GameObject NewButtonObj(GameObject parent, string objectName, string displayContent, float fontSize, UnityAction callback)
     {
         GameObject DefaultButton = (GameObject)Resources.Load("UIParts/DefaultButton");
 
@@ -54,13 +56,13 @@ public class UIHelper : MonoBehaviour
         // コールバックはデリゲート(Unity Action)により取得
         btnObj.GetComponent<Button>().onClick.AddListener(callback);
 
-        return btnObj.GetComponent<RectTransform>(); // RectTransformを返す
+        return btnObj;
     }
 
 
 
     // ===== スライダーの生成 ==========================
-    static public GameObject ProcessSlider(GameObject parent, string objectName, Action<float> setter, Func<float> getter, float minVal, float maxVal)
+    public static GameObject NewSliderObj(GameObject parent, string objectName, float minVal, float maxVal, float initVal)
     {
 
         GameObject DefaultSlider = (GameObject)Resources.Load("UIParts/DefaultSlider");
@@ -74,7 +76,7 @@ public class UIHelper : MonoBehaviour
         Slider slider = sliderObj.GetComponent<Slider>();
         slider.minValue = minVal;
         slider.maxValue = maxVal;
-        slider.value = getter();
+        slider.value = initVal;
 
         return sliderObj; // GameObjectを返す
     }
@@ -82,7 +84,7 @@ public class UIHelper : MonoBehaviour
 
 
     // ===== テキストの生成 ==========================
-    protected RectTransform NewStaticTextRect(GameObject parent, string objectName, string displayContent, float fontSize)
+    public static GameObject NewTextObj(GameObject parent, string objectName, float fontSize)
     {
         GameObject DefaultText = (GameObject)Resources.Load("UIParts/DefaultText");
 
@@ -92,55 +94,18 @@ public class UIHelper : MonoBehaviour
         // その他の設定
         textObj.name = objectName;
         TextMeshProUGUI textTmp = textObj.GetComponent<TextMeshProUGUI>();
-        textTmp.text = displayContent;
         textTmp.enableAutoSizing = false;
         textTmp.fontSize = fontSize;
         textTmp.alignment = TextAlignmentOptions.Center; // 中央寄せ
 
-        return textObj.GetComponent<RectTransform>(); // RectTransformを返す
+        return textObj;
     }
-
-
-
-    // ===== 動的テキストの生成 ==========================
-    protected RectTransform NewDynamicFloatTextRect(GameObject parent, string objectName, Getter getter, float fontSize)
-    {
-        // `in`で参照渡し（読み取り専用）
-
-        GameObject DefaultText = (GameObject)Resources.Load("UIParts/DefaultText");
-
-        // 生成時に直接親キャンバスを指定
-        GameObject textObj = Instantiate(DefaultText, parent.transform, false);
-
-        // その他の設定
-        textObj.name = objectName;
-        TextMeshProUGUI textTmp = textObj.GetComponent<TextMeshProUGUI>();
-        float preVal = getter();
-        float val = getter();
-        textTmp.text = val.ToString("0.000");
-        textTmp.enableAutoSizing = false;
-        textTmp.fontSize = fontSize;
-        textTmp.alignment = TextAlignmentOptions.Center; // 中央寄せ
-
-        valueChangeHander += () =>
-        {
-            if (!textTmp) return;
-            float _val = getter();
-            Debug.Log("text_val: " + _val);
-            if (_val != preVal)
-            {
-                textTmp.text = _val.ToString("0.000");
-                preVal = _val;
-            }
-        };
-
-        return textObj.GetComponent<RectTransform>(); // RectTransformを返す
-    }
-
 
 
     // ===== グラフの生成 ==========================
-    protected RectTransform NewChartRect(GameObject parent, string objectName, string name1, List<float> list1, string name2 = null, List<float> list2 = null)
+    public static GameObject NewChartObj(GameObject parent, string objectName, 
+        string name1, List<float> list1, 
+        string name2 = null, List<float> list2 = null)
     {
         GameObject AirdataChart = (GameObject)Resources.Load("UIParts/AirdataChart");
 
@@ -158,10 +123,10 @@ public class UIHelper : MonoBehaviour
 
         SetChartData(chartObj, name1, list1, name2, list2);
 
-        return chartObj.GetComponent<RectTransform>(); // RectTransformを返す
+        return chartObj;
     }
 
-    private async void SetChartData(GameObject chartObj, string name1, List<float> list1, string name2, List<float> list2) // グラフの描写処理は非同期的に行う（安定化のため）
+    private static async void SetChartData(GameObject chartObj, string name1, List<float> list1, string name2, List<float> list2) // グラフの描写処理は非同期的に行う（安定化のため）
     {
         await Task.Yield(); // 1フレーム待機
 
@@ -188,7 +153,7 @@ public class UIHelper : MonoBehaviour
 
 
     // ===== その他のユーティリティ関数 ==========================
-    protected void DestroyAllChildren(GameObject parentObj) // 全ての子オブジェクトを破棄
+    public static void DestroyAllChildren(GameObject parentObj) // 全ての子オブジェクトを破棄
     {
         foreach (Transform child in parentObj.transform)
         {
@@ -196,17 +161,4 @@ public class UIHelper : MonoBehaviour
         }
     }
 
-    void Update()
-    {
-        Debug.Log("Run hander");
-
-        try
-        {
-            valueChangeHander();
-        }
-        catch (Exception e)
-        {
-            Debug.LogWarning("Error running delegate: " + e);
-        }
-    }
 }
