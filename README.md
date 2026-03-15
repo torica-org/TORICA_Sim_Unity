@@ -6,7 +6,7 @@ TORICA simulator(Made from BRSimulator https://github.com/mtkbirdman/BRSimulator
 
 # Requirement
 - Windows 11
-- Unity 2021.3.10f1
+- Unity 2021.3.45f1
 
 # Usage
 起動するとフライト設定画面になる。
@@ -19,5 +19,3 @@ https://polarized-pangolin-7b9.notion.site/1df9cd21ef598056a4c9f89eaf78941a
 
 # Author
 https://x.com/kimamaMan2005
-
-# [永田のメモ](nagata_memo/README.md)
