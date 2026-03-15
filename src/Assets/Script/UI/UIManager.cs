@@ -11,7 +11,7 @@ using UnityEngine.Events;　//UnityAction使うにはこれ忘れないように
 using UnityEngine.SceneManagement;
 
 
-public class UIManager : UIHelper
+public class UIManager : MonoBehaviour
 {
     [TextArea(5, 15)]
     [Tooltip("備忘録や仕様のメモなどを自由に書き込めます")]
@@ -24,14 +24,15 @@ public class UIManager : UIHelper
     private Canvas canvas;
 
     private GameObject basePanel;
+    private GameObject baseScrollView;
 
     private PreFlightScreen preFlight;
     private ResultScreen result;
 
-    private bool isPause = false; // 一時停止状態を示すフラグ.
-
 
     // ===== 画面管理 ===========================================
+    private bool isPause = false; // 一時停止状態を示すフラグ. ぜひ実装してほしい.
+
     public enum Screens
     {
         None, // 非表示.
@@ -45,65 +46,85 @@ public class UIManager : UIHelper
         PreFlightTest, // フライト前の設定画面.
     }
 
-    [System.NonSerialized] private Screens previousScreen = Screens.None; // 前回の画面状態を保存する変数.
     public static Screens screen = Screens.None;
+    private Screens previousScreen = Screens.None; // 前回の画面状態を保存する変数.
     // ==========================================================
 
 
     void Start()
     {
-        um = this.gameObject;
-        um.AddComponent<UIHelper>();
-        basePanel = GameObject.Find("BasePanel");
-        canvas = um.GetComponent<Canvas>();
+        um = this.gameObject; // このゲームオブジェクト，つまり`UIManager`を`um`に代入.
+
+        basePanel = GameObject.Find("BasePanel"); // `BasePanel`という名前のゲームオブジェクトを探して代入.
+        baseScrollView = GameObject.Find("BaseScrollView"); // `BaseScrollView`という名前のゲームオブジェクトを探して代入. これは遊びで作った.
+        // 設定項目が多いので，スクロールしてカテゴリーを超えて見れるようになったら嬉しい.
+        // 左端の列にカテゴリーを列挙し，スクロール位置でカテゴリーの文字をハイライトするのが理想.
+
+        basePanel.SetActive(false); // `BasePanel`を非アクティブにする.
+        baseScrollView.SetActive(false); // `BaseScrollView`を非アクティブにする.
+
+        canvas = um.GetComponent<Canvas>(); // `Canvas`コンポーネントを取得して代入.
         if (canvas == null)
         {
-            canvas = um.AddComponent<Canvas>();
+            canvas = um.AddComponent<Canvas>(); // `Canvas`コンポーネントがない場合は追加.
         }
-        if(um.GetComponent<CanvasScaler>() == null)
+        if(um.GetComponent<CanvasScaler>() == null) // `CanvasScaler`コンポーネントがない場合は追加.
         {
             CanvasScaler scaler = um.AddComponent<CanvasScaler>();
             scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
             scaler.referenceResolution = new Vector2(1920f, 1080f);
         }
 
-        canvas.enabled = true;
+        canvas.enabled = false; // 最初は画面を非表示にしておく.
 
-        preFlight = new(basePanel); // `PreFlightScreen`をインスタンス化.
+        preFlight = new(basePanel, baseScrollView); // `PreFlightScreen`をインスタンス化.
         result = new(basePanel, gm.Plane.GetComponent<Rigidbody>()); // `ResultScreen`をインスタンス化.
        
         screen = Screens.PreFlightTest;
-        // screen = Screens.Result;
     }
 
     void Update()
     {
         if (gm.FlightSettingActive)
         {
-            screen = Screens.PreFlightTest;
+            screen = Screens.None;
+            basePanel.SetActive(false); // `BasePanel`を非アクティブにする.
+            baseScrollView.SetActive(false); // `BaseScrollView`を非アクティブにする.
+            canvas.enabled = false;
+            /* テストコード.
+            screen = Screens.PreFlightTest; // 上から重ねて表示してるだけ. 通常使用するためには`Screens.None`.
+            basePanel.SetActive(true); // `Test`が必要なければ`false`.
+            baseScrollView.SetActive(true); // `Test`が必要なければ`false`.
+            canvas.enabled = true; // `Test`が必要なければ`false`.
+            */
         }
         else if (!gm.FlightSettingActive && !gm.Landing) // フライト中.
         {
             screen = Screens.InFlight;
+            basePanel.SetActive(false); // `BasePanel`を非アクティブにする.
+            baseScrollView.SetActive(false); // `BaseScrollView`を非アクティブにする.
             canvas.enabled = false;
         }
         else if (gm.Landing && screen == Screens.InFlight) // 着水.
         {
             canvas.enabled = true;
+            basePanel.SetActive(true); // `BasePanel`をアクティブにする.
+            baseScrollView.SetActive(false); // `BaseScrollView`を非アクティブにする.
             screen = Screens.ResultTwoGraphs;
         }
 
-        RefleshScreen();
+        RefleshScreen(); // 画面を更新.
     }
 
 
+    // ===== 画面を更新する関数 ===========================================
     public void RefleshScreen()
     {
         if (screen != previousScreen)
         {
             previousScreen = screen; // 現在の画面状態を保存.
 
-            DestroyAllChildren(basePanel); // `basePanel`上の全ての子オブジェクトを破棄.
+            UIBase.DisposeAll(); // `UIBase`の全てのインスタンスを破棄.
 
             switch (screen)
             {

@@ -6,10 +6,12 @@ using System;
 using System.Threading;
 using System.Timers;
 
-public class UIBase : IDisposable
+public abstract class UIBase : IDisposable // 抽象クラス. 直接インスタンス化できない. DynamicTextやDynamicSliderなどのUI要素の基底クラスとして機能する.
 {
-    // メインスレッドのコンテキストを保存するためのフィールド. これにより，UIの更新がメインスレッドで行われることを保証できる.
-    protected static SynchronizationContext _mainThreadContext = SynchronizationContext.Current;
+    protected static List<UIBase> _instances = new List<UIBase>(); // UIBaseを継承するクラスのインスタンスを管理するためのリスト.
+
+    // メインスレッドのコンテキスト（文脈）を保存するためのフィールド. これにより，UIの更新がメインスレッドで行われることを保証できる.
+    protected static SynchronizationContext _mainThreadContext = SynchronizationContext.Current; // 厳密には，初回ロード時のスレッドの文脈を保存.
 
     // デリゲートの定義.
     public delegate void Setter<T>(T value); // ジェネリックな`Setter`型の定義.
@@ -23,6 +25,7 @@ public class UIBase : IDisposable
     private static System.Timers.Timer _timer = new System.Timers.Timer(intervalMs) { AutoReset = true, Enabled = true };
     private static bool isTimerRegistered = false;
 
+
     protected UIBase()
     {
         if (!isTimerRegistered)
@@ -32,10 +35,21 @@ public class UIBase : IDisposable
         }
     }
 
-    public void Dispose()
+
+    public virtual void Dispose() { }
+
+
+    public static void DisposeAll()
     {
-        eventHandler = null;
+        // UIBaseを継承する全てのインスタンスを破棄するための静的メソッド.
+        foreach (var instance in _instances)
+        {
+            // Debug.Log("Disposed instance: " + instance);
+            instance.Dispose();
+        }
+        _instances.Clear();
     }
+
 
     // UIBaseを継承する全てのClassで使用可能なプロパティ.
     public GameObject gameObject { get; set; }

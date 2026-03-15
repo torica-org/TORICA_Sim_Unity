@@ -47,7 +47,7 @@ tau,1,,,,,,,,
 zf,0.5,,,,,,,,
 VF,0.005019455,,,,,,,,
 drMAX,10,,,,,,,,";
-    // ===== ================================ =====
+// ================================================
 
 
     private string path = Path.Combine(Directory.GetParent(Application.dataPath).FullName, "CustomPlaneData.csv");
@@ -57,6 +57,10 @@ drMAX,10,,,,,,,,";
         if (!File.Exists(path))
         {
             File.WriteAllText(path, CustomPlaneData);
+        }
+        else
+        {
+            Debug.LogWarning("File already exists: " + path);
         }
     }
 }

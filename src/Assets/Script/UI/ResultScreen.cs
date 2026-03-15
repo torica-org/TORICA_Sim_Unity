@@ -31,16 +31,9 @@ public class ResultScreen
             SceneManager.LoadScene("FlightScene"); // `FlightScene`を再読み込み
         };
 
-        /* フリーズした
-        RectTransform sliderTest = NewSliderRect(basePanel, "SliderTest", ref gm.massLeftFactor, 0.0f, 1.0f, 0.5f);
-        sliderTest.anchoredPosition = new Vector2(30, 200);
-
-        RectTransform dynamicText = NewDynamicFloatTextRect(basePanel, "TextDist", ref gm.massLeftFactor, 150.0f);
-        dynamicText.anchoredPosition = new Vector2(0, 200);
-        */
-
         // `>`ボタンの生成
         ActionButton buttonChangePageRight = new(basePanel, "ButtonChangePageRight", ">", 50.0f, OnClickChangePage);
+        GameObject buttonObj = buttonChangePageRight.gameObject;
         RectTransform buttonChangePageRightRect = buttonChangePageRight.rectTransform;
         buttonChangePageRightRect.anchorMin = new Vector2(1f, 0.5f); // アンカーの最小値
         buttonChangePageRightRect.anchorMax = new Vector2(1f, 0.5f); // アンカーの最大値
@@ -63,7 +56,8 @@ public class ResultScreen
         float Distance = (PlaneRigidbody.position - GameManager.instance.PlatformPosition).magnitude;
         if (GameManager.instance.FlightMode == "BirdmanRally") Distance -= 10f;
         string dist = Distance.ToString("0.000") + " m";
-        StaticText textDist = new(basePanel, "TextDist", dist, 150.0f);
+        StaticText<string> textDist = new(basePanel, "TextDist", dist, 150.0f);
+        GameObject textObj = textDist.gameObject;
         RectTransform textDistRect = textDist.rectTransform;
         textDistRect.anchorMin = new Vector2(0.05f, 0.75f); // アンカーの最小値
         textDistRect.anchorMax = new Vector2(0.5f, 0.75f); // アンカーの最大値
@@ -130,6 +124,7 @@ public class ResultScreen
 
         // 左上のグラフの生成
         Chart airdataChart1 = new(basePanel, "ChartPitchAlpha", "ピッチ(theta)", gm.ThetaList, "迎角(alpha)", gm.AlphaList);
+        GameObject chartObj = airdataChart1.gameObject;
         RectTransform AirdataChart1Rect = airdataChart1.rectTransform;
         AirdataChart1Rect.anchorMin = new Vector2(0.05f, 0.51f); // アンカーの最小値
         AirdataChart1Rect.anchorMax = new Vector2(0.49f, 0.99f); // アンカーの最大値

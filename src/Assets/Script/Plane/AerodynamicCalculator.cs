@@ -180,10 +180,10 @@ public class AerodynamicCalculator : SerialReceive
 
         //設計データ読み込み用
         // fileName = gm.PlaneName + ".csv";
-        customCsvPath = gm.PlaneName + ".csv";
+        // customCsvPath = gm.PlaneName + ".csv";
         // customCsvPath = Path.Combine(Directory.GetParent(Application.dataPath).FullName, "CustomPlaneData.csv");
-        Debug.Log("File path: " + customCsvPath);
-        ReadFile();
+        // Debug.Log("File path: " + customCsvPath);
+        // ReadFile();
         
         
         // Input Specifications
@@ -1089,7 +1089,7 @@ public class AerodynamicCalculator : SerialReceive
             aircraftCenterOfMass = -0.25f;//機体のみ全重心(パイロットなし,ピッチのみ)[m]
             aircraftMass = 48;//機体のみ全重量[kg]
         }
-        
+        /*
         if (CanReadCsv)
         {//CSVファイルが読み込まれた場合は優先的にそちらのデータを利用
             try
@@ -1165,6 +1165,7 @@ public class AerodynamicCalculator : SerialReceive
                 GameManager.instance.errorText = "CSVファイルに不備があります。Dataフォルダ内のCSVファイルを確認するか、\n内蔵データを使用する為にそれを削除してください。";
             }
         }
+        */
 
         CsvData csvData = new();
         csvData.MakeCustomPlaneDataFile();
@@ -1251,13 +1252,16 @@ public class AerodynamicCalculator : SerialReceive
         }
 
     }
+    /*
     void WriteFile(string txt) {
         FileInfo fi = new FileInfo(customCsvPath);
         using (StreamWriter sw = fi.AppendText()) {
             sw.WriteLine(txt);
         }
     }
+    */
 
+    /*
     void ReadFile()
     {
         customCsvPath = Application.dataPath + "/" + fileName;
@@ -1291,13 +1295,13 @@ public class AerodynamicCalculator : SerialReceive
                     CsvList.Add(new List<string>(values));
                 }
                 CanReadCsv = true;
-                /*//デバッグ用
+                //デバッグ用
                 for(int ii=0;ii<10;ii++){
                     for(int jj=0;jj<38;jj++){
                         Debug.Log(CsvList[jj][ii]);
                     }
                 }
-                */
+                
             }
         }
         catch (Exception e)
@@ -1305,6 +1309,7 @@ public class AerodynamicCalculator : SerialReceive
             Debug.LogWarning("Error reading CSV: " + e);
         }
     }
+    */
 
     public virtual void FlightModelStart(){}
 
