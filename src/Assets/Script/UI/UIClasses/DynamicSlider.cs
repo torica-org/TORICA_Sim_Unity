@@ -8,6 +8,11 @@ using System.Timers;
 using UnityEngine.UI;
 
 
+// ===== 概要 =========================
+// 特定の変数に関するセッターとゲッターを渡してインスタンス化する.
+// 変数の値が変化したときにゲッターを介してスライダーの値を更新し，スライダーの値が変化したときにセッターを介して変数を更新する.
+
+
 // ===== 使い方 =========================
 // ---------------------------------------------------------------------------------------------------------------------------------------------
 // DynamicSlider slider = new(basePanel, "SliderTest", (x) => { gm.massRightFactor = x; }, () => { return gm.massRightFactor; }, 0.0f, 1.0f, 0.1f);
@@ -37,17 +42,27 @@ public sealed class DynamicSlider : UIBase
 
 
     public DynamicSlider(GameObject parent, string objectName, Setter<float> setter, Getter<float> getter, 
-        float minVal, float maxVal, float step = 0.0f) : base() // `base()`を呼び出して`UIBase`のコンストラクタも実行.
+        float minVal, float maxVal, float step = 0.0f)
     {
-        gameObject = UIHelper.NewSliderObj(parent, objectName, minVal, maxVal, getter()); // スライダーを生成し，生成されたオブジェクトを保持.
-        rectTransform = gameObject.GetComponent<RectTransform>(); // RectTransformを取得.
-        _slider = gameObject.GetComponent<Slider>(); // スライダーコンポーネントを取得.
-
         _setter = setter ?? throw new ArgumentNullException(nameof(setter)); // セッターとゲッターがnullでないことを確認し，フィールドに保存.
         _getter = getter ?? throw new ArgumentNullException(nameof(getter));
-        _last = _getter();
 
-        _step = step;
+        _step = step; // ステップを保存.
+
+        _last = _getter(); // 初期値を取得して保存.
+
+        // 生成時に直接親キャンバスを指定
+        gameObject = UnityEngine.Object.Instantiate(DefaultSlider, parent.transform, false);
+
+        // その他の設定
+        gameObject.name = objectName;
+
+        _slider = gameObject.GetComponent<Slider>(); // スライダーコンポーネントを取得.
+        _slider.minValue = minVal;
+        _slider.maxValue = maxVal;
+        _slider.value = _last;
+
+        rectTransform = gameObject.GetComponent<RectTransform>(); // RectTransformを取得.
 
         eventHandler += OnTimerEvent; // タイマーイベントが発生したときの処理.
 

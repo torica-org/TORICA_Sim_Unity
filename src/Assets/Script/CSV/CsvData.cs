@@ -4,6 +4,8 @@ using UnityEngine;
 
 using System.IO; // ファイル入出力
 
+// これは，CustomPlaneData.csv の初回生成用スクリプトです.
+
 public class CsvData
 {
 

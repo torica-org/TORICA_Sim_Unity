@@ -87,16 +87,18 @@ public class UIManager : MonoBehaviour
     {
         if (gm.FlightSettingActive)
         {
+            /*
             screen = Screens.None;
             basePanel.SetActive(false); // `BasePanel`を非アクティブにする.
             baseScrollView.SetActive(false); // `BaseScrollView`を非アクティブにする.
             canvas.enabled = false;
-            /* テストコード.
+            */
+            // テストコード.
             screen = Screens.PreFlightTest; // 上から重ねて表示してるだけ. 通常使用するためには`Screens.None`.
             basePanel.SetActive(true); // `Test`が必要なければ`false`.
             baseScrollView.SetActive(true); // `Test`が必要なければ`false`.
             canvas.enabled = true; // `Test`が必要なければ`false`.
-            */
+            
         }
         else if (!gm.FlightSettingActive && !gm.Landing) // フライト中.
         {

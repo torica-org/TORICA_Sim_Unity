@@ -5,6 +5,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+// ===== 概要 =========================
+// 任意の型の値を表示する静的テキストを生成する.
+
+
 // ===== 使い方 =========================
 // ---------------------------------------------------------------------------
 // string dist = Distance.ToString("0.000") + " m";
@@ -21,10 +25,22 @@ using TMPro;
 // ===== 静的テキストを生成するクラス ========================================================
 public class StaticText<T> : UIBase
 {
-    public StaticText(GameObject parent, string objectName, T displayContent, float fontSize) : base() // `base()`を呼び出して`UIBase`のコンストラクタも実行.
+    public StaticText(GameObject parent, string objectName, T displayContent, float fontSize = 0.0f)
     {
-        gameObject = UIHelper.NewTextObj(parent, objectName, fontSize); // 静的テキストを生成し，生成されたオブジェクトを保持.
-        gameObject.GetComponent<TextMeshProUGUI>().text = UIHelper.Formatter(displayContent); // テキストを設定.
+        // 生成時に直接親キャンバスを指定
+        gameObject = UnityEngine.Object.Instantiate(DefaultText, parent.transform, false);
+
+        // その他の設定
+        gameObject.name = objectName;
+        TextMeshProUGUI textTmp = gameObject.GetComponent<TextMeshProUGUI>();
+        textTmp.enableAutoSizing = false;
+        if (fontSize > 0.0f) // フォントサイズが0以下の場合はデフォルトのサイズを使用する
+        {
+            textTmp.fontSize = fontSize;
+        }
+        textTmp.alignment = TextAlignmentOptions.Center; // 中央寄せ
+        textTmp.text = Formatter(displayContent); // テキストを設定.
+
         rectTransform = gameObject.GetComponent<RectTransform>(); // RectTransformを取得.
 
         _instances.Add(this); // インスタンスをリストに追加.
