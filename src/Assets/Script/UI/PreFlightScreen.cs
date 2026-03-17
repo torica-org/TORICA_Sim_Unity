@@ -24,15 +24,32 @@ public class PreFlightScreen
         // `Layout Group`がないと上手く動かないっぽい.
     }
 
+    private List<string> categories = new List<string> { "機体設定", "環境設定", "その他" };
+
     public void Test()
     {
-        StaticText<string> staticText = new(basePanel, "StaticTextTest", "カテゴリー", 25.0f);
-        staticText.rectTransform.anchoredPosition = new Vector2(-500, 300);
+        StaticText<string> staticText = new(basePanel, "StaticTextTest", "カテゴリー");
+        RectTransform staticRect = staticText.rectTransform;
+        staticRect.anchoredPosition = new Vector2(0, -50);
+        staticRect.localScale = new Vector3(3, 3, 1); // テキストのサイズを変更する
+        staticRect.anchorMin = new Vector2(0, 0.5f); // アンカーの最小値
+        staticRect.anchorMax = new Vector2(0, 0.5f); // アンカーの最大値
+        staticRect.pivot = new Vector2(0, 0.5f); // ピボット（ボタン自身の基準点）
 
-        DynamicText<float> dynamicText = new(scrollContent, "TextDistUpper", () => { return gm.massLeftFactor; }, 50.0f);
+        DynamicText<float> dynamicText = new(scrollContent, "TextDistUpper", () => { return gm.massLeftFactor; });
         GameObject textObj = dynamicText.gameObject;
         RectTransform textRect = dynamicText.rectTransform;
-        textRect.anchoredPosition = new Vector2(-200, 200);
+        textRect.localScale = new Vector3(3, 3, 1); // テキストのサイズを変更する
+        textRect.anchorMin = new Vector2(0, 0); // アンカーの最小値
+        textRect.anchorMax = new Vector2(0, 0); // アンカーの最大値
+        textRect.pivot = new Vector2(0, 0); // ピボット（ボタン自身の基準点）
+        textRect.anchoredPosition = new Vector2(0, 0);
+
+        DynamicDropdown dynamicDropdown = new(scrollContent, "DropdownTest", categories, (x) => { Debug.Log("Selected: " + x); });
+        RectTransform dpdnRect = dynamicDropdown.rectTransform;
+        dpdnRect.anchoredPosition = new Vector2(0, -100);
+        dpdnRect.localScale = new Vector3(3, 3, 1); // ドロップダウンのサイズを変更する
+        dpdnRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 300); // RectTransformのx軸方向のサイズを変更する
 
         DynamicSlider slider = new(scrollContent, "SliderTestUpper", 
             (x) => { gm.massLeftFactor = x; }, () => { return gm.massLeftFactor; }, 0.0f, 1.0f, 0.1f);

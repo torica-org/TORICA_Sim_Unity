@@ -2,6 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using System.Threading; // 並列処理のために必要
+using System.Threading.Tasks; // `Task`型を使用するために必要
+using XCharts.Runtime; // XChartを使うために必要
+
+
+// ===== 概要 ========================================
+// データリストとデータ系列名を渡してインスタンス化し，グラフを生成する.
+// 実際のグラフの描写処理は`XChartManager`クラスに任せる（`SetChartData`メソッド内で呼び出す）.
 
 // ===== 使い方 ========================================
 // ----------------------------------------------------------------------------------------------------------------------------------------------
@@ -23,13 +31,47 @@ public class Chart : UIBase
 {
     public Chart(GameObject parent, string objectName, 
         string name1, List<float> list1, 
-        string name2 = null, List<float> list2 = null) : base() // `base()`を呼び出して`UIBase`のコンストラクタも実行.
+        string name2 = null, List<float> list2 = null)
     {
-        gameObject = UIHelper.NewChartObj(parent, objectName, 
-            name1, list1, name2, list2); // エアデータチャートを生成し，生成されたオブジェクトを保持.
+        CanvasGroup cg = AirdataChart.GetComponent<CanvasGroup>();
+        if (!cg)
+        {
+            cg = AirdataChart.AddComponent<CanvasGroup>();
+        }
+        cg.alpha = 0; // 透明度を0（透明）に.
+
+        gameObject = UnityEngine.Object.Instantiate(AirdataChart, parent.transform, false); // 生成時に直接親キャンバスを指定.
+        gameObject.name = objectName;
+
+        SetChartData(gameObject, name1, list1, name2, list2);
+
         rectTransform = gameObject.GetComponent<RectTransform>(); // RectTransformを取得.
 
         _instances.Add(this); // インスタンスをリストに追加.
+    }
+
+
+    private async void SetChartData(GameObject chartObj, string name1, List<float> list1, string name2, List<float> list2) // グラフの描写処理は非同期的に行う（安定化のため）
+    {
+        if (!chartObj) return;
+
+        using (XChartManager cm = new XChartManager(chartObj.transform.Find("LineChart").GetComponent<LineChart>())) // インスタンスはこの`using`ブロック内でのみ有効
+        {
+            cm.CreateChart(name1, list1, name2, list2);
+        }
+        ; // `using`ブロックを出ると，インスタンスは安全に破棄される
+
+        CanvasGroup cg = chartObj.GetComponent<CanvasGroup>();
+
+        while (cg.alpha < 1 && cg != null)
+        {
+            await Task.Delay(10); // 0.01秒待機
+            if (!cg)
+            {
+                break;
+            }
+            cg.alpha += 0.05f; // フェードイン（サイズ設定が遅れ，画面が白くフラッシュする対策として実装．かなりそれっぽい．）.
+        }
     }
 
 

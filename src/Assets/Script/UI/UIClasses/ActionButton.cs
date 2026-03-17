@@ -3,6 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using UnityEngine.Events; //UnityAction使うにはこれ忘れないように
+using UnityEngine.UI;
+using TMPro;
+
+
+// ===== 概要 ======================================
+// クリックイベント付きのボタンを生成する.
+// インスタンス化の際に，クリックイベントのコールバック関数を渡す.
 
 
 // ===== 使い方 ======================================
@@ -23,10 +30,32 @@ using UnityEngine.Events; //UnityAction使うにはこれ忘れないように
 // ===== クリックイベント付きのボタンを生成するクラス =====================================================
 public class ActionButton : UIBase
 {
-    public ActionButton(GameObject parent, string objectName, string displayContent, 
-        float fontSize, UnityAction callback) : base() // `base()`を呼び出して`UIBase`のコンストラクタも実行.
+    public ActionButton(GameObject parent, string objectName, string displayContent, UnityAction callback) // オーバーロード.
+        : this(parent, objectName, displayContent, 0.0f, callback) // フォントサイズのデフォルト値を0.0fに設定
     {
-        gameObject = UIHelper.NewButtonObj(parent, objectName, displayContent, fontSize, callback); // ボタンを生成し，生成されたオブジェクトを保持.
+        // フォントサイズを指定しない場合は、0.0fを渡してもう一つのコンストラクタを呼び出す.
+    }
+
+    public ActionButton(GameObject parent, string objectName, string displayContent, float fontSize, UnityAction callback)
+    {
+        // 生成時に直接親キャンバスを指定
+        gameObject = UnityEngine.Object.Instantiate(DefaultButton, parent.transform, false);
+
+        // その他の設定
+        gameObject.name = objectName;
+        TextMeshProUGUI btnTmp = gameObject.transform.Find("Text").gameObject.GetComponent<TextMeshProUGUI>();
+        btnTmp.text = displayContent;
+        btnTmp.enableAutoSizing = false;
+
+        if (fontSize > 0.0f) // フォントサイズが0以下の場合はデフォルトのサイズを使用する
+        {
+            btnTmp.fontSize = fontSize;
+        }
+
+        // クリックイベントを付与
+        // コールバックはデリゲート(Unity Action)により取得
+        gameObject.GetComponent<Button>().onClick.AddListener(callback);
+
         rectTransform = gameObject.GetComponent<RectTransform>(); // RectTransformを取得.
 
         _instances.Add(this); // インスタンスをリストに追加.
