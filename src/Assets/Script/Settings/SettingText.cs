@@ -31,7 +31,7 @@ public class SettingText : MonoBehaviour
         scoreText.text = "\n";
         scoreText.text += GameManager.instance.FlightMode+"\n\n";
 
-        if(GameManager.instance.CameraSwitch){
+        if(GameManager.instance.isMainDisplayTPS){
             scoreText.text += "FPS"+"\n\n";
         }else{
             scoreText.text += "TPS"+"\n\n";

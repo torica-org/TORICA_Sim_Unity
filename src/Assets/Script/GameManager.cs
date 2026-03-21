@@ -12,7 +12,9 @@ public class GameManager : MonoBehaviour
     [System.NonSerialized] public bool HorizontalLineActive = false;//水平赤線を有効にしているか否か
     [System.NonSerialized] public bool SettingActive = false;//ゲーム設定の表示
     [System.NonSerialized] public bool FlightSettingActive = false;//フライト設定の表示
-    [System.NonSerialized] public bool CameraSwitch = true; // true:FPS false:TPS
+
+    [System.NonSerialized] public bool isMainDisplayTPS = true; // true:FPS false:TPS
+
     [System.NonSerialized] public bool SettingChanged = false;//設定変更
     [System.NonSerialized] public bool MousePitchControl = false;//マウス操作の可否
     [System.NonSerialized] public bool RandomWind = false;//ランダム風の可否

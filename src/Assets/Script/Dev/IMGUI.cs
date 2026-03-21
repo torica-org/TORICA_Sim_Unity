@@ -10,9 +10,16 @@ public class IMGUI : MonoBehaviour
     [Tooltip("備忘録や仕様のメモなどを自由に書き込めます")]
     public string note = "IMGUIはデバッグ用のボタンを実装する仕組みです．";
 
+    private GameManager gm = GameManager.instance;
 
     void OnGUI()
     {
+        if (GUI.Button(new Rect(10, 10, 100, 50), "VRMode"))
+        {
+            gm.VRMode = !gm.VRMode;
+        }
+
+        /*
         if (GUI.Button(new Rect(10, 10, 100, 50), "Write CSV"))
         {
             using (CsvIO csv = new CsvIO(50, 20))
@@ -32,6 +39,8 @@ public class IMGUI : MonoBehaviour
                 print(csv.Read(2, 1));
             }
         }
+        */
     }
+
 
 }

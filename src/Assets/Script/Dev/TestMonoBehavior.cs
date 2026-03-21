@@ -4,7 +4,41 @@ using UnityEngine;
 
 public class TestMonoBehavior : MonoBehaviour
 {
+    
+    private ManualXRControl manualXRControl = new(); // VR制御用クラスを保持するフィールド
 
+    private bool isVRInitialized = false; // VRが初期化されたかどうかを示すフラグ
+
+    void Update()
+    {
+        if (!isVRInitialized)
+        {
+            isVRInitialized = true;
+            StartCoroutine(manualXRControl.StartXRCoroutine());
+        }
+    }
+    void OnDestroy()
+    {
+        // オブジェクトが破棄される際にVRを停止する.
+        if (isVRInitialized)
+        {
+            isVRInitialized = false;
+            manualXRControl.StopXR();
+        }
+    }
+
+
+    void OnApplicationQuit()
+    {
+        // アプリケーションが終了する際にVRを停止する.
+        if (isVRInitialized)
+        {
+            isVRInitialized = false;
+            manualXRControl.StopXR();
+        }
+    }
+
+    /*
     private float a = 1.0f;
     private object b = null;
     private float c = 0.0f;
@@ -47,6 +81,7 @@ public class TestMonoBehavior : MonoBehaviour
             Debug.Log("a: " + a + "\tb: " + b);
         }
     }
+    */
 
 }
 /*

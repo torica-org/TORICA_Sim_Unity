@@ -15,3 +15,11 @@ PICO Accountが必要．電装班のものがある．
 ## Unityで必要な設定
 ### OpenVR Plagin
 ### (任意)XR Interaction Toolkit
+
+## PICO Unity OpenXR SDK
+https://developer.picoxr.com/document/unity-openxr/import-the-pico-unity-openxr-sdk/
+
+## Project Settings
+- `XR Plug-in Managemant` > `OpenXR` > `OpenXR Feature Groups`で，
+`Mock Runtime`にチェックが入っているとVRは起動しない．
+  ![](img/Mock_Runtime.png)

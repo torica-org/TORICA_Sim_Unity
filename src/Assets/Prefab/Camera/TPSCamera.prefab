@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3366422556700431777}
   - component: {fileID: 3366422556700431776}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: Trail Renderer
   m_TagString: Untagged
   m_Icon: {fileID: 0}

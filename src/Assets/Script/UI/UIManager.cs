@@ -17,7 +17,7 @@ public class UIManager : MonoBehaviour
     [Tooltip("備忘録や仕様のメモなどを自由に書き込めます")]
     public string note = "BasePanelにボタンやXChartをInstantiateして，UIを組み立てる方式です．" +
     "ページが切り替わっている用に見えて，同じPanel上で組み立て直しています．" +
-    "`UIHelper.cs`にUI作成用のヘルパー関数があります．";
+    "`UIClasses`にUI作成用のヘルパークラスがあります．";
 
     private GameManager gm = GameManager.instance;
     private GameObject um;
