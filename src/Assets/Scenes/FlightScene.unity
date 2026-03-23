@@ -6954,7 +6954,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &127552180
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23293,7 +23293,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.81004}
+  m_AnchoredPosition: {x: 0, y: -0.8100395}
   m_SizeDelta: {x: 0, y: 5.5344}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &546602361
@@ -24260,7 +24260,7 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 0
-  m_Camera: {fileID: 0}
+  m_Camera: {fileID: 3366422557707801304, guid: f74420a975c5337429c7fb2e2321899d, type: 3}
   m_PlaneDistance: 0.012
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -32619,7 +32619,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 761511437}
-  - component: {fileID: 761511436}
   - component: {fileID: 761511438}
   - component: {fileID: 761511440}
   - component: {fileID: 761511441}
@@ -32641,18 +32640,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &761511436
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 761511435}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb942412e666d9b43bf19ae37420cfa7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &761511437
 Transform:
   m_ObjectHideFlags: 0
@@ -37470,7 +37457,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 911646578}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e988983f96fe1dd48800bcdfc82f23e9, type: 3}
   m_Name: 
@@ -37617,7 +37604,7 @@ LineRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 911646578}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -42416,7 +42403,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1789090435}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.48
+  m_Size: 0.47999996
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -54621,6 +54608,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   note: "BasePanel\u306B\u30DC\u30BF\u30F3\u3084XChart\u3092Instantiate\u3057\u3066\uFF0CUI\u3092\u7D44\u307F\u7ACB\u3066\u308B\u65B9\u5F0F\u3067\u3059\uFF0E\u30DA\u30FC\u30B8\u304C\u5207\u308A\u66FF\u308F\u3063\u3066\u3044\u308B\u7528\u306B\u898B\u3048\u3066\uFF0C\u540C\u3058Panel\u4E0A\u3067\u7D44\u307F\u7ACB\u3066\u76F4\u3057\u3066\u3044\u307E\u3059\uFF0E`UIHelper.cs`\u306BUI\u4F5C\u6210\u7528\u306E\u30D8\u30EB\u30D1\u30FC\u95A2\u6570\u304C\u3042\u308A\u307E\u3059\uFF0E"
+  screen: 0
 --- !u!1001 &1361203380
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -58953,7 +58941,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1455994260}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -58962,7 +58950,7 @@ Transform:
   - {fileID: 1663862877}
   m_Father: {fileID: 0}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1 &1457256111
 GameObject:
   m_ObjectHideFlags: 0
@@ -63346,7 +63334,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1579378281}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e988983f96fe1dd48800bcdfc82f23e9, type: 3}
   m_Name: 
@@ -63493,7 +63481,7 @@ LineRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1579378281}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -82014,7 +82002,7 @@ Camera:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2013916915}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_ClearFlags: 1
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
@@ -82038,7 +82026,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 55
+    m_Bits: 23
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0

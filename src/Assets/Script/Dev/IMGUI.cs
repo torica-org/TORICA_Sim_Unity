@@ -14,9 +14,14 @@ public class IMGUI : MonoBehaviour
 
     void OnGUI()
     {
-        if (GUI.Button(new Rect(10, 10, 100, 50), "VRMode"))
+        if (GUI.Button(new Rect(10, 10, 300, 150), "VRMode"))
         {
             gm.VRMode = !gm.VRMode;
+        }
+
+        if (GUI.Button(new Rect(10, 210, 300, 150), "CaribrateVR"))
+        {
+                CameraManager.CaribrateVR();    
         }
 
         /*

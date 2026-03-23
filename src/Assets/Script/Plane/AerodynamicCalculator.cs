@@ -124,7 +124,9 @@ public class AerodynamicCalculator : SerialReceive
     static public float lengthBackward;//フレーム後方(フレームの端)から桁(原点)位置[m]
     static public float aircraftCenterOfMass;//機体のみ全重心(パイロットなし,ピッチのみ)[m]
     static public float aircraftMass;//機体のみ全重量[kg]
+
     static public float pilotMass;//設計上のパイロット重量[kg]
+
     //static protected float SensorPositionY = 0.645f;//桁中心から垂直に線を超音波センサーの位置までおろした時の線の長さ[m]
     //static protected float SensorPositionZ = 0.0f;//↑の到達点から超音波センサーまでの長さ[m]
     //static protected float AircraftHight = 0.74f;//プラホからコクピ下部までの長さ[m]
@@ -407,6 +409,16 @@ public class AerodynamicCalculator : SerialReceive
             else if(gm.RudderErrorMode == 3){
                 dr += gm.RudderErrorValue*drMAX;
             }
+        }
+
+        if (gm.VRMode)
+        {
+            pilotMass = 68.0f; // [kg]
+
+            pilotCenterOfG = CameraManager.GetZAxisMovement(); // パイロット重心は直接取得できる.
+
+            // 桁中心モーメントについて，（パイロット体重と空虚重量〈パイロットなしの機体重量〉によるモーメント）＝（全備重量によるモーメント）とし，その両辺を全備重量で割った式
+            centerOfG = (pilotMass * pilotCenterOfG + aircraftMass * aircraftCenterOfMass) / (pilotMass + aircraftMass);
         }
     }
     

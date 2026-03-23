@@ -10,7 +10,6 @@ using TMPro;
 using UnityEngine.Events;　//UnityAction使うにはこれ忘れないように
 using UnityEngine.SceneManagement;
 
-
 public class UIManager : MonoBehaviour
 {
     [TextArea(5, 15)]
@@ -19,8 +18,10 @@ public class UIManager : MonoBehaviour
     "ページが切り替わっている用に見えて，同じPanel上で組み立て直しています．" +
     "`UIClasses`にUI作成用のヘルパークラスがあります．";
 
-    private GameManager gm = GameManager.instance;
-    private GameObject um;
+    public static UIManager instance = null; // シングルトンパターンのインスタンス.
+
+    private GameManager gm;
+    private GameObject ui;
     private Canvas canvas;
 
     private GameObject basePanel;
@@ -28,7 +29,6 @@ public class UIManager : MonoBehaviour
 
     private PreFlightScreen preFlight;
     private ResultScreen result;
-
 
     // ===== 画面管理 ===========================================
     private bool isPause = false; // 一時停止状態を示すフラグ. ぜひ実装してほしい.
@@ -44,16 +44,17 @@ public class UIManager : MonoBehaviour
 
         // ===== PreFlightScreenのページ. =====
         PreFlightTest, // フライト前の設定画面.
+        PreFlightVRSettings, // VRの設定画面.
     }
 
-    public static Screens screen = Screens.None;
+    public Screens screen = Screens.None;
     private Screens previousScreen = Screens.None; // 前回の画面状態を保存する変数.
     // ==========================================================
 
-
     void Start()
     {
-        um = this.gameObject; // このゲームオブジェクト，つまり`UIManager`を`um`に代入.
+        gm = GameManager.instance; // `GameManager`のインスタンスを取得して代入.
+        ui = this.gameObject; // このゲームオブジェクト，つまり`UIManager`を`ui`に代入.
 
         basePanel = GameObject.Find("BasePanel"); // `BasePanel`という名前のゲームオブジェクトを探して代入.
         baseScrollView = GameObject.Find("BaseScrollView"); // `BaseScrollView`という名前のゲームオブジェクトを探して代入. これは遊びで作った.
@@ -63,23 +64,26 @@ public class UIManager : MonoBehaviour
         basePanel.SetActive(false); // `BasePanel`を非アクティブにする.
         baseScrollView.SetActive(false); // `BaseScrollView`を非アクティブにする.
 
-        canvas = um.GetComponent<Canvas>(); // `Canvas`コンポーネントを取得して代入.
+        canvas = ui.GetComponent<Canvas>(); // `Canvas`コンポーネントを取得して代入.
         if (canvas == null)
         {
-            canvas = um.AddComponent<Canvas>(); // `Canvas`コンポーネントがない場合は追加.
+            canvas = ui.AddComponent<Canvas>(); // `Canvas`コンポーネントがない場合は追加.
         }
-        if(um.GetComponent<CanvasScaler>() == null) // `CanvasScaler`コンポーネントがない場合は追加.
+        if (ui.GetComponent<CanvasScaler>() == null) // `CanvasScaler`コンポーネントがない場合は追加.
         {
-            CanvasScaler scaler = um.AddComponent<CanvasScaler>();
+            CanvasScaler scaler = ui.AddComponent<CanvasScaler>();
             scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
             scaler.referenceResolution = new Vector2(1920f, 1080f);
         }
 
+        // VRのInputModuleを回避する目的.
+        //canvas.renderMode = RenderMode.ScreenSpaceCamera; // `Canvas`の`renderMode`を`ScreenSpaceCamera`に設定.
+
         canvas.enabled = false; // 最初は画面を非表示にしておく.
 
         preFlight = new(basePanel, baseScrollView); // `PreFlightScreen`をインスタンス化.
-        result = new(basePanel, gm.Plane.GetComponent<Rigidbody>()); // `ResultScreen`をインスタンス化.
-       
+        result = new(basePanel); // `ResultScreen`をインスタンス化.
+
         screen = Screens.PreFlightTest;
     }
 
@@ -94,11 +98,16 @@ public class UIManager : MonoBehaviour
             canvas.enabled = false;
             */
             // テストコード.
+            /*
             screen = Screens.PreFlightTest; // 上から重ねて表示してるだけ. 通常使用するためには`Screens.None`.
             basePanel.SetActive(true); // `Test`が必要なければ`false`.
             baseScrollView.SetActive(true); // `Test`が必要なければ`false`.
             canvas.enabled = true; // `Test`が必要なければ`false`.
-            
+            */
+            screen = Screens.PreFlightVRSettings;
+            basePanel.SetActive(false);
+            baseScrollView.SetActive(false);
+            canvas.enabled = true;
         }
         else if (!gm.FlightSettingActive && !gm.Landing) // フライト中.
         {
@@ -118,6 +127,11 @@ public class UIManager : MonoBehaviour
         RefleshScreen(); // 画面を更新.
     }
 
+    // ===== RenderCameraを設定する関数 ===========================================
+    public void SetRenderCamera(Camera cam)
+    {
+        canvas.worldCamera = cam; // `Canvas`の`worldCamera`を引数のカメラに設定.
+    }
 
     // ===== 画面を更新する関数 ===========================================
     public void RefleshScreen()
@@ -132,22 +146,39 @@ public class UIManager : MonoBehaviour
             {
                 case Screens.InFlight:
                     break;
+
                 case Screens.ResultTwoGraphs:
                     result.ShowResultTwoGraphs();
                     break;
+
                 case Screens.ResultFourGraphs:
                     result.ShowResultFourGraphs();
                     break;
+
                 case Screens.PreFlightTest:
                     preFlight.Test();
                     break;
+
+                case Screens.PreFlightVRSettings:
+                    preFlight.VRSettings();
+                    break;
+
                 default:
                     break;
             } // switch (screen)
-
         } // if (isScreenChanged)
-
     } // RefleshScreen()
 
-
+    void Awake()
+    {
+        if (instance == null) // シングルトンのインスタンスが存在しない場合は、現在のインスタンスを割り当てる.
+        {
+            instance = this;
+            DontDestroyOnLoad(this.gameObject); // このゲームオブジェクトをシーンが切り替わっても破棄されないようにする.
+        }
+        else
+        {
+            Destroy(this.gameObject); // シングルトンのインスタンスが既に存在する場合は、現在のゲームオブジェクトを破棄する.
+        }
+    }
 }

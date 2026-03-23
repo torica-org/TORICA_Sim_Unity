@@ -6,10 +6,12 @@ using System.IO;
 
 public class AirData : MonoBehaviour
 {
+    private GameManager gm;
+
     private AerodynamicCalculator script;//AerodynamicCalculatorスクリプトにアクセスするための変数
     private Rigidbody PlaneRigidbody;
     [System.NonSerialized] public decimal frameNumber;//インターバル管理用、0.02秒に1値が増加する
-    [System.NonSerialized] public decimal interval=0.1m;//リストに追加する間隔[s]
+    [System.NonSerialized] public decimal interval = 0.1m;//リストに追加する間隔[s]
     [System.NonSerialized] public int ListNumber;//リストの要素番号
 
     private float time;
@@ -20,6 +22,7 @@ public class AirData : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        gm = GameManager.instance;
         script = GameManager.instance.Plane.GetComponent<AerodynamicCalculator>();
         PlaneRigidbody = GameManager.instance.Plane.GetComponent<Rigidbody>();
 
@@ -31,7 +34,8 @@ public class AirData : MonoBehaviour
         GameManager.instance.PhiList.Clear();
         GameManager.instance.CenterOfGList.Clear();
         GameManager.instance.drList.Clear();
-        
+        gm.Distance = 0.0f;
+
         SaveCsvScript = this.GetComponent<SaveCsvScript>();
     }
 
@@ -64,12 +68,17 @@ public class AirData : MonoBehaviour
         GameManager.instance.CenterOfGList.Add((float)Math.Round(script.centerOfG, 2, MidpointRounding.AwayFromZero));
         GameManager.instance.drList.Add((float)Math.Round(script.dr, 2, MidpointRounding.AwayFromZero));
 
+        if (PlaneRigidbody != null)
+        {
+            gm.Distance = (PlaneRigidbody.position - gm.PlatformPosition).magnitude;
+        }
+
         /*
         GameManager.instance.AirspeedList.Add(RoundFloat(script.Airspeed, 2));
         GameManager.instance.AltList.Add(RoundFloat(script.ALT, 2));
         GameManager.instance.AlphaList.Add(RoundFloat(script.alpha, 2));
         GameManager.instance.BetaList.Add(RoundFloat(script.beta, 2));
-        GameManager.instance.ThetaList.Add(RoundFloat(theta, 2)); 
+        GameManager.instance.ThetaList.Add(RoundFloat(theta, 2));
         GameManager.instance.PhiList.Add(RoundFloat(phi, 2));
         */
 
@@ -79,13 +88,11 @@ public class AirData : MonoBehaviour
         {
             if (GameManager.instance.SaveCsv && GameManager.instance.EnterFlight)
             {
-                SaveCsvScript.SaveData(time.ToString("F1") ,script.Airspeed.ToString("F3") ,script.ALT.ToString("F3") ,script.alpha.ToString("F3") ,script.beta.ToString("F3") ,theta.ToString("F3") ,phi.ToString("F3") );
+                SaveCsvScript.SaveData(time.ToString("F1"), script.Airspeed.ToString("F3"), script.ALT.ToString("F3"), script.alpha.ToString("F3"), script.beta.ToString("F3"), theta.ToString("F3"), phi.ToString("F3"));
             }
         }
         frameNumber++;//0.02秒経過
     }
-
-    
 
     /*
     float RoundFloat(float value, int decimals)
@@ -127,5 +134,4 @@ public class AirData : MonoBehaviour
         }
     }
     */
-
 }

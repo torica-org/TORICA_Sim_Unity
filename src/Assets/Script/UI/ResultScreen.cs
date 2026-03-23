@@ -8,22 +8,23 @@ using UnityEngine.SceneManagement; // `LoadScene`のために必要
 public class ResultScreen
 {
     private GameManager gm = GameManager.instance;
+    private UIManager ui = UIManager.instance;
+
     private GameObject basePanel;
     private Rigidbody PlaneRigidbody;
 
-    public ResultScreen(GameObject basePanel, Rigidbody PlaneRigidBody)
+    public ResultScreen(GameObject basePanel)
     {
         this.basePanel = basePanel;
-        this.PlaneRigidbody = PlaneRigidBody;
+        this.PlaneRigidbody = gm.Plane.GetComponent<Rigidbody>();
     }
-
 
     public void ShowResultTwoGraphs() // 距離と`Retry`ボタン，グラフを2つ表示
     {
         // ボタンに登録するデリゲートをラムダ式で定義
         UnityAction OnClickChangePage = () =>
         {
-            UIManager.screen = UIManager.Screens.ResultFourGraphs; // `ResultFourGraphs`に遷移
+            ui.screen = UIManager.Screens.ResultFourGraphs; // `ResultFourGraphs`に遷移
         };
 
         UnityAction OnClickReloadScene = () =>
@@ -53,7 +54,7 @@ public class ResultScreen
         buttonChangePageLeftRect.anchoredPosition = new Vector2(20, 0); // アンカーを基準にした座標 (pos_x, pos_y) を設定
 
         // 距離を表示するテキストの生成
-        float Distance = (PlaneRigidbody.position - GameManager.instance.PlatformPosition).magnitude;
+        float Distance = gm.Distance;
         if (GameManager.instance.FlightMode == "BirdmanRally") Distance -= 10f;
         string dist = Distance.ToString("0.000") + " m";
         StaticText<string> textDist = new(basePanel, "TextDist", dist, 150.0f);
@@ -93,13 +94,12 @@ public class ResultScreen
         AirdataChart2Rect.anchoredPosition = new Vector2(0, 0); // アンカーを基準にした座標 (pos_x, pos_y) を設定
     }
 
-
     public void ShowResultFourGraphs() // グラフを4つ表示
     {
         // ボタンに登録するデリゲートをラムダ式で定義
         UnityAction OnClickChangePage = () =>
         {
-            UIManager.screen = UIManager.Screens.ResultTwoGraphs; // `ResultTwoGraphs`に遷移
+            ui.screen = UIManager.Screens.ResultTwoGraphs; // `ResultTwoGraphs`に遷移
         };
 
         // `>`ボタンの生成

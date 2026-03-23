@@ -4,9 +4,16 @@ using UnityEngine;
 
 public class TestMonoBehavior : MonoBehaviour
 {
-    
+    void OnDestroy()
+    {
+        // このGameObjectを誰が破棄したかを表示
+        Debug.LogError(
+            $"[{name}] GameObject destroyed at frame {Time.frameCount}\n" +
+            StackTraceUtility.ExtractStackTrace()
+        );
+    }
+    /*
     private ManualXRControl manualXRControl = new(); // VR制御用クラスを保持するフィールド
-
     private bool isVRInitialized = false; // VRが初期化されたかどうかを示すフラグ
 
     void Update()
@@ -27,7 +34,6 @@ public class TestMonoBehavior : MonoBehaviour
         }
     }
 
-
     void OnApplicationQuit()
     {
         // アプリケーションが終了する際にVRを停止する.
@@ -37,12 +43,12 @@ public class TestMonoBehavior : MonoBehaviour
             manualXRControl.StopXR();
         }
     }
+    */
 
     /*
     private float a = 1.0f;
     private object b = null;
     private float c = 0.0f;
-
 
     void Start()
     {
@@ -72,7 +78,6 @@ public class TestMonoBehavior : MonoBehaviour
         }
     }
 
-
     void OnGUI()
     {
         if (GUI.Button(new Rect(10, 10, 100, 50), "changeVal"))
@@ -82,7 +87,6 @@ public class TestMonoBehavior : MonoBehaviour
         }
     }
     */
-
 }
 /*
 public class ChangeValueDetector()
@@ -91,7 +95,6 @@ public class ChangeValueDetector()
     private float ref refVal = 0.0f;
     private delegate void refFunc();
     private refFunc privateFunc;
-
 
     ChangeValueDetector(ref val, delegate void _Func())
     {
@@ -106,5 +109,5 @@ public class ChangeValueDetector()
             privateFunc();
         }
     else
-    
+
 */

@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance = null;
-    
+
     [System.NonSerialized] public bool Landing = false;//着水しているか否か
     [System.NonSerialized] public bool HUDActive = true;//HUDを有効にしているか否か
     [System.NonSerialized] public bool HorizontalLineActive = false;//水平赤線を有効にしているか否か
@@ -29,23 +29,23 @@ public class GameManager : MonoBehaviour
     [System.NonSerialized] public string FlightMode = "BirdmanRally";
     [System.NonSerialized] public GameObject Plane = null;
     [SerializeField] public string DefaultPlane = "Tatsumi";
-    [System.NonSerialized] public Vector3 PlatformPosition = new Vector3(0f,10.5f,0f);
-    [System.NonSerialized] public float StartRotation=0.0f;
-    [System.NonSerialized] public float TailRotation=0.0f;
+    [System.NonSerialized] public Vector3 PlatformPosition = new Vector3(0f, 10.5f, 0f);
+    [System.NonSerialized] public float StartRotation = 0.0f;
+    [System.NonSerialized] public float TailRotation = 0.0f;
     [System.NonSerialized] public float StartRoll = 0.0f; //離陸時ロールを追加
-    [System.NonSerialized] public float TailSetDeg=-1.0f;
-    [System.NonSerialized] public float FieldOfView=90;
+    [System.NonSerialized] public float TailSetDeg = -1.0f;
+    [System.NonSerialized] public float FieldOfView = 90;
     //ロードセルのオフセット値
-    [System.NonSerialized] public float massLeft0=0;
-    [System.NonSerialized] public float massRight0=0;
-    [System.NonSerialized] public float massBackwardRight0=0;
-    [System.NonSerialized] public float massBackwardLeft0=0;
-    [System.NonSerialized] public float JoyStick0=0;
+    [System.NonSerialized] public float massLeft0 = 0;
+    [System.NonSerialized] public float massRight0 = 0;
+    [System.NonSerialized] public float massBackwardRight0 = 0;
+    [System.NonSerialized] public float massBackwardLeft0 = 0;
+    [System.NonSerialized] public float JoyStick0 = 0;
     //ロードセルの調整用係数(この係数をロードセルの値に掛ける)
-    [System.NonSerialized] public float massLeftFactor=1;
-    [System.NonSerialized] public float massRightFactor=1;
-    [System.NonSerialized] public float massBackwardRightFactor=1;
-    [System.NonSerialized] public float massBackwardLeftFactor=1;
+    [System.NonSerialized] public float massLeftFactor = 1;
+    [System.NonSerialized] public float massRightFactor = 1;
+    [System.NonSerialized] public float massBackwardRightFactor = 1;
+    [System.NonSerialized] public float massBackwardLeftFactor = 1;
     [System.NonSerialized] public float DefaultFactor = 1.00f;
     //ジョイスティックの調整用係数(この係数をジョイスティックの値に割る)
     [System.NonSerialized] public float JoyStickFactor = 450;
@@ -60,6 +60,7 @@ public class GameManager : MonoBehaviour
     [System.NonSerialized] public List<float> PhiList = new List<float>();
     [System.NonSerialized] public List<float> CenterOfGList = new List<float>();
     [System.NonSerialized] public List<float> drList = new List<float>();
+    [System.NonSerialized] public float Distance = 0.0f;
     //エラー関係
     [System.NonSerialized] public string errorText;
     [System.NonSerialized] public bool error = false;//エラーテキストが発行されるか否か
@@ -90,10 +91,11 @@ public class GameManager : MonoBehaviour
     [System.NonSerialized] public float GustRandValue = 0;
     [System.NonSerialized] public bool CgeRand = false;
     [System.NonSerialized] public float CgeRandValue = 0;
-    // Start is called before the first frame update
+
+    // ===== Updateよりも早くに実行される ==============
     void Awake()
     {
-        if(instance == null)
+        if (instance == null)
         {
             instance = this;
             FirstLoad = true;
