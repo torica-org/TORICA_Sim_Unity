@@ -55,6 +55,13 @@ public class PreFlightScreen
         dpdnRect.localScale = new Vector3(3, 3, 1); // ドロップダウンのサイズを変更する
         dpdnRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 300); // RectTransformのx軸方向のサイズを変更する
 
+        DynamicInputField<float> input = new(scrollContent, "InputTest", "Input Value!!!",
+            (x) => { gm.massLeftFactor = x; }, () => { return gm.massLeftFactor; });
+        RectTransform inputRect = input.rectTransform;
+        inputRect.anchorMin = new Vector2(0.5f, 0.5f);
+        inputRect.anchorMax = new Vector2(0.5f, 0.5f);
+        inputRect.localScale = new Vector3(2, 2, 1);
+
         DynamicSlider slider = new(scrollContent, "SliderTestUpper",
             (x) => { gm.massLeftFactor = x; }, () => { return gm.massLeftFactor; }, 0.0f, 1.0f, 0.1f);
         GameObject sliderObj = slider.gameObject;

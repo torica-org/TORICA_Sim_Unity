@@ -25,53 +25,65 @@ using TMPro;
 // 50.0f: フォントサイズ.
 
 // ===== 動的テキストを生成するクラス ===================================
-public sealed class DynamicText<T> : UIBase
+public sealed class DynamicInputField<T> : UIBase
 {
-    private TextMeshProUGUI _tmp;
+    private TMP_InputField _input;
+    private TMP_Text _placeholder;
+    private Setter<T> _setter;
     private Getter<T> _getter;
     private T _last;
 
-    public DynamicText(GameObject parent, string objectName, Getter<T> getter, float fontSize = 0.0f)
+    // ===== コンストラクタ =======================================================================================
+    public DynamicInputField(GameObject parent, string objectName, string placeholder,
+        Setter<T> setter, Getter<T> getter)
     {
-        // 生成時に直接親キャンバスを指定
-        gameObject = UnityEngine.Object.Instantiate(DefaultText, parent.transform, false);
+        // ----- セッターとゲッターがnullでないことを確認し，フィールドに保存 ------------------------
+        _setter = setter ?? throw new ArgumentNullException(nameof(setter));
+        _getter = getter ?? throw new ArgumentNullException(nameof(getter));
 
-        // その他の設定
+        // ----- オブジェクトやコンポーネントを取得 -------------------------------------------------------------------------------
+        gameObject = UnityEngine.Object.Instantiate(DefaultInputField, parent.transform, false); // 生成時に直接親キャンバスを指定
         gameObject.name = objectName;
-        _tmp = gameObject.GetComponent<TextMeshProUGUI>(); // TMPコンポーネントを取得.
-        _tmp.enableAutoSizing = false;
-        if (fontSize > 0.0f) // フォントサイズが0以下の場合はデフォルトのサイズを使用する
-        {
-            _tmp.fontSize = fontSize;
-        }
-        _tmp.alignment = TextAlignmentOptions.Center; // 中央寄せ
+        rectTransform = gameObject.GetComponent<RectTransform>(); // RectTransformを取得
+        _input = gameObject.GetComponent<TMP_InputField>(); // TMPコンポーネントを取得.
+        _placeholder = _input.placeholder as TMP_Text; // プレースホルダーを取得.
+        _placeholder.enableAutoSizing = false;
 
-        rectTransform = gameObject.GetComponent<RectTransform>(); // RectTransformを取得.
-        _getter = getter ?? throw new ArgumentNullException(nameof(getter)); // ゲッターがnullでないことを確認し，フィールドに保存.
+        // ----- `alignment`を設定 -----------------------------------------
+        _placeholder.alignment = TextAlignmentOptions.Left; // 左寄せ.
+
+        // ----- 値の設定 -----------------
         _last = _getter();
+        _input.text = Formatter<T>(_last);
+        _placeholder.text = placeholder;
 
-        _tmp.text = Formatter<T>(_last);
-
+        // ----- イベントとインスタンスの登録 ------------------------------------------
         eventHandler += OnTimerEvent; // タイマーイベントが発生したときの処理.
-
         _instances.Add(this); // インスタンスをリストに追加.
-    } // DynamicText<T>()
+    }
 
+    // ===== 定期的に実行されるイベントで実行される関数 =========================
     private void OnTimerEvent()
     {
         T cur = _getter();
+        T input = Converter<T>(_input.text); // `string`を変換して代入.
         // Debug.Log("Current value: " + cur + ", Last value: " + _last);
 
         if (!Equals(cur)) // 現在の値が最後に記録された値と異なる場合，テキストを更新.
         {
             _last = cur;
 
-            // ===== メインスレッドでUIの操作を実行 ====================
+            // ----- メインスレッドでUIの操作を実行 -------------------
             _mainThreadContext.Post(_ =>
             {
-                _tmp.text = Formatter<T>(cur); // Unity API を操作
+                _input.text = Formatter<T>(_last); // Unity API を操作
             }, null);
-            // ======================================================
+            // -----------------------------------------------------
+        }
+        else if (!Equals(input))
+        {
+            _last = input;
+            _setter(_last);
         }
 
         if (gameObject == null)
@@ -81,11 +93,23 @@ public sealed class DynamicText<T> : UIBase
         }
     }
 
+    // ===== `_last`との等価判定用関数 =======================================
     private bool Equals(T other)
     {
         return EqualityComparer<T>.Default.Equals(_last, other);
     }
 
+    // ===== ジェネリック型に変換 ==============================
+    private T Converter<T>(string value)
+    {
+        if (value == "") // 空欄のときはデフォルト値を返す.
+        {
+            return default(T);
+        }
+        return (T)Convert.ChangeType(value, typeof(T));
+    }
+
+    // ===== 破棄される際の処理 ==============================================
     public override void Dispose()
     {
         eventHandler -= OnTimerEvent; // イベントハンドラーから削除.
