@@ -98,16 +98,18 @@ public class UIManager : MonoBehaviour
             canvas.enabled = false;
             */
             // テストコード.
-            /*
+
             screen = Screens.PreFlightTest; // 上から重ねて表示してるだけ. 通常使用するためには`Screens.None`.
             basePanel.SetActive(true); // `Test`が必要なければ`false`.
             baseScrollView.SetActive(true); // `Test`が必要なければ`false`.
             canvas.enabled = true; // `Test`が必要なければ`false`.
-            */
+
+            /*
             screen = Screens.PreFlightVRSettings;
             basePanel.SetActive(false);
             baseScrollView.SetActive(false);
             canvas.enabled = true;
+            */
         }
         else if (!gm.FlightSettingActive && !gm.Landing) // フライト中.
         {

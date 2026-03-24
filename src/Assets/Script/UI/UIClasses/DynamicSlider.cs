@@ -7,11 +7,9 @@ using System.Threading;
 using System.Timers;
 using UnityEngine.UI;
 
-
 // ===== 概要 =========================
 // 特定の変数に関するセッターとゲッターを渡してインスタンス化する.
 // 変数の値が変化したときにゲッターを介してスライダーの値を更新し，スライダーの値が変化したときにセッターを介して変数を更新する.
-
 
 // ===== 使い方 =========================
 // ---------------------------------------------------------------------------------------------------------------------------------------------
@@ -28,7 +26,6 @@ using UnityEngine.UI;
 // 1.0f: 最大値
 // 0.1f: スライダーのステップ（省略可能）
 
-
 // ===== スライダー（変数監視機能付き）を生成するクラス ========================================================
 public sealed class DynamicSlider : UIBase
 {
@@ -40,8 +37,7 @@ public sealed class DynamicSlider : UIBase
     private float _last;
     private float _step;
 
-
-    public DynamicSlider(GameObject parent, string objectName, Setter<float> setter, Getter<float> getter, 
+    public DynamicSlider(GameObject parent, string objectName, Setter<float> setter, Getter<float> getter,
         float minVal, float maxVal, float step = 0.0f)
     {
         _setter = setter ?? throw new ArgumentNullException(nameof(setter)); // セッターとゲッターがnullでないことを確認し，フィールドに保存.
@@ -69,7 +65,6 @@ public sealed class DynamicSlider : UIBase
         _instances.Add(this); // インスタンスをリストに追加.
     } // DynamicSlider()
 
-
     private void OnTimerEvent()
     {
         float curVar = _getter();
@@ -86,12 +81,12 @@ public sealed class DynamicSlider : UIBase
             _setter(curSlider);
         }
 
-        // ===== メインスレッドでUIの操作を実行 ====================
+        // ----- メインスレッドでUIの操作を実行 ------------------
         _mainThreadContext.Post(_ =>
         {
             _slider.value = curSlider; // Unity API を操作
         }, null);
-        // ======================================================
+        // ----------------------------------------------------
 
         if (gameObject == null)
         {
@@ -100,10 +95,10 @@ public sealed class DynamicSlider : UIBase
         }
     }
 
-
     private float GetNearestValue(float rawVal)
     {
-        if (_step == 0.0f) {
+        if (_step == 0.0f)
+        {
             return rawVal;
         }
         else
@@ -124,5 +119,4 @@ public sealed class DynamicSlider : UIBase
             rectTransform = null;
         }, null);
     }
-
 } // class DynamicSlider
