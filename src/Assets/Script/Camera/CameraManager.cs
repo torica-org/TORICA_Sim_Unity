@@ -61,18 +61,25 @@ public class CameraManager : MonoBehaviour
     // ===== 毎フレーム実行されるメソッド =================================================
     void Update()
     {
-        // "v"キーが押されたらカメラを切り替える.
-        if (Input.GetKeyDown("f5"))
+        // "f5"キーが押されたらカメラを切り替える.
+        if (Input.GetKeyDown("f5") && !gm.VRMode)
         {
             gm.isMainDisplayTPS = !gm.isMainDisplayTPS;
         }
+        // "v"キーが押されたらVRモードを切り替える.
         if (Input.GetKeyDown("v"))
         {
             gm.VRMode = !gm.VRMode;
         }
+        // "c"キーが押されたらVRのキャリブレーションを行う.
         if (Input.GetKeyDown("c"))
         {
             CaribrateVR();
+        }
+        //
+        if (Input.GetKeyDown("f6"))
+        {
+            multiCameraDisplay.ToggleSubDisplay();
         }
 
         // VRモードの切り替えを検知して、必要に応じてVR制御を開始する.
@@ -101,8 +108,9 @@ public class CameraManager : MonoBehaviour
             }
             catch (System.Exception e)
             {
-                Debug.LogError("VR init error: " + e.Message);
+                Debug.LogWarning("VR init error: " + e.Message);
 
+                manualXRControl.StopXR();
                 gm.VRMode = false;
                 isVRInitialized = false; // 初期化に失敗した場合はフラグを下ろす.
 
@@ -133,7 +141,7 @@ public class CameraManager : MonoBehaviour
         Vector3 FPSPosition = FPSObj.transform.position; // FPSカメラの位置を保存.
         this.gameObject.transform.position = FPSPosition - caribrationOffset; // CameraManagerの位置をFPSカメラの位置に合わせる（キャリブレーションオフセットを考慮）.
 
-        Debug.Log("HMD Z Axis Movement: " + GetZAxisMovement());
+        //Debug.Log("HMD Z Axis Movement: " + GetZAxisMovement());
         //Debug.Log("displays connected: " + Display.displays.Length);
     }
 

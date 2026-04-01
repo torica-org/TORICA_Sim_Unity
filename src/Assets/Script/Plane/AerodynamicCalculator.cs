@@ -35,10 +35,10 @@ public class AerodynamicCalculator : SerialReceive
     [System.NonSerialized] public float massBackwardRight;//後方左ひずみの値[kg]
     [System.NonSerialized] public float massBackwardLeft;//後方右ひずみの値[kg]
 
-    [System.NonSerialized] public float centerOfG = 0.000f; // 全体重心計算結果[m] pitchGravity
-    [System.NonSerialized] public float pilotCenterOfGRaw = 0.2f; // 補正前重心計算結果[m] pitchGravityPilot
-    [System.NonSerialized] public float pilotCenterOfG; // 補正済重心計算結果[m] 定常状態(pitchGravity=0)のパイロット重心 pitchGravityPilotS
-    [System.NonSerialized] public float pilotCenterOfGOffset; // 重心位置のオフセット値[m]
+    [System.NonSerialized] public float centerOfMass = 0.000f; // 全体重心計算結果[m] pitchGravity
+    [System.NonSerialized] public float centerOfMassPilotRaw = 0.2f; // 補正前重心計算結果[m] pitchGravityPilot
+    [System.NonSerialized] public float centerOfMassPilot; // 補正済重心計算結果[m] 定常状態(pitchGravity=0)のパイロット重心 pitchGravityPilotS
+    [System.NonSerialized] public float centerOfMassPilotOffset; // 重心位置のオフセット値[m]
 
     [System.NonSerialized] public float massLeftRightS;//定常状態の前センサーの値(合計値ではなく一つのセンサーの値)
     [System.NonSerialized] public float massBackwardS;//定常状態の後センサーの値(合計値ではなく一つのセンサーの値)
@@ -72,7 +72,7 @@ public class AerodynamicCalculator : SerialReceive
     static protected float bw; // Wing span [m]
     static protected float cMAC; // Mean aerodynamic chord [m]
     static public float aw; // Wing Lift Slope [1/deg]
-    
+
     static protected float ac;
     static protected float cg;
 
@@ -119,13 +119,25 @@ public class AerodynamicCalculator : SerialReceive
 
     protected Rigidbody PlaneRigidbody;
 
+    // ----- 設計値（重心センサーのキャリブレーションや慣性モーメントの算出に使用） -----
+    // 全備
+    static public float massDefault; // 設計上の全重量[kg]
+    static public float centerOfMassDefault; // 設計上の全体重心位置[m]
+    static public float IyyDefault; // 設計上のピッチ慣性モーメント[kg*m^2]
+    // 空虚
+    //static public float massAircraft; // 空虚の機体重量[kg] // 既出
+    //static public float centerOfMassAircraft; // 空虚の機体重心位置[m] // 既出
+    // パイロット
+    static public float massPilotDefault; // 設計上のパイロット重量[kg]
+    // ----------------------------------------------------------------------------
+
     //追加機体データ
     static public float lengthForward;//フレーム前方(フレーム＋センサー部分)から桁(原点)位置[m]
     static public float lengthBackward;//フレーム後方(フレームの端)から桁(原点)位置[m]
-    static public float aircraftCenterOfMass;//機体のみ全重心(パイロットなし,ピッチのみ)[m]
-    static public float aircraftMass;//機体のみ全重量[kg]
+    static public float centerOfMassAircraft;//機体のみ全重心(パイロットなし,ピッチのみ)[m]
+    static public float massAircraft;//機体のみ全重量[kg]
 
-    static public float pilotMass;//設計上のパイロット重量[kg]
+    static public float massPilot;//設計上のパイロット重量[kg]
 
     //static protected float SensorPositionY = 0.645f;//桁中心から垂直に線を超音波センサーの位置までおろした時の線の長さ[m]
     //static protected float SensorPositionZ = 0.0f;//↑の到達点から超音波センサーまでの長さ[m]
@@ -144,7 +156,6 @@ public class AerodynamicCalculator : SerialReceive
 
     static protected float YL;//機体中心から翼持ち棒までの長さ[m]
 
-
     public static GameObject Aircraft;
     static protected GameObject SensorPoint;
 
@@ -152,24 +163,24 @@ public class AerodynamicCalculator : SerialReceive
 
     private GameManager gm = GameManager.instance; // MyGameManagerをgmとして宣言
 
-
     public void OnEnables()
     {
-        if(gm.PlaneName != null){
-            if(this.gameObject.name == gm.PlaneName)
+        if (gm.PlaneName != null)
+        {
+            if (this.gameObject.name == gm.PlaneName)
             {
                 Aircraft = this.gameObject;
             }
         }
-        else{
-            if(this.gameObject.name == gm.DefaultPlane)
+        else
+        {
+            if (this.gameObject.name == gm.DefaultPlane)
             {
                 gm.PlaneName = gm.DefaultPlane;
                 Aircraft = this.gameObject;
             }
         }
     }
-
 
     // Start is called before the first frame update
     void Start()
@@ -178,7 +189,7 @@ public class AerodynamicCalculator : SerialReceive
         PlaneRigidbody = this.GetComponent<Rigidbody>();
         this.transform.rotation = Quaternion.Euler(0.0f, gm.StartRotation, 0.0f);
 
-        SensorPoint = GameObject.Find ("SensorPoint");
+        SensorPoint = GameObject.Find("SensorPoint");
 
         //設計データ読み込み用
         // fileName = gm.PlaneName + ".csv";
@@ -186,53 +197,52 @@ public class AerodynamicCalculator : SerialReceive
         // customCsvPath = Path.Combine(Directory.GetParent(Application.dataPath).FullName, "CustomPlaneData.csv");
         // Debug.Log("File path: " + customCsvPath);
         // ReadFile();
-        
-        
+
         // Input Specifications
         InputSpecifications();
+        // ----- 設計値の保存 ---------------------------------------------------------------
+        centerOfMassDefault = PlaneRigidbody.centerOfMass.x; // 設計上の全体重心位置[m]を保存
+        // --------------------------------------------------------------------------------
 
-        //pitchGravityPilotS = ((PlaneRigidbody.mass*pitchGravity)-(aircraftMass*aircraftCenterOfMass))/pilotMass;
-        //Debug.Log(aircraftMass+","+aircraftCenterOfMass+","+pilotMass+","+lengthForward+","+lengthBackward);
-
-        if (gm.pilotMassReal == 0)
+        //pitchGravityPilotS = ((PlaneRigidbody.mass*pitchGravity)-(massAircraft*centerOfMassAircraft))/massPilot;
+        //Debug.Log(massAircraft+","+centerOfMassAircraft+","+massPilot+","+lengthForward+","+lengthBackward);
+        /*
+        if (gm.massPilotReal == 0)
         {//体重入力省略の場合の処理
-            gm.pilotMassReal = pilotMass;
+            gm.massPilotReal = massPilot;
         }
-
-        if (aircraftMass != 0 && aircraftCenterOfMass != 0 && pilotMass != 0 && lengthForward != 0 && lengthBackward != 0){
+        */
+        if (massAircraft != 0 && centerOfMassAircraft != 0 && massPilot != 0 && lengthForward != 0 && lengthBackward != 0)
+        {
             PlusData = true;
-            pilotCenterOfG = -aircraftMass*aircraftCenterOfMass/pilotMass;
+            centerOfMassPilot = -1 * massAircraft * centerOfMassAircraft / massPilot;
 
             //今までのやつ
             /*
-            massLeftRightS = (pilotMass*(pitchGravityPilotS+lengthBackward)/(lengthForward+lengthBackward))/2;
-            massBackwardS = (pilotMass - massLeftRightS*2)/2;
+            massLeftRightS = (massPilot*(pitchGravityPilotS+lengthBackward)/(lengthForward+lengthBackward))/2;
+            massBackwardS = (massPilot - massLeftRightS*2)/2;
             */
-
-
 
             // =====AutoFactorSetter.csへ移植=====
-            /* 
+            /*
             if(gm.VRMode){//HMDの質量を加算
-                float pilotMassVR=gm.pilotMassReal+0.588f;
-                massLeftRightS = (pilotMassVR*(pitchGravityPilotS+lengthBackward)/(lengthForward+lengthBackward)); // 前部荷重の理論値
-                massBackwardS = (pilotMassVR - massLeftRightS); // 後部荷重の理論値
+                float massPilotVR=gm.massPilotReal+0.588f;
+                massLeftRightS = (massPilotVR*(pitchGravityPilotS+lengthBackward)/(lengthForward+lengthBackward)); // 前部荷重の理論値
+                massBackwardS = (massPilotVR - massLeftRightS); // 後部荷重の理論値
             }
             else{
-                float pilotmassNonVR=gm.pilotMassReal;
-                massLeftRightS = (pilotmassNonVR*(pitchGravityPilotS+lengthBackward)/(lengthForward+lengthBackward)); // 前部荷重の理論値
-                massBackwardS = (pilotmassNonVR - massLeftRightS); // 後部荷重の理論値
+                float massPilotNonVR=gm.massPilotReal;
+                massLeftRightS = (massPilotNonVR*(pitchGravityPilotS+lengthBackward)/(lengthForward+lengthBackward)); // 前部荷重の理論値
+                massBackwardS = (massPilotNonVR - massLeftRightS); // 後部荷重の理論値
             }
             */
-
-
         }
         else
         {
             PlusData = false;
         }
 
-        YMin = aircraftMass/2;
+        YMin = massAircraft / 2;
         YrMax = 80.0f;
         YlMax = 80.0f;
 
@@ -241,26 +251,29 @@ public class AerodynamicCalculator : SerialReceive
 
     void Update()//フライトモデルに関わらず実行されるINPUT関連の処理
     {
-        float pitchGravityBefore = centerOfG;
-        float pitchGravityPilotBefore = pilotCenterOfGRaw;
+        float pitchGravityBefore = centerOfMass;
+        float pitchGravityPilotBefore = centerOfMassPilotRaw;
 
-        if (gm.MousePitchControl){//マウスコントロール
-            if(PlusData){
+        if (gm.MousePitchControl)
+        {//マウスコントロール
+            if (PlusData)
+            {
                 //Debug.Log(PlusData);
-                pilotCenterOfG = -aircraftMass*aircraftCenterOfMass/pilotMass;
-                pilotCenterOfGRaw = pilotCenterOfG + ((Input.mousePosition.y-dh0)*gm.MouseSensitivity)*0.0002f;
+                centerOfMassPilot = -massAircraft * centerOfMassAircraft / massPilot;
+                centerOfMassPilotRaw = centerOfMassPilot + ((Input.mousePosition.y - dh0) * gm.MouseSensitivity) * 0.0002f;
             }
-            //pitchGravity = ((pitchGravityPilot*pilotMass)+(aircraftCenterOfMass*aircraftMass))/PlaneRigidbody.mass;
-            centerOfG = (gm.CenterOfMassErrorValue + ((Input.mousePosition.y-dh0)*gm.MouseSensitivity)*0.0002f)*gm.CenterOfMassRandValue;
+            //pitchGravity = ((pitchGravityPilot*massPilot)+(centerOfMassAircraft*massAircraft))/PlaneRigidbody.mass;
+            centerOfMass = (gm.CenterOfMassErrorValue + ((Input.mousePosition.y - dh0) * gm.MouseSensitivity) * 0.0002f) * gm.CenterOfMassRandValue;
         }
 
-        if(Input.GetAxisRaw("GStick") != 0){//ゲームパッドコントロールのトリガー
-            pilotCenterOfG = -aircraftMass*aircraftCenterOfMass/pilotMass;
-            pilotCenterOfGRaw = pilotCenterOfG - Input.GetAxisRaw("GStick")*0.10f;
-            centerOfG = (gm.CenterOfMassErrorValue + ((pilotCenterOfGRaw*pilotMass)+(aircraftCenterOfMass*aircraftMass))/PlaneRigidbody.mass)*gm.CenterOfMassRandValue;
+        if (Input.GetAxisRaw("GStick") != 0)
+        {//ゲームパッドコントロールのトリガー
+            centerOfMassPilot = -massAircraft * centerOfMassAircraft / massPilot;
+            centerOfMassPilotRaw = centerOfMassPilot - Input.GetAxisRaw("GStick") * 0.10f;
+            centerOfMass = (gm.CenterOfMassErrorValue + ((centerOfMassPilotRaw * massPilot) + (centerOfMassAircraft * massAircraft)) / PlaneRigidbody.mass) * gm.CenterOfMassRandValue;
         }
 
-        if(gm.FrameUseable)//フレームコントロール
+        if (gm.FrameUseable)//フレームコントロール
         {
             /*
             massLeftNow = 20000f;
@@ -274,8 +287,8 @@ public class AerodynamicCalculator : SerialReceive
             //mass~ ←NowにFactorの値をかけて計算に使用する値
 
             // マイコン側でkgに変換する
-            massRight = gm.massRightFactor*(massRightNow);
-            massBackwardRight = gm.massBackwardRightFactor*(massBackwardRightNow);
+            massRight = gm.massRightFactor * (massRightNow);
+            massBackwardRight = gm.massBackwardRightFactor * (massBackwardRightNow);
 
             // massLeft = gm.massLeftFactor*(massLeftNow/1000);
             // massBackwardLeft = gm.massBackwardLeftFactor*(massBackwardLeftNow/1000);
@@ -332,96 +345,102 @@ public class AerodynamicCalculator : SerialReceive
             */
 
             // float NowMass = massLeft + massRight + massBackwardRight + massBackwardLeft;
-            float NowMass = massRight + massBackwardRight;
-            pilotMass = NowMass;
-
+            massPilot = massRight + massBackwardRight;
 
             /*
-            // pitchGravity = (gm.CenterOfMassErrorValue + (((lengthForward*massLeft)+(lengthForward*massRight)-(lengthBackward*(massBackwardRight + massBackwardLeft))+(aircraftCenterOfMass*aircraftMass))/(massLeft+massRight+(massBackwardRight + massBackwardLeft)+aircraftMass)))*gm.CenterOfMassRandValue;
-            centerOfG = (gm.CenterOfMassErrorValue + ((lengthForward * massRight) - (lengthBackward * massBackwardRight) + (aircraftCenterOfMass * aircraftMass)) / (massRight +massBackwardRight+ aircraftMass)) * gm.CenterOfMassRandValue;
+            // pitchGravity = (gm.CenterOfMassErrorValue + (((lengthForward*massLeft)+(lengthForward*massRight)-(lengthBackward*(massBackwardRight + massBackwardLeft))+(centerOfMassAircraft*massAircraft))/(massLeft+massRight+(massBackwardRight + massBackwardLeft)+massAircraft)))*gm.CenterOfMassRandValue;
+            centerOfMass = (gm.CenterOfMassErrorValue + ((lengthForward * massRight) - (lengthBackward * massBackwardRight) + (centerOfMassAircraft * massAircraft)) / (massRight +massBackwardRight+ massAircraft)) * gm.CenterOfMassRandValue;
 
-            if (-0.4f < centerOfG && centerOfG < 0.4f){//外れ値除去処理(基本的に重心は±0.4を超えることはない)
+            if (-0.4f < centerOfMass && centerOfMass < 0.4f){//外れ値除去処理(基本的に重心は±0.4を超えることはない)
                 //リジットボディに代入するピッチの値を計算
-                //pitchGravity = (GameManager.instance.CenterOfMassErrorValue + (((lengthForward*massLeft)+(lengthForward*massRight)-(lengthBackward*(massBackwardRight + massBackwardLeft))+(aircraftCenterOfMass*aircraftMass))/(massLeft+massRight+(massBackwardRight + massBackwardLeft)+aircraftMass)))*GameManager.instance.CenterOfMassRandValue;
-                pilotCenterOfG = ((PlaneRigidbody.mass*centerOfG)-(aircraftMass*aircraftCenterOfMass))/pilotMass;
+                //pitchGravity = (GameManager.instance.CenterOfMassErrorValue + (((lengthForward*massLeft)+(lengthForward*massRight)-(lengthBackward*(massBackwardRight + massBackwardLeft))+(centerOfMassAircraft*massAircraft))/(massLeft+massRight+(massBackwardRight + massBackwardLeft)+massAircraft)))*GameManager.instance.CenterOfMassRandValue;
+                centerOfMassPilot = ((PlaneRigidbody.mass*centerOfMass)-(massAircraft*centerOfMassAircraft))/massPilot;
                 if(NowMass != 0 ){
-                    // pitchGravityPilot = (((lengthForward*massLeft)+(lengthForward*massRight)-(lengthBackward*(massBackwardRight + massBackwardLeft)))/(massLeft+massRight+(massBackwardRight + massBackwardLeft))); 
-                    pilotCenterOfGRaw = (((lengthForward * massRight) - (lengthBackward * massBackwardRight)) / (massRight + massBackwardRight));
+                    // pitchGravityPilot = (((lengthForward*massLeft)+(lengthForward*massRight)-(lengthBackward*(massBackwardRight + massBackwardLeft)))/(massLeft+massRight+(massBackwardRight + massBackwardLeft)));
+                    centerOfMassPilotRaw = (((lengthForward * massRight) - (lengthBackward * massBackwardRight)) / (massRight + massBackwardRight));
                 }
                 else{
-                    pilotCenterOfGRaw = pilotCenterOfG;
+                    centerOfMassPilotRaw = centerOfMassPilot;
                 }
             }else{
                 Debug.Log("外れ値除去成功！");
-                centerOfG = pitchGravityBefore;
-                pilotCenterOfG = pitchGravityPilotBefore;
+                centerOfMass = pitchGravityBefore;
+                centerOfMassPilot = pitchGravityPilotBefore;
             }
             */
 
             // 重心フレーム上での桁中心モーメントについて，（前後センサにかかる荷重によるモーメント）＝（パイロットの体重によるモーメント）とし，その両辺をパイロットの体重で割った式
-            pilotCenterOfGRaw = (lengthForward * massRight + lengthBackward * massBackwardRight) / (massRight + massBackwardRight); // 補正前のパイロット重心[m]
+            centerOfMassPilotRaw = (lengthForward * massRight + lengthBackward * massBackwardRight) / (massRight + massBackwardRight); // 補正前のパイロット重心[m]
 
             // 補正
-            pilotCenterOfG = pilotCenterOfGRaw + pilotCenterOfGOffset; // 補正後のパイロット重心[m]
+            centerOfMassPilot = centerOfMassPilotRaw + centerOfMassPilotOffset; // 補正後のパイロット重心[m]
 
             // 桁中心モーメントについて，（パイロット体重と空虚重量〈パイロットなしの機体重量〉によるモーメント）＝（全備重量によるモーメント）とし，その両辺を全備重量で割った式
-            centerOfG = (pilotMass * pilotCenterOfG + aircraftMass * aircraftCenterOfMass) / (pilotMass + aircraftMass);
+            centerOfMass = (massPilot * centerOfMassPilot + massAircraft * centerOfMassAircraft) / (massPilot + massAircraft);
 
-            if (-0.4f < centerOfG && centerOfG < 0.4f)//外れ値除去処理(基本的に重心は±0.4を超えることはない
+            if (-0.4f < centerOfMass && centerOfMass < 0.4f)//外れ値除去処理(基本的に重心は±0.4を超えることはない
             { }
             else
             {
                 Debug.Log("外れ値除去成功！");
-                centerOfG = pitchGravityBefore;
-                pilotCenterOfG = pitchGravityPilotBefore;
+                centerOfMass = pitchGravityBefore;
+                centerOfMassPilot = pitchGravityPilotBefore;
             }
-
         }
         // Get control surface angles
         de = 0.000f;
         dr = 0.000f;
 
-        if(!gm.FrameUseable){
-            de = Input.GetAxisRaw("Vertical")*deMAX;
-            dr = -Input.GetAxisRaw("Horizontal")*drMAX*gm.RudderRandValue;
+        if (!gm.FrameUseable)
+        {
+            de = Input.GetAxisRaw("Vertical") * deMAX;
+            dr = -Input.GetAxisRaw("Horizontal") * drMAX * gm.RudderRandValue;
         }
-        if(Input.GetMouseButton(0)){dr = drMAX*gm.RudderRandValue;}
-        else if(Input.GetMouseButton(1)){dr = -drMAX*gm.RudderRandValue;}
-        
-        if(Input.GetAxisRaw("Trigger")*drMAX != 0){
-            dr = -Input.GetAxisRaw("Trigger")*drMAX*gm.RudderRandValue;
+        if (Input.GetMouseButton(0)) { dr = drMAX * gm.RudderRandValue; }
+        else if (Input.GetMouseButton(1)) { dr = -drMAX * gm.RudderRandValue; }
+
+        if (Input.GetAxisRaw("Trigger") * drMAX != 0)
+        {
+            dr = -Input.GetAxisRaw("Trigger") * drMAX * gm.RudderRandValue;
         }
 
-        if(gm.FrameUseable){
+        if (gm.FrameUseable)
+        {
             //↓必要な処理
-            dr = ((JoyStickNow-gm.JoyStick0)/gm.JoyStickFactor)*drMAX*gm.RudderRandValue;
+            dr = ((JoyStickNow - gm.JoyStick0) / gm.JoyStickFactor) * drMAX * gm.RudderRandValue;
         }
 
-        if(gm.RudderError && gm.RudderErrorMode != 0){
-            if(gm.RudderErrorMode == 1){
-                dr = gm.RudderErrorValue*drMAX;
+        if (gm.RudderError && gm.RudderErrorMode != 0)
+        {
+            if (gm.RudderErrorMode == 1)
+            {
+                dr = gm.RudderErrorValue * drMAX;
             }
-            else if(gm.RudderErrorMode == 2){
-                if(UnityEngine.Random.Range(0.0f,1.0f) < 0.5f){
-                    dr = gm.RudderErrorValue*drMAX;
+            else if (gm.RudderErrorMode == 2)
+            {
+                if (UnityEngine.Random.Range(0.0f, 1.0f) < 0.5f)
+                {
+                    dr = gm.RudderErrorValue * drMAX;
                 }
             }
-            else if(gm.RudderErrorMode == 3){
-                dr += gm.RudderErrorValue*drMAX;
+            else if (gm.RudderErrorMode == 3)
+            {
+                dr += gm.RudderErrorValue * drMAX;
             }
         }
 
-        if (gm.VRMode)
+        // VR Only Mode (重心センサーを使う場合は使用しない)
+        if (gm.VRMode && !gm.FrameUseable)
         {
-            pilotMass = 68.0f; // [kg]
+            massPilot = 68.0f; // [kg]
 
-            pilotCenterOfG = CameraManager.GetZAxisMovement(); // パイロット重心は直接取得できる.
+            centerOfMassPilot = CameraManager.GetZAxisMovement(); // パイロット重心は直接取得できる.
 
             // 桁中心モーメントについて，（パイロット体重と空虚重量〈パイロットなしの機体重量〉によるモーメント）＝（全備重量によるモーメント）とし，その両辺を全備重量で割った式
-            centerOfG = (pilotMass * pilotCenterOfG + aircraftMass * aircraftCenterOfMass) / (pilotMass + aircraftMass);
+            centerOfMass = (massPilot * centerOfMassPilot + massAircraft * centerOfMassAircraft) / (massPilot + massAircraft);
         }
     }
-    
+
     void FixedUpdate()
     {
         FlightModelFixedUpdate();
@@ -429,11 +448,12 @@ public class AerodynamicCalculator : SerialReceive
 
     void InputSpecifications()
     {
-        if(GameManager.instance.PlaneName == "QX-18"){
+        if (GameManager.instance.PlaneName == "QX-18")
+        {
             // Plane
             PlaneRigidbody.mass = 93.875f; // [kg]
-            PlaneRigidbody.centerOfMass = new Vector3(0f,0.221f,0f); // [m]
-            PlaneRigidbody.inertiaTensor = new Vector3(876f,947f,76f);
+            PlaneRigidbody.centerOfMass = new Vector3(0f, 0.221f, 0f); // [m]
+            PlaneRigidbody.inertiaTensor = new Vector3(876f, 947f, 76f);
             PlaneRigidbody.inertiaTensorRotation = Quaternion.AngleAxis(-4.833f, Vector3.forward);
             // Specification At Cruise without Ground Effect
             Airspeed0 = 9.700f; // Magnitude of ground speed [m/s]
@@ -446,9 +466,9 @@ public class AerodynamicCalculator : SerialReceive
             bw = 25.133f; // Wing span [m]
             cMAC = 0.757f; // Mean aerodynamic chord [m]
             aw = 0.108f; // Wing Lift Slope [1/deg]
-            hw = (0.323f-0.250f); // Length between Wing a.c. and c.g.
+            hw = (0.323f - 0.250f); // Length between Wing a.c. and c.g.
             ew = 0.949f; // Wing efficiency
-            AR = (bw*bw)/Sw; // Aspect Ratio
+            AR = (bw * bw) / Sw; // Aspect Ratio
             // Tail
             Downwash = true; // Conventional Tail: True, T-Tail: False
             St = 1.375f; // Wing area of tail
@@ -456,9 +476,9 @@ public class AerodynamicCalculator : SerialReceive
             lt = 4.200f; // Length between Tail a.c. and c.g.
             deMAX = 10.000f; // Maximum elevator angle
             tau = 1.000f; // Control surface angle of attack effectiveness [-]
-            VH = (St*lt)/(Sw*cMAC); // Tail Volume
+            VH = (St * lt) / (Sw * cMAC); // Tail Volume
             // Fin
-            drMAX = 10.000f; // Maximum rudder angle            
+            drMAX = 10.000f; // Maximum rudder angle
             // Ground Effect
             CGEMIN = 0.215f; // Minimum Ground Effect Coefficient [-]
             // Stability derivatives
@@ -474,11 +494,13 @@ public class AerodynamicCalculator : SerialReceive
             Cnp = -0.142441f; // [1/rad]
             Cnr = -0.000491f; // [1/rad]
             Cndr = -0.000262f; // [1/deg]
-        }else if(GameManager.instance.PlaneName == "QX-19"){
+        }
+        else if (GameManager.instance.PlaneName == "QX-19")
+        {
             // Plane
             PlaneRigidbody.mass = 96.631f;
-            PlaneRigidbody.centerOfMass = new Vector3(0f,0.294f,0f);
-            PlaneRigidbody.inertiaTensor = new Vector3(991f,1032f,60f);
+            PlaneRigidbody.centerOfMass = new Vector3(0f, 0.294f, 0f);
+            PlaneRigidbody.inertiaTensor = new Vector3(991f, 1032f, 60f);
             PlaneRigidbody.inertiaTensorRotation = Quaternion.AngleAxis(-9.134f, Vector3.forward);
             // Specification At Cruise without Ground Effect
             Airspeed0 = 8.800f; // Magnitude of ground speed [m/s]
@@ -491,9 +513,9 @@ public class AerodynamicCalculator : SerialReceive
             bw = 26.418f; // Wing span [m]
             cMAC = 0.736f; // Mean aerodynamic chord [m]
             aw = 0.105f; // Wing Lift Slope [1/deg]
-            hw = (0.323f-0.250f); // Length between Wing a.c. and c.g.
+            hw = (0.323f - 0.250f); // Length between Wing a.c. and c.g.
             ew = 1.010f; // Wing efficiency
-            AR = (bw*bw)/Sw; // Aspect Ratio
+            AR = (bw * bw) / Sw; // Aspect Ratio
             // Tail
             Downwash = true; // Conventional Tail: True, T-Tail: False
             St = 1.548f; // Wing area of tail
@@ -501,9 +523,9 @@ public class AerodynamicCalculator : SerialReceive
             lt = 3.200f; // Length between Tail a.c. and c.g.
             deMAX = 10.000f; // Maximum elevator angle
             tau = 1.000f; // Control surface angle of attack effectiveness [-]
-            VH = (St*lt)/(Sw*cMAC); // Tail Volume
+            VH = (St * lt) / (Sw * cMAC); // Tail Volume
             // Fin
-            drMAX = 10.000f; // Maximum rudder angle            
+            drMAX = 10.000f; // Maximum rudder angle
             // Ground Effect
             CGEMIN = 0.361f; // Minimum Ground Effect Coefficient [-]
             // Stability derivatives
@@ -519,85 +541,87 @@ public class AerodynamicCalculator : SerialReceive
             Cnp = -0.165533f; // [1/rad]
             Cnr = 0.001675f; // [1/rad]
             Cndr = -0.000208f; // [1/deg]
-        //}else if(GameManager.instance.PlaneName == "Tatsumi"){
-        //    //竜海
-        //    PlaneRigidbody.mass = 100f;
-        //    PlaneRigidbody.centerOfMass = new Vector3(0f,0.053f,0f);
-        //    PlaneRigidbody.inertiaTensor = new Vector3(993.022f,1028.254f,50.789f);
-        //    PlaneRigidbody.inertiaTensorRotation = Quaternion.AngleAxis(-9.134f, Vector3.forward);
-        //    // Specification At Cruise without Ground Effect
-        //    Airspeed0 = 10.500f; // Magnitude of ground speed [m/s]
-        //    alpha0 = 0f; // Angle of attack [deg]
-        //    CDp0 = 0.007f; // Parasitic drag [-]
-        //    Cmw0 = -0.132f; // Pitching momentum [-]
-        //    CLMAX = 1.700f;
-        //    // Wing
-        //    Sw = 18.989f; // Wing area of wing [m^2]
-        //    bw = 24.975f; // Wing span [m]
-        //    cMAC = 0.812f; // Mean aerodynamic chord [m]
-        //    aw = 0.103f; // Wing Lift Slope [1/deg]
+                               //}else if(GameManager.instance.PlaneName == "Tatsumi"){
+                               //    //竜海
+                               //    PlaneRigidbody.mass = 100f;
+                               //    PlaneRigidbody.centerOfMass = new Vector3(0f,0.053f,0f);
+                               //    PlaneRigidbody.inertiaTensor = new Vector3(993.022f,1028.254f,50.789f);
+                               //    PlaneRigidbody.inertiaTensorRotation = Quaternion.AngleAxis(-9.134f, Vector3.forward);
+                               //    // Specification At Cruise without Ground Effect
+                               //    Airspeed0 = 10.500f; // Magnitude of ground speed [m/s]
+                               //    alpha0 = 0f; // Angle of attack [deg]
+                               //    CDp0 = 0.007f; // Parasitic drag [-]
+                               //    Cmw0 = -0.132f; // Pitching momentum [-]
+                               //    CLMAX = 1.700f;
+                               //    // Wing
+                               //    Sw = 18.989f; // Wing area of wing [m^2]
+                               //    bw = 24.975f; // Wing span [m]
+                               //    cMAC = 0.812f; // Mean aerodynamic chord [m]
+                               //    aw = 0.103f; // Wing Lift Slope [1/deg]
 
-        //    ac = 0.350f;//空力中心[MAC]
-        //    cg = 0.250f;//初期重心中心[MAC]
+            //    ac = 0.350f;//空力中心[MAC]
+            //    cg = 0.250f;//初期重心中心[MAC]
 
-        //    hw = ac-cg; // Length between Wing a.c. and c.g.
-        //    ew = 0.987f; // Wing efficiency
-        //    AR = 32.848f; // Aspect Ratio
-        //    // Tail
-        //    Downwash = true; // Conventional Tail: True, T-Tail: False
-        //    St = 1.769f; // Wing area of tail
-        //    at = 0.082f; // Tail Lift Slope [1/deg]
-        //    lt = 2.900f; // Length between Tail a.c. and c.g.
-        //    deMAX = 10.000f; // Maximum elevator angle
-        //    tau = 1.000f; // Control surface angle of attack effectiveness [-]
-        //    VH = 0.333f; // Tail Volume
-        //    // Fin
-        //    drMAX = 20.000f; // Maximum rudder angle            
-        //    // Ground Effect
-        //    CGEMIN = 0.230f; // Minimum Ground Effect Coefficient [-]
-        //    // Stability derivatives
-        //    Cyb = -0.004943f; // [1/deg]
-        //    Cyp = -0.539872f; // [1/rad]
-        //    Cyr =  0.161102f; // [1/rad]
-        //    Cydr = 0.001612f; // [1/deg]
-        //    Clb = -0.004711f; // [1/deg]
-        //    Clp = -0.794525f; // [1/rad]
-        //    Clr =  0.203056f; // [1/rad]
-        //    Cldr = 0.000032f; // [1/deg]
-        //    Cnb = -0.000364f; // [1/deg]
-        //    Cnp = -0.100751f; // [1/rad]
-        //    Cnr = -0.005821f; // [1/rad]
-        //    Cndr = -0.000226f; // [1/deg]
+            //    hw = ac-cg; // Length between Wing a.c. and c.g.
+            //    ew = 0.987f; // Wing efficiency
+            //    AR = 32.848f; // Aspect Ratio
+            //    // Tail
+            //    Downwash = true; // Conventional Tail: True, T-Tail: False
+            //    St = 1.769f; // Wing area of tail
+            //    at = 0.082f; // Tail Lift Slope [1/deg]
+            //    lt = 2.900f; // Length between Tail a.c. and c.g.
+            //    deMAX = 10.000f; // Maximum elevator angle
+            //    tau = 1.000f; // Control surface angle of attack effectiveness [-]
+            //    VH = 0.333f; // Tail Volume
+            //    // Fin
+            //    drMAX = 20.000f; // Maximum rudder angle
+            //    // Ground Effect
+            //    CGEMIN = 0.230f; // Minimum Ground Effect Coefficient [-]
+            //    // Stability derivatives
+            //    Cyb = -0.004943f; // [1/deg]
+            //    Cyp = -0.539872f; // [1/rad]
+            //    Cyr =  0.161102f; // [1/rad]
+            //    Cydr = 0.001612f; // [1/deg]
+            //    Clb = -0.004711f; // [1/deg]
+            //    Clp = -0.794525f; // [1/rad]
+            //    Clr =  0.203056f; // [1/rad]
+            //    Cldr = 0.000032f; // [1/deg]
+            //    Cnb = -0.000364f; // [1/deg]
+            //    Cnp = -0.100751f; // [1/rad]
+            //    Cnr = -0.005821f; // [1/rad]
+            //    Cndr = -0.000226f; // [1/deg]
 
-        //    //追加機体データ
-        //    lengthForward = 0.61f;
-        //    lengthBackward = 0.47f;
+            //    //追加機体データ
+            //    lengthForward = 0.61f;
+            //    lengthBackward = 0.47f;
 
-        //    aircraftCenterOfMass = -0.225f;//機体のみ全重心(パイロットなし,ピッチのみ)[m]
-        //    aircraftMass = 48.0f;//機体のみ全重量[kg]
-        //    pilotMass = PlaneRigidbody.mass - aircraftMass;//パイロット体重[kg]
+            //    centerOfMassAircraft = -0.225f;//機体のみ全重心(パイロットなし,ピッチのみ)[m]
+            //    massAircraft = 48.0f;//機体のみ全重量[kg]
+            //    massPilot = PlaneRigidbody.mass - massAircraft;//パイロット体重[kg]
 
-        //    YL = 2.8f;//機体中心から翼持ち棒までの長さ[m]
-    }else if(GameManager.instance.PlaneName == "QX-20"){
+            //    YL = 2.8f;//機体中心から翼持ち棒までの長さ[m]
+        }
+        else if (GameManager.instance.PlaneName == "QX-20")
+        {
             // Plane
             PlaneRigidbody.mass = 98.797f;
-            PlaneRigidbody.centerOfMass = new Vector3(0f,0.29f,0f);
-            PlaneRigidbody.inertiaTensor = new Vector3(1003f,1045f,58f);
+            PlaneRigidbody.centerOfMass = new Vector3(0f, 0.29f, 0f);
+            PlaneRigidbody.inertiaTensor = new Vector3(1003f, 1045f, 58f);
             PlaneRigidbody.inertiaTensorRotation = Quaternion.AngleAxis(-9.112f, Vector3.forward);
             // Specification At Cruise without Ground Effect
             Airspeed0 = 9.600f; // Magnitude of ground speed [m/s]
             alpha0 = 1.459f; // Angle of attack [deg]
             CDp0 = 0.016f; // Parasitic drag [-]
-            Cmw0 =-0.114f; // Pitching momentum [-]
+            Cmw0 = -0.114f; // Pitching momentum [-]
             CLMAX = 1.700f;
             // Wing
             Sw = 18.816f; // Wing area of wing [m^2]
             bw = 26.679f; // Wing span [m]
             cMAC = 0.755f; // Mean aerodynamic chord [m]
             aw = 0.108f; // Wing Lift Slope [1/deg]
-            hw = (0.323f-0.250f); // Length between Wing a.c. and c.g.
+            hw = (0.323f - 0.250f); // Length between Wing a.c. and c.g.
             ew = 0.986f; // Wing efficiency
-            AR = (bw*bw)/Sw; // Aspect Ratio
+            AR = (bw * bw) / Sw; // Aspect Ratio
             // Tail
             Downwash = false; // Conventional Tail: True, T-Tail: False
             St = 1.526f; // Wing area of tail
@@ -605,9 +629,9 @@ public class AerodynamicCalculator : SerialReceive
             lt = 3.200f; // Length between Tail a.c. and c.g.
             deMAX = 10.000f; // Maximum elevator angle
             tau = 1.000f; // Control surface angle of attack effectiveness [-]
-            VH = (St*lt)/(Sw*cMAC); // Tail Volume
+            VH = (St * lt) / (Sw * cMAC); // Tail Volume
             // Fin
-            drMAX = 15.000f; // Maximum rudder angle            
+            drMAX = 15.000f; // Maximum rudder angle
             // Ground Effect
             CGEMIN = 0.293f; // Minimum Ground Effect Coefficient [-]
             // Stability derivatives
@@ -623,15 +647,17 @@ public class AerodynamicCalculator : SerialReceive
             Cnp = -0.132307f; // [1/rad]
             Cnr = 0.000942f; // [1/rad]
             Cndr = -0.000106f; // [1/deg]
-        }else if(GameManager.instance.PlaneName == "ARG-2"){
+        }
+        else if (GameManager.instance.PlaneName == "ARG-2")
+        {
             // Plane
             PlaneRigidbody.mass = 103.100f;
-            PlaneRigidbody.centerOfMass = new Vector3(0f,-0.019f,0f);
-            PlaneRigidbody.inertiaTensor = new Vector3(961f,1024f,80f); //Ixx, Izz, Iyy
+            PlaneRigidbody.centerOfMass = new Vector3(0f, -0.019f, 0f);
+            PlaneRigidbody.inertiaTensor = new Vector3(961f, 1024f, 80f); //Ixx, Izz, Iyy
             PlaneRigidbody.inertiaTensorRotation = Quaternion.AngleAxis(-3.929f, Vector3.forward);
             // Specification At Cruise without Ground Effect
             Airspeed0 = 10.500f; // Magnitude of ground speed [m/s]
-            alpha0 = 1.407f; // Angle of attack [deg] 
+            alpha0 = 1.407f; // Angle of attack [deg]
             CDp0 = 0.014f; // Parasitic drag [-]
             Cmw0 = -0.165f; // Pitching momentum [-]
             CLMAX = 1.700f;
@@ -640,9 +666,9 @@ public class AerodynamicCalculator : SerialReceive
             bw = 23.350f; // Wing span [m]
             cMAC = 0.813f; // Mean aerodynamic chord [m]
             aw = 0.103f; // Wing Lift Slope [1/deg]
-            hw = (0.3375f-0.250f); // Length between Wing a.c. and c.g.
+            hw = (0.3375f - 0.250f); // Length between Wing a.c. and c.g.
             ew = 0.986f; // Wing efficiency
-            AR = (bw*bw)/Sw; // Aspect Ratio
+            AR = (bw * bw) / Sw; // Aspect Ratio
             // Tail
             Downwash = true; // Conventional Tail: True, T-Tail: False
             St = 1.651f; // Wing area of tail
@@ -650,33 +676,35 @@ public class AerodynamicCalculator : SerialReceive
             lt = 3.200f; // Length between Tail a.c. and c.g.
             deMAX = 10.000f; // Maximum elevator angle
             tau = 1.000f; // Control surface angle of attack effectiveness [-]
-            VH = (St*lt)/(Sw*cMAC); // Tail Volume
+            VH = (St * lt) / (Sw * cMAC); // Tail Volume
             // Fin
-            drMAX = 15.000f; // Maximum rudder angle            
+            drMAX = 15.000f; // Maximum rudder angle
             // Ground Effect
             CGEMIN = 0.215f; // Minimum Ground Effect Coefficient [-]
             // Stability derivatives
             Cyb = -0.003764f; // [1/deg]
             Cyp = -0.411848f; // [1/rad]
-            Cyr =  0.141631f; // [1/rad]
+            Cyr = 0.141631f; // [1/rad]
             Cydr = 0.001846f; // [1/deg]
             Clb = -0.003656f; // [1/deg]
             Clp = -0.816226f; // [1/rad]
-            Clr =  0.219104f; // [1/rad]
+            Clr = 0.219104f; // [1/rad]
             Cldr = 0.000032f; // [1/deg]
             Cnb = -0.000245f; // [1/deg]
             Cnp = -0.127263f; // [1/rad]
             Cnr = -0.002745f; // [1/rad]
             Cndr = -0.000308f; // [1/deg]
-        }else if(GameManager.instance.PlaneName == "UL01B"){
+        }
+        else if (GameManager.instance.PlaneName == "UL01B")
+        {
             // Plane
             PlaneRigidbody.mass = 87.000f;
-            PlaneRigidbody.centerOfMass = new Vector3(0f,0.290f,0f);
-            PlaneRigidbody.inertiaTensor = new Vector3(886f,975f,113f); //Ixx, Izz, Iyy
+            PlaneRigidbody.centerOfMass = new Vector3(0f, 0.290f, 0f);
+            PlaneRigidbody.inertiaTensor = new Vector3(886f, 975f, 113f); //Ixx, Izz, Iyy
             PlaneRigidbody.inertiaTensorRotation = Quaternion.AngleAxis(-5.581f, Vector3.forward);
             // Specification At Cruise without Ground Effect
             Airspeed0 = 8.500f; // Magnitude of ground speed [m/s]
-            alpha0 = 1.521f; // Angle of attack [deg] 
+            alpha0 = 1.521f; // Angle of attack [deg]
             CDp0 = 0.015f; // Parasitic drag [-]
             Cmw0 = -0.122f; // Pitching momentum [-]
             CLMAX = 1.700f;
@@ -685,9 +713,9 @@ public class AerodynamicCalculator : SerialReceive
             bw = 25.200f; // Wing span [m]
             cMAC = 0.911f; // Mean aerodynamic chord [m]
             aw = 0.103f; // Wing Lift Slope [1/deg]
-            hw = (0.330f-0.250f); // Length between Wing a.c. and c.g.
+            hw = (0.330f - 0.250f); // Length between Wing a.c. and c.g.
             ew = 0.986f; // Wing efficiency
-            AR = (bw*bw)/Sw; // Aspect Ratio
+            AR = (bw * bw) / Sw; // Aspect Ratio
             // Tail
             Downwash = true; // Conventional Tail: True, T-Tail: False
             St = 2.160f; // Wing area of tail
@@ -695,33 +723,35 @@ public class AerodynamicCalculator : SerialReceive
             lt = 4.500f; // Length between Tail a.c. and c.g.
             deMAX = 12.000f; // Maximum elevator angle
             tau = 1.000f; // Control surface angle of attack effectiveness [-]
-            VH = (St*lt)/(Sw*cMAC); // Tail Volume
+            VH = (St * lt) / (Sw * cMAC); // Tail Volume
             // Fin
-            drMAX = 18.000f; // Maximum rudder angle            
+            drMAX = 18.000f; // Maximum rudder angle
             // Ground Effect
             CGEMIN = 0.360f; // Minimum Ground Effect Coefficient [-]
             // Stability derivatives
             Cyb = -0.010768f; // [1/deg]
             Cyp = -0.642834f; // [1/rad]
-            Cyr =  0.320123f; // [1/rad]
+            Cyr = 0.320123f; // [1/rad]
             Cydr = 0.003872f; // [1/deg]
             Clb = -0.006073f; // [1/deg]
             Clp = -0.776507f; // [1/rad]
-            Clr =  0.249355f; // [1/rad]
+            Clr = 0.249355f; // [1/rad]
             Cldr = 0.000061f; // [1/deg]
             Cnb = -0.000336f; // [1/deg]
             Cnp = -0.135587f; // [1/rad]
             Cnr = -0.016244f; // [1/rad]
             Cndr = -0.000817f; // [1/deg]
-        }else if(GameManager.instance.PlaneName == "ORCA18"){
+        }
+        else if (GameManager.instance.PlaneName == "ORCA18")
+        {
             // Plane
             PlaneRigidbody.mass = 96.000f;
-            PlaneRigidbody.centerOfMass = new Vector3(0f,0.009f,0f);
-            PlaneRigidbody.inertiaTensor = new Vector3(858f,949f,107f); //Ixx, Izz, Iyy
+            PlaneRigidbody.centerOfMass = new Vector3(0f, 0.009f, 0f);
+            PlaneRigidbody.inertiaTensor = new Vector3(858f, 949f, 107f); //Ixx, Izz, Iyy
             PlaneRigidbody.inertiaTensorRotation = Quaternion.AngleAxis(-2.972f, Vector3.forward);
             // Specification At Cruise without Ground Effect
             Airspeed0 = 8.000f; // Magnitude of ground speed [m/s]
-            alpha0 = 1.500f; // Angle of attack [deg] 
+            alpha0 = 1.500f; // Angle of attack [deg]
             CDp0 = 0.015f; // Parasitic drag [-]
             Cmw0 = -0.108f; // Pitching momentum [-]
             CLMAX = 1.700f;
@@ -730,9 +760,9 @@ public class AerodynamicCalculator : SerialReceive
             bw = 24.100f; // Wing span [m]
             cMAC = 0.900f; // Mean aerodynamic chord [m]
             aw = 0.103f; // Wing Lift Slope [1/deg]
-            hw = (0.329f-0.250f); // Length between Wing a.c. and c.g.
+            hw = (0.329f - 0.250f); // Length between Wing a.c. and c.g.
             ew = 0.986f; // Wing efficiency
-            AR = (bw*bw)/Sw; // Aspect Ratio
+            AR = (bw * bw) / Sw; // Aspect Ratio
             // Tail
             Downwash = true; // Conventional Tail: True, T-Tail: False
             St = 1.950f; // Wing area of tail
@@ -740,33 +770,35 @@ public class AerodynamicCalculator : SerialReceive
             lt = 3.900f; // Length between Tail a.c. and c.g.
             deMAX = 12.000f; // Maximum elevator angle
             tau = 1.000f; // Control surface angle of attack effectiveness [-]
-            VH = (St*lt)/(Sw*cMAC); // Tail Volume
+            VH = (St * lt) / (Sw * cMAC); // Tail Volume
             // Fin
-            drMAX = 20.000f; // Maximum rudder angle            
+            drMAX = 20.000f; // Maximum rudder angle
             // Ground Effect
             CGEMIN = 0.290f; // Minimum Ground Effect Coefficient [-]
             // Stability derivatives
             Cyb = -0.003716f; // [1/deg]
             Cyp = -0.375654f; // [1/rad]
-            Cyr =  0.187645f; // [1/rad]
+            Cyr = 0.187645f; // [1/rad]
             Cydr = 0.001276f; // [1/deg]
             Clb = -0.003325f; // [1/deg]
             Clp = -0.792170f; // [1/rad]
-            Clr =  0.302277f; // [1/rad]
+            Clr = 0.302277f; // [1/rad]
             Cldr = 0.000000f; // [1/deg]
             Cnb = -0.000324f; // [1/deg]
             Cnp = -0.169856f; // [1/rad]
             Cnr = -0.003154f; // [1/rad]
             Cndr = -0.000233f; // [1/deg]
-        }else if(GameManager.instance.PlaneName == "ORCA22"){
+        }
+        else if (GameManager.instance.PlaneName == "ORCA22")
+        {
             // Plane
             PlaneRigidbody.mass = 95.000f;
-            PlaneRigidbody.centerOfMass = new Vector3(0f,0.014f,0f);
-            PlaneRigidbody.inertiaTensor = new Vector3(904f,1004f,113f); //Ixx, Izz, Iyy
+            PlaneRigidbody.centerOfMass = new Vector3(0f, 0.014f, 0f);
+            PlaneRigidbody.inertiaTensor = new Vector3(904f, 1004f, 113f); //Ixx, Izz, Iyy
             PlaneRigidbody.inertiaTensorRotation = Quaternion.AngleAxis(-3.015f, Vector3.forward);
             // Specification At Cruise without Ground Effect
             Airspeed0 = 8.400f; // Magnitude of ground speed [m/s]
-            alpha0 = 1.395f; // Angle of attack [deg] 
+            alpha0 = 1.395f; // Angle of attack [deg]
             CDp0 = 0.016f; // Parasitic drag [-]
             Cmw0 = -0.105f; // Pitching momentum [-]
             CLMAX = 1.700f;
@@ -775,9 +807,9 @@ public class AerodynamicCalculator : SerialReceive
             bw = 25.400f; // Wing span [m]
             cMAC = 0.797f; // Mean aerodynamic chord [m]
             aw = 0.104f; // Wing Lift Slope [1/deg]
-            hw = (0.329f-0.250f); // Length between Wing a.c. and c.g.
+            hw = (0.329f - 0.250f); // Length between Wing a.c. and c.g.
             ew = 0.986f; // Wing efficiency
-            AR = (bw*bw)/Sw; // Aspect Ratio
+            AR = (bw * bw) / Sw; // Aspect Ratio
             // Tail
             Downwash = true; // Conventional Tail: True, T-Tail: False
             St = 1.392f; // Wing area of tail
@@ -785,33 +817,35 @@ public class AerodynamicCalculator : SerialReceive
             lt = 3.900f; // Length between Tail a.c. and c.g.
             deMAX = 12.000f; // Maximum elevator angle
             tau = 1.000f; // Control surface angle of attack effectiveness [-]
-            VH = (St*lt)/(Sw*cMAC); // Tail Volume
+            VH = (St * lt) / (Sw * cMAC); // Tail Volume
             // Fin
-            drMAX = 20.000f; // Maximum rudder angle            
+            drMAX = 20.000f; // Maximum rudder angle
             // Ground Effect
             CGEMIN = 0.290f; // Minimum Ground Effect Coefficient [-]
             // Stability derivatives
             Cyb = -0.003515f; // [1/deg]
             Cyp = -0.307586f; // [1/rad]
-            Cyr =  0.155767f; // [1/rad]
+            Cyr = 0.155767f; // [1/rad]
             Cydr = 0.001392f; // [1/deg]
             Clb = -0.002719f; // [1/deg]
             Clp = -0.756397f; // [1/rad]
-            Clr =  0.274225f; // [1/rad]
+            Clr = 0.274225f; // [1/rad]
             Cldr = 0.000000f; // [1/deg]
             Cnb = -0.000148f; // [1/deg]
             Cnp = -0.155515f; // [1/rad]
             Cnr = -0.003774f; // [1/rad]
             Cndr = -0.000241f; // [1/deg]
-        }else if(GameManager.instance.PlaneName == "Gardenia"){
+        }
+        else if (GameManager.instance.PlaneName == "Gardenia")
+        {
             // Plane
             PlaneRigidbody.mass = 104.700f;
-            PlaneRigidbody.centerOfMass = new Vector3(0f,0.011f,0f);
-            PlaneRigidbody.inertiaTensor = new Vector3(1118f,1161f,63.790f); //Ixx, Izz, Iyy
+            PlaneRigidbody.centerOfMass = new Vector3(0f, 0.011f, 0f);
+            PlaneRigidbody.inertiaTensor = new Vector3(1118f, 1161f, 63.790f); //Ixx, Izz, Iyy
             PlaneRigidbody.inertiaTensorRotation = Quaternion.AngleAxis(-6.083f, Vector3.forward);
             // Specification At Cruise without Ground Effect
             Airspeed0 = 10.300f; // Magnitude of ground speed [m/s]
-            alpha0 = 1.378f; // Angle of attack [deg] 
+            alpha0 = 1.378f; // Angle of attack [deg]
             CDp0 = 0.014f; // Parasitic drag [-]
             Cmw0 = -0.150f; // Pitching momentum [-]
             CLMAX = 1.700f;
@@ -820,9 +854,9 @@ public class AerodynamicCalculator : SerialReceive
             bw = 25.833f; // Wing span [m]
             cMAC = 0.758f; // Mean aerodynamic chord [m]
             aw = 0.104f; // Wing Lift Slope [1/deg]
-            hw = (0.350f-0.250f); // Length between Wing a.c. and c.g.
+            hw = (0.350f - 0.250f); // Length between Wing a.c. and c.g.
             ew = 0.986f; // Wing efficiency
-            AR = (bw*bw)/Sw; // Aspect Ratio
+            AR = (bw * bw) / Sw; // Aspect Ratio
             // Tail
             Downwash = true; // Conventional Tail: True, T-Tail: False
             St = 1.604f; // Wing area of tail
@@ -830,33 +864,35 @@ public class AerodynamicCalculator : SerialReceive
             lt = 3.030f; // Length between Tail a.c. and c.g.
             deMAX = 10.000f; // Maximum elevator angle
             tau = 1.000f; // Control surface angle of attack effectiveness [-]
-            VH = (St*lt)/(Sw*cMAC); // Tail Volume
+            VH = (St * lt) / (Sw * cMAC); // Tail Volume
             // Fin
-            drMAX = 10.000f; // Maximum rudder angle            
+            drMAX = 10.000f; // Maximum rudder angle
             // Ground Effect
             CGEMIN = 0.210f; // Minimum Ground Effect Coefficient [-]
             // Stability derivatives
             Cyb = -0.003350f; // [1/deg]
             Cyp = -0.323739f; // [1/rad]
-            Cyr =  0.125542f; // [1/rad]
+            Cyr = 0.125542f; // [1/rad]
             Cydr = 0.002195f; // [1/deg]
             Clb = -0.002857f; // [1/deg]
             Clp = -0.827828f; // [1/rad]
-            Clr =  0.236597f; // [1/rad]
+            Clr = 0.236597f; // [1/rad]
             Cldr = 0.000042f; // [1/deg]
             Cnb = -0.000158f; // [1/deg]
             Cnp = -0.136255f; // [1/rad]
             Cnr = -0.001478f; // [1/rad]
             Cndr = -0.000306f; // [1/deg]
-        }else if(GameManager.instance.PlaneName == "Aria"){
+        }
+        else if (GameManager.instance.PlaneName == "Aria")
+        {
             // Plane
             PlaneRigidbody.mass = 122.000f;
-            PlaneRigidbody.centerOfMass = new Vector3(0f,0.007f,0f);
-            PlaneRigidbody.inertiaTensor = new Vector3(1646f,1698f,67f); //Ixx, Izz, Iyy
+            PlaneRigidbody.centerOfMass = new Vector3(0f, 0.007f, 0f);
+            PlaneRigidbody.inertiaTensor = new Vector3(1646f, 1698f, 67f); //Ixx, Izz, Iyy
             PlaneRigidbody.inertiaTensorRotation = Quaternion.AngleAxis(-5.487f, Vector3.forward);
             // Specification At Cruise without Ground Effect
             Airspeed0 = 10.300f; // Magnitude of ground speed [m/s]
-            alpha0 = 1.225f; // Angle of attack [deg] 
+            alpha0 = 1.225f; // Angle of attack [deg]
             CDp0 = 0.013f; // Parasitic drag [-]
             Cmw0 = -0.133f; // Pitching momentum [-]
             CLMAX = 1.700f;
@@ -865,9 +901,9 @@ public class AerodynamicCalculator : SerialReceive
             bw = 29.021f; // Wing span [m]
             cMAC = 0.808f; // Mean aerodynamic chord [m]
             aw = 0.105f; // Wing Lift Slope [1/deg]
-            hw = (0.350f-0.250f); // Length between Wing a.c. and c.g.
+            hw = (0.350f - 0.250f); // Length between Wing a.c. and c.g.
             ew = 0.986f; // Wing efficiency
-            AR = (bw*bw)/Sw; // Aspect Ratio
+            AR = (bw * bw) / Sw; // Aspect Ratio
             // Tail
             Downwash = true; // Conventional Tail: True, T-Tail: False
             St = 1.832f; // Wing area of tail
@@ -875,33 +911,35 @@ public class AerodynamicCalculator : SerialReceive
             lt = 3.030f; // Length between Tail a.c. and c.g.
             deMAX = 10.000f; // Maximum elevator angle
             tau = 1.000f; // Control surface angle of attack effectiveness [-]
-            VH = (St*lt)/(Sw*cMAC); // Tail Volume
+            VH = (St * lt) / (Sw * cMAC); // Tail Volume
             // Fin
-            drMAX = 10.000f; // Maximum rudder angle            
+            drMAX = 10.000f; // Maximum rudder angle
             // Ground Effect
             CGEMIN = 0.210f; // Minimum Ground Effect Coefficient [-]
             // Stability derivatives
             Cyb = -0.003069f; // [1/deg]
             Cyp = -0.228176f; // [1/rad]
-            Cyr =  0.095274f; // [1/rad]
+            Cyr = 0.095274f; // [1/rad]
             Cydr = 0.002427f; // [1/deg]
             Clb = -0.002005f; // [1/deg]
             Clp = -0.741574f; // [1/rad]
-            Clr =  0.206900f; // [1/rad]
+            Clr = 0.206900f; // [1/rad]
             Cldr = 0.000042f; // [1/deg]
             Cnb = -0.000012f; // [1/deg]
             Cnp = -0.120109f; // [1/rad]
             Cnr = -0.001328f; // [1/rad]
             Cndr = -0.000301f; // [1/deg]
-        }else if(GameManager.instance.PlaneName == "Camellia"){
+        }
+        else if (GameManager.instance.PlaneName == "Camellia")
+        {
             // Plane
             PlaneRigidbody.mass = 109.800f;
-            PlaneRigidbody.centerOfMass = new Vector3(0f,0.001f,0f);
-            PlaneRigidbody.inertiaTensor = new Vector3(1486.608f,1529.392f,59.860f); //Ixx, Izz, Iyy
+            PlaneRigidbody.centerOfMass = new Vector3(0f, 0.001f, 0f);
+            PlaneRigidbody.inertiaTensor = new Vector3(1486.608f, 1529.392f, 59.860f); //Ixx, Izz, Iyy
             PlaneRigidbody.inertiaTensorRotation = Quaternion.AngleAxis(-5.492f, Vector3.forward);
             // Specification At Cruise without Ground Effect
             Airspeed0 = 10.400f; // Magnitude of ground speed [m/s]
-            alpha0 = 1.355f; // Angle of attack [deg] 
+            alpha0 = 1.355f; // Angle of attack [deg]
             CDp0 = 0.013f; // Parasitic drag [-]
             Cmw0 = -0.128f; // Pitching momentum [-]
             CLMAX = 1.700f;
@@ -910,9 +948,9 @@ public class AerodynamicCalculator : SerialReceive
             bw = 25.697f; // Wing span [m]
             cMAC = 0.795f; // Mean aerodynamic chord [m]
             aw = 0.104f; // Wing Lift Slope [1/deg]
-            hw = (0.350f-0.250f); // Length between Wing a.c. and c.g.
+            hw = (0.350f - 0.250f); // Length between Wing a.c. and c.g.
             ew = 0.986f; // Wing efficiency
-            AR = (bw*bw)/Sw; // Aspect Ratio
+            AR = (bw * bw) / Sw; // Aspect Ratio
             // Tail
             Downwash = true; // Conventional Tail: True, T-Tail: False
             St = 1.719f; // Wing area of tail
@@ -920,19 +958,19 @@ public class AerodynamicCalculator : SerialReceive
             lt = 3.030f; // Length between Tail a.c. and c.g.
             deMAX = 10.000f; // Maximum elevator angle
             tau = 1.000f; // Control surface angle of attack effectiveness [-]
-            VH = (St*lt)/(Sw*cMAC); // Tail Volume
+            VH = (St * lt) / (Sw * cMAC); // Tail Volume
             // Fin
-            drMAX = 10.000f; // Maximum rudder angle            
+            drMAX = 10.000f; // Maximum rudder angle
             // Ground Effect
             CGEMIN = 0.210f; // Minimum Ground Effect Coefficient [-]
             // Stability derivatives
             Cyb = -0.003104f; // [1/deg]
             Cyp = -0.317546f; // [1/rad]
-            Cyr =  0.112886f; // [1/rad]
+            Cyr = 0.112886f; // [1/rad]
             Cydr = 0.002013f; // [1/deg]
             Clb = -0.002799f; // [1/deg]
             Clp = -0.850998f; // [1/rad]
-            Clr =  0.224309f; // [1/rad]
+            Clr = 0.224309f; // [1/rad]
             Cldr = 0.000039f; // [1/deg]
             Cnb = -0.000132f; // [1/deg]
             Cnp = -0.129671f; // [1/rad]
@@ -948,7 +986,7 @@ public class AerodynamicCalculator : SerialReceive
             PlaneRigidbody.inertiaTensorRotation = Quaternion.AngleAxis(-3.710f, Vector3.forward);
             // Specification At Cruise without Ground Effect
             Airspeed0 = 10.200f; // Magnitude of ground speed [m/s]
-            alpha0 = 0.000f; // Angle of attack [deg] 
+            alpha0 = 0.000f; // Angle of attack [deg]
             CDp0 = 0.008f; // Parasitic drag [-]
             Cmw0 = -0.126f; // Pitching momentum [-]
             CLMAX = 1.700f;
@@ -957,13 +995,13 @@ public class AerodynamicCalculator : SerialReceive
             bw = 25.285f; // Wing span [m]
             cMAC = 0.773f; // Mean aerodynamic chord [m]
             aw = 0.104f; // Wing Lift Slope [1/deg]
-            
+
             ac = 0.350f;//空力中心[MAC]
             cg = 0.250f;//初期重心中心[MAC]
-            
-            hw = ac-cg; // Length between Wing a.c. and c.g.
+
+            hw = ac - cg; // Length between Wing a.c. and c.g.
             ew = 0.986f; // Wing efficiency
-            AR = (bw*bw)/Sw; // Aspect Ratio
+            AR = (bw * bw) / Sw; // Aspect Ratio
             // Tail
             Downwash = true; // Conventional Tail: True, T-Tail: False
             St = 1.650f; // Wing area of tail
@@ -971,9 +1009,9 @@ public class AerodynamicCalculator : SerialReceive
             lt = 2.900f; // Length between Tail a.c. and c.g.
             deMAX = 10.000f; // Maximum elevator angle
             tau = 1.000f; // Control surface angle of attack effectiveness [-]
-            VH = (St*lt)/(Sw*cMAC); // Tail Volume
+            VH = (St * lt) / (Sw * cMAC); // Tail Volume
             // Fin
-            drMAX = 15.000f; // Maximum rudder angle            
+            drMAX = 15.000f; // Maximum rudder angle
             // Ground Effect
             CGEMIN = 0.230f; // Minimum Ground Effect Coefficient [-]
             // Stability derivatives
@@ -983,7 +1021,7 @@ public class AerodynamicCalculator : SerialReceive
             Cydr = 0.002537f; // [1/deg]
             Clb = -0.003901f; // [1/deg]
             Clp = -0.970776f; // [1/rad]
-            Clr =  0.256819f; // [1/rad]
+            Clr = 0.256819f; // [1/rad]
             Cldr = 0.000075f; // [1/deg]
             Cnb = -0.000153f; // [1/deg]
             Cnp = -0.126670f; // [1/rad]
@@ -994,8 +1032,8 @@ public class AerodynamicCalculator : SerialReceive
         {
             // Plane
             PlaneRigidbody.mass = 100.402f;
-            PlaneRigidbody.centerOfMass = new Vector3(0f,-0.143f,0f);
-            PlaneRigidbody.inertiaTensor = new Vector3(966f,1005f,60f);
+            PlaneRigidbody.centerOfMass = new Vector3(0f, -0.143f, 0f);
+            PlaneRigidbody.inertiaTensor = new Vector3(966f, 1005f, 60f);
             PlaneRigidbody.inertiaTensorRotation = Quaternion.AngleAxis(-4.570f, Vector3.forward);
             // Specification At Cruise without Ground Effect
             Airspeed0 = 10.500f; // Magnitude of ground speed [m/s]
@@ -1011,9 +1049,9 @@ public class AerodynamicCalculator : SerialReceive
 
             ac = 0.350f;//空力中心[MAC]
             cg = 0.250f;//初期重心中心[MAC]
-            hw = ac-cg; // Length between Wing a.c. and c.g.
+            hw = ac - cg; // Length between Wing a.c. and c.g.
             ew = 0.987f; // Wing efficiency
-            AR = (bw*bw)/Sw; // Aspect Ratio
+            AR = (bw * bw) / Sw; // Aspect Ratio
             // Tail
             Downwash = true; // Conventional Tail: True, T-Tail: False
             St = 1.841f; // Wing area of tail
@@ -1021,9 +1059,9 @@ public class AerodynamicCalculator : SerialReceive
             lt = 2.800f; // Length between Tail a.c. and c.g.
             deMAX = 10.000f; // Maximum elevator angle
             tau = 1.000f; // Control surface angle of attack effectiveness [-]
-            VH = (St*lt)/(Sw*cMAC); // Tail Volume
+            VH = (St * lt) / (Sw * cMAC); // Tail Volume
             // Fin
-            drMAX = 15.000f; // Maximum rudder angle            
+            drMAX = 15.000f; // Maximum rudder angle
             // Ground Effect
             CGEMIN = 0.215f; // Minimum Ground Effect Coefficient [-]
             // Stability derivatives
@@ -1040,10 +1078,10 @@ public class AerodynamicCalculator : SerialReceive
             Cnr = -0.006814f; // [1/rad]
             Cndr = -0.000290f; // [1/deg]
             //追加機体データ//注意！仮データ
-            lengthForward = 0.9f+0.34f;//フレーム前方(フレーム＋センサー部分)から桁(原点)位置[m]
+            lengthForward = 0.9f + 0.34f;//フレーム前方(フレーム＋センサー部分)から桁(原点)位置[m]
             lengthBackward = -0.5f;//フレーム後方(フレームの端)から桁(原点)位置[m]
-            aircraftCenterOfMass = -0.25f;//機体のみ全重心(パイロットなし,ピッチのみ)[m]
-            aircraftMass = 50;//機体のみ全重量[kg]
+            centerOfMassAircraft = -0.25f;//機体のみ全重心(パイロットなし,ピッチのみ)[m]
+            massAircraft = 50;//機体のみ全重量[kg]
         }
         else if (GameManager.instance.PlaneName == "Tatsumi")
         {
@@ -1078,7 +1116,7 @@ public class AerodynamicCalculator : SerialReceive
             tau = 1.000f; // Control surface angle of attack effectiveness [-]
             VH = (St * lt) / (Sw * cMAC); // Tail Volume
             // Fin
-            drMAX = 10.000f; // Maximum rudder angle            
+            drMAX = 10.000f; // Maximum rudder angle
             // Ground Effect
             CGEMIN = 0.230f; // Minimum Ground Effect Coefficient [-]
             // Stability derivatives
@@ -1098,8 +1136,8 @@ public class AerodynamicCalculator : SerialReceive
             // lengthForward = 0.9f + 0.34f;//フレーム前方(フレーム＋センサー部分)から桁(原点)位置[m]
             lengthForward = 0.85f;//フレーム前方(フレーム＋センサー部分)から桁(原点)位置[m]
             lengthBackward = -0.48f;//フレーム後方(フレームの端)から桁(原点)位置[m]
-            aircraftCenterOfMass = -0.25f;//機体のみ全重心(パイロットなし,ピッチのみ)[m]
-            aircraftMass = 48;//機体のみ全重量[kg]
+            centerOfMassAircraft = -0.25f;//機体のみ全重心(パイロットなし,ピッチのみ)[m]
+            massAircraft = 48;//機体のみ全重量[kg]
         }
         /*
         if (CanReadCsv)
@@ -1135,7 +1173,7 @@ public class AerodynamicCalculator : SerialReceive
                 tau = float.Parse(CsvList[25][1]); // Control surface angle of attack effectiveness [-]
                 VH = float.Parse(CsvList[26][1]); // Tail Volume
                                                   // Fin
-                drMAX = float.Parse(CsvList[37][1]); // Maximum rudder angle            
+                drMAX = float.Parse(CsvList[37][1]); // Maximum rudder angle
                                                      // Ground Effect
                 CGEMIN = float.Parse(CsvList[2][6]); // Minimum Ground Effect Coefficient [-]
                                                      // Stability derivatives
@@ -1156,9 +1194,9 @@ public class AerodynamicCalculator : SerialReceive
                 lengthForward = float.Parse(CsvList[19][6]);//前センサーから吊り具(桁中心)までの長さ[m]
                 lengthBackward = float.Parse(CsvList[20][6]);//吊り具(桁中心)から後センサーまでの長さ[m]
 
-                aircraftCenterOfMass = float.Parse(CsvList[21][6]);//機体のみ全重心(パイロットなし,ピッチのみ)[m]
-                aircraftMass = float.Parse(CsvList[22][6]);//機体のみ全重量[kg]
-                pilotMass = PlaneRigidbody.mass - aircraftMass;//パイロット体重[kg]
+                centerOfMassAircraft = float.Parse(CsvList[21][6]);//機体のみ全重心(パイロットなし,ピッチのみ)[m]
+                massAircraft = float.Parse(CsvList[22][6]);//機体のみ全重量[kg]
+                massPilot = PlaneRigidbody.mass - massAircraft;//パイロット体重[kg]
 
                 YL = float.Parse(CsvList[23][6]);//機体中心から翼持ち棒までの長さ[m]
 
@@ -1168,7 +1206,6 @@ public class AerodynamicCalculator : SerialReceive
 
                 GameManager.instance.error = true;
                 GameManager.instance.errorText = "CSVファイル読み込み成功";
-
             }
             catch (Exception e)
             {
@@ -1201,7 +1238,7 @@ public class AerodynamicCalculator : SerialReceive
                 // Plane
                 PlaneRigidbody.mass = float.Parse(csv.Read(3, 2));
                 PlaneRigidbody.centerOfMass = new Vector3(float.Parse(csv.Read(4, 2)), float.Parse(csv.Read(4, 3)), float.Parse(csv.Read(4, 4)));
-                PlaneRigidbody.inertiaTensor = new Vector3(float.Parse(csv.Read(5, 2)), float.Parse(csv.Read(5, 3)), float.Parse(csv.Read(5,4)));
+                PlaneRigidbody.inertiaTensor = new Vector3(float.Parse(csv.Read(5, 2)), float.Parse(csv.Read(5, 3)), float.Parse(csv.Read(5, 4)));
                 PlaneRigidbody.inertiaTensorRotation = Quaternion.AngleAxis(float.Parse(csv.Read(6, 2)), Vector3.forward);
                 // Specification At Cruise without Ground Effect
                 Airspeed0 = float.Parse(csv.Read(8, 2)); // Magnitude of ground speed [m/s]
@@ -1226,7 +1263,7 @@ public class AerodynamicCalculator : SerialReceive
                 tau = float.Parse(csv.Read(27, 2)); // Control surface angle of attack effectiveness [-]
                 VH = float.Parse(csv.Read(28, 2)); // Tail Volume
                 // Fin
-                drMAX = float.Parse(csv.Read(39, 2)); // Maximum rudder angle            
+                drMAX = float.Parse(csv.Read(39, 2)); // Maximum rudder angle
                 // Ground Effect
                 CGEMIN = float.Parse(csv.Read(4, 7)); // Minimum Ground Effect Coefficient [-]
                 // Stability derivatives
@@ -1247,9 +1284,9 @@ public class AerodynamicCalculator : SerialReceive
                 //lengthForward = float.Parse(CsvList[19][6]);//前センサーから吊り具(桁中心)までの長さ[m]
                 //lengthBackward = float.Parse(CsvList[20][6]);//吊り具(桁中心)から後センサーまでの長さ[m]
 
-                aircraftCenterOfMass = float.Parse(csv.Read(23, 7));//機体のみ全重心(パイロットなし,ピッチのみ)[m]
-                aircraftMass = float.Parse(csv.Read(24, 7));//機体のみ全重量[kg]
-                // pilotMass = PlaneRigidbody.mass - aircraftMass;//パイロット体重[kg]
+                centerOfMassAircraft = float.Parse(csv.Read(23, 7));//機体のみ全重心(パイロットなし,ピッチのみ)[m]
+                massAircraft = float.Parse(csv.Read(24, 7));//機体のみ全重量[kg]
+                // massPilot = PlaneRigidbody.mass - massAircraft;//パイロット体重[kg]
 
                 YL = float.Parse(csv.Read(25, 7));//機体中心から翼持ち棒までの長さ[m]
 
@@ -1262,7 +1299,6 @@ public class AerodynamicCalculator : SerialReceive
                 GameManager.instance.errorText = @"CustomPlaneData Enabled! (CsvIO.Read : failure) Press ""R"" to Refresh.";
             }
         }
-
     }
     /*
     void WriteFile(string txt) {
@@ -1313,7 +1349,6 @@ public class AerodynamicCalculator : SerialReceive
                         Debug.Log(CsvList[jj][ii]);
                     }
                 }
-                
             }
         }
         catch (Exception e)
@@ -1323,8 +1358,7 @@ public class AerodynamicCalculator : SerialReceive
     }
     */
 
-    public virtual void FlightModelStart(){}
+    public virtual void FlightModelStart() { }
 
-    public virtual void FlightModelFixedUpdate(){}
-
+    public virtual void FlightModelFixedUpdate() { }
 }

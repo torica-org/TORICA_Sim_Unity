@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.XR;
 using UnityEngine.EventSystems;
 
-
 public class MultiCameraDisplay
 {
     private GameManager gm;
@@ -12,6 +11,8 @@ public class MultiCameraDisplay
     private Camera XRCamera; // XR OriginのCamera
 
     private GameObject xrEventSystem; // EventSystemを保持するフィールド.
+
+    private bool isSubDisplayActive = false; // サブディスプレイがアクティブかどうかを示すフラグ.
 
     public MultiCameraDisplay()
     {
@@ -51,12 +52,29 @@ public class MultiCameraDisplay
         }
     }
 
+    // ===== サブディスプレイのアクティブ状態を切り替えるメソッド（必要に応じて呼び出す） ==================
+    public void ToggleSubDisplay()
+    {
+        Debug.Log("displays connected: " + Display.displays.Length);
+        gm.error = true;
+        if (!isSubDisplayActive && Display.displays.Length > 1) // サブディスプレイがアクティブでなく、かつ複数のディスプレイが接続されている場合
+        {
+            isSubDisplayActive = true;
+            Display.displays[1].Activate();
+            gm.errorText = "Sub display activated.";
+        }
+        else
+        {
+            isSubDisplayActive = false;
+            GameManager.instance.errorText = "Sub display deactivated. Please restart this game.";
+        }
+    }
+
     /*
     Camera _thirdViewCamera;
 
     void Start()
     {
-
         Debug.Log("displays connected: " + Display.displays.Length);
         // Display.displays[0] は主要なデフォルトのディスプレイで、常にオンです。ですから、インデックス 1 から始まります。
         // その他のディスプレイが使用可能かを確認し、それぞれをアクティブにします。

@@ -17,7 +17,8 @@ public class AutoFactorSetter : MonoBehaviour
         script = gm.Plane.GetComponent<AerodynamicCalculator>();
     }
 
-    public void OnPush(){
+    public void OnPush()
+    {
         /*
         if(script.massRightNow != 0){GameManager.instance.massRightFactor = script.massLeftRightS/(script.massRightNow/1000);}
         else{GameManager.instance.massRightFactor = 0;}
@@ -31,7 +32,6 @@ public class AutoFactorSetter : MonoBehaviour
         if(script.massBackwardLeftNow != 0){GameManager.instance.massBackwardLeftFactor = script.massBackwardS/(script.massBackwardLeftNow/1000);}
         else{GameManager.instance.massBackwardLeftFactor = 0;}
         */
-
 
         /*
         if(script.massRightNow != 0){gm.massRightFactor = script.massLeftRightS/((script.massRightNow+script.massLeftNow)/1000);}
@@ -48,48 +48,80 @@ public class AutoFactorSetter : MonoBehaviour
         */
 
         //float pilotMass;
-
+        /*
         if (inputField.text != "")
         {
-            gm.pilotMassReal = float.Parse(inputField.text);
-            Debug.Log(gm.pilotMassReal);
+            gm.massPilotReal = float.Parse(inputField.text);
+            Debug.Log(gm.massPilotReal);
         }
         else
         {
-            gm.pilotMassReal = script.massRightNow + script.massBackwardRightNow;
+            gm.massPilotReal = script.massRightNow + script.massBackwardRightNow;
             if (gm.VRMode)
             {//HMDの質量を加算 -> 減算に修正
-                gm.pilotMassReal -= 0.588f;
+                gm.massPilotReal -= 0.588f;
             }
+        }
+        */
+        if (inputField.text != "")
+        {
+            AerodynamicCalculator.massPilotDefault = float.Parse(inputField.text);
+            Debug.Log(AerodynamicCalculator.massPilotDefault);
+        }
+        else
+        {
+            float massForward = 0f;
+            if (gm.VRMode)
+            {//HMDの質量を加算 -> 減算に修正
+                massForward = script.massRightNow - 0.588f;
+            }
+            else
+            {
+                massForward = script.massRightNow;
+            }
+
+            AerodynamicCalculator.massPilotDefault = massForward + script.massBackwardRightNow;
         }
 
         // 重心フレーム上での桁中心モーメントについて，（前後センサにかかる荷重によるモーメント）＝（パイロットの体重によるモーメント）とし，その両辺をパイロットの体重で割った式
-        script.pilotCenterOfGRaw = (script.massRightNow * AerodynamicCalculator.lengthForward + script.massBackwardRightNow * AerodynamicCalculator.lengthBackward) / gm.pilotMassReal; // 補正前のパイロット重心[m]
-        Debug.Log("Raw: " + script.pilotCenterOfGRaw);
+        script.centerOfMassPilotRaw = (script.massRightNow * AerodynamicCalculator.lengthForward + script.massBackwardRightNow * AerodynamicCalculator.lengthBackward) / AerodynamicCalculator.massPilotDefault; // 補正前のパイロット重心[m]
+        Debug.Log("Raw: " + script.centerOfMassPilotRaw);
 
-        // 機体が定常であるためには，（パイロットの体重によるモーメント）＝（空虚重量〈パイロットなしの機体重量〉によるモーメント）である必要があることを利用
-        // シミュレーター上での桁中心モーメントについて，（パイロットの体重によるモーメント）＝（空虚重量〈パイロットなしの機体重量〉によるモーメント）とし，その両辺をパイロットの体重で割った式
-        float pilotCenterOfGTheoretical = (-1 * AerodynamicCalculator.aircraftMass * AerodynamicCalculator.aircraftCenterOfMass) / gm.pilotMassReal; // 定常におけるパイロット重心の理論値[m]
-        Debug.Log("pilot_th: " + pilotCenterOfGTheoretical);
+        // 機体が定常であるとき，（パイロットの体重によるモーメント）+（空虚重量〈パイロットなしの機体重量〉によるモーメント）=（設計上の重心位置と全備重量によるモーメント）である.
+        // シミュレーター上での桁中心モーメントについて，
+        // （パイロットの体重によるモーメント）＝（設計上の重心位置と全備重量によるモーメント）-（空虚重量〈パイロットなしの機体重量〉によるモーメント）
+        // とし，その両辺をパイロットの体重で割った式
+        //float centerOfMassPilotTheoretical = (-1 * AerodynamicCalculator.massAircraft * AerodynamicCalculator.centerOfMassAircraft) / gm.massPilotReal; // 定常におけるパイロット重心の理論値[m]
+        float massCurrent = 0f;
+        if (script.massRightNow != 0f && script.massBackwardRightNow != 0f)
+        {
+            massCurrent = AerodynamicCalculator.massPilot + AerodynamicCalculator.massAircraft;
+        }
+        else
+        {
+            massCurrent = AerodynamicCalculator.massDefault;
+        }
+        float centerOfMassPilotTheoretical = (massCurrent * AerodynamicCalculator.centerOfMassDefault - AerodynamicCalculator.massAircraft * AerodynamicCalculator.centerOfMassAircraft) / AerodynamicCalculator.massPilotDefault; // 定常におけるパイロット重心の理論値[m]
+        Debug.Log("pilot_th: " + centerOfMassPilotTheoretical);
 
         // 補正値の算出
-        script.pilotCenterOfGOffset = pilotCenterOfGTheoretical - script.pilotCenterOfGRaw; // パイロット重心の補正値
-        Debug.Log("offset: " + script.pilotCenterOfGOffset);
+        script.centerOfMassPilotOffset = centerOfMassPilotTheoretical - script.centerOfMassPilotRaw; // パイロット重心の補正値
+        Debug.Log("offset: " + script.centerOfMassPilotOffset);
 
-        // Debug.Log("pilotMassReal: " + gm.pilotMassReal);
+        // Debug.Log("massPilotReal: " + gm.massPilotReal);
 
         /*
         if (gm.VRMode)
         {//HMDの質量を加算 -> 減算に修正
-            pilotMass = gm.pilotMassReal - 0.588f;
+            pilotMass = gm.massPilotReal - 0.588f;
         }
         else
         {
-            pilotMass = gm.pilotMassReal;
+            pilotMass = gm.massPilotReal;
         }
         */
 
-        //script.massLeftRightS = (pilotMass*AerodynamicCalculator.lengthBackward - AerodynamicCalculator.aircraftMass*AerodynamicCalculator.aircraftCenterOfMass) / (AerodynamicCalculator.lengthForward + AerodynamicCalculator.lengthBackward); // 前部荷重の理論値
+        //script.massLeftRightS = (pilotMass*AerodynamicCalculator.lengthBackward - AerodynamicCalculator.massAircraft*AerodynamicCalculator.centerOfMassAircraft) / (AerodynamicCalculator.lengthForward + AerodynamicCalculator.lengthBackward); // 前部荷重の理論値
         //script.massBackwardS = (pilotMass - script.massLeftRightS); // 後部荷重の理論値
         // Debug.Log("lengthForward + lengthBackward" + (AerodynamicCalculator.lengthForward + AerodynamicCalculator.lengthBackward));
         // Debug.Log("pitchGravityPilotS: " + script.pitchGravityPilotS);
@@ -97,26 +129,25 @@ public class AutoFactorSetter : MonoBehaviour
         // Debug.Log("Front: " + script.massLeftRightS + " Rear: " + script.massBackwardS);
 
         /*
-        if (script.massRightNow != 0) 
-        { 
+        if (script.massRightNow != 0)
+        {
             gm.massRightFactor = script.massLeftRightS / (script.massRightNow / 1000);
-            // Debug.Log(script.massLeftRightS + "(Front) / " + script.massRightNow + "(Rear) / 1000 = " + gm.massRightFactor); 
+            // Debug.Log(script.massLeftRightS + "(Front) / " + script.massRightNow + "(Rear) / 1000 = " + gm.massRightFactor);
         }
         else
-        { 
-            gm.massRightFactor = 0; 
+        {
+            gm.massRightFactor = 0;
         }
 
-        if (script.massBackwardRightNow != 0) 
-        { 
+        if (script.massBackwardRightNow != 0)
+        {
             gm.massBackwardRightFactor = script.massBackwardS / (script.massBackwardRightNow / 1000);
             // Debug.Log(script.massBackwardS + "(Front) / " + script.massBackwardRightNow + "(Rear) / 1000 = " + gm.massBackwardRightFactor);
         }
         else
-        { 
-            gm.massBackwardRightFactor = 0; 
+        {
+            gm.massBackwardRightFactor = 0;
         }
         */
-
     }
 }
