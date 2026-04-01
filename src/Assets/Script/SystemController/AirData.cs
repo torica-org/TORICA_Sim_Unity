@@ -65,7 +65,7 @@ public class AirData : MonoBehaviour
         GameManager.instance.BetaList.Add((float)Math.Round(script.beta, 2, MidpointRounding.AwayFromZero));
         GameManager.instance.ThetaList.Add((float)Math.Round(theta, 2, MidpointRounding.AwayFromZero));
         GameManager.instance.PhiList.Add((float)Math.Round(phi, 2, MidpointRounding.AwayFromZero));
-        GameManager.instance.CenterOfGList.Add((float)Math.Round(script.centerOfG, 2, MidpointRounding.AwayFromZero));
+        GameManager.instance.CenterOfGList.Add((float)Math.Round(script.centerOfMass, 2, MidpointRounding.AwayFromZero));
         GameManager.instance.drList.Add((float)Math.Round(script.dr, 2, MidpointRounding.AwayFromZero));
 
         if (PlaneRigidbody != null)

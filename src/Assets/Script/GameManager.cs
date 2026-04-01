@@ -50,7 +50,7 @@ public class GameManager : MonoBehaviour
     //ジョイスティックの調整用係数(この係数をジョイスティックの値に割る)
     [System.NonSerialized] public float JoyStickFactor = 450;
     [System.NonSerialized] public bool JoyStickFirst = true;
-    [System.NonSerialized] public float pilotMassReal = 0f;
+    //[System.NonSerialized] public float massPilotReal = 0f;
     //エアデータ保存リスト
     [System.NonSerialized] public List<float> AirspeedList = new List<float>();
     [System.NonSerialized] public List<float> AltList = new List<float>();

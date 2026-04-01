@@ -66,7 +66,7 @@ public sealed class DynamicInputField<T> : UIBase
     private void OnTimerEvent()
     {
         T cur = _getter();
-        T input = Converter<T>(_input.text); // `string`を変換して代入.
+        T input = Converter(_input.text); // `string`を変換して代入.
         // Debug.Log("Current value: " + cur + ", Last value: " + _last);
 
         if (!Equals(cur)) // 現在の値が最後に記録された値と異なる場合，テキストを更新.
@@ -100,7 +100,7 @@ public sealed class DynamicInputField<T> : UIBase
     }
 
     // ===== ジェネリック型に変換 ==============================
-    private T Converter<T>(string value)
+    private T Converter(string value)
     {
         if (value == "") // 空欄のときはデフォルト値を返す.
         {
