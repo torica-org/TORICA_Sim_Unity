@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement; // `LoadScene`のために必要
 public class PreFlightScreen
 {
     private GameManager gm;
+    private CameraManager cm;
     private UIManager ui;
     private GameObject basePanel;
     private GameObject baseScrollView;
@@ -17,6 +18,7 @@ public class PreFlightScreen
     public PreFlightScreen(GameObject basePanel, GameObject baseScrollView)
     {
         gm = GameManager.instance;
+        cm = GameObject.Find("CameraManager").GetComponent<CameraManager>();
         ui = UIManager.instance;
         uiObj = ui.gameObject;
         this.basePanel = basePanel;
@@ -100,7 +102,7 @@ public class PreFlightScreen
 
         UnityAction CaribrateVR = () =>
         {
-            CameraManager.CaribrateVR();
+            cm.CaribrateVR();
         };
 
         ActionButton caribrateVrButton = new(uiObj, "CaribrateVrButton", "Caribrate HMD(C)", CaribrateVR);
