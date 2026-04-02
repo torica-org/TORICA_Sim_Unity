@@ -21,7 +21,7 @@ public class IMGUI : MonoBehaviour
 
         if (GUI.Button(new Rect(10, 210, 300, 150), "CaribrateVR"))
         {
-                CameraManager.CaribrateVR();    
+            //CameraManager.CaribrateVR();
         }
 
         /*
@@ -46,6 +46,4 @@ public class IMGUI : MonoBehaviour
         }
         */
     }
-
-
 }

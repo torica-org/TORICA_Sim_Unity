@@ -162,6 +162,7 @@ public class AerodynamicCalculator : SerialReceive
     protected bool AddTaleForce;
 
     private GameManager gm = GameManager.instance; // MyGameManagerをgmとして宣言
+    private CameraManager cm;
 
     public void OnEnables()
     {
@@ -185,6 +186,8 @@ public class AerodynamicCalculator : SerialReceive
     // Start is called before the first frame update
     void Start()
     {
+        cm = GameObject.Find("CameraManager").GetComponent<CameraManager>();
+
         // Get rigidbody component
         PlaneRigidbody = this.GetComponent<Rigidbody>();
         this.transform.rotation = Quaternion.Euler(0.0f, gm.StartRotation, 0.0f);
@@ -434,7 +437,7 @@ public class AerodynamicCalculator : SerialReceive
         {
             massPilot = 68.0f; // [kg]
 
-            centerOfMassPilot = CameraManager.GetZAxisMovement(); // パイロット重心は直接取得できる.
+            centerOfMassPilot = cm.GetZAxisMovement(); // パイロット重心は直接取得できる.
 
             // 桁中心モーメントについて，（パイロット体重と空虚重量〈パイロットなしの機体重量〉によるモーメント）＝（全備重量によるモーメント）とし，その両辺を全備重量で割った式
             centerOfMass = (massPilot * centerOfMassPilot + massAircraft * centerOfMassAircraft) / (massPilot + massAircraft);

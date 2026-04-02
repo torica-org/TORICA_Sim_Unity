@@ -21,16 +21,17 @@ public class CameraManager : MonoBehaviour
     private Camera TPSCamera; // 三人称視点Camera
 
     private GameObject XROrigin; // VR用のXR Origin (XR Rig)
-    private static Camera XRCamera = null; // XR OriginのCamera
+    private Camera XRCamera = null; // XR OriginのCamera
 
     private ManualXRControl manualXRControl = new(); // VR制御用クラスを保持するフィールド.
     private MultiCameraDisplay multiCameraDisplay; // カメラ制御用クラスを保持するフィールド.
 
     private AudioListener audioListener; // AudioListenerコンポーネントを保持するフィールド
 
-    private static bool isVRInitialized = false; // VRが初期化されたかどうかを示すフラグ
+    private bool isVRInitialized = false; // VRが初期化されたかどうかを示すフラグ
 
-    private static Vector3 caribrationOffset = Vector3.zero; // キャリブレーションのオフセットを保持するフィールド.
+    private Vector3 caribrationOffset = Vector3.zero; // キャリブレーションのオフセットを保持するフィールド.
+    private Quaternion calibrationRotationOffset = Quaternion.identity; // 回転のキャリブレーションのオフセットを保持するフィールド.
 
     // ===== オブジェクトが生成された際に実行されるメソッド =====================================
     void Start()
@@ -141,6 +142,9 @@ public class CameraManager : MonoBehaviour
         Vector3 FPSPosition = FPSObj.transform.position; // FPSカメラの位置を保存.
         this.gameObject.transform.position = FPSPosition - caribrationOffset; // CameraManagerの位置をFPSカメラの位置に合わせる（キャリブレーションオフセットを考慮）.
 
+        Vector3 FPSRotation = FPSObj.transform.rotation.eulerAngles; // FPSカメラの回転を保存.
+        this.gameObject.transform.rotation = Quaternion.Inverse(calibrationRotationOffset) * FPSObj.transform.rotation; // CameraManagerの回転をキャリブレーションオフセットに合わせる.
+
         //Debug.Log("HMD Z Axis Movement: " + GetZAxisMovement());
         //Debug.Log("displays connected: " + Display.displays.Length);
     }
@@ -181,7 +185,7 @@ public class CameraManager : MonoBehaviour
     }
 
     // ===== キャリブレーションを行うメソッド（staticなのでインスタンス化無しで呼べる） ============
-    public static void CaribrateVR()
+    public void CaribrateVR()
     {
         if (!XRCamera || !isVRInitialized)
         {
@@ -191,18 +195,26 @@ public class CameraManager : MonoBehaviour
 
         // カメラにとっては，前後: z軸，左右: x軸である．
 
-        Vector3 vrCameraLocalOffset = XRCamera.transform.localPosition; // XRカメラのローカル位置を取得.
+        //Vector3 vrCameraLocalOffset = XRCamera.transform.localPosition; // XRカメラのローカル位置を取得.
         // XRCameraのローカル位置はグローバル座標と同じように，前後: z軸，上下: y軸，左右: x軸で保持されている.
 
         // 現在のXRカメラのローカル位置をキャリブレーションオフセットとして保存.
-        caribrationOffset.x = vrCameraLocalOffset.z; // 前後方向のオフセット.
-        caribrationOffset.y = vrCameraLocalOffset.y; // 上下方向のオフセット.
-        caribrationOffset.z = vrCameraLocalOffset.x; // 左右方向のオフセット.
+        //caribrationOffset.x = vrCameraLocalOffset.z; // 前後方向のオフセット.
+        //caribrationOffset.y = vrCameraLocalOffset.y; // 上下方向のオフセット.
+        //caribrationOffset.z = vrCameraLocalOffset.x; // 左右方向のオフセット.
         // CameraManagerの向きはFPSカメラと同様にy軸について90deg回転しているため，前後: x軸，上下: y軸，左右: z軸である.
+
+        Vector3 vrCameraGrobalOffset = XRCamera.transform.position - this.gameObject.transform.position; // XRカメラのグローバル位置からCameraManagerのグローバル位置を引いてオフセットを取得.
+        Debug.Log("offsetX: " + vrCameraGrobalOffset.x + "\toffsetY: " + vrCameraGrobalOffset.y + "\toffsetZ: " + vrCameraGrobalOffset.z); // オフセットをログに出力.
+        caribrationOffset = vrCameraGrobalOffset; // オフセットとして代入.
+
+        Quaternion relativeRotation = Quaternion.Inverse(this.gameObject.transform.rotation) * XRCamera.transform.rotation; // XRカメラのヨーをキャリブレーションオフセットとして保存（ピッチとロールは無視）.
+        Debug.Log("offsetYaw: " + XRCamera.transform.rotation.eulerAngles.y); // 回転のオフセットをログに出力.
+        calibrationRotationOffset = Quaternion.Euler(0, relativeRotation.eulerAngles.y, 0);
     }
 
     // ===== VRゴーグルの前後移動量を返すメソッド ============================
-    public static float GetZAxisMovement()
+    public float GetZAxisMovement()
     {
         if (!XRCamera || !isVRInitialized)
         {
