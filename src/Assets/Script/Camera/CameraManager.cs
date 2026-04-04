@@ -20,6 +20,9 @@ public class CameraManager : MonoBehaviour
     private GameObject TPSObj; // 三人称視点Cameraのオブジェクト
     private Camera TPSCamera; // 三人称視点Camera
 
+    private GameObject SideObj; // サイドビューCameraのオブジェクト
+    private Camera SideCamera; // サイドビューCamera
+
     private GameObject XROrigin; // VR用のXR Origin (XR Rig)
     private Camera XRCamera = null; // XR OriginのCamera
 
@@ -44,6 +47,8 @@ public class CameraManager : MonoBehaviour
         FPSCamera = FPSObj.GetComponent<Camera>();
         TPSObj = GameManager.instance.Plane.transform.Find("TPSCamera").gameObject;
         TPSCamera = TPSObj.GetComponent<Camera>();
+        SideObj = GameObject.Find("SideCamera");
+        SideCamera = SideObj.GetComponent<Camera>();
 
         //ui.SetRenderCamera(TPSCamera); // UIManagerにFPSCameraを渡す.
 
@@ -121,7 +126,7 @@ public class CameraManager : MonoBehaviour
             TPSCamera.targetDisplay = 0; // 固定.
 
             Vector3 zAxisRotation = new(0f, 90f, 0f);
-            this.gameObject.transform.eulerAngles = zAxisRotation; // CameraManagerの向きをFPSカメラと同様にy軸について90deg回転させる.
+            XROrigin.transform.eulerAngles = zAxisRotation; // CameraManagerの向きをFPSカメラと同様にy軸について90deg回転させる.
         }
         else if (!gm.VRMode && isVRInitialized)
         {
@@ -138,15 +143,21 @@ public class CameraManager : MonoBehaviour
         SyncCameraFlag();
 
         // `XR Origin`は`GameManager.instance.Plane`の子にせず，スクリプトで追従させる.
-        // `XR Origin`の親であるCameraManager(=this.gameObject)をFPSカメラの位置と合わせる.
+        // `XR Origin`の親であるCameraManager(=XROrigin)をFPSカメラの位置と合わせる.
         Vector3 FPSPosition = FPSObj.transform.position; // FPSカメラの位置を保存.
-        this.gameObject.transform.position = FPSPosition - caribrationOffset; // CameraManagerの位置をFPSカメラの位置に合わせる（キャリブレーションオフセットを考慮）.
+        XROrigin.transform.position = FPSPosition - caribrationOffset; // CameraManagerの位置をFPSカメラの位置に合わせる（キャリブレーションオフセットを考慮）.
 
         Vector3 FPSRotation = FPSObj.transform.rotation.eulerAngles; // FPSカメラの回転を保存.
-        this.gameObject.transform.rotation = Quaternion.Inverse(calibrationRotationOffset) * FPSObj.transform.rotation; // CameraManagerの回転をキャリブレーションオフセットに合わせる.
+        XROrigin.transform.rotation = Quaternion.Inverse(calibrationRotationOffset) * FPSObj.transform.rotation; // CameraManagerの回転をキャリブレーションオフセットに合わせる.
 
         //Debug.Log("HMD Z Axis Movement: " + GetZAxisMovement());
         //Debug.Log("displays connected: " + Display.displays.Length);
+
+
+        // サイドビューカメラの位置設定.
+        Vector3 sideObjOffset = new(10f, 3f, -10f); // FPSカメラに対して右前方に配置.
+        SideObj.transform.position = FPSObj.transform.position + sideObjOffset; // サイドビューカメラの位置をFPSカメラの位置にオフセットして設定.
+        SideObj.transform.LookAt(gm.Plane.transform); // サイドビューカメラをFPSカメラの方に向ける.
     }
 
     // ===== カメラの状態をフラグと同期するメソッド =================================================
@@ -204,11 +215,11 @@ public class CameraManager : MonoBehaviour
         //caribrationOffset.z = vrCameraLocalOffset.x; // 左右方向のオフセット.
         // CameraManagerの向きはFPSカメラと同様にy軸について90deg回転しているため，前後: x軸，上下: y軸，左右: z軸である.
 
-        Vector3 vrCameraGrobalOffset = XRCamera.transform.position - this.gameObject.transform.position; // XRカメラのグローバル位置からCameraManagerのグローバル位置を引いてオフセットを取得.
+        Vector3 vrCameraGrobalOffset = XRCamera.transform.position - XROrigin.transform.position; // XRカメラのグローバル位置からCameraManagerのグローバル位置を引いてオフセットを取得.
         Debug.Log("offsetX: " + vrCameraGrobalOffset.x + "\toffsetY: " + vrCameraGrobalOffset.y + "\toffsetZ: " + vrCameraGrobalOffset.z); // オフセットをログに出力.
         caribrationOffset = vrCameraGrobalOffset; // オフセットとして代入.
 
-        Quaternion relativeRotation = Quaternion.Inverse(this.gameObject.transform.rotation) * XRCamera.transform.rotation; // XRカメラのヨーをキャリブレーションオフセットとして保存（ピッチとロールは無視）.
+        Quaternion relativeRotation = Quaternion.Inverse(XROrigin.transform.rotation) * XRCamera.transform.rotation; // XRカメラのヨーをキャリブレーションオフセットとして保存（ピッチとロールは無視）.
         Debug.Log("offsetYaw: " + XRCamera.transform.rotation.eulerAngles.y); // 回転のオフセットをログに出力.
         calibrationRotationOffset = Quaternion.Euler(0, relativeRotation.eulerAngles.y, 0);
     }

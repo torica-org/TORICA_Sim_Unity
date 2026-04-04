@@ -6,23 +6,32 @@ using System;
 
 public class prohibitedArea : MonoBehaviour
 {
+    /*
     private GameObject Result;
-    [SerializeField] private Canvas canvas;
+
+    //[SerializeField] private Canvas canvas;
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         Result = GameObject.Find("Result");
+    }
+    */
+    void Start()
+    {
+
     }
 
     void OnCollisionEnter(Collision collision)
     {
         GameManager.instance.Landing = true;
-        GameManager.instance.SettingMode = 0;
-        canvas.enabled = true;
-        Time.timeScale=(float)Convert.ToInt32(!GameManager.instance.SettingActive & !GameManager.instance.Landing);
+        //GameManager.instance.SettingMode = 0;
+        //canvas.enabled = true;
+        ResultScreen.terminationReason = "飛行禁止区域への進入";
+        Time.timeScale = (float)Convert.ToInt32(!GameManager.instance.SettingActive & !GameManager.instance.Landing);
     }
 
     // Update is called once per frame
+    
     void Update()
     {
         //Result.SetActive(/*!GameManager.instance.SettingActive & */GameManager.instance.Landing);

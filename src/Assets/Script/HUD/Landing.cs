@@ -8,13 +8,13 @@ public class Landing : MonoBehaviour
 {
     private GameObject Result;
     private GameObject SimpleResult;
-    [SerializeField] private Canvas canvas;
+    //[SerializeField] private Canvas canvas;
     // Start is called before the first frame update
     void Start()
     {
         // Result = GameObject.Find("Result");
         // SimpleResult = GameObject.Find("SimpleResult");
-        canvas.enabled = false;
+        //canvas.enabled = false;
 
         // Result.SetActive(false);
         // SimpleResult.SetActive(false);
@@ -24,8 +24,9 @@ public class Landing : MonoBehaviour
     void OnCollisionEnter(Collision collision)
     {
         GameManager.instance.Landing = true;
-        GameManager.instance.SettingMode = 0;
-        canvas.enabled = true;
+        //GameManager.instance.SettingMode = 0; // ?
+        //canvas.enabled = true;
+        ResultScreen.terminationReason = "着水";
         Time.timeScale=(float)Convert.ToInt32(!GameManager.instance.SettingActive & !GameManager.instance.Landing);
     }
 

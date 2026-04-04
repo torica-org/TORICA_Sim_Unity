@@ -13,6 +13,8 @@ public class ResultScreen
     private GameObject basePanel;
     private Rigidbody PlaneRigidbody;
 
+    public static string terminationReason;
+
     public ResultScreen(GameObject basePanel)
     {
         this.basePanel = basePanel;
@@ -60,18 +62,28 @@ public class ResultScreen
         StaticText<string> textDist = new(basePanel, "TextDist", dist, 150.0f);
         GameObject textObj = textDist.gameObject;
         RectTransform textDistRect = textDist.rectTransform;
-        textDistRect.anchorMin = new Vector2(0.05f, 0.75f); // アンカーの最小値
-        textDistRect.anchorMax = new Vector2(0.5f, 0.75f); // アンカーの最大値
+        textDistRect.anchorMin = new Vector2(0.05f, 0.7f); // アンカーの最小値
+        textDistRect.anchorMax = new Vector2(0.5f, 0.7f); // アンカーの最大値
         textDistRect.pivot = new Vector2(0.5f, 0.5f); // ピボット（ボタン自身の基準点）
         textDistRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 800); // RectTransformのx軸方向のサイズを変更する
         textDistRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 400); // RectTransformのy軸方向のサイズを変更する
         textDistRect.anchoredPosition = new Vector2(0, 0); // アンカーを基準にした座標 (pos_x, pos_y) を設定
 
+        // 終了理由を表示するテキストの生成
+        StaticText<string> textTerminationReason = new(basePanel, "TextTerminationReason", terminationReason, 100.0f);
+        RectTransform textTerminationReasonRect = textTerminationReason.rectTransform;
+        textTerminationReasonRect.anchorMin = new Vector2(0.5f, 0.9f); // アンカーの最小値
+        textTerminationReasonRect.anchorMax = new Vector2(0.5f, 0.9f); // アンカーの最大値
+        textTerminationReasonRect.pivot = new Vector2(0.5f, 0.5f); // ピボット（ボタン自身の基準点）
+        textTerminationReasonRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 1200); // RectTransformのx軸方向のサイズを変更する
+        textTerminationReasonRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 400); // RectTransformのy軸方向のサイズを変更する
+        textTerminationReasonRect.anchoredPosition = new Vector2(0, 0); // アンカーを基準にした座標 (pos_x, pos_y) を設定
+
         // `Retry(R)`ボタンの生成
         ActionButton buttonRetry = new(basePanel, "ButtonRetry", "Retry(R)", 70.0f, OnClickReloadScene);
         RectTransform buttonRetryRect = buttonRetry.rectTransform;
-        buttonRetryRect.anchorMin = new Vector2(0.5f, 0.75f); // アンカーの最小値
-        buttonRetryRect.anchorMax = new Vector2(0.95f, 0.75f); // アンカーの最大値
+        buttonRetryRect.anchorMin = new Vector2(0.5f, 0.7f); // アンカーの最小値
+        buttonRetryRect.anchorMax = new Vector2(0.95f, 0.7f); // アンカーの最大値
         buttonRetryRect.pivot = new Vector2(0.5f, 0.5f); // ピボット（ボタン自身の基準点）
         buttonRetryRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 400); // RectTransformのx軸方向のサイズを変更する
         buttonRetryRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 100); // RectTransformのy軸方向のサイズを変更する
