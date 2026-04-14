@@ -18,7 +18,16 @@ public class GameManager : MonoBehaviour
     [System.NonSerialized] public bool SettingChanged = false;//設定変更
     [System.NonSerialized] public bool MousePitchControl = false;//マウス操作の可否
     [System.NonSerialized] public bool RandomWind = false;//ランダム風の可否
-    [System.NonSerialized] public bool SaveCsv = false;//CSVファイルへの保存の可否
+
+    // ----- CSV ----------------------------------------------------------------------------
+    [System.NonSerialized] public bool SaveCsv = false;//CSVファイルへの保存の可否.
+
+    [System.NonSerialized] public bool customPlaneDataEnabled = false; // CSV機体データ読み込み.
+    [System.NonSerialized] public string customPlaneDataPath = ""; // CSVファイルのパス.
+
+    //[System.NonSerialized] public bool updatePlaneData = true; // 最初は諸元を読み込む必要がある.
+    // --------------------------------------------------------------------------------------
+
     [System.NonSerialized] public bool EnterFlight = false;//フライト開始
     [System.NonSerialized] public float MouseSensitivity = 1.000f; // Magnitude of Gust [m/s]
     [System.NonSerialized] public float GustMag = 0.000f; // Magnitude of Gust [m/s]
@@ -35,24 +44,32 @@ public class GameManager : MonoBehaviour
     [System.NonSerialized] public float StartRoll = 0.0f; //離陸時ロールを追加
     [System.NonSerialized] public float TailSetDeg = -1.0f;
     [System.NonSerialized] public float FieldOfView = 90;
+
     //ロードセルのオフセット値
     [System.NonSerialized] public float massLeft0 = 0;
+
     [System.NonSerialized] public float massRight0 = 0;
     [System.NonSerialized] public float massBackwardRight0 = 0;
     [System.NonSerialized] public float massBackwardLeft0 = 0;
     [System.NonSerialized] public float JoyStick0 = 0;
+
     //ロードセルの調整用係数(この係数をロードセルの値に掛ける)
     [System.NonSerialized] public float massLeftFactor = 1;
+
     [System.NonSerialized] public float massRightFactor = 1;
     [System.NonSerialized] public float massBackwardRightFactor = 1;
     [System.NonSerialized] public float massBackwardLeftFactor = 1;
     [System.NonSerialized] public float DefaultFactor = 1.00f;
+
     //ジョイスティックの調整用係数(この係数をジョイスティックの値に割る)
     [System.NonSerialized] public float JoyStickFactor = 450;
+
     [System.NonSerialized] public bool JoyStickFirst = true;
+
     //[System.NonSerialized] public float massPilotReal = 0f;
     //エアデータ保存リスト
     [System.NonSerialized] public List<float> AirspeedList = new List<float>();
+
     [System.NonSerialized] public List<float> AltList = new List<float>();
     [System.NonSerialized] public List<float> AlphaList = new List<float>();
     [System.NonSerialized] public List<float> BetaList = new List<float>();
@@ -61,8 +78,10 @@ public class GameManager : MonoBehaviour
     [System.NonSerialized] public List<float> CenterOfGList = new List<float>();
     [System.NonSerialized] public List<float> drList = new List<float>();
     [System.NonSerialized] public float Distance = 0.0f;
+
     //エラー関係
     [System.NonSerialized] public string errorText;
+
     [System.NonSerialized] public bool error = false;//エラーテキストが発行されるか否か
 
     [System.NonSerialized] public bool FrameUseable = false;
@@ -78,12 +97,15 @@ public class GameManager : MonoBehaviour
 
     //トラブルモード
     [System.NonSerialized] public bool RudderError = false;
+
     [System.NonSerialized] public float RudderErrorValue = 0;
     [System.NonSerialized] public int RudderErrorMode = 0;
     [System.NonSerialized] public bool CenterOfMassError = false;
     [System.NonSerialized] public float CenterOfMassErrorValue = 0;
+
     //ランダムモード
     [System.NonSerialized] public bool CenterOfMassRand = false;
+
     [System.NonSerialized] public float CenterOfMassRandValue = 1;
     [System.NonSerialized] public bool RudderRand = false;
     [System.NonSerialized] public float RudderRandValue = 1;
@@ -93,7 +115,7 @@ public class GameManager : MonoBehaviour
     [System.NonSerialized] public float CgeRandValue = 0;
 
     // ===== Updateよりも早くに実行される ==============
-    void Awake()
+    private void Awake()
     {
         if (instance == null)
         {

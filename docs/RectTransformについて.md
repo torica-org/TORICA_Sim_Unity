@@ -34,6 +34,6 @@ RectTransform rect = （あるGameObject）.GetComponent<RectTransform>();
 - rect.anchoredPosition = new Vector2(-20, 0); // アンカーを基準にした座標 (pos\_x, pos\_y) を設定
 
 ## 参考になりそうなページ
-[【Unity】RectTransformとは？UIの表示場所を決めるコンポーネント | ともくんのゲーム作り部屋](https://tomokun-games.com/unity-recttransform/)
-[【Unity】RectTransform.sizeDeltaの仕様と注意点 | ねこじゃらシティ](https://nekojara.city/unity-rect-transform-size-delta)
+- [【Unity】RectTransformとは？UIの表示場所を決めるコンポーネント | ともくんのゲーム作り部屋](https://tomokun-games.com/unity-recttransform/)
+- [【Unity】RectTransform.sizeDeltaの仕様と注意点 | ねこじゃらシティ](https://nekojara.city/unity-rect-transform-size-delta)
 

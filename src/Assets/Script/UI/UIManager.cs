@@ -4,6 +4,7 @@ using UnityEngine;
 
 // ===== 以下，共存できない =====
 using UnityEngine.UI; // uGUI
+
 // using UnityEngine.UIElements; // UI Toolkit
 // ===== ================ =====
 using TMPro;
@@ -28,6 +29,7 @@ public class UIManager : MonoBehaviour
     private GameObject baseScrollView;
 
     private PreFlightScreen preFlight;
+    private FlightSettingScreen flightSetting;
     private ResultScreen result;
 
     // ===== 画面管理 ===========================================
@@ -40,18 +42,22 @@ public class UIManager : MonoBehaviour
 
         // ===== ResultScreenのページ. =====
         ResultTwoGraphs, // 結果（グラフ2つ）.
+
         ResultFourGraphs, // 結果（グラフ4つ）.
 
         // ===== PreFlightScreenのページ. =====
         PreFlightTest, // フライト前の設定画面.
+
         PreFlightVRSettings, // VRの設定画面.
+
+        FlightSetting // 以前のUIに対して描画するモード
     }
 
     public Screens screen = Screens.None;
     private Screens previousScreen = Screens.None; // 前回の画面状態を保存する変数.
     // ==========================================================
 
-    void Start()
+    private void Start()
     {
         gm = GameManager.instance; // `GameManager`のインスタンスを取得して代入.
         ui = this.gameObject; // このゲームオブジェクト，つまり`UIManager`を`ui`に代入.
@@ -83,15 +89,17 @@ public class UIManager : MonoBehaviour
 
         preFlight = new(basePanel, baseScrollView); // `PreFlightScreen`をインスタンス化.
         result = new(basePanel); // `ResultScreen`をインスタンス化.
+        flightSetting = new();
 
         screen = Screens.PreFlightTest;
     }
 
-    void Update()
+    private void Update()
     {
         if (gm.FlightSettingActive)
         {
-            screen = Screens.None;
+            //screen = Screens.None;
+            screen = Screens.FlightSetting;
             basePanel.SetActive(false); // `BasePanel`を非アクティブにする.
             baseScrollView.SetActive(false); // `BaseScrollView`を非アクティブにする.
             canvas.enabled = false;
@@ -164,13 +172,17 @@ public class UIManager : MonoBehaviour
                     preFlight.VRSettings();
                     break;
 
+                case Screens.FlightSetting:
+                    flightSetting.Generate();
+                    break;
+
                 default:
                     break;
             } // switch (screen)
         } // if (isScreenChanged)
     } // RefleshScreen()
 
-    void Awake()
+    private void Awake()
     {
         if (instance == null) // シングルトンのインスタンスが存在しない場合は、現在のインスタンスを割り当てる.
         {

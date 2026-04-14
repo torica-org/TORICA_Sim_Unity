@@ -1,12 +1,14 @@
+/*
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class isoSim1 : AerodynamicCalculator
+public class isoSim2 : AerodynamicCalculator
 {
     public override void FlightModelStart()
     {
-        Debug.Log("isoSim1");
+        Debug.Log("isoSim2");
         // Set take-off speed
         if (GameManager.instance.FlightMode == "BirdmanRally")
         {
@@ -37,16 +39,17 @@ public class isoSim1 : AerodynamicCalculator
 
     public override void FlightModelFixedUpdate()
     {
+        //Debug.Log("isoSim2 FixedUpdate");
         //入力系統
         //リジットボディに代入
         PlaneRigidbody.centerOfMass = new Vector3(centerOfMass, PlaneRigidbody.centerOfMass.y, PlaneRigidbody.centerOfMass.z);
 
         //hwに代入する重心位置(%MAC)を計算
-        hw2 = hw0 - (centerOfMass / cMAC);
+        hw2 = hw0 - (centerOfMass * 0.85f / cMAC);
         //hwに代入
         hw = hw2;
 
-        lt = lt0 + centerOfMass;
+        lt = lt0 + centerOfMass * 0.85f;
 
         if (GameManager.instance.PlaneName == "Tatsumi")
         {
@@ -76,9 +79,10 @@ public class isoSim1 : AerodynamicCalculator
         if (GameManager.instance.FlightMode == "BirdmanRally" && Distance < -0.5f)
         {
             //CGE = (CGEMIN+33f*Mathf.Pow((hE/bw),1.5f))/(1f+33f*Mathf.Pow((hE/bw),1.5f));
+            PlaneRigidbody.mass = massAircraft;
             CGE = (CGEMIN + 33f * Mathf.Pow((1.5f / bw), 1.5f)) / (1f + 33f * Mathf.Pow((1.5f / bw), 1.5f));
         }
-        //Debug.Log(CGE);
+
         //if (GameManager.instance.MousePitchControl){
         //    dh = -(Input.mousePosition.y-dh0)*0.0002f*GameManager.instance.MouseSensitivity;
         //}
@@ -96,10 +100,8 @@ public class isoSim1 : AerodynamicCalculator
         // Calculate angles
         Airspeed = Mathf.Sqrt((u + ug) * (u + ug) + (v + vg) * (v + vg) + (w + wg) * (w + wg));
         Groundspeed = Mathf.Sqrt(u * u + v * v);
-        if (SensorPoint != null)
-        {
-            ALT = SensorPoint.transform.position.y;
-        }
+        //ALT = PlaneRigidbody.position.y - SensorPositionY;
+        ALT = SensorPoint.transform.position.y;
         //Debug.Log(Groundspeed);
         alpha = Mathf.Atan((w + wg) / (u + ug)) * Mathf.Rad2Deg;
         //Debug.Log(alpha);
@@ -129,19 +131,19 @@ public class isoSim1 : AerodynamicCalculator
         AerodynamicForce.x = 0.5f * rho * Airspeed * Airspeed * Sw * Cx;
         AerodynamicForce.y = 0.5f * rho * Airspeed * Airspeed * Sw * (-Cz);
         AerodynamicForce.z = 0.5f * rho * Airspeed * Airspeed * Sw * (-Cy);
-        //Debug.Log("CLt"+CLt+"CL"+CL+"Cz"+Cz+"z"+AerodynamicForce.y);
+
         AerodynamicMomentum.x = 0.5f * rho * Airspeed * Airspeed * Sw * bw * (-Cl);//roll
         AerodynamicMomentum.y = 0.5f * rho * Airspeed * Airspeed * Sw * bw * Cn;//yaw
         AerodynamicMomentum.z = 0.5f * rho * Airspeed * Airspeed * Sw * cMAC * Cm;//pitch
 
         if (GameManager.instance.FlightMode == "BirdmanRally" && Distance < -0.5f)
         {
-            //Debug.Log("Dist: " + Distance);
             CalculateRotation();
 
             float W = PlaneRigidbody.mass * Physics.gravity.magnitude;//重力
             float L = 0.5f * rho * Airspeed * Airspeed * Sw * (Cx * Mathf.Sin(Mathf.Deg2Rad * theta) - Cz * Mathf.Cos(Mathf.Deg2Rad * theta));//揚力
             float N = (W - L) * Mathf.Cos(Mathf.Deg2Rad * 3.5f); // N=(W-L)*cos(3.5deg)//翼持ちの抵抗力
+            if (W - L < 0) { N = 0; }
             float P = (PlaneRigidbody.mass * GameManager.instance.Airspeed_TO * GameManager.instance.Airspeed_TO) / (2f * 10f); // P=m*Vto*Vto/2*L//推進力
 
             //離陸方向をYaw回転に合わせて水平方向に修正
@@ -157,14 +159,14 @@ public class isoSim1 : AerodynamicCalculator
             //Debug.Log("Power:"+P);
 
             TakeoffForce.x = P * Mathf.Cos(Mathf.Deg2Rad * GameManager.instance.StartRotation);
-            TakeoffForce.y = N * Mathf.Cos(Mathf.Deg2Rad * 3.5f);
+            TakeoffForce.y = N/* *Mathf.Cos(Mathf.Deg2Rad*3.5f);
             TakeoffForce.z = -P * Mathf.Sin(Mathf.Deg2Rad * GameManager.instance.StartRotation);
 
             AerodynamicForce.z = 0f;
-            AerodynamicMomentum.x = 0f;//
+            //AerodynamicMomentum.x = 0f;//
             AerodynamicMomentum.y = 0f;
 
-            //transform.rotation = Quaternion.Euler(transform.localEulerAngles.x, transform.localEulerAngles.y, GameManager.instance.TailRotation);
+            transform.rotation = Quaternion.Euler(transform.localEulerAngles.x, transform.localEulerAngles.y, GameManager.instance.TailRotation);
             //PlaneRigidbody.constraints = RigidbodyConstraints.FreezePositionZ;
 
             if (AerodynamicMomentum.x <= 0)
@@ -216,18 +218,18 @@ public class isoSim1 : AerodynamicCalculator
                 }
             }
             //Debug.Log("YlMoment:"+YlMoment+"YrMoment:"+YrMoment+"aeroX:"+AerodynamicMomentum.x);
-            //AerodynamicMomentum.x += YrMoment + YlMoment;//最終的なロールモーメントの計算//一旦消す
+            AerodynamicMomentum.x += YrMoment + YlMoment;//最終的なロールモーメントの計算//一旦消す
             GameManager.instance.TakeOff = false;
         }
         else
         {
+            PlaneRigidbody.mass = massPilot + massAircraft;
             GameManager.instance.TakeOff = true;
             //PlaneRigidbody.constraints = RigidbodyConstraints.None;
         }
         //else if(GameManager.instance.FlightMode=="BirdmanRally" && !AddTaleForce){
         //    AddTaleForce =true;
         //}
-        //Debug.Log(AerodynamicForce.z);
         PlaneRigidbody.AddRelativeForce(AerodynamicForce, ForceMode.Force);
         PlaneRigidbody.AddRelativeTorque(AerodynamicMomentum, ForceMode.Force);
         PlaneRigidbody.AddForce(TakeoffForce, ForceMode.Force);
@@ -251,3 +253,5 @@ public class isoSim1 : AerodynamicCalculator
         psi = -Mathf.Atan(-C13 / C11) * Mathf.Rad2Deg;
     }
 }
+
+*/
