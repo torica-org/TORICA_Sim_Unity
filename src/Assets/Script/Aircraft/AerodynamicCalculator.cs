@@ -10,12 +10,14 @@ using System;
 public class AerodynamicCalculator : SerialReceive
 {
     //設計データ書き込み用変数
-    protected string customCsvPath;//ファイルパス
-    protected string fileName = "CustomPlaneData.csv";//ファイル名
-    public static List<List<string>> CsvList = new List<List<string>>();//CSVファイルリスト
-    protected bool CanReadCsv = false;
+    //protected string customCsvPath;//ファイルパス
+
+    //protected string fileName = "CustomPlaneData.csv";//ファイル名
+    //public static List<List<string>> CsvList = new List<List<string>>();//CSVファイルリスト
+    //protected bool CanReadCsv = false;
 
     // public
+
     [System.NonSerialized] public float Airspeed = 0.000f; // Airspeed [m/s]
     [System.NonSerialized] public float alpha = 0.000f; // Angle of attack [deg]
     [System.NonSerialized] public float beta = 0.000f; // Side slip angle [deg]
@@ -30,6 +32,7 @@ public class AerodynamicCalculator : SerialReceive
     [System.NonSerialized] public float ALT = 0.000f;
 
     //計算で用いるセンサー値
+
     [System.NonSerialized] public float massLeft;//左ひずみの値[kg]
     [System.NonSerialized] public float massRight;//右ひずみの値[kg]
     [System.NonSerialized] public float massBackwardRight;//後方左ひずみの値[kg]
@@ -38,15 +41,20 @@ public class AerodynamicCalculator : SerialReceive
     [System.NonSerialized] public float centerOfMass = 0.000f; // 全体重心計算結果[m] pitchGravity
     [System.NonSerialized] public float centerOfMassPilotRaw = 0.2f; // 補正前重心計算結果[m] pitchGravityPilot
     [System.NonSerialized] public float centerOfMassPilot; // 補正済重心計算結果[m] 定常状態(pitchGravity=0)のパイロット重心 pitchGravityPilotS
-    [System.NonSerialized] public float centerOfMassPilotOffset; // 重心位置のオフセット値[m]
+
+    // GameManager.csへ移動
+    //[System.NonSerialized] public float centerOfMassPilotOffset; // 重心位置のオフセット値[m]
 
     [System.NonSerialized] public float massLeftRightS;//定常状態の前センサーの値(合計値ではなく一つのセンサーの値)
     [System.NonSerialized] public float massBackwardS;//定常状態の後センサーの値(合計値ではなく一つのセンサーの値)
 
     // Phisics
+
     static protected float rho = 1.164f;
     static protected float hE0 = 10.500f; // Altitude at Take-off [m]
+
     // At Cruise without Ground Effect
+
     static protected float Airspeed0; // Magnitude of ground speed [m/s]
     static protected float alpha0; // Angle of attack [deg]
     static protected float CDp0; // Parasitic drag [-]
@@ -56,7 +64,9 @@ public class AerodynamicCalculator : SerialReceive
     static protected float CLw0 = 0.000f; // Lift Coefficient [-]
     static protected float CLt0 = 0.000f; // Tail Coefficient [-]
     static protected float epsilon0 = 0.000f; // Downwash
+
     // Plane
+
     static protected bool Downwash; // Conventional Tail: True, T-Tail: False
     static protected float CL = 0.000f; // Lift Coefficient [-]
     static protected float CD = 0.000f; // Drag Coefficient [-]
@@ -67,7 +77,9 @@ public class AerodynamicCalculator : SerialReceive
     static protected float Cm = 0.000f; // Pitching momentum [-]
     static protected float Cn = 0.000f; // Yawing momentum [-]
     static protected float dh0 = 0.000f; // Initial Mouse Position
+
     // Wing
+
     static protected float Sw; // Wing area of wing [m^2]
     static protected float bw; // Wing span [m]
     static protected float cMAC; // Mean aerodynamic chord [m]
@@ -84,7 +96,9 @@ public class AerodynamicCalculator : SerialReceive
     static protected float AR; // Aspect Ratio [-]
     static protected float ew; // Wing efficiency [-]
     static protected float CLw = 0.000f; // Lift Coefficient [-]
+
     // Tail
+
     static protected float St; // Wing area of tail [m^2]
     static protected float at; // Tail Lift Slope [1/deg]
     static protected float lt; // Length between Tail a.c. and c.g. [m]
@@ -92,12 +106,18 @@ public class AerodynamicCalculator : SerialReceive
     static protected float deMAX; // Maximum elevator angle [deg]
     static protected float tau; // Control surface angle of attack effectiveness [-]
     static protected float CLt = 0.000f; // Lift Coefficient [-]
+
     // Fin
+
     static protected float drMAX; // Maximum rudder angle
+
     // Ground Effect
+
     static protected float CGEMIN; // Minimum Ground Effect Coefficient [-]
     static protected float CGE = 0f; // Ground Effect Coefficient: CDiGE/CDi [-]
+
     // Stability derivatives
+
     static protected float Cyb; // [1/deg]
     static protected float Cyp; // [1/rad]
     static protected float Cyr; // [1/rad]
@@ -110,9 +130,13 @@ public class AerodynamicCalculator : SerialReceive
     static protected float Clp; // [1/rad]
     static protected float Clr; // [1/rad]
     static protected float Cldr; // [1/deg]
+
     // Gust
+
     static protected Vector3 Gust = Vector3.zero; // Gust [m/s]
+
     // Rotation
+
     static protected float phi; // ロール[deg]
     static protected float theta;  // ピッチ[deg]
     static protected float psi; // ヨー[deg]
@@ -121,20 +145,26 @@ public class AerodynamicCalculator : SerialReceive
 
     // ----- 設計値（重心センサーのキャリブレーションや慣性モーメントの算出に使用） -----
     // 全備
+
     static public float massDefault; // 設計上の全重量[kg]
     static public float centerOfMassDefault; // 設計上の全体重心位置[m]
     static public float IyyDefault; // 設計上のピッチ慣性モーメント[kg*m^2]
+
     // 空虚
     //static public float massAircraft; // 空虚の機体重量[kg] // 既出
     //static public float centerOfMassAircraft; // 空虚の機体重心位置[m] // 既出
     // パイロット
     static public float massPilotDefault; // 設計上のパイロット重量[kg]
+
     // ----------------------------------------------------------------------------
 
     //追加機体データ
-    static public float lengthForward;//フレーム前方(フレーム＋センサー部分)から桁(原点)位置[m]
-    static public float lengthBackward;//フレーム後方(フレームの端)から桁(原点)位置[m]
+
+    // GameManager.csに移動（DontDestroyであってほしい）
+    //static public float gm.lengthForward = 0.660f;//フレーム前方(フレーム＋センサー部分)から桁(原点)位置[m]
+    //static public float gm.lengthBackward = 0.330f;//フレーム後方(フレームの端)から桁(原点)位置[m]
     static public float centerOfMassAircraft;//機体のみ全重心(パイロットなし,ピッチのみ)[m]
+
     static public float massAircraft;//機体のみ全重量[kg]
 
     static public float massPilot;//設計上のパイロット重量[kg]
@@ -144,10 +174,13 @@ public class AerodynamicCalculator : SerialReceive
     //static protected float AircraftHight = 0.74f;//プラホからコクピ下部までの長さ[m]
 
     static protected bool PlusData;//追加機体データが存在するか
+
     //計算結果データ
+
     static protected float hw2;//	主翼空力中心と全機重心の距離（cMACで無次元化）（再計算バージョン）
 
     //翼持ちデータ
+
     static protected float YMin;//翼持ちの最小荷重(機体のみ重量/2)
     static protected float YrMax;//右翼持ちの許容最大荷重
     static protected float YlMax;//左翼持ちの許容最大荷重
@@ -184,7 +217,7 @@ public class AerodynamicCalculator : SerialReceive
     }
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         cm = GameObject.Find("CameraManager").GetComponent<CameraManager>();
 
@@ -208,21 +241,21 @@ public class AerodynamicCalculator : SerialReceive
         // --------------------------------------------------------------------------------
 
         //pitchGravityPilotS = ((PlaneRigidbody.mass*pitchGravity)-(massAircraft*centerOfMassAircraft))/massPilot;
-        //Debug.Log(massAircraft+","+centerOfMassAircraft+","+massPilot+","+lengthForward+","+lengthBackward);
+        //Debug.Log(massAircraft+","+centerOfMassAircraft+","+massPilot+","+gm.lengthForward+","+gm.lengthBackward);
         /*
         if (gm.massPilotReal == 0)
         {//体重入力省略の場合の処理
             gm.massPilotReal = massPilot;
         }
         */
-        if (massAircraft != 0 && centerOfMassAircraft != 0 && massPilot != 0 && lengthForward != 0 && lengthBackward != 0)
+        if (massAircraft != 0 && centerOfMassAircraft != 0 && massPilot != 0 && gm.lengthForward != 0 && gm.lengthBackward != 0)
         {
             PlusData = true;
             centerOfMassPilot = -1 * massAircraft * centerOfMassAircraft / massPilot;
 
             //今までのやつ
             /*
-            massLeftRightS = (massPilot*(pitchGravityPilotS+lengthBackward)/(lengthForward+lengthBackward))/2;
+            massLeftRightS = (massPilot*(pitchGravityPilotS+gm.lengthBackward)/(gm.lengthForward+gm.lengthBackward))/2;
             massBackwardS = (massPilot - massLeftRightS*2)/2;
             */
 
@@ -230,12 +263,12 @@ public class AerodynamicCalculator : SerialReceive
             /*
             if(gm.VRMode){//HMDの質量を加算
                 float massPilotVR=gm.massPilotReal+0.588f;
-                massLeftRightS = (massPilotVR*(pitchGravityPilotS+lengthBackward)/(lengthForward+lengthBackward)); // 前部荷重の理論値
+                massLeftRightS = (massPilotVR*(pitchGravityPilotS+gm.lengthBackward)/(gm.lengthForward+gm.lengthBackward)); // 前部荷重の理論値
                 massBackwardS = (massPilotVR - massLeftRightS); // 後部荷重の理論値
             }
             else{
                 float massPilotNonVR=gm.massPilotReal;
-                massLeftRightS = (massPilotNonVR*(pitchGravityPilotS+lengthBackward)/(lengthForward+lengthBackward)); // 前部荷重の理論値
+                massLeftRightS = (massPilotNonVR*(pitchGravityPilotS+gm.lengthBackward)/(gm.lengthForward+gm.lengthBackward)); // 前部荷重の理論値
                 massBackwardS = (massPilotNonVR - massLeftRightS); // 後部荷重の理論値
             }
             */
@@ -252,7 +285,7 @@ public class AerodynamicCalculator : SerialReceive
         FlightModelStart();
     }
 
-    void Update()//フライトモデルに関わらず実行されるINPUT関連の処理
+    private void Update()//フライトモデルに関わらず実行されるINPUT関連の処理
     {
         float pitchGravityBefore = centerOfMass;
         float pitchGravityPilotBefore = centerOfMassPilotRaw;
@@ -351,16 +384,16 @@ public class AerodynamicCalculator : SerialReceive
             massPilot = massRight + massBackwardRight;
 
             /*
-            // pitchGravity = (gm.CenterOfMassErrorValue + (((lengthForward*massLeft)+(lengthForward*massRight)-(lengthBackward*(massBackwardRight + massBackwardLeft))+(centerOfMassAircraft*massAircraft))/(massLeft+massRight+(massBackwardRight + massBackwardLeft)+massAircraft)))*gm.CenterOfMassRandValue;
-            centerOfMass = (gm.CenterOfMassErrorValue + ((lengthForward * massRight) - (lengthBackward * massBackwardRight) + (centerOfMassAircraft * massAircraft)) / (massRight +massBackwardRight+ massAircraft)) * gm.CenterOfMassRandValue;
+            // pitchGravity = (gm.CenterOfMassErrorValue + (((gm.lengthForward*massLeft)+(gm.lengthForward*massRight)-(gm.lengthBackward*(massBackwardRight + massBackwardLeft))+(centerOfMassAircraft*massAircraft))/(massLeft+massRight+(massBackwardRight + massBackwardLeft)+massAircraft)))*gm.CenterOfMassRandValue;
+            centerOfMass = (gm.CenterOfMassErrorValue + ((gm.lengthForward * massRight) - (gm.lengthBackward * massBackwardRight) + (centerOfMassAircraft * massAircraft)) / (massRight +massBackwardRight+ massAircraft)) * gm.CenterOfMassRandValue;
 
             if (-0.4f < centerOfMass && centerOfMass < 0.4f){//外れ値除去処理(基本的に重心は±0.4を超えることはない)
                 //リジットボディに代入するピッチの値を計算
-                //pitchGravity = (GameManager.instance.CenterOfMassErrorValue + (((lengthForward*massLeft)+(lengthForward*massRight)-(lengthBackward*(massBackwardRight + massBackwardLeft))+(centerOfMassAircraft*massAircraft))/(massLeft+massRight+(massBackwardRight + massBackwardLeft)+massAircraft)))*GameManager.instance.CenterOfMassRandValue;
+                //pitchGravity = (GameManager.instance.CenterOfMassErrorValue + (((gm.lengthForward*massLeft)+(gm.lengthForward*massRight)-(gm.lengthBackward*(massBackwardRight + massBackwardLeft))+(centerOfMassAircraft*massAircraft))/(massLeft+massRight+(massBackwardRight + massBackwardLeft)+massAircraft)))*GameManager.instance.CenterOfMassRandValue;
                 centerOfMassPilot = ((PlaneRigidbody.mass*centerOfMass)-(massAircraft*centerOfMassAircraft))/massPilot;
                 if(NowMass != 0 ){
-                    // pitchGravityPilot = (((lengthForward*massLeft)+(lengthForward*massRight)-(lengthBackward*(massBackwardRight + massBackwardLeft)))/(massLeft+massRight+(massBackwardRight + massBackwardLeft)));
-                    centerOfMassPilotRaw = (((lengthForward * massRight) - (lengthBackward * massBackwardRight)) / (massRight + massBackwardRight));
+                    // pitchGravityPilot = (((gm.lengthForward*massLeft)+(gm.lengthForward*massRight)-(gm.lengthBackward*(massBackwardRight + massBackwardLeft)))/(massLeft+massRight+(massBackwardRight + massBackwardLeft)));
+                    centerOfMassPilotRaw = (((gm.lengthForward * massRight) - (gm.lengthBackward * massBackwardRight)) / (massRight + massBackwardRight));
                 }
                 else{
                     centerOfMassPilotRaw = centerOfMassPilot;
@@ -373,10 +406,10 @@ public class AerodynamicCalculator : SerialReceive
             */
 
             // 重心フレーム上での桁中心モーメントについて，（前後センサにかかる荷重によるモーメント）＝（パイロットの体重によるモーメント）とし，その両辺をパイロットの体重で割った式
-            centerOfMassPilotRaw = (lengthForward * massRight + lengthBackward * massBackwardRight) / (massRight + massBackwardRight); // 補正前のパイロット重心[m]
+            centerOfMassPilotRaw = (gm.lengthForward * massRight + gm.lengthBackward * massBackwardRight) / (massRight + massBackwardRight); // 補正前のパイロット重心[m]
 
             // 補正
-            centerOfMassPilot = centerOfMassPilotRaw + centerOfMassPilotOffset; // 補正後のパイロット重心[m]
+            centerOfMassPilot = centerOfMassPilotRaw + gm.centerOfMassPilotOffset; // 補正後のパイロット重心[m]
 
             // 桁中心モーメントについて，（パイロット体重と空虚重量〈パイロットなしの機体重量〉によるモーメント）＝（全備重量によるモーメント）とし，その両辺を全備重量で割った式
             centerOfMass = (massPilot * centerOfMassPilot + massAircraft * centerOfMassAircraft) / (massPilot + massAircraft);
@@ -444,12 +477,12 @@ public class AerodynamicCalculator : SerialReceive
         }
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         FlightModelFixedUpdate();
     }
 
-    void InputSpecifications()
+    public void InputSpecifications()
     {
         if (GameManager.instance.PlaneName == "QX-18")
         {
@@ -595,8 +628,8 @@ public class AerodynamicCalculator : SerialReceive
             //    Cndr = -0.000226f; // [1/deg]
 
             //    //追加機体データ
-            //    lengthForward = 0.61f;
-            //    lengthBackward = 0.47f;
+            //    gm.lengthForward = 0.61f;
+            //    gm.lengthBackward = 0.47f;
 
             //    centerOfMassAircraft = -0.225f;//機体のみ全重心(パイロットなし,ピッチのみ)[m]
             //    massAircraft = 48.0f;//機体のみ全重量[kg]
@@ -1081,8 +1114,8 @@ public class AerodynamicCalculator : SerialReceive
             Cnr = -0.006814f; // [1/rad]
             Cndr = -0.000290f; // [1/deg]
             //追加機体データ//注意！仮データ
-            lengthForward = 0.9f + 0.34f;//フレーム前方(フレーム＋センサー部分)から桁(原点)位置[m]
-            lengthBackward = -0.5f;//フレーム後方(フレームの端)から桁(原点)位置[m]
+            //gm.lengthForward = 0.9f + 0.34f;//フレーム前方(フレーム＋センサー部分)から桁(原点)位置[m]
+            //gm.lengthBackward = -0.5f;//フレーム後方(フレームの端)から桁(原点)位置[m]
             centerOfMassAircraft = -0.25f;//機体のみ全重心(パイロットなし,ピッチのみ)[m]
             massAircraft = 50;//機体のみ全重量[kg]
         }
@@ -1136,9 +1169,9 @@ public class AerodynamicCalculator : SerialReceive
             Cnr = -0.007178f; // [1/rad]
             Cndr = -0.000305f; // [1/deg]
             //追加機体データ//注意！仮データ
-            // lengthForward = 0.9f + 0.34f;//フレーム前方(フレーム＋センサー部分)から桁(原点)位置[m]
-            lengthForward = 0.85f;//フレーム前方(フレーム＋センサー部分)から桁(原点)位置[m]
-            lengthBackward = -0.48f;//フレーム後方(フレームの端)から桁(原点)位置[m]
+            // gm.lengthForward = 0.9f + 0.34f;//フレーム前方(フレーム＋センサー部分)から桁(原点)位置[m]
+            //gm.lengthForward = 0.85f;//フレーム前方(フレーム＋センサー部分)から桁(原点)位置[m]
+            //gm.lengthBackward = -0.48f;//フレーム後方(フレームの端)から桁(原点)位置[m]
             centerOfMassAircraft = -0.25f;//機体のみ全重心(パイロットなし,ピッチのみ)[m]
             massAircraft = 48;//機体のみ全重量[kg]
         }
@@ -1194,8 +1227,8 @@ public class AerodynamicCalculator : SerialReceive
                 Cndr = float.Parse(CsvList[16][6]); // [1/deg]
 
                 //追加機体データ
-                lengthForward = float.Parse(CsvList[19][6]);//前センサーから吊り具(桁中心)までの長さ[m]
-                lengthBackward = float.Parse(CsvList[20][6]);//吊り具(桁中心)から後センサーまでの長さ[m]
+                gm.lengthForward = float.Parse(CsvList[19][6]);//前センサーから吊り具(桁中心)までの長さ[m]
+                gm.lengthBackward = float.Parse(CsvList[20][6]);//吊り具(桁中心)から後センサーまでの長さ[m]
 
                 centerOfMassAircraft = float.Parse(CsvList[21][6]);//機体のみ全重心(パイロットなし,ピッチのみ)[m]
                 massAircraft = float.Parse(CsvList[22][6]);//機体のみ全重量[kg]
@@ -1222,87 +1255,307 @@ public class AerodynamicCalculator : SerialReceive
         CsvData csvData = new();
         csvData.MakeCustomPlaneDataFile();
 
-        using (CsvIO csv = new CsvIO(50, 20))
+        int recordCount = 50;
+        int fieldCount = 20;
+        using (CsvIO csv = new CsvIO(recordCount, fieldCount))
         {
             csv.Load(Path.Combine(Directory.GetParent(Application.dataPath).FullName, "CustomPlaneData.csv"));
 
             GameManager.instance.error = true;
             try
             {
-                // Enabled
-                bool customPlaneDataEnabled = Convert.ToBoolean(csv.Read(1, 2));
-                // print("Enabled: " + customPlaneDataEnabled);
-
-                if (!customPlaneDataEnabled)
+                if (!gm.customPlaneDataEnabled)
                 {
                     GameManager.instance.errorText = @"CustomPlaneData disabled. Press ""R"" to Refresh.";
                     return;
                 }
-                // Plane
-                PlaneRigidbody.mass = float.Parse(csv.Read(3, 2));
-                PlaneRigidbody.centerOfMass = new Vector3(float.Parse(csv.Read(4, 2)), float.Parse(csv.Read(4, 3)), float.Parse(csv.Read(4, 4)));
-                PlaneRigidbody.inertiaTensor = new Vector3(float.Parse(csv.Read(5, 2)), float.Parse(csv.Read(5, 3)), float.Parse(csv.Read(5, 4)));
-                PlaneRigidbody.inertiaTensorRotation = Quaternion.AngleAxis(float.Parse(csv.Read(6, 2)), Vector3.forward);
-                // Specification At Cruise without Ground Effect
-                Airspeed0 = float.Parse(csv.Read(8, 2)); // Magnitude of ground speed [m/s]
-                alpha0 = float.Parse(csv.Read(9, 2)); // Angle of attack [deg]
-                CDp0 = float.Parse(csv.Read(10, 2)); // Parasitic drag [-]
-                Cmw0 = float.Parse(csv.Read(11, 2)); // Pitching momentum [-]
-                CLMAX = float.Parse(csv.Read(12, 2));
-                // Wing
-                Sw = float.Parse(csv.Read(14, 2)); // Wing area of wing [m^2]
-                bw = float.Parse(csv.Read(15, 2)); // Wing span [m]
-                cMAC = float.Parse(csv.Read(16, 2)); // Mean aerodynamic chord [m]
-                aw = float.Parse(csv.Read(17, 2)); // Wing Lift Slope [1/deg]
-                hw = float.Parse(csv.Read(18, 2)); // Length between Wing a.c. and c.g.
-                ew = float.Parse(csv.Read(19, 2)); // Wing efficiency
-                AR = float.Parse(csv.Read(20, 2)); // Aspect Ratio
-                // Tail
-                Downwash = Convert.ToBoolean(csv.Read(22, 2)); // Conventional Tail: True, T-Tail: False
-                St = float.Parse(csv.Read(23, 2)); // Wing area of tail
-                at = float.Parse(csv.Read(24, 2)); // Tail Lift Slope [1/deg]
-                lt = float.Parse(csv.Read(25, 2)); // Length between Tail a.c. and c.g.
-                deMAX = float.Parse(csv.Read(26, 2)); // Maximum elevator angle
-                tau = float.Parse(csv.Read(27, 2)); // Control surface angle of attack effectiveness [-]
-                VH = float.Parse(csv.Read(28, 2)); // Tail Volume
-                // Fin
-                drMAX = float.Parse(csv.Read(39, 2)); // Maximum rudder angle
-                // Ground Effect
-                CGEMIN = float.Parse(csv.Read(4, 7)); // Minimum Ground Effect Coefficient [-]
-                // Stability derivatives
-                Cyb = float.Parse(csv.Read(7, 7)); // [1/deg]
-                Cyp = float.Parse(csv.Read(8, 7)); // [1/rad]
-                Cyr = float.Parse(csv.Read(9, 7)); // [1/rad]
-                Cydr = float.Parse(csv.Read(10, 7)); // [1/deg]
-                Clb = float.Parse(csv.Read(11, 7)); // [1/deg]
-                Clp = float.Parse(csv.Read(12, 7)); // [1/rad]
-                Clr = float.Parse(csv.Read(13, 7)); // [1/rad]
-                Cldr = float.Parse(csv.Read(14, 7)); // [1/deg]
-                Cnb = float.Parse(csv.Read(15, 7)); // [1/deg]
-                Cnp = float.Parse(csv.Read(16, 7)); // [1/rad]
-                Cnr = float.Parse(csv.Read(17, 7)); // [1/rad]
-                Cndr = float.Parse(csv.Read(18, 7)); // [1/deg]
 
-                //追加機体データ
-                //lengthForward = float.Parse(CsvList[19][6]);//前センサーから吊り具(桁中心)までの長さ[m]
-                //lengthBackward = float.Parse(CsvList[20][6]);//吊り具(桁中心)から後センサーまでの長さ[m]
+                for (int i = 1; i < recordCount; i++) // `csv.Read()`は(1, 1)から開始する.
+                {
+                    for (int j = 1; j < fieldCount; j++)
+                    {
+                        string rawValue = csv.Read(i, j);
+                        if (string.IsNullOrEmpty(rawValue)) continue; // 空白セルはスキップ.
 
-                centerOfMassAircraft = float.Parse(csv.Read(23, 7));//機体のみ全重心(パイロットなし,ピッチのみ)[m]
-                massAircraft = float.Parse(csv.Read(24, 7));//機体のみ全重量[kg]
-                // massPilot = PlaneRigidbody.mass - massAircraft;//パイロット体重[kg]
+                        string value = rawValue.ToLower(); // 小文字に変換.
+                        //Debug.Log($"csv.Read({i}, {j}) = {value}");
 
-                YL = float.Parse(csv.Read(25, 7));//機体中心から翼持ち棒までの長さ[m]
+                        switch (value)
+                        {
+                            // 機体の重量と慣性モーメント.
+                            case "mass":
+                                PlaneRigidbody.mass = float.Parse(csv.Read(i, j + 1));
+                                Debug.Log("`mass` setted.");
+                                break;
 
-                GameManager.instance.errorText = @"CustomPlaneData Enabled! (CsvIO.Read : success) Press ""R"" to Refresh.";
+                            case "centerofmass":
+                                PlaneRigidbody.centerOfMass = new Vector3(float.Parse(csv.Read(i, j + 1)), float.Parse(csv.Read(i, j + 2)), float.Parse(csv.Read(i, j + 3)));
+                                Debug.Log("`centerOfMass` setted.");
+                                break;
+
+                            case "inertiatensor":
+                                PlaneRigidbody.inertiaTensor = new Vector3(float.Parse(csv.Read(i, j + 1)), float.Parse(csv.Read(i, j + 2)), float.Parse(csv.Read(i, j + 3)));
+                                Debug.Log("`inertiaTensor` setted.");
+                                break;
+
+                            case "inertiatensorrotation":
+                                PlaneRigidbody.inertiaTensorRotation = Quaternion.AngleAxis(float.Parse(csv.Read(i, j + 1)), Vector3.forward);
+                                Debug.Log("`inertiaTensorRotation` setted.");
+                                break;
+
+                            case "massaircraft":
+                                massAircraft = float.Parse(csv.Read(i, j + 1)); // 機体のみ全重量[kg]
+                                Debug.Log("`massAircraft` setted.");
+                                break;
+
+                            case "centerofmassaircraft":
+                                centerOfMassAircraft = float.Parse(csv.Read(i, j + 1)); // 機体のみ全重心(パイロットなし,ピッチのみ)[m]
+                                Debug.Log("`centerOfMassAircraft` setted.");
+                                break;
+
+                            // 巡航時.
+                            case "airspeed0":
+                                Airspeed0 = float.Parse(csv.Read(i, j + 1)); // Magnitude of ground speed [m/s]
+                                Debug.Log("`Airspeed0` setted.");
+                                break;
+
+                            case "alpha0":
+                                alpha0 = float.Parse(csv.Read(i, j + 1)); // Angle of attack [deg]
+                                Debug.Log("`alpha0` setted.");
+                                break;
+
+                            case "cdp0":
+                                CDp0 = float.Parse(csv.Read(i, j + 1)); // Parasitic drag [-]
+                                Debug.Log("`CDp0` setted.");
+                                break;
+
+                            case "cmw0":
+                                Cmw0 = float.Parse(csv.Read(i, j + 1)); // Pitching momentum [-]
+                                Debug.Log("`Cmw0` setted.");
+                                break;
+
+                            case "clmax":
+                                CLMAX = float.Parse(csv.Read(i, j + 1));
+                                Debug.Log("`CLMAX` setted.");
+                                break;
+
+                            // 主翼.
+                            case "sw":
+                                Sw = float.Parse(csv.Read(i, j + 1)); // Wing area of wing [m^2]
+                                Debug.Log("`Sw` setted.");
+                                break;
+
+                            case "bw":
+                                bw = float.Parse(csv.Read(i, j + 1)); // Wing span [m]
+                                Debug.Log("`bw` setted.");
+                                break;
+
+                            case "cmac":
+                                cMAC = float.Parse(csv.Read(i, j + 1)); // Mean aerodynamic chord [m]
+                                Debug.Log("`cMAC` setted.");
+                                break;
+
+                            case "aw":
+                                aw = float.Parse(csv.Read(i, j + 1)); // Wing Lift Slope [1/deg]
+                                Debug.Log("`aw` setted.");
+                                break;
+
+                            case "hw":
+                                hw = float.Parse(csv.Read(i, j + 1)); // Length between Wing a.c. and c.g.
+                                Debug.Log("`hw` setted.");
+                                break;
+
+                            case "ew":
+                                ew = float.Parse(csv.Read(i, j + 1)); // Wing efficiency
+                                Debug.Log("`ew` setted.");
+                                break;
+
+                            case "ar":
+                                AR = float.Parse(csv.Read(i, j + 1)); // Aspect Ratio
+                                Debug.Log("`AR` setted.");
+                                break;
+
+                            // 水平尾翼.
+                            case "downwash":
+                                Downwash = Convert.ToBoolean(csv.Read(i, j + 1)); // Conventional Tail: True, T-Tail: False
+                                Debug.Log("`Downwash` setted.");
+                                break;
+
+                            case "st":
+                                St = float.Parse(csv.Read(i, j + 1)); // Wing area of tail
+                                Debug.Log("`St` setted.");
+                                break;
+
+                            case "at":
+                                at = float.Parse(csv.Read(i, j + 1)); // Tail Lift Slope [1/deg]
+                                Debug.Log("`at` setted.");
+                                break;
+
+                            case "lt":
+                                lt = float.Parse(csv.Read(i, j + 1)); // Length between Tail a.c. and c.g.
+                                Debug.Log("`lt` setted.");
+                                break;
+
+                            case "demax":
+                                deMAX = float.Parse(csv.Read(i, j + 1)); // Maximum elevator angle
+                                Debug.Log("`deMAX` setted.");
+                                break;
+
+                            case "tau":
+                                tau = float.Parse(csv.Read(i, j + 1)); // Control surface angle of attack effectiveness [-]
+                                Debug.Log("`tau` setted.");
+                                break;
+
+                            case "vh":
+                                VH = float.Parse(csv.Read(i, j + 1)); // Tail Volume
+                                Debug.Log("`VH` setted.");
+                                break;
+
+                            // 垂直尾翼.
+                            case "drmax":
+                                drMAX = float.Parse(csv.Read(i, j + 1)); // Maximum rudder angle
+                                Debug.Log("`drMAX` setted.");
+                                break;
+
+                            // 地面効果.
+                            case "cgemin":
+                                CGEMIN = float.Parse(csv.Read(i, j + 1)); // Minimum Ground Effect Coefficient [-]
+                                Debug.Log("`CGEMIN` setted.");
+                                break;
+
+                            // 安定微係数.
+                            case "cyb":
+                                Cyb = float.Parse(csv.Read(i, j + 1)); // [1/deg]
+                                Debug.Log("`Cyb` setted.");
+                                break;
+
+                            case "cyp":
+                                Cyp = float.Parse(csv.Read(i, j + 1)); // [1/rad]
+                                Debug.Log("`Cyp` setted.");
+                                break;
+
+                            case "cyr":
+                                Cyr = float.Parse(csv.Read(i, j + 1)); // [1/rad]
+                                Debug.Log("`Cyr` setted.");
+                                break;
+
+                            case "cydr":
+                                Cydr = float.Parse(csv.Read(i, j + 1)); // [1/deg]
+                                Debug.Log("`Cydr` setted.");
+                                break;
+
+                            case "clb":
+                                Clb = float.Parse(csv.Read(i, j + 1)); // [1/deg]
+                                Debug.Log("`Clb` setted.");
+                                break;
+
+                            case "clp":
+                                Clp = float.Parse(csv.Read(i, j + 1)); // [1/rad]
+                                Debug.Log("`Clp` setted.");
+                                break;
+
+                            case "clr":
+                                Clr = float.Parse(csv.Read(i, j + 1)); // [1/rad]
+                                Debug.Log("`Clr` setted.");
+                                break;
+
+                            case "cldr":
+                                Cldr = float.Parse(csv.Read(i, j + 1)); // [1/deg]
+                                Debug.Log("`Cldr` setted.");
+                                break;
+
+                            case "cnb":
+                                Cnb = float.Parse(csv.Read(i, j + 1)); // [1/deg]
+                                Debug.Log("`Cnb` setted.");
+                                break;
+
+                            case "cnp":
+                                Cnp = float.Parse(csv.Read(i, j + 1)); // [1/rad]
+                                Debug.Log("`Cnp` setted.");
+                                break;
+
+                            case "cnr":
+                                Cnr = float.Parse(csv.Read(i, j + 1)); // [1/rad]
+                                Debug.Log("`Cnr` setted.");
+                                break;
+
+                            case "cndr":
+                                Cndr = float.Parse(csv.Read(i, j + 1)); // [1/deg]
+                                Debug.Log("`Cndr` setted.");
+                                break;
+
+                            // Takeoff
+                            case "yl":
+                                YL = float.Parse(csv.Read(i, j + 1)); // 機体中心から翼持ち棒までの長さ[m]
+                                Debug.Log("`YL` setted.");
+                                break;
+
+                            default:
+                                break;
+                        } // switch
+                    } // for j
+                } // for i
+
+                // 機体の重量と慣性モーメント.
+                Debug.Log("mass: " + PlaneRigidbody.mass);
+                Debug.Log("centerOfMass: " + PlaneRigidbody.centerOfMass);
+                Debug.Log("inertiaTensor: " + PlaneRigidbody.inertiaTensor);
+                Debug.Log("inertiaTensorRotation: " + PlaneRigidbody.inertiaTensorRotation);
+                Debug.Log("massAircraft: " + massAircraft); // 機体のみ全重量[kg]
+                Debug.Log("centerOfMassAircraft: " + centerOfMassAircraft); // 機体のみ全重心(パイロットなし,ピッチのみ)[m]
+                // 巡航時.
+                Debug.Log("Airspeed0: " + Airspeed0);// Magnitude of ground speed [m/s]
+                Debug.Log("alpha0: " + alpha0); // Angle of attack [deg]
+                Debug.Log("CDp0: " + CDp0); // Parasitic drag [-]
+                Debug.Log("Cmw0: " + Cmw0); // Pitching momentum [-]
+                Debug.Log("CLMAX: " + CLMAX);
+                // 主翼.
+                Debug.Log("Sw: " + Sw); // Wing area of wing [m^2]
+                Debug.Log("bw: " + bw); // Wing span [m]
+                Debug.Log("cMAC: " + cMAC); // Mean aerodynamic chord [m]
+                Debug.Log("aw: " + aw); // Wing Lift Slope [1/deg]
+                Debug.Log("hw: " + hw); // Length between Wing a.c. and c.g.
+                Debug.Log("ew: " + ew); // Wing efficiency
+                Debug.Log("AR: " + AR); // Aspect Ratio
+                // 水平尾翼.
+                Debug.Log("Downwash: " + Downwash); // Conventional Tail: True, T-Tail: False
+                Debug.Log("St: " + St); // Wing area of tail
+                Debug.Log("at: " + at); // Tail Lift Slope [1/deg]
+                Debug.Log("lt: " + lt); // Length between Tail a.c. and c.g.
+                Debug.Log("deMAX: " + deMAX); // Maximum elevator angle
+                Debug.Log("tau: " + tau); // Control surface angle of attack effectiveness [-]
+                Debug.Log("VH: " + VH); // Tail Volume
+                // 垂直尾翼.
+                Debug.Log("drMAX: " + drMAX); // Maximum rudder angle
+                // 地面効果.
+                Debug.Log("CGEMIN: " + CGEMIN); // Minimum Ground Effect Coefficient [-]
+                // 安定微係数.
+                Debug.Log("Cyb: " + Cyb); // [1/deg]
+                Debug.Log("Cyp: " + Cyp); // [1/rad]
+                Debug.Log("Cyr: " + Cyr); // [1/rad]
+                Debug.Log("Cydr: " + Cydr); // [1/deg]
+                Debug.Log("Clb: " + Clb); // [1/deg]
+                Debug.Log("Clp: " + Clp); // [1/rad]
+                Debug.Log("Clr: " + Clr); // [1/rad]
+                Debug.Log("Cldr: " + Cldr); // [1/deg]
+                Debug.Log("Cnb: " + Cnb); // [1/deg]
+                Debug.Log("Cnp: " + Cnp); // [1/rad]
+                Debug.Log("Cnr: " + Cnr); // [1/rad]
+                Debug.Log("Cndr: " + Cndr); // [1/deg]
+                // 離陸.
+                Debug.Log("YL: " + YL);
+
+                gm.errorText = @"CustomPlaneData Enabled! (CsvIO.Read : success) Press ""R"" to Refresh.";
             }
             catch (Exception e)
             {
                 Debug.LogWarning("CsvIO error" + e);
 
-                GameManager.instance.errorText = @"CustomPlaneData Enabled! (CsvIO.Read : failure) Press ""R"" to Refresh.";
+                gm.errorText = @"CustomPlaneData Enabled! (CsvIO.Read : failure) Press ""R"" to Refresh.";
             }
         }
     }
+
     /*
     void WriteFile(string txt) {
         FileInfo fi = new FileInfo(customCsvPath);
@@ -1361,7 +1614,11 @@ public class AerodynamicCalculator : SerialReceive
     }
     */
 
-    public virtual void FlightModelStart() { }
+    public virtual void FlightModelStart()
+    {
+    }
 
-    public virtual void FlightModelFixedUpdate() { }
+    public virtual void FlightModelFixedUpdate()
+    {
+    }
 }

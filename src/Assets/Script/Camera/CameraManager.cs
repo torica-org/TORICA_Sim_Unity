@@ -33,11 +33,12 @@ public class CameraManager : MonoBehaviour
 
     private bool isVRInitialized = false; // VRが初期化されたかどうかを示すフラグ
 
-    private Vector3 caribrationOffset = Vector3.zero; // キャリブレーションのオフセットを保持するフィールド.
-    private Quaternion calibrationRotationOffset = Quaternion.identity; // 回転のキャリブレーションのオフセットを保持するフィールド.
+    // GameManager.csへ移動
+    //private Vector3 caribrationOffset = Vector3.zero; // キャリブレーションのオフセットを保持するフィールド.
+    //private Quaternion calibrationRotationOffset = Quaternion.identity; // 回転のキャリブレーションのオフセットを保持するフィールド.
 
     // ===== オブジェクトが生成された際に実行されるメソッド =====================================
-    void Start()
+    private void Start()
     {
         gm = GameManager.instance; // `GameManager`のインスタンスを取得して代入.
         ui = UIManager.instance; // `UIManager`のインスタンスを取得して代入.
@@ -65,7 +66,7 @@ public class CameraManager : MonoBehaviour
     }
 
     // ===== 毎フレーム実行されるメソッド =================================================
-    void Update()
+    private void Update()
     {
         // "f5"キーが押されたらカメラを切り替える.
         if (Input.GetKeyDown("f5") && !gm.VRMode)
@@ -145,14 +146,13 @@ public class CameraManager : MonoBehaviour
         // `XR Origin`は`GameManager.instance.Plane`の子にせず，スクリプトで追従させる.
         // `XR Origin`の親であるCameraManager(=XROrigin)をFPSカメラの位置と合わせる.
         Vector3 FPSPosition = FPSObj.transform.position; // FPSカメラの位置を保存.
-        XROrigin.transform.position = FPSPosition - caribrationOffset; // CameraManagerの位置をFPSカメラの位置に合わせる（キャリブレーションオフセットを考慮）.
+        XROrigin.transform.position = FPSPosition - gm.caribrationOffset; // CameraManagerの位置をFPSカメラの位置に合わせる（キャリブレーションオフセットを考慮）.
 
         Vector3 FPSRotation = FPSObj.transform.rotation.eulerAngles; // FPSカメラの回転を保存.
-        XROrigin.transform.rotation = Quaternion.Inverse(calibrationRotationOffset) * FPSObj.transform.rotation; // CameraManagerの回転をキャリブレーションオフセットに合わせる.
+        XROrigin.transform.rotation = Quaternion.Inverse(gm.calibrationRotationOffset) * FPSObj.transform.rotation; // CameraManagerの回転をキャリブレーションオフセットに合わせる.
 
         //Debug.Log("HMD Z Axis Movement: " + GetZAxisMovement());
         //Debug.Log("displays connected: " + Display.displays.Length);
-
 
         // サイドビューカメラの位置設定.
         Vector3 sideObjOffset = new(10f, 3f, -10f); // FPSカメラに対して右前方に配置.
@@ -217,11 +217,11 @@ public class CameraManager : MonoBehaviour
 
         Vector3 vrCameraGrobalOffset = XRCamera.transform.position - XROrigin.transform.position; // XRカメラのグローバル位置からCameraManagerのグローバル位置を引いてオフセットを取得.
         Debug.Log("offsetX: " + vrCameraGrobalOffset.x + "\toffsetY: " + vrCameraGrobalOffset.y + "\toffsetZ: " + vrCameraGrobalOffset.z); // オフセットをログに出力.
-        caribrationOffset = vrCameraGrobalOffset; // オフセットとして代入.
+        gm.caribrationOffset = vrCameraGrobalOffset; // オフセットとして代入.
 
         Quaternion relativeRotation = Quaternion.Inverse(XROrigin.transform.rotation) * XRCamera.transform.rotation; // XRカメラのヨーをキャリブレーションオフセットとして保存（ピッチとロールは無視）.
         Debug.Log("offsetYaw: " + XRCamera.transform.rotation.eulerAngles.y); // 回転のオフセットをログに出力.
-        calibrationRotationOffset = Quaternion.Euler(0, relativeRotation.eulerAngles.y, 0);
+        gm.calibrationRotationOffset = Quaternion.Euler(0, relativeRotation.eulerAngles.y, 0);
     }
 
     // ===== VRゴーグルの前後移動量を返すメソッド ============================
@@ -236,7 +236,7 @@ public class CameraManager : MonoBehaviour
     }
 
     // ===== オブジェクトが破棄された際に実行されるメソッド ======================================
-    void OnDestroy()
+    private void OnDestroy()
     {
         // オブジェクトが破棄される際にVRを停止する.
         if (isVRInitialized)
@@ -247,7 +247,7 @@ public class CameraManager : MonoBehaviour
     }
 
     // ===== アプリケーションが終了する際に実行されるメソッド ===================================
-    void OnApplicationQuit()
+    private void OnApplicationQuit()
     {
         // アプリケーションが終了する際にVRを停止する.
         if (isVRInitialized)

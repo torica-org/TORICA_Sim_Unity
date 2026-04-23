@@ -12,7 +12,7 @@ public class AutoFactorSetter : MonoBehaviour
     private GameManager gm = GameManager.instance;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         script = gm.Plane.GetComponent<AerodynamicCalculator>();
     }
@@ -84,7 +84,7 @@ public class AutoFactorSetter : MonoBehaviour
         }
 
         // 重心フレーム上での桁中心モーメントについて，（前後センサにかかる荷重によるモーメント）＝（パイロットの体重によるモーメント）とし，その両辺をパイロットの体重で割った式
-        script.centerOfMassPilotRaw = (script.massRightNow * AerodynamicCalculator.lengthForward + script.massBackwardRightNow * AerodynamicCalculator.lengthBackward) / AerodynamicCalculator.massPilotDefault; // 補正前のパイロット重心[m]
+        script.centerOfMassPilotRaw = (script.massRightNow * gm.lengthForward + script.massBackwardRightNow * gm.lengthBackward) / AerodynamicCalculator.massPilotDefault; // 補正前のパイロット重心[m]
         Debug.Log("Raw: " + script.centerOfMassPilotRaw);
 
         // 機体が定常であるとき，（パイロットの体重によるモーメント）+（空虚重量〈パイロットなしの機体重量〉によるモーメント）=（設計上の重心位置と全備重量によるモーメント）である.
@@ -105,8 +105,8 @@ public class AutoFactorSetter : MonoBehaviour
         Debug.Log("pilot_th: " + centerOfMassPilotTheoretical);
 
         // 補正値の算出
-        script.centerOfMassPilotOffset = centerOfMassPilotTheoretical - script.centerOfMassPilotRaw; // パイロット重心の補正値
-        Debug.Log("offset: " + script.centerOfMassPilotOffset);
+        gm.centerOfMassPilotOffset = centerOfMassPilotTheoretical - script.centerOfMassPilotRaw; // パイロット重心の補正値
+        Debug.Log("offset: " + gm.centerOfMassPilotOffset);
 
         // Debug.Log("massPilotReal: " + gm.massPilotReal);
 
@@ -121,9 +121,9 @@ public class AutoFactorSetter : MonoBehaviour
         }
         */
 
-        //script.massLeftRightS = (pilotMass*AerodynamicCalculator.lengthBackward - AerodynamicCalculator.massAircraft*AerodynamicCalculator.centerOfMassAircraft) / (AerodynamicCalculator.lengthForward + AerodynamicCalculator.lengthBackward); // 前部荷重の理論値
+        //script.massLeftRightS = (pilotMass*AerodynamicCalculator.lengthBackward - AerodynamicCalculator.massAircraft*AerodynamicCalculator.centerOfMassAircraft) / (gm.lengthForward + AerodynamicCalculator.lengthBackward); // 前部荷重の理論値
         //script.massBackwardS = (pilotMass - script.massLeftRightS); // 後部荷重の理論値
-        // Debug.Log("lengthForward + lengthBackward" + (AerodynamicCalculator.lengthForward + AerodynamicCalculator.lengthBackward));
+        // Debug.Log("lengthForward + lengthBackward" + (gm.lengthForward + AerodynamicCalculator.lengthBackward));
         // Debug.Log("pitchGravityPilotS: " + script.pitchGravityPilotS);
 
         // Debug.Log("Front: " + script.massLeftRightS + " Rear: " + script.massBackwardS);
