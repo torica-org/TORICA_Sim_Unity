@@ -46,30 +46,36 @@ public class GameManager : MonoBehaviour
     [System.NonSerialized] public float FieldOfView = 90;
 
     //ロードセルのオフセット値
-    [System.NonSerialized] public float massLeft0 = 0;
 
+    [System.NonSerialized] public float massLeft0 = 0;
     [System.NonSerialized] public float massRight0 = 0;
     [System.NonSerialized] public float massBackwardRight0 = 0;
     [System.NonSerialized] public float massBackwardLeft0 = 0;
     [System.NonSerialized] public float JoyStick0 = 0;
 
     //ロードセルの調整用係数(この係数をロードセルの値に掛ける)
-    [System.NonSerialized] public float massLeftFactor = 1;
 
+    [System.NonSerialized] public float massLeftFactor = 1;
     [System.NonSerialized] public float massRightFactor = 1;
     [System.NonSerialized] public float massBackwardRightFactor = 1;
     [System.NonSerialized] public float massBackwardLeftFactor = 1;
     [System.NonSerialized] public float DefaultFactor = 1.00f;
 
-    //ジョイスティックの調整用係数(この係数をジョイスティックの値に割る)
-    [System.NonSerialized] public float JoyStickFactor = 450;
+    // AerodynamicCalculator.csから移動
 
+    [System.NonSerialized] public float lengthForward = 0.660f;//フレーム前方(フレーム＋センサー部分)から桁(原点)位置[m]
+    [System.NonSerialized] public float lengthBackward = -0.330f;//フレーム後方(フレームの端)から桁(原点)位置[m]
+    [System.NonSerialized] public float centerOfMassPilotOffset; // 重心位置のオフセット値[m]
+
+    //ジョイスティックの調整用係数(この係数をジョイスティックの値に割る)
+
+    [System.NonSerialized] public float JoyStickFactor = 450;
     [System.NonSerialized] public bool JoyStickFirst = true;
 
     //[System.NonSerialized] public float massPilotReal = 0f;
     //エアデータ保存リスト
-    [System.NonSerialized] public List<float> AirspeedList = new List<float>();
 
+    [System.NonSerialized] public List<float> AirspeedList = new List<float>();
     [System.NonSerialized] public List<float> AltList = new List<float>();
     [System.NonSerialized] public List<float> AlphaList = new List<float>();
     [System.NonSerialized] public List<float> BetaList = new List<float>();
@@ -80,8 +86,8 @@ public class GameManager : MonoBehaviour
     [System.NonSerialized] public float Distance = 0.0f;
 
     //エラー関係
-    [System.NonSerialized] public string errorText;
 
+    [System.NonSerialized] public string errorText;
     [System.NonSerialized] public bool error = false;//エラーテキストが発行されるか否か
 
     [System.NonSerialized] public bool FrameUseable = false;
@@ -93,19 +99,25 @@ public class GameManager : MonoBehaviour
     [SerializeField] public string DefaultFlightModel = "isoSim2";
 
     // VRモード
+
     [System.NonSerialized] public bool VRMode = false;
 
-    //トラブルモード
-    [System.NonSerialized] public bool RudderError = false;
+    // CameraManager.csから移動
 
+    [System.NonSerialized] public Vector3 caribrationOffset = Vector3.zero; // キャリブレーションのオフセットを保持するフィールド.
+    [System.NonSerialized] public Quaternion calibrationRotationOffset = Quaternion.identity; // 回転のキャリブレーションのオフセットを保持するフィールド.
+
+    //トラブルモード
+
+    [System.NonSerialized] public bool RudderError = false;
     [System.NonSerialized] public float RudderErrorValue = 0;
     [System.NonSerialized] public int RudderErrorMode = 0;
     [System.NonSerialized] public bool CenterOfMassError = false;
     [System.NonSerialized] public float CenterOfMassErrorValue = 0;
 
     //ランダムモード
-    [System.NonSerialized] public bool CenterOfMassRand = false;
 
+    [System.NonSerialized] public bool CenterOfMassRand = false;
     [System.NonSerialized] public float CenterOfMassRandValue = 1;
     [System.NonSerialized] public bool RudderRand = false;
     [System.NonSerialized] public float RudderRandValue = 1;

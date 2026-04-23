@@ -83,7 +83,7 @@ public class CsvIO : IDisposable // : MonoBehaviour // newキーワードでイ�
         }
         catch (Exception e)
         {
-            Debug.LogWarning("Error writing CSV: " + e);
+            Debug.LogWarning("Error reading CSV: " + e);
             return null;
         }
     }

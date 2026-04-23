@@ -91,27 +91,27 @@ public class FlightSettingScreen
         rectLabelBackwardLength.pivot = new Vector2(0f, 0.5f); // ピボット（ボタン自身の基準点）
         rectLabelBackwardLength.localScale = new Vector3(0.5f, 0.5f, 1f); // テキストのサイズを変更する
 
-        DynamicText<float> valueForwardLength = new(connection, "valueForwardLength", () => { return AerodynamicCalculator.lengthForward; });
+        DynamicText<float> valueForwardLength = new(connection, "valueForwardLength", () => { return gm.lengthForward; });
         RectTransform rectValueForwardLength = valueForwardLength.rectTransform;
         rectValueForwardLength.anchoredPosition = new Vector2(200, -60);
         rectValueForwardLength.pivot = new Vector2(0f, 0.5f); // ピボット（ボタン自身の基準点）
         rectValueForwardLength.localScale = new Vector3(0.5f, 0.5f, 1f); // テキストのサイズを変更する
 
-        DynamicText<float> valueBackwardLength = new(connection, "valueBackwardLength", () => { return AerodynamicCalculator.lengthBackward; });
+        DynamicText<float> valueBackwardLength = new(connection, "valueBackwardLength", () => { return gm.lengthBackward; });
         RectTransform rectValueBackwardLength = valueBackwardLength.rectTransform;
         rectValueBackwardLength.anchoredPosition = new Vector2(200, -100);
         rectValueBackwardLength.pivot = new Vector2(0f, 0.5f); // ピボット（ボタン自身の基準点）
         rectValueBackwardLength.localScale = new Vector3(0.5f, 0.5f, 1f);
 
         DynamicSlider lengthForward = new(connection, "sliderForwardLength",
-            (x) => { AerodynamicCalculator.lengthForward = x; }, () => { return AerodynamicCalculator.lengthForward; }, 0f, 1.0f, 0.01f);
+            (x) => { gm.lengthForward = x; }, () => { return gm.lengthForward; }, 0f, 1.0f, 0.01f);
         RectTransform rectForwardLength = lengthForward.rectTransform;
         rectForwardLength.anchoredPosition = new Vector2(300, -60);
         rectForwardLength.pivot = new Vector2(0f, 0.5f); // ピボット（ボタン自身の基準点）
         rectForwardLength.localScale = new Vector3(1f, 1f, 1f); // テキストのサイズを変更する
 
         DynamicSlider lengthBackward = new(connection, "sliderBackwardLength",
-            (x) => { AerodynamicCalculator.lengthBackward = -1 * x; }, () => { return -1 * AerodynamicCalculator.lengthBackward; }, 0f, 1.0f, 0.01f);
+            (x) => { gm.lengthBackward = -1 * x; }, () => { return -1 * gm.lengthBackward; }, 0f, 1.0f, 0.01f);
         RectTransform rectBackwardLength = lengthBackward.rectTransform;
         rectBackwardLength.anchoredPosition = new Vector2(300, -100);
         rectBackwardLength.pivot = new Vector2(0f, 0.5f); // ピボット（ボタン自身の基準点）
