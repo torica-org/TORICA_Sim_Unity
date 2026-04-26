@@ -1,90 +1,156 @@
 using System;
+using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
-public static class AircraftData
+public static class AircraftDataManager
 {
     // 機体の重量と慣性モーメント - 6
-
-    private static float mass; // 重量[kg]
-    private static Vector3 centerOfMass = Vector3.zero; // 重心位置[m]
-    private static Vector3 inertiaTensor = Vector3.zero; // 慣性モーメント[kg*m^2]
-    private static Quaternion inertiaTensorRotation = Quaternion.identity; // 慣性モーメントの回転
-    private static float massAircraft; // 機体のみ全重量[kg]
-    private static float centerOfMassAircraft; // 機体のみ全重心(パイロットなし,ピッチのみ)[m]
+    public static float mass { get; set; } // 重量[kg]
+    public static Vector3 centerOfMass { get; set; } = Vector3.zero; // 重心位置[m]
+    public static Vector3 inertiaTensor { get; set; } = Vector3.zero; // 慣性モーメント[kg*m^2]
+    public static Quaternion inertiaTensorRotation { get; set; } = Quaternion.identity; // 慣性モーメントの回転
+    public static float massAircraft { get; set; } // 機体のみ全重量[kg]
+    public static float centerOfMassAircraft { get; set; } // 機体のみ全重心(パイロットなし,ピッチのみ)[m]
 
     // 巡航時 - 5
-
-    private static float Airspeed0; // Magnitude of ground speed [m/s]
-    private static float alpha0; // Angle of attack [deg]
-    private static float CDp0; // Parasitic drag [-]
-    private static float Cmw0; // Pitching momentum [-]
-    private static float CLMAX; // Maximum lift coefficient [-]
+    public static float Airspeed0 { get; set; } // Magnitude of ground speed [m/s]
+    public static float alpha0 { get; set; } // Angle of attack [deg]
+    public static float CDp0 { get; set; } // Parasitic drag [-]
+    public static float Cmw0 { get; set; } // Pitching momentum [-]
+    public static float CLMAX { get; set; } // Maximum lift coefficient [-]
 
     // 主翼 - 7
-
-    private static float Sw; // Wing area of wing [m^2]
-    private static float bw; // Wing span [m]
-    private static float cMAC; // Mean aerodynamic chord [m]
-    private static float aw; // Wing Lift Slope [1/deg]
-    private static float hw; // Length between Wing a.c. and c.g.
-    private static float ew; // Wing efficiency
-    private static float AR; // Aspect Ratio
+    public static float Sw { get; set; } // Wing area of wing [m^2]
+    public static float bw { get; set; } // Wing span [m]
+    public static float cMAC { get; set; } // Mean aerodynamic chord [m]
+    public static float aw { get; set; } // Wing Lift Slope [1/deg]
+    public static float hw { get; set; } // Length between Wing a.c. and c.g.
+    public static float ew { get; set; } // Wing efficiency
+    public static float AR { get; set; } // Aspect Ratio
 
     // 水平尾翼 - 7
-
-    private static bool Downwash; // Conventional Tail: True, T-Tail: False
-    private static float St; // Wing area of tail
-    private static float at; // Tail Lift Slope [1/deg]
-    private static float lt; // Length between Tail a.c. and c.g.
-    private static float deMAX; // Maximum elevator angle
-    private static float tau; // Control surface angle of attack effectiveness [-]
-    private static float VH; // Tail Volume
+    public static bool Downwash { get; set; } // Conventional Tail: True, T-Tail: False
+    public static float St { get; set; } // Wing area of tail
+    public static float at { get; set; } // Tail Lift Slope [1/deg]
+    public static float lt { get; set; } // Length between Tail a.c. and c.g.
+    public static float deMAX { get; set; } // Maximum elevator angle
+    public static float tau { get; set; } // Control surface angle of attack effectiveness [-]
+    public static float VH { get; set; } // Tail Volume
 
     // 垂直尾翼 - 1
-
-    private static float drMAX; // Maximum rudder angle
+    public static float drMAX { get; set; } // Maximum rudder angle
 
     // 地面効果 - 1
-
-    private static float CGEMIN; // Minimum Ground Effect Coefficient [-]
+    public static float CGEMIN { get; set; } // Minimum Ground Effect Coefficient [-]
 
     // 安定微係数 - 12
-
-    private static float Cyb; // [1/deg]
-    private static float Cyp; // [1/rad]
-    private static float Cyr; // [1/rad]
-    private static float Cydr; // [1/deg]
-    private static float Clb; // [1/deg]
-    private static float Clp; // [1/rad]
-    private static float Clr; // [1/rad]
-    private static float Cldr; // [1/deg]
-    private static float Cnb; // [1/deg]
-    private static float Cnp; // [1/rad]
-    private static float Cnr; // [1/rad]
-    private static float Cndr; // [1/deg]
+    public static float Cyb { get; set; } // [1/deg]
+    public static float Cyp { get; set; } // [1/rad]
+    public static float Cyr { get; set; } // [1/rad]
+    public static float Cydr { get; set; } // [1/deg]
+    public static float Clb { get; set; } // [1/deg]
+    public static float Clp { get; set; } // [1/rad]
+    public static float Clr { get; set; } // [1/rad]
+    public static float Cldr { get; set; } // [1/deg]
+    public static float Cnb { get; set; } // [1/deg]
+    public static float Cnp { get; set; } // [1/rad]
+    public static float Cnr { get; set; } // [1/rad]
+    public static float Cndr { get; set; } // [1/deg]
 
     // 離陸 - 1
-
-    private static float YL; // 機体中心から翼持ち棒までの長さ[m]
+    public static float YL { get; set; } // 機体中心から翼持ち棒までの長さ[m]
 
     // 合計 - 40
 
-    // フラグ
+    // 一覧用の機体名リスト.
+    public static List<string> Names { get; set; } = new List<string>();
 
-    private static readonly bool[] isSetted = new bool[40]; // 各パラメータがCSVから読み込まれたかどうかを保持するフラグ.
+    // 各パラメータがCSVから読み込まれたかどうかを保持するフラグ.
+    private static readonly bool[] _isSetted = new bool[40];
+
+    // 機体諸元がハードコードされている機体の名前の配列.
+    private static readonly string[] _AircraftNames
+        = { "QX-18", "QX-19", "QX-20", "ARG-2", "UL01B", "ORCA18", "ORCA22", "Gardenia", "Aria", "Camellia", "Gaillardia" };
+
+    // 機体諸元を保存する`[AircraftData]`へのフルパス.
+    private static string _sourceDirectory = Path.Combine(Directory.GetParent(Application.dataPath).FullName, "[AircraftData]");
+
+    // 機体名をキー，機体諸元CSVファイルへのフルパスを値とする辞書.
+    private static Dictionary<string, string> _dataDictionary { get; set; } = new Dictionary<string, string>();
+
+    // ファイルシステムの変更を監視する`FileSystemWatcher`.
+    private static FileSystemWatcher watcher;
+
+
+    // ===== ゲームのシーンがロードされる前に一度だけ呼び出される初期化メソッド. =========================
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)] // ゲームのシーンがロードされる前にこのメソッドを呼び出すための属性.
+    public static void Initialize()
+    {
+        if (!Directory.Exists(_sourceDirectory))
+        {
+            Directory.CreateDirectory(_sourceDirectory);
+        }
+        foreach (string name in _AircraftNames)
+        {
+            InputSpecifications(name); // 機体の諸元を適用する.
+            Export(Path.Combine(_sourceDirectory, $"{name}.csv")); // CSVファイルに書き出す.
+        }
+
+        SyncNames();
+
+        watcher = new FileSystemWatcher(_sourceDirectory, "*.csv"); // `[AircraftData]`ディレクトリ内のCSVファイルを監視する`FileSystemWatcher`を作成.
+
+        watcher.Changed += (sender, e) => SyncNames(); // 変更された時.
+        watcher.Created += (sender, e) => SyncNames(); // 作成された時.
+        watcher.Deleted += (sender, e) => SyncNames(); // 削除された時.
+        watcher.Renamed += (sender, e) => SyncNames(); // 名前が変更された時.
+        watcher.Error += (sender, e) => Debug.LogError($"FileSystemWatcher error: {e.GetException()}"); // エラーが発生した時.
+
+        watcher.IncludeSubdirectories = true; // サブディレクトリも監視する.
+        watcher.EnableRaisingEvents = true; // イベントの発生を有効にする.
+
+        Debug.Log("AircraftManager initialized and watching for changes in [AircraftData] directory.");
+    }
+
+    // ===== `[AircraftData]`内のCSVの名前をリストと同期する ====================================
+    private static void SyncNames()
+    {
+        if (_dataDictionary.Count > 0)
+        {
+            _dataDictionary.Clear(); // 全ての要素を削除.
+        }
+
+        IEnumerable<string> files = Directory.EnumerateFiles(_sourceDirectory, "*.csv", SearchOption.AllDirectories);
+        foreach (string file in files)
+        {
+            string fullpath = Path.Combine(_sourceDirectory, file);
+            string fileName = Path.GetFileNameWithoutExtension(file);
+            _dataDictionary.Add(fileName, fullpath);
+        }
+        Names = new List<string>(_dataDictionary.Keys); // キーのリストを`Names`に代入.
+        Names.Sort(); // 名前のリストをアルファベット順にソート.
+
+        //foreach (KeyValuePair<string,string> _data in _dataDictionary)
+        //{
+        //    Debug.Log(_data.Key + " : " + _data.Value);
+        //}
+
+        Debug.Log("Names synchronized with CSV files in [AircraftData] directory.");
+    }
 
     // ===== 指定されたCSVファイルから機体データを読み込む ===========================================================
-    private static bool Load(string csvPath)
+    private static bool Load(string name)
     {
         int recordCount = 50;
         int fieldCount = 20;
 
         using CsvIO csv = new(recordCount, fieldCount);
-        csv.Load(csvPath);
+        csv.Load(_dataDictionary[name]);
 
         for (int i = 0; i < 40; i++)
         {
-            isSetted[i] = false; // フラグを初期化.
+            _isSetted[i] = false; // フラグを初期化.
         }
 
         try
@@ -97,255 +163,255 @@ public static class AircraftData
                     if (string.IsNullOrEmpty(rawValue)) continue; // 空白セルはスキップ.
 
                     string value = rawValue.ToLower(); // 小文字に変換.
-                    //Debug.Log($"csv.Read({i}, {j}) = {value}");
+                                                       //Debug.Log($"csv.Read({i}, {j}) = {value}");
 
                     switch (value)
                     {
                         // 機体の重量と慣性モーメント - 6
                         case "mass":
                             mass = float.Parse(csv.Read(i, j + 1)); // 重量[kg]
-                            isSetted[0] = true; // フラグを立てる.
+                            _isSetted[0] = true; // フラグを立てる.
                             Debug.Log("`mass` setted.");
                             break;
 
                         case "centerofmass":
                             centerOfMass = new Vector3(float.Parse(csv.Read(i, j + 1)), float.Parse(csv.Read(i, j + 2)), float.Parse(csv.Read(i, j + 3))); // 重心位置[m]
-                            isSetted[1] = true;
+                            _isSetted[1] = true;
                             Debug.Log("`centerOfMass` setted.");
                             break;
 
                         case "inertiatensor":
                             inertiaTensor = new Vector3(float.Parse(csv.Read(i, j + 1)), float.Parse(csv.Read(i, j + 2)), float.Parse(csv.Read(i, j + 3))); // 慣性モーメント[kg*m^2]
-                            isSetted[2] = true;
+                            _isSetted[2] = true;
                             Debug.Log("`inertiaTensor` setted.");
                             break;
 
                         case "inertiatensorrotation":
                             inertiaTensorRotation = Quaternion.AngleAxis(float.Parse(csv.Read(i, j + 1)), Vector3.forward); // 慣性モーメントの回転
-                            isSetted[3] = true;
+                            _isSetted[3] = true;
                             Debug.Log("`inertiaTensorRotation` setted.");
                             break;
 
                         case "massaircraft":
                             massAircraft = float.Parse(csv.Read(i, j + 1)); // 機体のみ全重量[kg]
-                            isSetted[4] = true;
+                            _isSetted[4] = true;
                             Debug.Log("`massAircraft` setted.");
                             break;
 
                         case "centerofmassaircraft":
                             centerOfMassAircraft = float.Parse(csv.Read(i, j + 1)); // 機体のみ全重心(パイロットなし,ピッチのみ)[m]
-                            isSetted[5] = true;
+                            _isSetted[5] = true;
                             Debug.Log("`centerOfMassAircraft` setted.");
                             break;
 
                         // 巡航時 - 5
                         case "airspeed0":
                             Airspeed0 = float.Parse(csv.Read(i, j + 1)); // Magnitude of ground speed [m/s]
-                            isSetted[6] = true;
+                            _isSetted[6] = true;
                             Debug.Log("`Airspeed0` setted.");
                             break;
 
                         case "alpha0":
                             alpha0 = float.Parse(csv.Read(i, j + 1)); // Angle of attack [deg]
-                            isSetted[7] = true;
+                            _isSetted[7] = true;
                             Debug.Log("`alpha0` setted.");
                             break;
 
                         case "cdp0":
                             CDp0 = float.Parse(csv.Read(i, j + 1)); // Parasitic drag [-]
-                            isSetted[8] = true;
+                            _isSetted[8] = true;
                             Debug.Log("`CDp0` setted.");
                             break;
 
                         case "cmw0":
                             Cmw0 = float.Parse(csv.Read(i, j + 1)); // Pitching momentum [-]
-                            isSetted[9] = true;
+                            _isSetted[9] = true;
                             Debug.Log("`Cmw0` setted.");
                             break;
 
                         case "clmax":
                             CLMAX = float.Parse(csv.Read(i, j + 1)); // Maximum lift coefficient [-]
-                            isSetted[10] = true;
+                            _isSetted[10] = true;
                             Debug.Log("`CLMAX` setted.");
                             break;
 
                         // 主翼 - 7
                         case "sw":
                             Sw = float.Parse(csv.Read(i, j + 1)); // Wing area of wing [m^2]
-                            isSetted[11] = true;
+                            _isSetted[11] = true;
                             Debug.Log("`Sw` setted.");
                             break;
 
                         case "bw":
                             bw = float.Parse(csv.Read(i, j + 1)); // Wing span [m]
-                            isSetted[12] = true;
+                            _isSetted[12] = true;
                             Debug.Log("`bw` setted.");
                             break;
 
                         case "cmac":
                             cMAC = float.Parse(csv.Read(i, j + 1)); // Mean aerodynamic chord [m]
-                            isSetted[13] = true;
+                            _isSetted[13] = true;
                             Debug.Log("`cMAC` setted.");
                             break;
 
                         case "aw":
                             aw = float.Parse(csv.Read(i, j + 1)); // Wing Lift Slope [1/deg]
-                            isSetted[14] = true;
+                            _isSetted[14] = true;
                             Debug.Log("`aw` setted.");
                             break;
 
                         case "hw":
                             hw = float.Parse(csv.Read(i, j + 1)); // Length between Wing a.c. and c.g.
-                            isSetted[15] = true;
+                            _isSetted[15] = true;
                             Debug.Log("`hw` setted.");
                             break;
 
                         case "ew":
                             ew = float.Parse(csv.Read(i, j + 1)); // Wing efficiency
-                            isSetted[16] = true;
+                            _isSetted[16] = true;
                             Debug.Log("`ew` setted.");
                             break;
 
                         case "ar":
                             AR = float.Parse(csv.Read(i, j + 1)); // Aspect Ratio
-                            isSetted[17] = true;
+                            _isSetted[17] = true;
                             Debug.Log("`AR` setted.");
                             break;
 
                         // 水平尾翼 - 7
                         case "downwash":
                             Downwash = Convert.ToBoolean(csv.Read(i, j + 1)); // Conventional Tail: True, T-Tail: False
-                            isSetted[18] = true;
+                            _isSetted[18] = true;
                             Debug.Log("`Downwash` setted.");
                             break;
 
                         case "st":
                             St = float.Parse(csv.Read(i, j + 1)); // Wing area of tail
-                            isSetted[19] = true;
+                            _isSetted[19] = true;
                             Debug.Log("`St` setted.");
                             break;
 
                         case "at":
                             at = float.Parse(csv.Read(i, j + 1)); // Tail Lift Slope [1/deg]
-                            isSetted[20] = true;
+                            _isSetted[20] = true;
                             Debug.Log("`at` setted.");
                             break;
 
                         case "lt":
                             lt = float.Parse(csv.Read(i, j + 1)); // Length between Tail a.c. and c.g.
-                            isSetted[21] = true;
+                            _isSetted[21] = true;
                             Debug.Log("`lt` setted.");
                             break;
 
                         case "demax":
                             deMAX = float.Parse(csv.Read(i, j + 1)); // Maximum elevator angle
-                            isSetted[22] = true;
+                            _isSetted[22] = true;
                             Debug.Log("`deMAX` setted.");
                             break;
 
                         case "tau":
                             tau = float.Parse(csv.Read(i, j + 1)); // Control surface angle of attack effectiveness [-]
-                            isSetted[23] = true;
+                            _isSetted[23] = true;
                             Debug.Log("`tau` setted.");
                             break;
 
                         case "vh":
                             VH = float.Parse(csv.Read(i, j + 1)); // Tail Volume
-                            isSetted[24] = true;
+                            _isSetted[24] = true;
                             Debug.Log("`VH` setted.");
                             break;
 
                         // 垂直尾翼 - 1
                         case "drmax":
                             drMAX = float.Parse(csv.Read(i, j + 1)); // Maximum rudder angle
-                            isSetted[25] = true;
+                            _isSetted[25] = true;
                             Debug.Log("`drMAX` setted.");
                             break;
 
                         // 地面効果 - 1
                         case "cgemin":
                             CGEMIN = float.Parse(csv.Read(i, j + 1)); // Minimum Ground Effect Coefficient [-]
-                            isSetted[26] = true;
+                            _isSetted[26] = true;
                             Debug.Log("`CGEMIN` setted.");
                             break;
 
                         // 安定微係数 - 12
                         case "cyb":
                             Cyb = float.Parse(csv.Read(i, j + 1)); // [1/deg]
-                            isSetted[27] = true;
+                            _isSetted[27] = true;
                             Debug.Log("`Cyb` setted.");
                             break;
 
                         case "cyp":
                             Cyp = float.Parse(csv.Read(i, j + 1)); // [1/rad]
-                            isSetted[28] = true;
+                            _isSetted[28] = true;
                             Debug.Log("`Cyp` setted.");
                             break;
 
                         case "cyr":
                             Cyr = float.Parse(csv.Read(i, j + 1)); // [1/rad]
-                            isSetted[29] = true;
+                            _isSetted[29] = true;
                             Debug.Log("`Cyr` setted.");
                             break;
 
                         case "cydr":
                             Cydr = float.Parse(csv.Read(i, j + 1)); // [1/deg]
-                            isSetted[30] = true;
+                            _isSetted[30] = true;
                             Debug.Log("`Cydr` setted.");
                             break;
 
                         case "clb":
                             Clb = float.Parse(csv.Read(i, j + 1)); // [1/deg]
-                            isSetted[31] = true;
+                            _isSetted[31] = true;
                             Debug.Log("`Clb` setted.");
                             break;
 
                         case "clp":
                             Clp = float.Parse(csv.Read(i, j + 1)); // [1/rad]
-                            isSetted[32] = true;
+                            _isSetted[32] = true;
                             Debug.Log("`Clp` setted.");
                             break;
 
                         case "clr":
                             Clr = float.Parse(csv.Read(i, j + 1)); // [1/rad]
-                            isSetted[33] = true;
+                            _isSetted[33] = true;
                             Debug.Log("`Clr` setted.");
                             break;
 
                         case "cldr":
                             Cldr = float.Parse(csv.Read(i, j + 1)); // [1/deg]
-                            isSetted[34] = true;
+                            _isSetted[34] = true;
                             Debug.Log("`Cldr` setted.");
                             break;
 
                         case "cnb":
                             Cnb = float.Parse(csv.Read(i, j + 1)); // [1/deg]
-                            isSetted[35] = true;
+                            _isSetted[35] = true;
                             Debug.Log("`Cnb` setted.");
                             break;
 
                         case "cnp":
                             Cnp = float.Parse(csv.Read(i, j + 1)); // [1/rad]
-                            isSetted[36] = true;
+                            _isSetted[36] = true;
                             Debug.Log("`Cnp` setted.");
                             break;
 
                         case "cnr":
                             Cnr = float.Parse(csv.Read(i, j + 1)); // [1/rad]
-                            isSetted[37] = true;
+                            _isSetted[37] = true;
                             Debug.Log("`Cnr` setted.");
                             break;
 
                         case "cndr":
                             Cndr = float.Parse(csv.Read(i, j + 1)); // [1/deg]
-                            isSetted[38] = true;
+                            _isSetted[38] = true;
                             Debug.Log("`Cndr` setted.");
                             break;
 
                         // 離陸 - 1
                         case "yl":
                             YL = float.Parse(csv.Read(i, j + 1)); // 機体中心から翼持ち棒までの長さ[m]
-                            isSetted[39] = true;
+                            _isSetted[39] = true;
                             Debug.Log("`YL` setted.");
                             break;
 
@@ -413,7 +479,7 @@ public static class AircraftData
 
             for (int i = 0; i < 40; i++)
             {
-                if (!isSetted[i] && i != 39) // 翼持ちのデータはオプションとする.
+                if (!_isSetted[i] && i != 39) // 翼持ちのデータはオプションとする.
                 {
                     throw new Exception($"Parameter at index {i} is not setted.");
                 }
@@ -430,153 +496,170 @@ public static class AircraftData
     } // void Load()
 
     // ===== 機体データをCSVファイルに書き出す ===========================================================
-    private static void Export()
+    private static void Export(string path)
     {
-        int recordCount = 50;
-        int fieldCount = 20;
+        int recordCount = 35;
+        int fieldCount = 7;
 
         using CsvIO csv = new(recordCount, fieldCount);
 
         csv.Write(1, 1, "機体の重量と慣性モーメント");
         csv.Write(2, 1, "mass");
         csv.Write(2, 2, mass.ToString());
-        csv.Write(2, 3, "[kg] : 重量");
+        csv.Write(2, 3, "-");
+        csv.Write(2, 4, "-");
+        csv.Write(2, 5, "[kg] : 重量");
         csv.Write(3, 1, "centerOfMass");
         csv.Write(3, 2, centerOfMass.x.ToString());
         csv.Write(3, 3, centerOfMass.y.ToString());
         csv.Write(3, 4, centerOfMass.z.ToString());
-        csv.Write(3, 5, "[m] : 重心位置");
+        csv.Write(3, 5, "[m] : 重心位置(+x:前 +y:上 +z:左)");
         csv.Write(4, 1, "inertiaTensor");
         csv.Write(4, 2, inertiaTensor.x.ToString());
         csv.Write(4, 3, inertiaTensor.y.ToString());
         csv.Write(4, 4, inertiaTensor.z.ToString());
-        csv.Write(4, 5, "[kg*m^2] : 慣性モーメント");
+        csv.Write(4, 5, "[kg*m^2] : 慣性モーメント(Ixx Izz Iyy)");
         csv.Write(5, 1, "inertiaTensorRotation");
         csv.Write(5, 2, inertiaTensorRotation.eulerAngles.z.ToString());
-        csv.Write(5, 3, "[deg] : 慣性モーメントの回転");
+        csv.Write(5, 3, "-");
+        csv.Write(5, 4, "-");
+        csv.Write(5, 5, "[deg] : 慣性モーメントの回転");
+        csv.Write(6, 1, "massAircraft");
+        csv.Write(6, 2, massAircraft.ToString());
+        csv.Write(6, 3, "-");
+        csv.Write(6, 4, "-");
+        csv.Write(6, 5, "[kg] : 空虚重量");
+        csv.Write(7, 1, "centerOfMassAircraft");
+        csv.Write(7, 2, centerOfMassAircraft.ToString());
+        csv.Write(7, 3, "-");
+        csv.Write(7, 4, "-");
+        csv.Write(7, 5, "[m] : 機体のみでの重心位置(+x:前のみ)");
 
-        csv.Write(7, 1, "巡航時");
-        csv.Write(8, 1, "Airspeed0");
-        csv.Write(8, 2, Airspeed0.ToString());
-        csv.Write(8, 3, "[m/s] : Magnitude of ground speed");
-        csv.Write(9, 1, "alpha0");
-        csv.Write(9, 2, alpha0.ToString());
-        csv.Write(9, 3, "[deg] : Angle of attack");
-        csv.Write(10, 1, "CDp0");
-        csv.Write(10, 2, CDp0.ToString());
-        csv.Write(10, 3, "[-] : Parasitic drag");
-        csv.Write(11, 1, "Cmw0");
-        csv.Write(11, 2, Cmw0.ToString());
-        csv.Write(11, 3, "[-] : Pitching momentum");
-        csv.Write(12, 1, "CLMAX");
-        csv.Write(12, 2, CLMAX.ToString());
-        csv.Write(12, 3, "[-] : Maximum lift coefficient");
+        csv.Write(9, 1, "巡航時");
+        csv.Write(10, 1, "Airspeed0");
+        csv.Write(10, 2, Airspeed0.ToString());
+        csv.Write(10, 3, "[m/s] : Magnitude of ground speed");
+        csv.Write(11, 1, "alpha0");
+        csv.Write(11, 2, alpha0.ToString());
+        csv.Write(11, 3, "[deg] : Angle of attack");
+        csv.Write(12, 1, "CDp0");
+        csv.Write(12, 2, CDp0.ToString());
+        csv.Write(12, 3, "[-] : Parasitic drag");
+        csv.Write(13, 1, "Cmw0");
+        csv.Write(13, 2, Cmw0.ToString());
+        csv.Write(13, 3, "[-] : Pitching momentum");
+        csv.Write(14, 1, "CLMAX");
+        csv.Write(14, 2, CLMAX.ToString());
+        csv.Write(14, 3, "[-] : Maximum lift coefficient");
 
-        csv.Write(14, 1, "主翼");
-        csv.Write(15, 1, "Sw");
-        csv.Write(15, 2, Sw.ToString());
-        csv.Write(15, 3, "[m^2] : Wing area of wing");
-        csv.Write(16, 1, "bw");
-        csv.Write(16, 2, bw.ToString());
-        csv.Write(16, 3, "[m] : Wing span");
-        csv.Write(17, 1, "cMAC");
-        csv.Write(17, 2, cMAC.ToString());
-        csv.Write(17, 3, "[m] : Mean aerodynamic chord");
-        csv.Write(18, 1, "aw");
-        csv.Write(18, 2, aw.ToString());
-        csv.Write(18, 3, "[1/deg] : Wing Lift Slope");
-        csv.Write(19, 1, "hw");
-        csv.Write(19, 2, hw.ToString());
-        csv.Write(19, 3, "[m] : Length between Wing a.c. and c.g.");
-        csv.Write(20, 1, "ew");
-        csv.Write(20, 2, ew.ToString());
-        csv.Write(20, 3, "[-] : Wing efficiency");
-        csv.Write(21, 1, "AR");
-        csv.Write(21, 2, AR.ToString());
-        csv.Write(21, 3, "[-] : Aspect Ratio");
+        csv.Write(16, 1, "主翼");
+        csv.Write(17, 1, "Sw");
+        csv.Write(17, 2, Sw.ToString());
+        csv.Write(17, 3, "[m^2] : Wing area of wing");
+        csv.Write(18, 1, "bw");
+        csv.Write(18, 2, bw.ToString());
+        csv.Write(18, 3, "[m] : Wing span");
+        csv.Write(19, 1, "cMAC");
+        csv.Write(19, 2, cMAC.ToString());
+        csv.Write(19, 3, "[m] : Mean aerodynamic chord");
+        csv.Write(20, 1, "aw");
+        csv.Write(20, 2, aw.ToString());
+        csv.Write(20, 3, "[1/deg] : Wing Lift Slope");
+        csv.Write(21, 1, "hw");
+        csv.Write(21, 2, hw.ToString());
+        csv.Write(21, 3, "[m] : Length between Wing a.c. and c.g.");
+        csv.Write(22, 1, "ew");
+        csv.Write(22, 2, ew.ToString());
+        csv.Write(22, 3, "[-] : Wing efficiency");
+        csv.Write(23, 1, "AR");
+        csv.Write(23, 2, AR.ToString());
+        csv.Write(23, 3, "[-] : Aspect Ratio");
 
-        csv.Write(23, 1, "水平尾翼");
-        csv.Write(24, 1, "Downwash");
-        csv.Write(24, 2, Downwash.ToString());
-        csv.Write(24, 3, "Conventional Tail: True, T-Tail: False");
-        csv.Write(25, 1, "St");
-        csv.Write(25, 2, St.ToString());
-        csv.Write(25, 3, "[m^2] : Wing area of tail");
-        csv.Write(26, 1, "at");
-        csv.Write(26, 2, at.ToString());
-        csv.Write(26, 3, "[1/deg] : Tail Lift Slope");
-        csv.Write(27, 1, "lt");
-        csv.Write(27, 2, lt.ToString());
-        csv.Write(27, 3, "[m] : Length between Tail a.c. and c.g.");
-        csv.Write(28, 1, "deMAX");
-        csv.Write(28, 2, deMAX.ToString());
-        csv.Write(28, 3, "[deg] : Maximum elevator angle");
-        csv.Write(29, 1, "tau");
-        csv.Write(29, 2, tau.ToString());
-        csv.Write(29, 3, "[-] : Control surface angle of attack effectiveness");
-        csv.Write(30, 1, "VH");
-        csv.Write(30, 2, VH.ToString());
-        csv.Write(30, 3, "[-] : Tail Volume");
+        csv.Write(25, 1, "水平尾翼");
+        csv.Write(26, 1, "Downwash");
+        csv.Write(26, 2, Downwash.ToString());
+        csv.Write(26, 3, "Conventional Tail: True / T-Tail: False");
+        csv.Write(27, 1, "St");
+        csv.Write(27, 2, St.ToString());
+        csv.Write(27, 3, "[m^2] : Wing area of tail");
+        csv.Write(28, 1, "at");
+        csv.Write(28, 2, at.ToString());
+        csv.Write(28, 3, "[1/deg] : Tail Lift Slope");
+        csv.Write(29, 1, "lt");
+        csv.Write(29, 2, lt.ToString());
+        csv.Write(29, 3, "[m] : Length between Tail a.c. and c.g.");
+        csv.Write(30, 1, "deMAX");
+        csv.Write(30, 2, deMAX.ToString());
+        csv.Write(30, 3, "[deg] : Maximum elevator angle");
+        csv.Write(31, 1, "tau");
+        csv.Write(31, 2, tau.ToString());
+        csv.Write(31, 3, "[-] : Control surface angle of attack effectiveness");
+        csv.Write(32, 1, "VH");
+        csv.Write(32, 2, VH.ToString());
+        csv.Write(32, 3, "[-] : Tail Volume");
 
-        csv.Write(32, 1, "垂直尾翼");
-        csv.Write(33, 1, "drMAX");
-        csv.Write(33, 2, drMAX.ToString());
-        csv.Write(33, 3, "[deg] : Maximum rudder angle");
+        csv.Write(34, 1, "垂直尾翼");
+        csv.Write(35, 1, "drMAX");
+        csv.Write(35, 2, drMAX.ToString());
+        csv.Write(35, 3, "[deg] : Maximum rudder angle");
 
-        csv.Write(4, 6, "地面効果");
-        csv.Write(5, 6, "CGEMIN");
-        csv.Write(5, 7, CGEMIN.ToString());
-        csv.Write(5, 8, "[-] : Minimum Ground Effect Coefficient");
+        csv.Write(9, 5, "地面効果");
+        csv.Write(10, 5, "CGEMIN");
+        csv.Write(10, 6, CGEMIN.ToString());
+        csv.Write(10, 7, "[-] : Minimum Ground Effect Coefficient");
 
-        csv.Write(7, 6, "安定微係数");
-        csv.Write(8, 6, "Cyb");
-        csv.Write(8, 7, Cyb.ToString());
-        csv.Write(8, 8, "[1/deg]");
-        csv.Write(9, 6, "Cyp");
-        csv.Write(9, 7, Cyp.ToString());
-        csv.Write(9, 8, "[1/rad]");
-        csv.Write(10, 6, "Cyr");
-        csv.Write(10, 7, Cyr.ToString());
-        csv.Write(10, 8, "[1/rad]");
-        csv.Write(11, 6, "Cydr");
-        csv.Write(11, 7, Cydr.ToString());
-        csv.Write(11, 8, "[1/deg]");
-        csv.Write(12, 6, "Clb");
-        csv.Write(12, 7, Clb.ToString());
-        csv.Write(12, 8, "[1/deg]");
-        csv.Write(13, 6, "Clp");
-        csv.Write(13, 7, Clp.ToString());
-        csv.Write(13, 8, "[1/rad]");
-        csv.Write(14, 6, "Clr");
-        csv.Write(14, 7, Clr.ToString());
-        csv.Write(14, 8, "[1/rad]");
-        csv.Write(15, 6, "Cldr");
-        csv.Write(15, 7, Cldr.ToString());
-        csv.Write(15, 8, "[1/deg]");
-        csv.Write(16, 6, "Cnb");
-        csv.Write(16, 7, Cnb.ToString());
-        csv.Write(16, 8, "[1/deg]");
-        csv.Write(17, 6, "Cnp");
-        csv.Write(17, 7, Cnp.ToString());
-        csv.Write(17, 8, "[1/rad]");
-        csv.Write(18, 6, "Cnr");
-        csv.Write(18, 7, Cnr.ToString());
-        csv.Write(18, 8, "[1/rad]");
-        csv.Write(19, 6, "Cndr");
-        csv.Write(19, 7, Cndr.ToString());
-        csv.Write(19, 8, "[1/deg]");
+        csv.Write(12, 5, "安定微係数");
+        csv.Write(13, 5, "Cyb");
+        csv.Write(13, 6, Cyb.ToString());
+        csv.Write(13, 7, "[1/deg]");
+        csv.Write(14, 5, "Cyp");
+        csv.Write(14, 6, Cyp.ToString());
+        csv.Write(14, 7, "[1/rad]");
+        csv.Write(15, 5, "Cyr");
+        csv.Write(15, 6, Cyr.ToString());
+        csv.Write(15, 7, "[1/rad]");
+        csv.Write(16, 5, "Cydr");
+        csv.Write(16, 6, Cydr.ToString());
+        csv.Write(16, 7, "[1/deg]");
+        csv.Write(17, 5, "Clb");
+        csv.Write(17, 6, Clb.ToString());
+        csv.Write(17, 7, "[1/deg]");
+        csv.Write(18, 5, "Clp");
+        csv.Write(18, 6, Clp.ToString());
+        csv.Write(18, 7, "[1/rad]");
+        csv.Write(19, 5, "Clr");
+        csv.Write(19, 6, Clr.ToString());
+        csv.Write(19, 7, "[1/rad]");
+        csv.Write(20, 5, "Cldr");
+        csv.Write(20, 6, Cldr.ToString());
+        csv.Write(20, 7, "[1/deg]");
+        csv.Write(21, 5, "Cnb");
+        csv.Write(21, 6, Cnb.ToString());
+        csv.Write(21, 7, "[1/deg]");
+        csv.Write(22, 5, "Cnp");
+        csv.Write(22, 6, Cnp.ToString());
+        csv.Write(22, 7, "[1/rad]");
+        csv.Write(23, 5, "Cnr");
+        csv.Write(23, 6, Cnr.ToString());
+        csv.Write(23, 7, "[1/rad]");
+        csv.Write(24, 5, "Cndr");
+        csv.Write(24, 6, Cndr.ToString());
+        csv.Write(24, 7, "[1/deg]");
 
-        csv.Write(21, 6, "離陸");
-        csv.Write(22, 6, "YL");
-        csv.Write(22, 7, YL.ToString());
-        csv.Write(22, 8, "[m] : 機体中心から翼持ち棒までの長さ");
+        csv.Write(26, 5, "離陸");
+        csv.Write(27, 5, "YL");
+        csv.Write(27, 6, YL.ToString());
+        csv.Write(27, 7, "[m] : 機体中心から翼持ち棒までの長さ");
 
-        csv.Flush("Assets/CSV/AircraftData_export.csv");
+        csv.Flush(path);
     } // void Export()
 
     // ===== 飛行機の名前に応じて機体諸元を適用する ===========================================================
     private static void InputSpecifications(string AircraftName)
     {
+        massAircraft = 0f;
+        centerOfMassAircraft = 0f;
+
         if (AircraftName == "QX-18")
         {
             // Plane
@@ -1093,6 +1176,15 @@ public static class AircraftData
             Cnp = -0.129588f; // [1/rad]
             Cnr = -0.006558f; // [1/rad]
             Cndr = -0.00020f; // [1/deg]
+        }
+
+        if (massAircraft == 0f)
+        {
+            massAircraft = mass - 55f; // パイロットの体重を55kgとしたデフォルト値.
+        }
+        if (centerOfMassAircraft == 0f)
+        {
+            centerOfMassAircraft = centerOfMass.y - 0.1f; // デフォルト値は機体中心から-0.1mの距離.
         }
     } // void InputSpecification(string AircraftName)
 } // class AircraftData
