@@ -41,15 +41,13 @@ public class UIManager : MonoBehaviour
         InFlight, // フライト中.
 
         // ===== ResultScreenのページ. =====
+        ResultForPilot, // 結果（パイロット用）
         ResultTwoGraphs, // 結果（グラフ2つ）.
-
         ResultFourGraphs, // 結果（グラフ4つ）.
 
         // ===== PreFlightScreenのページ. =====
         PreFlightTest, // フライト前の設定画面.
-
         PreFlightVRSettings, // VRの設定画面.
-
         FlightSetting // 以前のUIに対して描画するモード
     }
 
@@ -130,7 +128,7 @@ public class UIManager : MonoBehaviour
             canvas.enabled = true;
             basePanel.SetActive(true); // `BasePanel`をアクティブにする.
             baseScrollView.SetActive(false); // `BaseScrollView`を非アクティブにする.
-            screen = Screens.ResultTwoGraphs;
+            screen = Screens.ResultForPilot;
         }
 
         RefleshScreen(); // 画面を更新.
@@ -154,6 +152,10 @@ public class UIManager : MonoBehaviour
             switch (screen)
             {
                 case Screens.InFlight:
+                    break;
+
+                case Screens.ResultForPilot:
+                    result.ShowResultForPilot();
                     break;
 
                 case Screens.ResultTwoGraphs:

@@ -79,7 +79,7 @@ public class CsvIO : IDisposable // : MonoBehaviour // newキーワードでイ�
         fieldNum--;
         try
         {
-            return buff[recordNum, fieldNum];
+            return buff[recordNum, fieldNum].Trim();
         }
         catch (Exception e)
         {
@@ -94,7 +94,7 @@ public class CsvIO : IDisposable // : MonoBehaviour // newキーワードでイ�
         fieldNum--;
         try
         {
-            buff[recordNum, fieldNum] = str;
+            buff[recordNum, fieldNum] = str.Trim();
         }
         catch (Exception e)
         {

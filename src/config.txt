@@ -1,0 +1,9 @@
+key=value
+new = true
+aircraftName = REWRITE
+available = true
+fixed = true  
+manage = OK
+trim    =        OK
+tabTrim     =       OK
+tab			= 			OK
