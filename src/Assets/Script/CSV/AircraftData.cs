@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public static class AircraftDataManager
+public static class AircraftData
 {
     // 機体の重量と慣性モーメント - 6
     public static float mass { get; set; } // 重量[kg]

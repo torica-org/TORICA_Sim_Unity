@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 using UnityEngine.Events; // UnityActionのために必要
 using UnityEngine.SceneManagement; // `LoadScene`のために必要
+using System; // Math
 
 public class ResultScreen
 {
@@ -21,39 +23,19 @@ public class ResultScreen
         this.PlaneRigidbody = gm.Plane.GetComponent<Rigidbody>();
     }
 
-    public void ShowResultTwoGraphs() // 距離と`Retry`ボタン，グラフを2つ表示
+    // ===== パイロット訓練用の結果表示 =========
+    public void ShowResultForPilot()
     {
-        // ボタンに登録するデリゲートをラムダ式で定義
-        UnityAction OnClickChangePage = () =>
+        UnityAction left = () =>
         {
             ui.screen = UIManager.Screens.ResultFourGraphs; // `ResultFourGraphs`に遷移
         };
 
-        UnityAction OnClickReloadScene = () =>
-        {
-            SceneManager.LoadScene("FlightScene"); // `FlightScene`を再読み込み
+        UnityAction right = () => {
+            ui.screen = UIManager.Screens.ResultTwoGraphs; // `ResultTwoGraphs`に遷移
         };
 
-        // `>`ボタンの生成
-        ActionButton buttonChangePageRight = new(basePanel, "ButtonChangePageRight", ">", 50.0f, OnClickChangePage);
-        GameObject buttonObj = buttonChangePageRight.gameObject;
-        RectTransform buttonChangePageRightRect = buttonChangePageRight.rectTransform;
-        buttonChangePageRightRect.anchorMin = new Vector2(1f, 0.5f); // アンカーの最小値
-        buttonChangePageRightRect.anchorMax = new Vector2(1f, 0.5f); // アンカーの最大値
-        buttonChangePageRightRect.pivot = new Vector2(1f, 0.5f); // ピボット（ボタン自身の基準点）
-        buttonChangePageRightRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 50); // RectTransformのx軸方向のサイズを変更する
-        buttonChangePageRightRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 150); // RectTransformのy軸方向のサイズを変更する
-        buttonChangePageRightRect.anchoredPosition = new Vector2(-20, 0); // アンカーを基準にした座標 (pos_x, pos_y) を設定
-
-        // `<`ボタンの生成
-        ActionButton buttonChangePageLeft = new(basePanel, "ButtonChangePageLeft", "<", 50.0f, OnClickChangePage);
-        RectTransform buttonChangePageLeftRect = buttonChangePageLeft.rectTransform;
-        buttonChangePageLeftRect.anchorMin = new Vector2(0f, 0.5f); // アンカーの最小値
-        buttonChangePageLeftRect.anchorMax = new Vector2(0f, 0.5f); // アンカーの最大値
-        buttonChangePageLeftRect.pivot = new Vector2(0f, 0.5f); // ピボット（ボタン自身の基準点）
-        buttonChangePageLeftRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 50); // RectTransformのx軸方向のサイズを変更する
-        buttonChangePageLeftRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 150); // RectTransformのy軸方向のサイズを変更する
-        buttonChangePageLeftRect.anchoredPosition = new Vector2(20, 0); // アンカーを基準にした座標 (pos_x, pos_y) を設定
+        ArrowButton(left, right); // `<`ボタンと`>`ボタンの生成
 
         // 距離を表示するテキストの生成
         float Distance = gm.Distance;
@@ -71,13 +53,18 @@ public class ResultScreen
 
         // 終了理由を表示するテキストの生成
         StaticText<string> textTerminationReason = new(basePanel, "TextTerminationReason", terminationReason, 100.0f);
-        RectTransform textTerminationReasonRect = textTerminationReason.rectTransform;
-        textTerminationReasonRect.anchorMin = new Vector2(0.5f, 0.9f); // アンカーの最小値
-        textTerminationReasonRect.anchorMax = new Vector2(0.5f, 0.9f); // アンカーの最大値
-        textTerminationReasonRect.pivot = new Vector2(0.5f, 0.5f); // ピボット（ボタン自身の基準点）
-        textTerminationReasonRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 1200); // RectTransformのx軸方向のサイズを変更する
-        textTerminationReasonRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 400); // RectTransformのy軸方向のサイズを変更する
-        textTerminationReasonRect.anchoredPosition = new Vector2(0, 0); // アンカーを基準にした座標 (pos_x, pos_y) を設定
+        RectTransform rectTextTerminationReason = textTerminationReason.rectTransform;
+        rectTextTerminationReason.anchorMin = new Vector2(0.5f, 0.9f); // アンカーの最小値
+        rectTextTerminationReason.anchorMax = new Vector2(0.5f, 0.9f); // アンカーの最大値
+        rectTextTerminationReason.pivot = new Vector2(0.5f, 0.5f); // ピボット（ボタン自身の基準点）
+        rectTextTerminationReason.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 1200); // RectTransformのx軸方向のサイズを変更する
+        rectTextTerminationReason.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 200); // RectTransformのy軸方向のサイズを変更する
+        rectTextTerminationReason.anchoredPosition = new Vector2(0, 0); // アンカーを基準にした座標 (pos_x, pos_y) を設定
+
+        UnityAction OnClickReloadScene = () =>
+        {
+            SceneManager.LoadScene("FlightScene"); // `FlightScene`を再読み込み
+        };
 
         // `Retry(R)`ボタンの生成
         ActionButton buttonRetry = new(basePanel, "ButtonRetry", "Retry(R)", 70.0f, OnClickReloadScene);
@@ -89,19 +76,89 @@ public class ResultScreen
         buttonRetryRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 100); // RectTransformのy軸方向のサイズを変更する
         buttonRetryRect.anchoredPosition = new Vector2(0, 0); // アンカーを基準にした座標 (pos_x, pos_y) を設定
 
+        // トラブルの結果を表示
+        float value = (float)Math.Round(GameManager.instance.RudderErrorValue,2,MidpointRounding.AwayFromZero);
+        string troubles = "トラブル:\n";
+
+        switch(GameManager.instance.RudderErrorMode){
+            case 1:
+                troubles += "ラダー"+value+"に固定,\n";
+                break;
+            case 2:
+                troubles += "ラダー"+value+"に確率で固定,\n";
+                break;
+            case 3:
+                troubles += "ラダー"+value+"がニュートラル,\n";
+                break;
+        }
+
+        value = (float)Math.Round(GameManager.instance.CenterOfMassErrorValue,2,MidpointRounding.AwayFromZero);
+        if(GameManager.instance.CenterOfMassErrorValue != 0){
+            troubles += "重心"+value+"ズレ\n";
+        }
+
+        troubles += "倍率変化:";
+
+        value = (float)Math.Round(GameManager.instance.CenterOfMassRandValue,2,MidpointRounding.AwayFromZero);
+        if(GameManager.instance.CenterOfMassRandValue != 1){
+            troubles += "重心×"+value+",";
+        }
+
+        value = (float)Math.Round(GameManager.instance.GustRandValue,2,MidpointRounding.AwayFromZero);
+        if(GameManager.instance.GustRandValue != 0){
+            troubles += "風+"+value+",";
+        }
+
+        value = (float)Math.Round(GameManager.instance.RudderRandValue,2,MidpointRounding.AwayFromZero);
+        if(GameManager.instance.RudderRandValue != 1){
+            troubles += "ラダー×"+value;
+        }
+
+        value = (float)Math.Round(GameManager.instance.CgeRandValue,2,MidpointRounding.AwayFromZero);
+        if(GameManager.instance.CgeRandValue != 1){
+            troubles += "地面効果×"+value;
+        }
+
+        StaticText<string> textTrouble = new(basePanel, "TextTrouble", troubles, 60.0f);
+        RectTransform rectTextTrouble = textTrouble.rectTransform;
+        rectTextTrouble.anchorMin = new Vector2(0.1f, 0.1f); // アンカーの最小値
+        rectTextTrouble.anchorMax = new Vector2(0.9f, 0.5f); // アンカーの最大値
+        rectTextTrouble.pivot = new Vector2(0.5f, 0.5f); // ピボット（ボタン自身の基準点）
+        rectTextTrouble.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 1500); // RectTransformのx軸方向のサイズを変更する
+        rectTextTrouble.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 500); // RectTransformのy軸方向のサイズを変更する
+        rectTextTrouble.anchoredPosition = new Vector2(0, 0); // アンカーを基準にした座標 (pos_x, pos_y) を設定
+
+
+    }
+
+    public void ShowResultTwoGraphs() // 距離と`Retry`ボタン，グラフを2つ表示
+    {
+        // ボタンに登録するデリゲートをラムダ式で定義
+        UnityAction left = () =>
+        {
+            ui.screen = UIManager.Screens.ResultForPilot; // `ResultFourGraphs`に遷移
+        };
+
+        UnityAction right = () =>
+        {
+            ui.screen = UIManager.Screens.ResultFourGraphs; // `ResultFourGraphs`に遷移
+        };
+
+        ArrowButton(left, right); // `<`ボタンと`>`ボタンの生成
+
         // 左下のグラフの生成
         Chart airdataChart1 = new(basePanel, "ChartAirspeed", "機速", gm.AirspeedList);
         RectTransform AirdataChart1Rect = airdataChart1.rectTransform;
-        AirdataChart1Rect.anchorMin = new Vector2(0.05f, 0.01f); // アンカーの最小値
-        AirdataChart1Rect.anchorMax = new Vector2(0.49f, 0.49f); // アンカーの最大値
+        AirdataChart1Rect.anchorMin = new Vector2(0.05f, 0.1f); // アンカーの最小値
+        AirdataChart1Rect.anchorMax = new Vector2(0.49f, 0.9f); // アンカーの最大値
         AirdataChart1Rect.pivot = new Vector2(0.5f, 0.5f); // ピボット（ボタン自身の基準点）
         AirdataChart1Rect.anchoredPosition = new Vector2(0, 0); // アンカーを基準にした座標 (pos_x, pos_y) を設定
 
         // 右下のグラフの生成
         Chart airdataChart2 = new(basePanel, "ChartAlt", "高度", gm.AltList);
         RectTransform AirdataChart2Rect = airdataChart2.rectTransform;
-        AirdataChart2Rect.anchorMin = new Vector2(0.51f, 0.01f); // アンカーの最小値
-        AirdataChart2Rect.anchorMax = new Vector2(0.95f, 0.49f); // アンカーの最大値
+        AirdataChart2Rect.anchorMin = new Vector2(0.51f, 0.1f); // アンカーの最小値
+        AirdataChart2Rect.anchorMax = new Vector2(0.95f, 0.9f); // アンカーの最大値
         AirdataChart2Rect.pivot = new Vector2(0.5f, 0.5f); // ピボット（ボタン自身の基準点）
         AirdataChart2Rect.anchoredPosition = new Vector2(0, 0); // アンカーを基準にした座標 (pos_x, pos_y) を設定
     }
@@ -109,30 +166,17 @@ public class ResultScreen
     public void ShowResultFourGraphs() // グラフを4つ表示
     {
         // ボタンに登録するデリゲートをラムダ式で定義
-        UnityAction OnClickChangePage = () =>
+        UnityAction left = () =>
         {
-            ui.screen = UIManager.Screens.ResultTwoGraphs; // `ResultTwoGraphs`に遷移
+            ui.screen = UIManager.Screens.ResultTwoGraphs; // `ResultFourGraphs`に遷移
         };
 
-        // `>`ボタンの生成
-        ActionButton buttonChangePageRight = new(basePanel, "ButtonChangePageRight", ">", 50.0f, OnClickChangePage);
-        RectTransform buttonChangePageRightRect = buttonChangePageRight.rectTransform;
-        buttonChangePageRightRect.anchorMin = new Vector2(1f, 0.5f); // アンカーの最小値
-        buttonChangePageRightRect.anchorMax = new Vector2(1f, 0.5f); // アンカーの最大値
-        buttonChangePageRightRect.pivot = new Vector2(1f, 0.5f); // ピボット（ボタン自身の基準点）
-        buttonChangePageRightRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 50); // RectTransformのx軸方向のサイズを変更する
-        buttonChangePageRightRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 150); // RectTransformのy軸方向のサイズを変更する
-        buttonChangePageRightRect.anchoredPosition = new Vector2(-20, 0); // アンカーを基準にした座標 (pos_x, pos_y) を設定
+        UnityAction right = () =>
+        {
+            ui.screen = UIManager.Screens.ResultForPilot; // `ResultFourGraphs`に遷移
+        };
 
-        // `<`ボタンの生成
-        ActionButton buttonChangePageLeft = new(basePanel, "ButtonChangePageLeft", "<", 50.0f, OnClickChangePage);
-        RectTransform buttonChangePageLeftRect = buttonChangePageLeft.rectTransform;
-        buttonChangePageLeftRect.anchorMin = new Vector2(0f, 0.5f); // アンカーの最小値
-        buttonChangePageLeftRect.anchorMax = new Vector2(0f, 0.5f); // アンカーの最大値
-        buttonChangePageLeftRect.pivot = new Vector2(0f, 0.5f); // ピボット（ボタン自身の基準点）
-        buttonChangePageLeftRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 50); // RectTransformのx軸方向のサイズを変更する
-        buttonChangePageLeftRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 150); // RectTransformのy軸方向のサイズを変更する
-        buttonChangePageLeftRect.anchoredPosition = new Vector2(20, 0); // アンカーを基準にした座標 (pos_x, pos_y) を設定
+        ArrowButton(left, right); // `<`ボタンと`>`ボタンの生成
 
         // 左上のグラフの生成
         Chart airdataChart1 = new(basePanel, "ChartPitchAlpha", "ピッチ(theta)", gm.ThetaList, "迎角(alpha)", gm.AlphaList);
@@ -167,4 +211,29 @@ public class ResultScreen
         AirdataChart4Rect.pivot = new Vector2(0.5f, 0.5f); // ピボット（ボタン自身の基準点）
         AirdataChart4Rect.anchoredPosition = new Vector2(0, 0); // アンカーを基準にした座標 (pos_x, pos_y) を設定
     }
+
+    private void ArrowButton(UnityAction left, UnityAction right)
+    {
+        // `<`ボタンの生成
+        ActionButton buttonChangePageLeft = new(basePanel, "ButtonChangePageLeft", "<", 50.0f, left);
+        RectTransform buttonChangePageLeftRect = buttonChangePageLeft.rectTransform;
+        buttonChangePageLeftRect.anchorMin = new Vector2(0f, 0.5f); // アンカーの最小値
+        buttonChangePageLeftRect.anchorMax = new Vector2(0f, 0.5f); // アンカーの最大値
+        buttonChangePageLeftRect.pivot = new Vector2(0f, 0.5f); // ピボット（ボタン自身の基準点）
+        buttonChangePageLeftRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 50); // RectTransformのx軸方向のサイズを変更する
+        buttonChangePageLeftRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 150); // RectTransformのy軸方向のサイズを変更する
+        buttonChangePageLeftRect.anchoredPosition = new Vector2(20, 0); // アンカーを基準にした座標 (pos_x, pos_y) を設定
+
+        // `>`ボタンの生成
+        ActionButton buttonChangePageRight = new(basePanel, "ButtonChangePageRight", ">", 50.0f, right);
+        GameObject buttonObj = buttonChangePageRight.gameObject;
+        RectTransform buttonChangePageRightRect = buttonChangePageRight.rectTransform;
+        buttonChangePageRightRect.anchorMin = new Vector2(1f, 0.5f); // アンカーの最小値
+        buttonChangePageRightRect.anchorMax = new Vector2(1f, 0.5f); // アンカーの最大値
+        buttonChangePageRightRect.pivot = new Vector2(1f, 0.5f); // ピボット（ボタン自身の基準点）
+        buttonChangePageRightRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 50); // RectTransformのx軸方向のサイズを変更する
+        buttonChangePageRightRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 150); // RectTransformのy軸方向のサイズを変更する
+        buttonChangePageRightRect.anchoredPosition = new Vector2(-20, 0); // アンカーを基準にした座標 (pos_x, pos_y) を設定
+    }
 }
+

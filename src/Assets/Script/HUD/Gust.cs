@@ -19,7 +19,7 @@ public class Gust : MonoBehaviour
     void Update()
     {
         scoreText.text = 
-            "\n" + script.LocalGustMag.ToString("0.000") 
-            + "\n" + (script.LocalGustDirection).ToString("0");
+            "\n" + script.LocalGustMag.ToString("0.000") + " m/s"
+            + "\n" + (script.LocalGustDirection).ToString("0") + " deg";
     }
 }
