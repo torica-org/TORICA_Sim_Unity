@@ -27,7 +27,7 @@ public class Speaker : MonoBehaviour
         PlaneRigidbody = GameManager.instance.Plane.GetComponent<Rigidbody>();
 
         frequency = 1320;
-        gain = 0.1*GameManager.instance.SoundBolume/50;
+        gain = 0.1*GameManager.instance.SoundVolume/50;
         interval = 1f;
     }
 
@@ -36,7 +36,7 @@ public class Speaker : MonoBehaviour
         off_duration = interval - sound_duration;
 
         if(!spk_flag  && (currentTime - speaker_last_change_time) > off_duration){
-            gain = 0.1f*GameManager.instance.SoundBolume/50;
+            gain = 0.1f*GameManager.instance.SoundVolume/50;
             speaker_last_change_time = currentTime;
             spk_flag  = true;
         }else if(spk_flag  && (currentTime - speaker_last_change_time) > sound_duration){
@@ -46,7 +46,7 @@ public class Speaker : MonoBehaviour
         }
         
         if(!GameManager.instance.EnterFlight){
-            gain = 0.1*GameManager.instance.SoundBolume/50;
+            gain = 0.1*GameManager.instance.SoundVolume/50;
         }
 
         if(GameManager.instance.SettingActive){
@@ -91,7 +91,7 @@ public class Speaker : MonoBehaviour
             if(!onoff){
                 if(frameNumber%(interval/0.02m) == 0)//interval[s]ごとにリストに追加
                 {
-                    gain = 0.1*GameManager.instance.SoundBolume/50;
+                    gain = 0.1*GameManager.instance.SoundVolume/50;
                     onoff = true;
                     frameNumber = 0;
                 }
@@ -114,7 +114,7 @@ public class Speaker : MonoBehaviour
                 }
                 else
                 {
-                    gain = 0.1*GameManager.instance.SoundBolume/50;
+                    gain = 0.1*GameManager.instance.SoundVolume/50;
                     onoff = true;
                 }
             }

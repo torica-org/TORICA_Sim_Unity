@@ -1,0 +1,198 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UISystem/PreFlightScreen.uss?fileID=7433441132597879392&amp;guid=33d05e33bb6dacc4d84eb47b4115391a&amp;type=3#PreFlightScreen" />
+    <ui:VisualElement name="Root" class="root" style="-unity-font: url(&apos;project://database/Assets/Fonts/NotoSansCJKjp-Medium.otf?fileID=12800000&amp;guid=b08f923e019c2de4e905a63259bd4217&amp;type=3#NotoSansCJKjp-Medium&apos;); font-size: 40%; padding-top: 2.5%; padding-right: 2.5%; padding-bottom: 2.5%; padding-left: 2.5%;">
+        <ui:GroupBox name="UpperBox" class="upper-box" style="padding-top: 0; padding-right: 0; padding-left: 0; justify-content: space-around;">
+            <ui:VisualElement name="Category" class="category-panel" style="justify-content: space-around; margin-right: 0; margin-top: 0; margin-bottom: 0; margin-left: 0;">
+                <ui:ScrollView name="CategoryScrollView" style="height: 100%;">
+                    <ui:Button text="Situation" display-tooltip-when-elided="true" name="Button_Category1" style="font-size: 40%;" />
+                    <ui:Button text="Settings" display-tooltip-when-elided="true" name="Button_Category2" style="font-size: 40%;" />
+                    <ui:Button text="Connection" display-tooltip-when-elided="true" name="Button_Category3" style="font-size: 40%;" />
+                    <ui:Button text="Advanced" display-tooltip-when-elided="true" name="Button_Category4" style="font-size: 40%;" />
+                </ui:ScrollView>
+            </ui:VisualElement>
+            <ui:VisualElement name="Setting" class="setting-panel" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;">
+                <ui:ScrollView name="Setting1" class="SettingScrollView hidden" style="font-size: 30px;">
+                    <ui:VisualElement name="Aircraft" class="SettingElement">
+                        <ui:Label text="使用する機体:" display-tooltip-when-elided="true" name="Label_Aircraft" class="SettingLabel" />
+                        <ui:DropdownField name="DropdownField_Aircraft" class="SettingDropdown" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="FlightModel" class="SettingElement">
+                        <ui:Label text="フライトモデル:" display-tooltip-when-elided="true" name="Label_FlightModel" class="SettingLabel" />
+                        <ui:DropdownField name="DropdownField_FlightModel" class="SettingDropdown" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="WindSpeed" class="SettingElement">
+                        <ui:Label text="風速" display-tooltip-when-elided="true" name="Label_WindSpeed" class="SettingLabel" />
+                        <ui:SliderInt picking-mode="Ignore" name="SliderInt_WindSpeed" class="SettingSliderInt" />
+                        <ui:Label text="Display.ValueWindSpeed [m/s]" display-tooltip-when-elided="true" name="Value_WindSpeed" class="SettingValue" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="WindDirection" class="SettingElement">
+                        <ui:Label text="風向き" display-tooltip-when-elided="true" name="Label_WindDirection" class="SettingLabel" />
+                        <ui:SliderInt picking-mode="Ignore" name="SliderInt_WindDirection" class="SettingSliderInt" />
+                        <ui:Label text="Display.ValueWindDirection[deg]" display-tooltip-when-elided="true" name="Value_WindDirection" class="SettingValue" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="TakeoffTitle" class="SettingElement">
+                        <ui:Label text="テイクオフ時:" display-tooltip-when-elided="true" class="SettingLabel" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="TakeoffSpeed" class="SettingElement">
+                        <ui:Label text="速度" display-tooltip-when-elided="true" name="Label_TakeoffSpeed" enable-rich-text="true" class="SettingLabel" />
+                        <ui:SliderInt picking-mode="Ignore" name="SliderInt_TakeoffSpeed" class="SettingSliderInt" />
+                        <ui:Label text="Display.ValueTakeoffSpeed [m/s]" display-tooltip-when-elided="true" name="Value_TakeoffSpeed" class="SettingValue" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="TakeoffYaw" class="SettingElement">
+                        <ui:Label text="ヨー角" display-tooltip-when-elided="true" name="Label_TakeoffYaw" class="SettingLabel" />
+                        <ui:SliderInt picking-mode="Ignore" name="SliderInt_TakeoffYaw" class="SettingSliderInt" />
+                        <ui:Label text="Display.ValueTakeoffYaw [deg]" display-tooltip-when-elided="true" name="Value_TakeoffYaw" class="SettingValue" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="TakeoffPitch" class="SettingElement">
+                        <ui:Label text="ピッチ角" display-tooltip-when-elided="true" name="Label_TakeoffPitch" class="SettingLabel" />
+                        <ui:SliderInt picking-mode="Ignore" name="SliderInt_TakeoffPitch" class="SettingSliderInt" />
+                        <ui:Label text="Display.ValueTakeoffPitch [deg]" display-tooltip-when-elided="true" name="Value_TakeoffPitch" class="SettingValue" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="TakeoffRoll" class="SettingElement">
+                        <ui:Label text="ロール角" display-tooltip-when-elided="true" name="Label_TakeoffRoll" class="SettingLabel" />
+                        <ui:SliderInt picking-mode="Ignore" name="SliderInt_TakeoffRoll" show-input-field="false" class="SettingSliderInt" />
+                        <ui:Label text="Display.ValueTakeoffRoll [deg]" display-tooltip-when-elided="true" name="Value_TakeoffRoll" class="SettingValue" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="WingMountAngle" class="SettingElement">
+                        <ui:Label text="水平取付角" display-tooltip-when-elided="true" name="Label_WingMountAngle" class="SettingLabel" />
+                        <ui:SliderInt picking-mode="Ignore" name="SliderInt_WingMountAngle" class="SettingSliderInt" />
+                        <ui:Label text="Display.ValueWingMountAngle [deg]" display-tooltip-when-elided="true" name="Value_WingMountAngle" class="SettingValue" />
+                    </ui:VisualElement>
+                </ui:ScrollView>
+                <ui:ScrollView name="Setting2" class="SettingScrollView hidden">
+                    <ui:Button display-tooltip-when-elided="true" name="Button_FlightMode" class="SettingButton">
+                        <ui:Label text="フライトモード:" display-tooltip-when-elided="true" name="Label_FlightMode" class="SettingButtonLabel" />
+                        <ui:Label text="Display.FlightMode" display-tooltip-when-elided="true" name="Value_FlightMode" class="SettingButtonValue" />
+                    </ui:Button>
+                    <ui:Button display-tooltip-when-elided="true" name="Button_ViewMode" class="SettingButton">
+                        <ui:Label text="視点(FPS/TPS):" display-tooltip-when-elided="true" name="Label_ViewMode" class="SettingButtonLabel" />
+                        <ui:Label text="Display.ViewMode" display-tooltip-when-elided="true" name="Value_ViewMode" class="SettingButtonValue" />
+                    </ui:Button>
+                    <ui:Button display-tooltip-when-elided="true" name="Button_ScreenDataDisplay" class="SettingButton">
+                        <ui:Label text="画面データ表示:" display-tooltip-when-elided="true" name="Label_ScreenDataDisplay" class="SettingButtonLabel" />
+                        <ui:Label text="Display.ScreenDataDisplay" display-tooltip-when-elided="true" name="Value_ScreenDataDisplay" class="SettingButtonValue" />
+                    </ui:Button>
+                    <ui:Button display-tooltip-when-elided="true" name="Button_CSVExport" class="SettingButton">
+                        <ui:Label text="CSVファイル保存:" display-tooltip-when-elided="true" name="Label_CSVExport" class="SettingButtonLabel" />
+                        <ui:Label text="Display.CSVExport" display-tooltip-when-elided="true" name="Value_CSVExport" class="SettingButtonValue" />
+                    </ui:Button>
+                    <ui:Button display-tooltip-when-elided="true" name="Button_CSVAirCraftLoad" class="SettingButton">
+                        <ui:Label text="CSV機体データ読込:" display-tooltip-when-elided="true" name="Label_CSVAirCraftLoad" class="SettingButtonLabel" />
+                        <ui:Label text="Display.CSVAirCraftLoad" display-tooltip-when-elided="true" name="Value_CSVAirCraftLoad" class="SettingButtonValue" />
+                    </ui:Button>
+                    <ui:VisualElement name="PitchSensitivity" class="SettingElement">
+                        <ui:Label text="ピッチ操作感度" display-tooltip-when-elided="true" name="Label_PitchSensitivity" class="SettingLabel" />
+                        <ui:SliderInt picking-mode="Ignore" value="42" high-value="100" name="SliderInt_PitchSensitivity" class="SettingSliderInt" />
+                        <ui:Label text="Display.PitchSensitivity" display-tooltip-when-elided="true" name="Value_PitchSensitivity" class="SettingValue" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="SpeakerVolume" class="SettingElement">
+                        <ui:Label text="スピーカー音量" display-tooltip-when-elided="true" name="Label_SpeakerVolume" class="SettingLabel" />
+                        <ui:SliderInt picking-mode="Ignore" value="42" high-value="100" name="SliderInt_SpeakerVolume" class="SettingSliderInt" />
+                        <ui:Label text="Display.SpeakerVolume" display-tooltip-when-elided="true" name="Value_SpeakerVolume" class="SettingValue" style="height: 50px;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="FOV" class="SettingElement">
+                        <ui:Label text="視野角" display-tooltip-when-elided="true" name="Label_FOV" class="SettingLabel" />
+                        <ui:SliderInt picking-mode="Ignore" value="42" high-value="100" name="SliderInt_FOV" class="SettingSliderInt" />
+                        <ui:Label text="Display.FOV [deg]" display-tooltip-when-elided="true" name="Value_FOV" class="SettingValue" />
+                    </ui:VisualElement>
+                </ui:ScrollView>
+                <ui:ScrollView name="Setting3" class="SettingScrollView">
+                    <ui:VisualElement name="ConnectionStatus" class="SettingElement">
+                        <ui:Label text="接続状況:" display-tooltip-when-elided="true" name="Label_ConnectionStatus" class="SettingText" />
+                        <ui:Label text="Display.ConnectionStatus" display-tooltip-when-elided="true" name="Value_ConnectionStatus" class="SettingText" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="VerticalSpace" style="height: 100px;" />
+                    <ui:VisualElement name="CenterOfGravity" class="SettingElement">
+                        <ui:Label text="全体重心" display-tooltip-when-elided="true" name="Label_CenterOfGravity" class="SettingLabel" />
+                        <ui:Label text="Display.CenterOfGravity [m]" display-tooltip-when-elided="true" name="Value_CenterOfGravity" class="SettingValue" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="PilotCenterOfGravity" class="SettingElement">
+                        <ui:Label text="P重心" display-tooltip-when-elided="true" name="Label_PilotCenterOfGravity" class="SettingLabel" />
+                        <ui:Label text="Display.PilotCenterOfGravity [m]" display-tooltip-when-elided="true" name="Value_PilotCenterOfGravity" class="SettingValue" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="Rudder" class="SettingElement">
+                        <ui:Label text="ラダー" display-tooltip-when-elided="true" name="Label_Rudder" class="SettingLabel" />
+                        <ui:Label text="Display.Rudder" display-tooltip-when-elided="true" name="Value_Rudder" class="SettingValue" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="SensorTitle" class="SettingElement">
+                        <ui:Label text="重心センサーの接続位置" display-tooltip-when-elided="true" class="SettingLabel" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="SensorLengthForward" class="SettingElement">
+                        <ui:Label text="前方" display-tooltip-when-elided="true" name="Label_SensorLengthForward" class="SettingLabel" />
+                        <ui:SliderInt picking-mode="Ignore" value="42" high-value="100" name="SliderInt_SensorLengthForward" class="SettingSliderInt" />
+                        <ui:Label text="Display.SensorLengthForward [m]" display-tooltip-when-elided="true" name="Value_SensorLengthForward" class="SettingValue" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="SensorLengthBackward" class="SettingElement">
+                        <ui:Label text="後方" display-tooltip-when-elided="true" name="Label_SensorLengthBackward" class="SettingLabel" />
+                        <ui:SliderInt picking-mode="Ignore" value="42" high-value="100" name="SliderInt_SensorLengthBackward" class="SettingSliderInt" />
+                        <ui:Label text="Display.SensorLengthBackward [m]" display-tooltip-when-elided="true" name="Value_SensorLengthBackward" class="SettingValue" />
+                    </ui:VisualElement>
+                </ui:ScrollView>
+                <ui:ScrollView name="Setting4" class="SettingScrollView hidden">
+                    <ui:Label text="ランダムモード" display-tooltip-when-elided="true" name="RandomMode" class="SettingText" />
+                    <ui:Button display-tooltip-when-elided="true" name="Button_RandomWindMode" class="SettingButton">
+                        <ui:Label text="ランダム風モード:" display-tooltip-when-elided="true" name="Label_RandomWindMode" class="SettingButtonLabel" />
+                        <ui:Label text="Display.RandomWindMode" display-tooltip-when-elided="true" name="Value_RandomWindMode" class="SettingButtonValue" />
+                    </ui:Button>
+                    <ui:Label text="トラブルモード" display-tooltip-when-elided="true" name="TroubleMode" class="SettingText" />
+                    <ui:Button display-tooltip-when-elided="true" name="Button_RudderFailure" class="SettingButton">
+                        <ui:Label text="ラダー異常:" display-tooltip-when-elided="true" name="Label_RudderFailure" class="SettingButtonLabel" />
+                        <ui:Label text="Display.RudderFailure" display-tooltip-when-elided="true" name="Value_RudderFailure" class="SettingButtonValue" />
+                    </ui:Button>
+                    <ui:Button display-tooltip-when-elided="true" name="Button_CenterOfGravityFailure" class="SettingButton">
+                        <ui:Label text="重心異常:" display-tooltip-when-elided="true" name="Label_CenterOfGravityFailure" class="SettingButtonLabel" />
+                        <ui:Label text="Display.CenterOfGravityFailure" display-tooltip-when-elided="true" name="Value_CenterOfGravityFailure" class="SettingButtonValue" />
+                    </ui:Button>
+                    <ui:Label text="ランダムゲイン(意図的にパラメーターに揺らぎを与えます。)" display-tooltip-when-elided="true" name="RandomGain" class="SettingText" />
+                    <ui:Button display-tooltip-when-elided="true" name="Button_RandomCenterOfGravity" class="SettingButton">
+                        <ui:Label text="重心移動:" display-tooltip-when-elided="true" name="Label_RandomCenterOfGravity" class="SettingButtonLabel" />
+                        <ui:Label text="Display.RandomCenterOfGravity" display-tooltip-when-elided="true" name="Value_RandomCenterOfGravity" class="SettingButtonValue" />
+                    </ui:Button>
+                    <ui:Button display-tooltip-when-elided="true" name="Button_RandomRudder" class="SettingButton">
+                        <ui:Label text="ラダー:" display-tooltip-when-elided="true" name="Label_RandomRudder" class="SettingButtonLabel" />
+                        <ui:Label text="Display.RandomRudder" display-tooltip-when-elided="true" name="Value_RandomRudder" class="SettingButtonValue" />
+                    </ui:Button>
+                    <ui:Button display-tooltip-when-elided="true" name="Button_RandomGroundEffect" class="SettingButton">
+                        <ui:Label text="地面効果:" display-tooltip-when-elided="true" name="Label_RandomGroundEffect" class="SettingButtonLabel" />
+                        <ui:Label text="Display.RandomGroundEffect" display-tooltip-when-elided="true" name="Value_RandomGroundEffect" class="SettingButtonValue" />
+                    </ui:Button>
+                    <ui:Button display-tooltip-when-elided="true" name="Button_RandomWindEffect" class="SettingButton">
+                        <ui:Label text="風効果:" display-tooltip-when-elided="true" name="Label_RandomWindEffect" class="SettingButtonLabel" />
+                        <ui:Label text="Display.RandomWindEffect" display-tooltip-when-elided="true" name="Value_RandomWindEffect" class="SettingButtonValue" />
+                    </ui:Button>
+                </ui:ScrollView>
+            </ui:VisualElement>
+        </ui:GroupBox>
+        <ui:GroupBox name="MiddleBox" class="middle-box" style="padding-right: 0; padding-left: 0;">
+            <ui:VisualElement name="Control" class="switch-vr-panel" style="width: 50%; margin-right: 0; align-items: center; flex-shrink: 1; padding-top: 1%; padding-right: 1%; padding-bottom: 1%; padding-left: 1%; margin-top: 0; margin-bottom: 0; margin-left: 0;">
+                <ui:VisualElement name="Upper" style="flex-grow: 1; width: 100%; height: 50%; align-items: center; justify-content: center; flex-direction: row; -unity-text-align: upper-left;">
+                    <ui:Button display-tooltip-when-elided="true" name="Button_SwitchMode" enable-rich-text="true" class="ControlButton">
+                        <ui:Label text="Display.SwitchMode" display-tooltip-when-elided="true" name="Value_SwitchMode" class="ControlButtonValue" />
+                    </ui:Button>
+                    <ui:Button display-tooltip-when-elided="true" name="Button_PositionEstimationMode" class="ControlButton">
+                        <ui:Label text="Display.PositionEstimationMode" display-tooltip-when-elided="true" name="Value_PositionEstimationMode" class="ControlButtonValue" />
+                    </ui:Button>
+                    <ui:DropdownField name="DropdownField_COMPort" style="width: auto; margin-top: 2px; margin-right: 4px; margin-bottom: 2px; margin-left: 4px; flex-shrink: 1; flex-grow: 1; height: 95%;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="Lower" style="height: 50%; width: 100%; flex-direction: row;">
+                    <ui:Button display-tooltip-when-elided="true" name="Button_DualScreenView" enable-rich-text="true" class="ControlButton">
+                        <ui:Label text="Display.DualScreenView" display-tooltip-when-elided="true" name="Value_DualScreenView" class="ControlButtonValue" />
+                    </ui:Button>
+                    <ui:Button display-tooltip-when-elided="true" name="Button_ControlMethod" enable-rich-text="true" class="ControlButton">
+                        <ui:Label text="Display.ControlMethod" display-tooltip-when-elided="true" name="Value_ControlMethod" class="ControlButtonValue" />
+                    </ui:Button>
+                    <ui:TextField picking-mode="Ignore" text="体重を入力" name="TextField_Weight" style="width: auto; flex-grow: 1; font-size: 40px; flex-shrink: 1;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="Start" class="start-panel" style="margin-left: 0; width: auto; flex-grow: 1; justify-content: center; flex-direction: column; align-items: center; margin-top: 0; margin-right: 0; margin-bottom: 0;">
+                <ui:Button text="Start" display-tooltip-when-elided="true" name="Button_Start" style="height: 80%; width: 95%; justify-content: flex-end; flex-direction: row; align-items: flex-end; flex-grow: 0; flex-wrap: nowrap; flex-basis: auto; font-size: 40%; -unity-font-style: normal;" />
+            </ui:VisualElement>
+        </ui:GroupBox>
+        <ui:GroupBox name="LowerBox" class="lower-box" style="height: 5%;">
+            <ui:VisualElement name="Status" class="status-panel" style="width: auto; flex-grow: 1; justify-content: space-between; flex-direction: row;">
+                <ui:Label text="Display.StatusPrefix Display.Status" display-tooltip-when-elided="true" enable-rich-text="true" name="Value_Status" style="background-color: rgb(188, 188, 188); align-items: center; justify-content: center; height: auto; font-size: 40%; -unity-text-align: middle-left;" />
+                <ui:Label text="Display.Version" display-tooltip-when-elided="true" name="Value_Version" style="align-items: stretch; background-color: rgb(188, 188, 188); font-size: 40px; justify-content: center; -unity-text-align: middle-right;" />
+            </ui:VisualElement>
+        </ui:GroupBox>
+    </ui:VisualElement>
+</ui:UXML>

@@ -88,7 +88,7 @@ public class GameManager : MonoBehaviour
     [System.NonSerialized] public bool FirstLoad;//シミュ起動後最初のシーンロードか否か
     [System.NonSerialized] public int SettingMode = 0;
     [System.NonSerialized] public bool TakeOff = false;
-    [System.NonSerialized] public float SoundBolume = 0;
+    [System.NonSerialized] public float SoundVolume = 0;
     [System.NonSerialized] public string FlightModel;
     [SerializeField] public string DefaultFlightModel = "isoSim2";
 
@@ -116,6 +116,19 @@ public class GameManager : MonoBehaviour
     [System.NonSerialized] public bool CgeRand = false;
     [System.NonSerialized] public float CgeRandValue = 0;
 
+    //UIの状態　UIのステータス
+    public enum Status
+    {
+        PreFlight,
+        InFlight,
+        Landing,
+        Pause
+    }
+    [System.NonSerialized] public Status status = Status.PreFlight;
+
+    //PreFlightScreenで採用するステータス表示用　上のものとは別物
+    [System.NonSerialized] public string StatusText;
+    
     // ===== Updateよりも早くに実行される ==============
     private void Awake()
     {

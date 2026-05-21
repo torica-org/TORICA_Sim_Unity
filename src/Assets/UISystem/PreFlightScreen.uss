@@ -1,0 +1,258 @@
+.root {
+    height: 100%;
+    width: 100%;
+    left: auto;
+    top: auto;
+    flex-direction: column;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    background-color: rgba(50, 67, 64, 0.47);
+    border-left-color: rgb(255, 0, 0);
+    border-right-color: rgb(255, 0, 0);
+    border-top-color: rgb(255, 0, 0);
+    border-bottom-color: rgb(255, 0, 0);
+    border-top-width: 3px;
+    border-right-width: 3px;
+    border-bottom-width: 3px;
+    border-left-width: 3px;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+}
+
+.upper-box {
+    width: 100%;
+    height: 65%;
+    flex-direction: row;
+    background-color: rgba(14, 25, 63, 0.5);
+    margin-left: 0;
+    margin-bottom: 0;
+    margin-right: 0;
+    margin-top: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 2.5%;
+    flex-grow: 1;
+    padding-right: 2.5%;
+    flex-wrap: nowrap;
+}
+
+.category-panel {
+    height: 100%;
+    width: 20%;
+    flex-direction: column;
+    background-color: rgba(236, 115, 115, 0.7);
+    margin-left: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-right: 1.25%;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.setting-panel {
+    height: 100%;
+    width: 75%;
+    flex-direction: column;
+    margin-left: 1.25%;
+    padding-left: 0;
+    background-color: rgba(145, 185, 125, 0.7);
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    flex-grow: 1;
+    -unity-font-style: italic;
+}
+
+.middle-box {
+    height: 25%;
+    width: 100%;
+    background-color: rgba(23, 41, 24, 0.6);
+    border-left-color: rgb(46, 46, 46);
+    border-right-color: rgb(46, 46, 46);
+    border-top-color: rgb(46, 46, 46);
+    border-bottom-color: rgb(46, 46, 46);
+    margin-left: 0;
+    margin-bottom: 0;
+    margin-right: 0;
+    margin-top: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    flex-direction: row;
+    align-items: flex-start;
+}
+
+.switch-vr-panel {
+    left: auto;
+    width: 15%;
+    height: 100%;
+    background-color: rgb(197, 111, 193);
+    align-items: stretch;
+    justify-content: center;
+}
+
+.switch-vr-button {
+    flex-shrink: 0;
+    flex-grow: 0;
+    font-size: 75%;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    flex-wrap: wrap;
+    visibility: visible;
+    overflow: hidden;
+}
+
+.start-panel {
+    background-color: rgba(126, 186, 207, 0.7);
+    height: 100%;
+    width: 75%;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+}
+
+.lower-box {
+    height: 10%;
+    background-color: rgba(60, 49, 38, 0.61);
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+}
+
+.status-panel {
+    width: 90%;
+    height: 100%;
+    background-color: rgb(107, 0, 0);
+}
+
+.SettingElement {
+    height: 68px;
+    flex-shrink: 1;
+    margin-bottom: 4px;
+}
+
+.SettingDropdown {
+    height: 100%;
+    font-size: 40px;
+    -unity-font-style: normal;
+    width: 350px;
+    align-items: center;
+    justify-content: center;
+}
+
+.SettingElement {
+    flex-direction: row;
+    font-size: 40px;
+    -unity-font-style: normal;
+    flex-grow: 1;
+    height: 50px;
+    align-items: center;
+}
+
+.SettingLabel {
+    width: 20%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+}
+
+.hidden {
+    display: none;
+}
+
+.SettingScrollView {
+    flex-grow: 1;
+    padding-top: 2%;
+    padding-right: 2%;
+    padding-bottom: 2%;
+    padding-left: 2%;
+    align-items: center;
+    justify-content: center;
+    -unity-font-style: normal;
+}
+
+.SettingButton {
+    flex-direction: row;
+    justify-content: center;
+    height: 80px;
+    font-size: 40px;
+    -unity-font-style: normal;
+}
+
+.SettingButtonLabel {
+}
+
+.SettingButtonValue {
+}
+
+.SettingSliderInt {
+    width: 40%;
+    scale: 1 2;
+}
+
+.SettingValue {
+    width: auto;
+    height: 100%;
+    font-size: 30px;
+}
+
+.SettingText {
+    height: 40px;
+    font-size: 40px;
+    -unity-font-style: normal;
+    -unity-text-align: middle-left;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.SettingTextField {
+    width: 300px;
+    font-size: 40px;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    -unity-text-align: middle-left;
+    margin-top: -2px;
+    margin-right: -2px;
+    margin-bottom: -2px;
+    margin-left: -2px;
+}
+
+.SettingButtonMini {
+    width: 300px;
+    -unity-text-align: middle-center;
+    margin-top: -2px;
+    margin-right: 6px;
+    margin-bottom: -2px;
+    margin-left: 6px;
+}
+
+.ControlButton {
+    width: auto;
+    height: 100%;
+    font-size: 40%;
+    align-items: center;
+    flex-grow: 1;
+    margin-left: 0;
+    margin-bottom: 0;
+    margin-right: 0;
+    margin-top: 0;
+    justify-content: center;
+    flex-basis: 0;
+}
+
+.ControlButtonValue {
+    font-size: 40px;
+}

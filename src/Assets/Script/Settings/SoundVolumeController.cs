@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SoundBolumeController : MonoBehaviour
+public class SoundVolumeController : MonoBehaviour
 {
     [SerializeField]private Text scoreText;
     private Slider CurrentSlider;
@@ -12,7 +12,7 @@ public class SoundBolumeController : MonoBehaviour
     {
         CurrentSlider = GetComponent<Slider>();
 
-        CurrentSlider.value = GameManager.instance.SoundBolume;
+        CurrentSlider.value = GameManager.instance.SoundVolume;
     }
 
     // Update is called once per frame
@@ -25,6 +25,6 @@ public class SoundBolumeController : MonoBehaviour
     {
         scoreText.text = CurrentSlider.value.ToString();
         GameManager.instance.SettingChanged = true;
-        GameManager.instance.SoundBolume = CurrentSlider.value;
+        GameManager.instance.SoundVolume = CurrentSlider.value;
     }
 }

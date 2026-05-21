@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Events; // UnityActionのために必要
 using UnityEngine.SceneManagement; // `LoadScene`のために必要
 
-public class PreFlightScreen
+public class Legacy_PreFlightScreen
 {
     private GameManager gm;
     private CameraManager cm;
@@ -15,7 +15,7 @@ public class PreFlightScreen
     private GameObject scrollContent; // `Scroll View`を作成したときに自動的にできる子オブジェクト.
     private GameObject uiObj;
 
-    public PreFlightScreen(GameObject basePanel, GameObject baseScrollView)
+    public Legacy_PreFlightScreen(GameObject basePanel, GameObject baseScrollView)
     {
         gm = GameManager.instance;
         cm = GameObject.Find("CameraManager").GetComponent<CameraManager>();

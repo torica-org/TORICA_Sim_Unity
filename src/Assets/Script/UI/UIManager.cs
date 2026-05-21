@@ -28,7 +28,7 @@ public class UIManager : MonoBehaviour
     private GameObject basePanel;
     private GameObject baseScrollView;
 
-    private PreFlightScreen preFlight;
+    private Legacy_PreFlightScreen preFlight;
     private FlightSettingScreen flightSetting;
     private ResultScreen result;
 
