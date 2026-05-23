@@ -73,8 +73,8 @@ public static class AircraftData
     private static readonly string[] _AircraftNames
         = { "QX-18", "QX-19", "QX-20", "ARG-2", "UL01B", "ORCA18", "ORCA22", "Gardenia", "Aria", "Camellia", "Gaillardia" };
 
-    // 機体諸元を保存する`[AircraftData]`へのフルパス.
-    private static string _sourceDirectory = Path.Combine(Directory.GetParent(Application.dataPath).FullName, "[AircraftData]");
+    // 機体諸元を保存する`AircraftData`へのフルパス.
+    private static string _sourceDirectory = Path.Combine(Directory.GetParent(Application.dataPath).FullName, "AircraftData");
 
     // 機体名をキー，機体諸元CSVファイルへのフルパスを値とする辞書.
     private static Dictionary<string, string> _dataDictionary { get; set; } = new Dictionary<string, string>();
@@ -99,7 +99,7 @@ public static class AircraftData
 
         SyncNames();
 
-        watcher = new FileSystemWatcher(_sourceDirectory, "*.csv"); // `[AircraftData]`ディレクトリ内のCSVファイルを監視する`FileSystemWatcher`を作成.
+        watcher = new FileSystemWatcher(_sourceDirectory, "*.csv"); // `AircraftData`ディレクトリ内のCSVファイルを監視する`FileSystemWatcher`を作成.
 
         watcher.Changed += (sender, e) => SyncNames(); // 変更された時.
         watcher.Created += (sender, e) => SyncNames(); // 作成された時.
@@ -110,7 +110,7 @@ public static class AircraftData
         watcher.IncludeSubdirectories = true; // サブディレクトリも監視する.
         watcher.EnableRaisingEvents = true; // イベントの発生を有効にする.
 
-        Debug.Log("AircraftManager initialized and watching for changes in [AircraftData] directory.");
+        Debug.Log("AircraftManager initialized and watching for changes in `AircraftData` directory.");
     }
 
     // ===== `[AircraftData]`内のCSVの名前をリストと同期する ====================================
@@ -136,7 +136,7 @@ public static class AircraftData
         //    Debug.Log(_data.Key + " : " + _data.Value);
         //}
 
-        Debug.Log("Names synchronized with CSV files in [AircraftData] directory.");
+        Debug.Log("Names synchronized with CSV files in `AircraftData` directory.");
     }
 
     // ===== 指定されたCSVファイルから機体データを読み込む ===========================================================
@@ -479,7 +479,8 @@ public static class AircraftData
 
             for (int i = 0; i < 40; i++)
             {
-                if (!_isSetted[i] && i != 39) // 翼持ちのデータはオプションとする.
+              if (i != 4 || i != 5 || i != 39)
+                if (!_isSetted[i]) // 空虚重量，機体のみでの重心位置，翼持ちのデータはオプションとする.
                 {
                     throw new Exception($"Parameter at index {i} is not setted.");
                 }
@@ -659,6 +660,7 @@ public static class AircraftData
     {
         massAircraft = 0f;
         centerOfMassAircraft = 0f;
+        YL = 0f;
 
         if (AircraftName == "QX-18")
         {
@@ -1178,6 +1180,7 @@ public static class AircraftData
             Cndr = -0.00020f; // [1/deg]
         }
 
+        /*
         if (massAircraft == 0f)
         {
             massAircraft = mass - 55f; // パイロットの体重を55kgとしたデフォルト値.
@@ -1186,5 +1189,6 @@ public static class AircraftData
         {
             centerOfMassAircraft = centerOfMass.y - 0.1f; // デフォルト値は機体中心から-0.1mの距離.
         }
+        */
     } // void InputSpecification(string AircraftName)
 } // class AircraftData

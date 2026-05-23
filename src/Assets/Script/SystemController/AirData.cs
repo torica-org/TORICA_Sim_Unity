@@ -86,7 +86,7 @@ public class AirData : MonoBehaviour
 
         if (frameNumber % (interval / 0.02m) == 0)//interval[s]ごとにログに追加
         {
-            if (GameManager.instance.SaveCsv && GameManager.instance.EnterFlight)
+            if (Config.ExportLog && GameManager.instance.EnterFlight)
             {
                 SaveCsvScript.SaveData(time.ToString("F1"), script.Airspeed.ToString("F3"), script.ALT.ToString("F3"), script.alpha.ToString("F3"), script.beta.ToString("F3"), theta.ToString("F3"), phi.ToString("F3"));
             }

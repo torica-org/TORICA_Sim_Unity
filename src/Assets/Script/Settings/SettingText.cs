@@ -31,17 +31,17 @@ public class SettingText : MonoBehaviour
         scoreText.text = "\n";
         scoreText.text += GameManager.instance.FlightMode+"\n\n";
 
-        if(GameManager.instance.isMainDisplayTPS){
+        if(Config.IsMainDisplayTPS){
             scoreText.text += "FPS"+"\n\n";
         }else{
             scoreText.text += "TPS"+"\n\n";
         }
-        if(GameManager.instance.HUDActive){
+        if(Config.HUDActive){
             scoreText.text += "ON"+"\n\n";
         }else{
             scoreText.text += "OFF"+"\n\n";
         }
-        if(GameManager.instance.MousePitchControl){
+        if(Config.MousePitchControl){
             scoreText.text += "Mouse"+"\n\n";
         }else{
             scoreText.text += "Keyboard"+"\n\n";

@@ -77,8 +77,24 @@ public class ResultScreen
         buttonRetryRect.anchoredPosition = new Vector2(0, 0); // アンカーを基準にした座標 (pos_x, pos_y) を設定
 
         // トラブルの結果を表示
+        string troubles = "";
+        troubles += "風速: ";
+        troubles += Config.GustMagnitude.ToString("0.0") + "m/s";
+        troubles += "    風上: ";
+        string DirectionText;
+        if (Config.GustDirection >= 0)
+        {
+          DirectionText = "R ";
+        }
+        else
+        {
+          DirectionText = "L ";
+        }
+        DirectionText += Mathf.Abs(Config.GustDirection).ToString("0");
+        troubles += DirectionText + "deg" + System.Environment.NewLine;
+
+        troubles += "トラブル:\n";
         float value = (float)Math.Round(GameManager.instance.RudderErrorValue,2,MidpointRounding.AwayFromZero);
-        string troubles = "トラブル:\n";
 
         switch(GameManager.instance.RudderErrorMode){
             case 1:

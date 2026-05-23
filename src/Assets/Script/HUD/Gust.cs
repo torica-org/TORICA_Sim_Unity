@@ -18,8 +18,19 @@ public class Gust : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        string DirectionText;
+        if (script.LocalGustDirection >= 0)
+        {
+          DirectionText = "R ";
+        }
+        else
+        {
+          DirectionText = "L ";
+        }
+        DirectionText += Mathf.Abs(script.LocalGustDirection).ToString("0");
+
         scoreText.text = 
             "\n" + script.LocalGustMag.ToString("0.000") + " m/s"
-            + "\n" + (script.LocalGustDirection).ToString("0") + " deg";
+            + "\n" + DirectionText + " deg";
     }
 }

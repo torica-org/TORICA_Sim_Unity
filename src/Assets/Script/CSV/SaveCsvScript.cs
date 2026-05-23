@@ -17,7 +17,7 @@ public class SaveCsvScript : MonoBehaviour
 
     public void SetFile()
     {
-        if(GameManager.instance.SaveCsv)
+        if(Config.ExportLog)
         {
             OnClose = false;
             TodayNow = DateTime.Now;
@@ -45,13 +45,13 @@ public class SaveCsvScript : MonoBehaviour
 
     void Update()
     {
-        if(GameManager.instance.Landing == true && OnClose == false && GameManager.instance.SaveCsv){
+        if(GameManager.instance.Landing == true && OnClose == false && Config.ExportLog){
             sw.Close();
             OnClose = true;
         }
 
         if(Input.GetKeyDown("p") && !GameManager.instance.EnterFlight){
-            GameManager.instance.SaveCsv = !GameManager.instance.SaveCsv;
+            Config.ExportLog = !Config.ExportLog;
         }
 
     }

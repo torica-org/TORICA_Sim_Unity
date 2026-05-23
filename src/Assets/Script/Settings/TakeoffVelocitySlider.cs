@@ -18,12 +18,12 @@ public class TakeoffVelocitySlider : MonoBehaviour
         CurrentSlider = GetComponent<Slider>();
 
         if(GameManager.instance.SettingChanged){
-            CurrentSlider.value = GameManager.instance.Airspeed_TO*10f;
+            CurrentSlider.value = Config.TakeoffSpeed*10f;
         }else{
-            GameManager.instance.Airspeed_TO = CurrentSlider.value*0.1f;
+            Config.TakeoffSpeed = CurrentSlider.value*0.1f;
         }
         
-        scoreText.text = GameManager.instance.Airspeed_TO.ToString("0.000");
+        scoreText.text = Config.TakeoffSpeed.ToString("0.000");
     }
 
     // Update is called once per frame
@@ -34,8 +34,8 @@ public class TakeoffVelocitySlider : MonoBehaviour
 
     public void Method()
     {
-        GameManager.instance.Airspeed_TO = CurrentSlider.value*0.1f;
-        scoreText.text = GameManager.instance.Airspeed_TO.ToString("0.000");
+        Config.TakeoffSpeed = CurrentSlider.value*0.1f;
+        scoreText.text = Config.TakeoffSpeed.ToString("0.000");
         GameManager.instance.SettingChanged = true;
     }
 }
