@@ -70,7 +70,7 @@ public class PreFlightScreen : MonoBehaviour
 
     float WindSpeed, WindDirection, TakeoffSpeed, TakeoffYaw, TakeoffPitch, TakeoffRoll, WingMountAngle;
     //Setting2
-    bool ViewMode, ScreenDataDisplay, CSVExport, CSVAirCraftLoad;
+    bool FlightMode, ViewMode, ScreenDataDisplay, CSVExport, CSVAirCraftLoad;
     float PitchSensitivity, SpeakerVolume, FOV;
     //Setting3
     string ConnectionStatus;
@@ -193,13 +193,14 @@ public class PreFlightScreen : MonoBehaviour
         InitializeStartButton();
         InitializeSliderInts();
         InitializeDropdowns();
+        InitializeButtons();
 
         PullValuesFromProject();
     }
 
     private void InitializeCategoryButtons()
     {
-        //クラスhiddenがついているとき非表示になるので, それをCategory1 <-> Setting1でVisualElementが対応しているので, hiddenをつけたり外したりする
+        //クラスhiddenがついているとき非表示になる. Category1 <-> Setting1でVisualElementが対応しているので, hiddenをつけたり外したりする
         ButtonCategory1.clicked += () =>
         {
             root.Q<VisualElement>("Setting1").RemoveFromClassList("hidden");
@@ -419,6 +420,81 @@ public class PreFlightScreen : MonoBehaviour
         }
     }
 
+    private void InitializeButtons()
+    {
+        ButtonFlightMode.clicked += () =>
+        {
+            FlightMode = !FlightMode;
+            ValueFlightMode.text = FlightMode ? "TestFlight" : "BirdmanRally";
+        };
+        ButtonViewMode.clicked += () =>
+        {
+            ViewMode = !ViewMode;
+            ValueViewMode.text = ViewMode ? "TPS" : "FPS";
+        };
+        ButtonScreenDataDisplay.clicked += () =>
+        {
+            ScreenDataDisplay = !ScreenDataDisplay;
+            ValueScreenDataDisplay.text = ScreenDataDisplay ? "ON" : "OFF";
+        };
+        ButtonCSVExport.clicked += () =>
+        {
+            CSVExport = !CSVExport;
+            ValueCSVExport.text = CSVExport ? "ON" : "OFF";
+        };
+        ButtonCSVAirCraftLoad.clicked += () =>
+        {
+            CSVAirCraftLoad = !CSVAirCraftLoad;
+            ValueCSVAirCraftLoad.text = CSVAirCraftLoad ? "ON" : "OFF";
+        };
+        ButtonRandomWindMode.clicked += () =>
+            {
+                RandomWindMode = !RandomWindMode;
+                ValueRandomWindMode.text = RandomWindMode ? "ON" : "OFF";
+            };
+        ButtonRudderFailure.clicked += () =>
+        {
+            RudderFailure = !RudderFailure;
+            ValueRudderFailure.text = RudderFailure ? "ON" : "OFF";
+        };
+        ButtonCenterOfGravityFailure.clicked += () =>
+        {
+            CenterOfGravityFailure = !CenterOfGravityFailure;
+            ValueCenterOfGravityFailure.text = CenterOfGravityFailure ? "ON" : "OFF";
+        };
+        ButtonRandomCenterOfGravity.clicked += () =>
+        {
+            RandomCenterOfGravity = !RandomCenterOfGravity;
+            ValueRandomCenterOfGravity.text = RandomCenterOfGravity ? "ON" : "OFF";
+        };
+        ButtonRandomRudder.clicked += () =>
+        {
+            RandomRudder = !RandomRudder;
+            ValueRandomRudder.text = RandomRudder ? "ON" : "OFF";
+        };
+        ButtonRandomGroundEffect.clicked += () =>
+        {
+            RandomGroundEffect = !RandomGroundEffect;
+            ValueRandomGroundEffect.text = RandomGroundEffect ? "ON" : "OFF";
+        };
+        ButtonRandomWindEffect.clicked += () =>
+        {
+            RandomWindEffect = !RandomWindEffect;
+            ValueRandomWindEffect.text = RandomWindEffect ? "ON" : "OFF";
+        };
+        ButtonSwitchMode.clicked += () =>
+        {
+            SwitchMode = !SwitchMode;
+            ValueSwitchMode.text = SwitchMode ? "VR" : "Non-VR";
+        };
+        ButtonControlMethod.clicked += () =>
+        {
+            ControlMethod = !ControlMethod;
+            ValueControlMethod.text = ControlMethod ? "Mouse" : "Keyboard";
+        };
+
+    }
+
     private void InitializeDropdowns()
     {
 
@@ -446,6 +522,7 @@ public class PreFlightScreen : MonoBehaviour
         DropdownFieldAircraft.RegisterValueChangedCallback(evt =>
         {
             Aircraft = evt.newValue;
+            GameManager.instance.PlaneName = Aircraft;
         });
 
         //comport
@@ -464,7 +541,6 @@ public class PreFlightScreen : MonoBehaviour
         DropdownFieldCOMPort.value = ComPort;
 
     }
-
     private void PullValuesFromProject()
     {
         //プロジェクトから値を引っ張ってきてUIに反映させる関数. これもGamemanagerとかいろんなところから値を引っ張ってきてUIに反映させる.
@@ -539,24 +615,12 @@ public class PreFlightScreen : MonoBehaviour
         CSVAirCraftLoad = GameManager.instance.customPlaneDataEnabled;
 
         //実際のlabel反映 PreflightScreen.uxmlの初期値はDisplay.WindSpeed [m/s]のように書いてあるので、それをWindSpeed [m/s]のように書き換える
-        ValueWindSpeed.text = $"{WindSpeed} [m/s]";
-        ValueWindDirection.text = $"{WindDirection} [deg]";
-        ValueTakeoffSpeed.text = $"{TakeoffSpeed} [m/s]";
-        ValueTakeoffYaw.text = $"{TakeoffYaw} [deg]";
-        ValueTakeoffPitch.text = $"{TakeoffPitch} [deg]";
-        ValueTakeoffRoll.text = $"{TakeoffRoll} [deg]";
-        ValueWingMountAngle.text = $"{WingMountAngle} [deg]";
-        ValueFlightMode.text = ViewMode ? "TPS" : "FPS";
-        ValueViewMode.text = ViewMode ? "Main Display" : "Sub Display";
+        // bool
+        ValueFlightMode.text = FlightMode ? "TestFlight" : "BirdmanRally";
+        ValueViewMode.text = ViewMode ? "TPS" : "FPS";
         ValueScreenDataDisplay.text = ScreenDataDisplay ? "ON" : "OFF";
         ValueCSVExport.text = CSVExport ? "ON" : "OFF";
         ValueCSVAirCraftLoad.text = CSVAirCraftLoad ? "ON" : "OFF";
-        ValuePitchSensitivity.text = $"{PitchSensitivity}";
-        ValueSpeakerVolume.text = $"{SpeakerVolume}";
-        ValueFOV.text = $"{FOV} [deg]";
-        ValueCenterOfGravity.text = $"{CenterOfGravity} [m]";
-        ValuePilotCenterOfGravity.text = $"{PilotCenterOfGravity} [m]";
-        ValueRudder.text = $"{Rudder} [deg]";
         ValueRandomWindMode.text = RandomWindMode ? "ON" : "OFF";
         ValueRudderFailure.text = RudderFailure ? "ON" : "OFF";
         ValueCenterOfGravityFailure.text = CenterOfGravityFailure ? "ON" : "OFF";
@@ -565,14 +629,28 @@ public class PreFlightScreen : MonoBehaviour
         ValueRandomGroundEffect.text = RandomGroundEffect ? "ON" : "OFF";
         ValueRandomWindEffect.text = RandomWindEffect ? "ON" : "OFF";
         ValueSwitchMode.text = SwitchMode ? "VR" : "Non-VR";
-        ValueControlMethod.text = ControlMethod ? "Mouse Pitch Control" : "Joystick Control";
+        ValueControlMethod.text = ControlMethod ? "Mouse" : "Keyboard";
+
+        // value
+        ValueWindSpeed.text = $"{WindSpeed} [m/s]";
+        ValueWindDirection.text = $"{WindDirection} [deg]";
+        ValueTakeoffSpeed.text = $"{TakeoffSpeed} [m/s]";
+        ValueTakeoffYaw.text = $"{TakeoffYaw} [deg]";
+        ValueTakeoffPitch.text = $"{TakeoffPitch} [deg]";
+        ValueTakeoffRoll.text = $"{TakeoffRoll} [deg]";
+        ValueWingMountAngle.text = $"{WingMountAngle} [deg]";
+        ValuePitchSensitivity.text = $"{PitchSensitivity}";
+        ValueSpeakerVolume.text = $"{SpeakerVolume}";
+        ValueFOV.text = $"{FOV} [deg]";
+        ValueCenterOfGravity.text = $"{CenterOfGravity} [m]";
+        ValuePilotCenterOfGravity.text = $"{PilotCenterOfGravity} [m]";
+        ValueRudder.text = $"{Rudder} [deg]";
         ValueStatus.text = Status;
         ValueSensorLengthBackward.text = $"{SensorLengthBackward} [m]";
         ValueSensorLengthForward.text = $"{SensorLengthForward} [m]";
 
 
     }
-
     private void ApplyTakeoffRotation()
     {
         if (GameManager.instance.status != GameManager.Status.PreFlight)
@@ -595,8 +673,6 @@ public class PreFlightScreen : MonoBehaviour
             GameManager.instance.TailRotation
         );
     }
-
-
     private void ApplyFieldOfView()
     {
         GameManager.instance.FieldOfView = FOV;
@@ -624,4 +700,12 @@ public class PreFlightScreen : MonoBehaviour
             tpsCamera.fieldOfView = FOV;
         }
     }
+
+
+
+
+
+
+
+
 }
