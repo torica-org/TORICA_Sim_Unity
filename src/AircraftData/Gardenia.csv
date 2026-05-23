@@ -1,0 +1,35 @@
+機体の重量と慣性モーメント, , , , , , 
+mass, 104.7, -, -, [kg] : 重量, , 
+centerOfMass, 0, 0.011, 0, [m] : 重心位置(+x:前 +y:上 +z:左), , 
+inertiaTensor, 1118, 1161, 63.79, [kg*m^2] : 慣性モーメント(Ixx Izz Iyy), , 
+inertiaTensorRotation, 353.917, -, -, [deg] : 慣性モーメントの回転, , 
+massAircraft, 0, -, -, [kg] : 空虚重量, , 
+centerOfMassAircraft, 0, -, -, [m] : 機体のみでの重心位置(+x:前のみ), , 
+, , , , , , 
+巡航時, , , , 地面効果, , 
+Airspeed0, 10.3, [m/s] : Magnitude of ground speed, , CGEMIN, 0.21, [-] : Minimum Ground Effect Coefficient
+alpha0, 1.378, [deg] : Angle of attack, , , , 
+CDp0, 0.014, [-] : Parasitic drag, , 安定微係数, , 
+Cmw0, -0.15, [-] : Pitching momentum, , Cyb, -0.00335, [1/deg]
+CLMAX, 1.7, [-] : Maximum lift coefficient, , Cyp, -0.323739, [1/rad]
+, , , , Cyr, 0.125542, [1/rad]
+主翼, , , , Cydr, 0.002195, [1/deg]
+Sw, 18.592, [m^2] : Wing area of wing, , Clb, -0.002857, [1/deg]
+bw, 25.833, [m] : Wing span, , Clp, -0.827828, [1/rad]
+cMAC, 0.758, [m] : Mean aerodynamic chord, , Clr, 0.236597, [1/rad]
+aw, 0.104, [1/deg] : Wing Lift Slope, , Cldr, 4.2E-05, [1/deg]
+hw, 0.09999999, [m] : Length between Wing a.c. and c.g., , Cnb, -0.000158, [1/deg]
+ew, 0.986, [-] : Wing efficiency, , Cnp, -0.136255, [1/rad]
+AR, 35.89415, [-] : Aspect Ratio, , Cnr, -0.001478, [1/rad]
+, , , , Cndr, -0.000306, [1/deg]
+水平尾翼, , , , , , 
+Downwash, True, Conventional Tail: True / T-Tail: False, , 離陸, , 
+St, 1.604, [m^2] : Wing area of tail, , YL, 0, [m] : 機体中心から翼持ち棒までの長さ
+at, 0.084, [1/deg] : Tail Lift Slope, , , , 
+lt, 3.03, [m] : Length between Tail a.c. and c.g., , , , 
+deMAX, 10, [deg] : Maximum elevator angle, , , , 
+tau, 1, [-] : Control surface angle of attack effectiveness, , , , 
+VH, 0.344867, [-] : Tail Volume, , , , 
+, , , , , , 
+垂直尾翼, , , , , , 
+drMAX, 10, [deg] : Maximum rudder angle, , , , 

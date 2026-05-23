@@ -8,19 +8,19 @@ public class GameManager : MonoBehaviour
     public static GameManager instance = null;
 
     [System.NonSerialized] public bool Landing = false;//着水しているか否か
-    [System.NonSerialized] public bool HUDActive = true;//HUDを有効にしているか否か
-    [System.NonSerialized] public bool HorizontalLineActive = false;//水平赤線を有効にしているか否か
+    // [System.NonSerialized] public bool HUDActive = true;//HUDを有効にしているか否か
+    // [System.NonSerialized] public bool HorizontalLineActive = false;//水平赤線を有効にしているか否か
     [System.NonSerialized] public bool SettingActive = false;//ゲーム設定の表示
     [System.NonSerialized] public bool FlightSettingActive = false;//フライト設定の表示
 
-    [System.NonSerialized] public bool isMainDisplayTPS = true; // true:FPS false:TPS
+    // [System.NonSerialized] public bool isMainDisplayTPS = true; // true:FPS false:TPS
 
     [System.NonSerialized] public bool SettingChanged = false;//設定変更
-    [System.NonSerialized] public bool MousePitchControl = false;//マウス操作の可否
-    [System.NonSerialized] public bool RandomWind = false;//ランダム風の可否
+    // [System.NonSerialized] public bool MousePitchControl = false;//マウス操作の可否
+    // [System.NonSerialized] public bool RandomWind = false;//ランダム風の可否
 
     // ----- CSV ----------------------------------------------------------------------------
-    [System.NonSerialized] public bool SaveCsv = false;//CSVファイルへの保存の可否.
+    // [System.NonSerialized] public bool SaveCsv = false;//CSVファイルへの保存の可否.
 
     [System.NonSerialized] public bool customPlaneDataEnabled = false; // CSV機体データ読み込み.
     [System.NonSerialized] public string customPlaneDataPath = ""; // CSVファイルのパス.
@@ -29,19 +29,19 @@ public class GameManager : MonoBehaviour
     // --------------------------------------------------------------------------------------
 
     [System.NonSerialized] public bool EnterFlight = false;//フライト開始
-    [System.NonSerialized] public float MouseSensitivity = 1.000f; // Magnitude of Gust [m/s]
-    [System.NonSerialized] public float GustMag = 0.000f; // Magnitude of Gust [m/s]
-    [System.NonSerialized] public float GustDirection = 0.000f; // Direction of Gust [deg]: -180~180
-    [System.NonSerialized] public float Airspeed_TO = 5.800f; // Airspeed at take-off [m/s]
-    [System.NonSerialized] public float alpha_TO = 0.000f; // Angle of attack at take-off [deg]
+    // [System.NonSerialized] public float MouseSensitivity = 1.000f; // Magnitude of Gust [m/s]
+    // [System.NonSerialized] public float GustMag = 0.000f; // Magnitude of Gust [m/s]
+    // [System.NonSerialized] public float GustDirection = 0.000f; // Direction of Gust [deg]: -180~180
+    // [System.NonSerialized] public float Airspeed_TO = 5.800f; // Airspeed at take-off [m/s]
+    // [System.NonSerialized] public float alpha_TO = 0.000f; // Angle of attack at take-off [deg]
     [System.NonSerialized] public string PlaneName;
     [System.NonSerialized] public string FlightMode = "BirdmanRally";
     [System.NonSerialized] public GameObject Plane = null;
     [SerializeField] public string DefaultPlane = "Tatsumi";
     [System.NonSerialized] public Vector3 PlatformPosition = new Vector3(0f, 10.5f, 0f);
-    [System.NonSerialized] public float StartRotation = 0.0f;
-    [System.NonSerialized] public float TailRotation = 0.0f;
-    [System.NonSerialized] public float StartRoll = 0.0f; //離陸時ロールを追加
+    // [System.NonSerialized] public float StartRotation = 0.0f;
+    // [System.NonSerialized] public float TailRotation = 0.0f;
+    // [System.NonSerialized] public float StartRoll = 0.0f; //離陸時ロールを追加
     [System.NonSerialized] public float TailSetDeg = -1.0f;
     [System.NonSerialized] public float FieldOfView = 90;
 

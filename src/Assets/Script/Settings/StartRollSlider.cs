@@ -18,22 +18,20 @@ public class StartRollSlider : MonoBehaviour
         CurrentSlider = GetComponent<Slider>();
 
         if (GameManager.instance.SettingChanged) {
-            CurrentSlider.value = GameManager.instance.StartRoll;
+            CurrentSlider.value = Config.TakeoffRoll;
         } else  {
-            GameManager.instance.StartRoll = CurrentSlider.value;
+            Config.TakeoffRoll = CurrentSlider.value;
         }
 
-        scoreText.text = GameManager.instance.StartRoll.ToString("0.000");
+        scoreText.text = Config.TakeoffRoll.ToString("0.000");
     }
 
     public void Method()
     {
-        GameManager.instance.StartRoll = CurrentSlider.value;
-        scoreText.text = GameManager.instance.StartRoll.ToString("0.000");
+        Config.TakeoffRoll = CurrentSlider.value;
+        scoreText.text = Config.TakeoffRoll.ToString("0.000");
         GameManager.instance.SettingChanged = true;
         //script.transform.rotation = Quaternion.Euler(0.0f, GameManager.instance.StartRotation, GameManager.instance.TailRotation);
-        script.transform.rotation = Quaternion.Euler(GameManager.instance.StartRoll, GameManager.instance.StartRotation, GameManager.instance.TailRotation);
-
-
+        script.transform.rotation = Quaternion.Euler(Config.TakeoffRoll, Config.TakeoffYaw, Config.TakeoffPitch);
     }
 }

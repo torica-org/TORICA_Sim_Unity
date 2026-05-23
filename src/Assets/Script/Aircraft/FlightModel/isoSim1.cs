@@ -17,9 +17,9 @@ public class isoSim1 : AerodynamicCalculator
         else if (GameManager.instance.FlightMode == "TestFlight")
         { //
             PlaneRigidbody.velocity = new Vector3(
-                Airspeed0 * Mathf.Cos(Mathf.Deg2Rad * alpha0) * Mathf.Cos(Mathf.Deg2Rad * GameManager.instance.StartRotation),
+                Airspeed0 * Mathf.Cos(Mathf.Deg2Rad * alpha0) * Mathf.Cos(Mathf.Deg2Rad * Config.TakeoffYaw),
                 -Airspeed0 * Mathf.Sin(Mathf.Deg2Rad * alpha0),
-                -Airspeed0 * Mathf.Cos(Mathf.Deg2Rad * alpha0) * Mathf.Sin(Mathf.Deg2Rad * GameManager.instance.StartRotation)
+                -Airspeed0 * Mathf.Cos(Mathf.Deg2Rad * alpha0) * Mathf.Sin(Mathf.Deg2Rad * Config.TakeoffYaw)
             );
         }
 
@@ -87,8 +87,8 @@ public class isoSim1 : AerodynamicCalculator
         //}
 
         // Gust
-        LocalGustMag = (GameManager.instance.GustMag + GameManager.instance.GustRandValue) * Mathf.Pow((hE / hE0), 1f / 7f);
-        Gust = Quaternion.AngleAxis(GameManager.instance.GustDirection, Vector3.up) * (Vector3.right * LocalGustMag);
+        LocalGustMag = (Config.GustMagnitude + GameManager.instance.GustRandValue) * Mathf.Pow((hE / hE0), 1f / 7f);
+        Gust = Quaternion.AngleAxis(Config.GustDirection, Vector3.up) * (Vector3.right * LocalGustMag);
         Vector3 LocalGust = this.transform.InverseTransformDirection(Gust);
         float ug = LocalGust.x + 1e-10f;
         float vg = -LocalGust.z;
@@ -145,10 +145,10 @@ public class isoSim1 : AerodynamicCalculator
             float W = PlaneRigidbody.mass * Physics.gravity.magnitude;//重力
             float L = 0.5f * rho * Airspeed * Airspeed * Sw * (Cx * Mathf.Sin(Mathf.Deg2Rad * theta) - Cz * Mathf.Cos(Mathf.Deg2Rad * theta));//揚力
             float N = (W - L) * Mathf.Cos(Mathf.Deg2Rad * 3.5f); // N=(W-L)*cos(3.5deg)//翼持ちの抵抗力
-            float P = (PlaneRigidbody.mass * GameManager.instance.Airspeed_TO * GameManager.instance.Airspeed_TO) / (2f * 10f); // P=m*Vto*Vto/2*L//推進力
+            float P = (PlaneRigidbody.mass * Config.TakeoffSpeed * Config.TakeoffSpeed) / (2f * 10f); // P=m*Vto*Vto/2*L//推進力
 
             //離陸方向をYaw回転に合わせて水平方向に修正
-            //Vector3 takeoffDirection = Quaternion.Euler(0f, GameManager.instance.StartRotation, 0f) * Vector3.forward;
+            //Vector3 takeoffDirection = Quaternion.Euler(0f, Config.TakeoffYaw, 0f) * Vector3.forward;
             //TakeoffForce = takeoffDirection * P;
 
             //TakeoffForce.y = N*Mathf.Cos(Mathf.Deg2Rad*3.5f);
@@ -159,9 +159,9 @@ public class isoSim1 : AerodynamicCalculator
             //TakeoffForce.y = TOFv*Mathf.Cos(GameManager.instance.TailRotation) - TOFh*Mathf.Sin(GameManager.instance.TailRotation);
             //Debug.Log("Power:"+P);
 
-            TakeoffForce.x = P * Mathf.Cos(Mathf.Deg2Rad * GameManager.instance.StartRotation);
+            TakeoffForce.x = P * Mathf.Cos(Mathf.Deg2Rad * Config.TakeoffYaw);
             TakeoffForce.y = N * Mathf.Cos(Mathf.Deg2Rad * 3.5f);
-            TakeoffForce.z = -P * Mathf.Sin(Mathf.Deg2Rad * GameManager.instance.StartRotation);
+            TakeoffForce.z = -P * Mathf.Sin(Mathf.Deg2Rad * Config.TakeoffYaw);
 
             AerodynamicForce.z = 0f;
             AerodynamicMomentum.x = 0f;//

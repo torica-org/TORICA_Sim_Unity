@@ -73,9 +73,9 @@ public class MyCameraController : MonoBehaviour
     {
         //FPSCamera.enabled = !FPSCamera.enabled;
         //TPSCamera.enabled = !TPSCamera.enabled;
-        GameManager.instance.isMainDisplayTPS = !GameManager.instance.isMainDisplayTPS;
+        Config.IsMainDisplayTPS = !Config.IsMainDisplayTPS;
 
-        if (GameManager.instance.isMainDisplayTPS)
+        if (Config.IsMainDisplayTPS)
         {
             TPSCamera.targetDisplay = 0;
             FPSCamera.targetDisplay = 1;

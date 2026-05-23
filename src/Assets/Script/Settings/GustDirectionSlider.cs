@@ -9,36 +9,50 @@ public class GustDirectionSlider : MonoBehaviour
     private Text scoreText;
     private AerodynamicCalculator script;
     private Slider CurrentSlider;
+    private GameManager gm = GameManager.instance;
 
     // Use this for initialization
     void Start()
     {
         scoreText = GameObject.Find("GustDirection").GetComponent<Text>();
-        script = GameManager.instance.Plane.GetComponent<AerodynamicCalculator>();
+        script = gm.Plane.GetComponent<AerodynamicCalculator>();
         CurrentSlider = GetComponent<Slider>();
 
-        if(GameManager.instance.SettingChanged){
-            CurrentSlider.value = GameManager.instance.GustDirection/15f;
+        if(gm.SettingChanged){
+            CurrentSlider.value = Config.GustDirection/15f;
         }else{
-            GameManager.instance.GustDirection = CurrentSlider.value*15f;
+            Config.GustDirection = CurrentSlider.value*15f;
         }
+
+        Method();
         
-        scoreText.text = GameManager.instance.GustDirection.ToString("0.000");
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(CurrentSlider.value != GameManager.instance.GustDirection/15f)
+        if(CurrentSlider.value != Config.GustDirection/15f)
         {
-            CurrentSlider.value = GameManager.instance.GustDirection/15f;
+            CurrentSlider.value = Config.GustDirection/15f;
         }
+        //Debug.Log(Config.GustDirection);
     }
 
     public void Method()
     {
-        GameManager.instance.GustDirection = CurrentSlider.value*15f;
-        scoreText.text = GameManager.instance.GustDirection.ToString("0.000");
-        GameManager.instance.SettingChanged = true;
+        Config.GustDirection = CurrentSlider.value*15f;
+
+        string DirectionText = "";
+        if (Config.GustDirection > 0)
+        {
+          DirectionText = "R ";
+        }
+        else if (Config.GustDirection < 0)
+        {
+          DirectionText = "L ";
+        }
+        scoreText.text = DirectionText + Mathf.Abs(Config.GustDirection).ToString("0");
+
+        gm.SettingChanged = true;
     }
 }

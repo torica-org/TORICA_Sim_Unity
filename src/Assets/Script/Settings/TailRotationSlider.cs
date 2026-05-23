@@ -18,21 +18,21 @@ public class TailRotationSlider : MonoBehaviour
         CurrentSlider = GetComponent<Slider>();
 
         if(GameManager.instance.SettingChanged){
-            CurrentSlider.value = GameManager.instance.TailRotation;
+            CurrentSlider.value = Config.TakeoffPitch;
         }else{
-            GameManager.instance.TailRotation = CurrentSlider.value;
+            Config.TakeoffPitch = CurrentSlider.value;
         }
         
-        scoreText.text = GameManager.instance.TailRotation.ToString("0.000");
+        scoreText.text = Config.TakeoffPitch.ToString("0.000");
     }
 
     public void Method()
     {
-        GameManager.instance.TailRotation = CurrentSlider.value;
-        scoreText.text = GameManager.instance.TailRotation.ToString("0.000");
+        Config.TakeoffPitch = CurrentSlider.value;
+        scoreText.text = Config.TakeoffPitch.ToString("0.000");
         GameManager.instance.SettingChanged = true;
-        //script.transform.rotation = Quaternion.Euler(0.0f, GameManager.instance.StartRotation, GameManager.instance.TailRotation);
-        script.transform.rotation = Quaternion.Euler(GameManager.instance.StartRoll, GameManager.instance.StartRotation, GameManager.instance.TailRotation);
+        //script.transform.rotation = Quaternion.Euler(0.0f, GameManager.instance.StartRotation, Config.TakeoffPitch);
+        script.transform.rotation = Quaternion.Euler(Config.TakeoffRoll, Config.TakeoffYaw, Config.TakeoffPitch);
 
 
     }

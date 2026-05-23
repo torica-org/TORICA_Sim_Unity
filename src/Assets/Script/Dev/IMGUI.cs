@@ -12,8 +12,14 @@ public class IMGUI : MonoBehaviour
 
     private GameManager gm = GameManager.instance;
 
+    void Update()
+    {
+    }
+
     void OnGUI()
     {
+
+        /*
         if (GUI.Button(new Rect(10, 10, 300, 150), "VRMode"))
         {
             gm.VRMode = !gm.VRMode;
@@ -24,7 +30,6 @@ public class IMGUI : MonoBehaviour
             //CameraManager.CaribrateVR();
         }
 
-        /*
         if (GUI.Button(new Rect(10, 10, 100, 50), "Write CSV"))
         {
             using (CsvIO csv = new CsvIO(50, 20))

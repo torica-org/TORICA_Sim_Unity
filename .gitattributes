@@ -119,3 +119,5 @@
 *.tar lfs-file
 *.resS filter=lfs diff=lfs merge=lfs -text
 src/Assets/Fonts/NotoSansJP-Medium[[:space:]]SDF.asset filter=lfs diff=lfs merge=lfs -text
+src/Assets/3D[[:space:]]Model/2935_1029[[:space:]]v1.obj filter=lfs diff=lfs merge=lfs -text
+src/Assets/Other/AllSkyFree/Cold[[:space:]]Sunset/Cold[[:space:]]Sunset[[:space:]]Equirect.png filter=lfs diff=lfs merge=lfs -text

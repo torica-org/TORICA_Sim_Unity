@@ -223,7 +223,7 @@ public class AerodynamicCalculator : SerialReceive
 
         // Get rigidbody component
         PlaneRigidbody = this.GetComponent<Rigidbody>();
-        this.transform.rotation = Quaternion.Euler(0.0f, gm.StartRotation, 0.0f);
+        this.transform.rotation = Quaternion.Euler(0.0f, Config.TakeoffYaw, 0.0f);
 
         SensorPoint = GameObject.Find("SensorPoint");
 
@@ -290,16 +290,16 @@ public class AerodynamicCalculator : SerialReceive
         float pitchGravityBefore = centerOfMass;
         float pitchGravityPilotBefore = centerOfMassPilotRaw;
 
-        if (gm.MousePitchControl)
+        if (Config.MousePitchControl)
         {//マウスコントロール
             if (PlusData)
             {
                 //Debug.Log(PlusData);
                 centerOfMassPilot = -massAircraft * centerOfMassAircraft / massPilot;
-                centerOfMassPilotRaw = centerOfMassPilot + ((Input.mousePosition.y - dh0) * gm.MouseSensitivity) * 0.0002f;
+                centerOfMassPilotRaw = centerOfMassPilot + ((Input.mousePosition.y - dh0) * Config.MouseSensitivity) * 0.0002f;
             }
             //pitchGravity = ((pitchGravityPilot*massPilot)+(centerOfMassAircraft*massAircraft))/PlaneRigidbody.mass;
-            centerOfMass = (gm.CenterOfMassErrorValue + ((Input.mousePosition.y - dh0) * gm.MouseSensitivity) * 0.0002f) * gm.CenterOfMassRandValue;
+            centerOfMass = (gm.CenterOfMassErrorValue + ((Input.mousePosition.y - dh0) * Config.MouseSensitivity) * 0.0002f) * gm.CenterOfMassRandValue;
         }
 
         if (Input.GetAxisRaw("GStick") != 0)
