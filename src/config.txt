@@ -13,28 +13,28 @@ IsMainDisplayTPS = True
 MousePitchControl = False
 
 // マウス感度を設定する(初期値: 1.0)
-MouseSensitivity = 1.4
+MouseSensitivity = 1.0
 
 // フライトログの出力を有効化する(True/False)
 ExportLog = False
 
 // ランダム風モードを有効化する(True/False)
-GustRandom = True
+GustRandom = False
 
 // 風速[m/s](初期値: 0.0)
-GustMagnitude = 5.9
+GustMagnitude = 5.0
 
 // 風上[deg](初期値: 0.0 / 範囲: [L]-180.0 ↔ [R]180.0)
-GustDirection = 30.0
+GustDirection = 5.0
 
 // 離陸時のスピード[m/s](初期値: 5.8)
-TakeoffSpeed = 3.1
+TakeoffSpeed = 6.0
 
 // 離陸時のロール[deg](初期値: 0.0)
-TakeoffRoll = 5.7
+TakeoffRoll = -10.0
 
 // 離陸時のピッチ[deg](初期値: 0.0)
-TakeoffPitch = 3.7
+TakeoffPitch = -10.0
 
 // 離陸時のヨー[deg](初期値: 0.0)
-TakeoffYaw = -9.6
+TakeoffYaw = -2.7
