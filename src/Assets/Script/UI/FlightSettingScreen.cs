@@ -66,6 +66,14 @@ public class FlightSettingScreen
         rectIsCustomDataEnabled.pivot = new Vector2(0f, 0.5f);
         rectIsCustomDataEnabled.localScale = new Vector3(0.6f, 0.6f, 1f);
 
+        DynamicText<string> AircraftDataName = new(main,
+            "AircraftDataName", () => Config.AircraftName);
+        RectTransform rectAircraftDataName = AircraftDataName.rectTransform;
+        rectAircraftDataName.anchoredPosition = new Vector2(0, 70);
+        rectAircraftDataName.pivot = new Vector2(0.5f, 0.5f);
+        rectAircraftDataName.localScale = new Vector3(0.6f, 0.6f, 1f);
+
+
         // ----- Connection -----------------------------------------------------------------------------
         if (connection == null)
         {

@@ -1,3 +1,4 @@
+/*
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,7 +16,6 @@ public class AircraftVrSetting : MonoBehaviour
 
     void Start()
     {
-        /*
         #if USE_STEAMVR
         VREnable = true;
         // ここにVR用のコントローラー設定などのコードを記述
@@ -25,7 +25,6 @@ public class AircraftVrSetting : MonoBehaviour
         GameManager.instance.VRMode = false;
         // ここにPC用のカメラ設定や入力設定のコードを記述
         #endif
-        */
         if (gm.VRMode)
         {
             manualXRControl = new();
@@ -38,7 +37,7 @@ public class AircraftVrSetting : MonoBehaviour
         }
 
 
-        /* 2026/03/18
+        // 2026/03/18
         nowSetting = GameManager.instance.VRMode;
         VRModeObjects = (GameObject)Resources.Load("VR_Item");
 
@@ -59,13 +58,12 @@ public class AircraftVrSetting : MonoBehaviour
             }
             NonVRModeObjects.SetActive(true);
         }
-        */
     }
 
     // Update is called once per frame
     void Update()
     {
-        /* 2026/03/18
+        // 2026/03/18
         if (nowSetting != GameManager.instance.VRMode & VREnable)
         {
             nowSetting = GameManager.instance.VRMode;
@@ -88,7 +86,8 @@ public class AircraftVrSetting : MonoBehaviour
                 NonVRModeObjects.SetActive(true);
             }
         }
-        */
     }
 
 }
+*/
+

@@ -1,3 +1,4 @@
+/*
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,7 +17,7 @@ public class MyCameraController : MonoBehaviour
         Debug.Log("displays connected: " + Display.displays.Length);
 
 
-        /* 2026/03/18
+        // 2026/03/18
         // Display 1 は自動でつくので、Display 2 以降をループで有効化する
         for (int i = 1; i < Display.displays.Length; i++)
         {
@@ -31,7 +32,6 @@ public class MyCameraController : MonoBehaviour
         {
             FPSCamera = GameManager.instance.Plane.transform.Find("FPSCamera").gameObject.GetComponent<Camera>();
         }
-        */
 
 
         FPSCamera = GameManager.instance.Plane.transform.Find("FPSCamera").gameObject.GetComponent<Camera>();
@@ -90,3 +90,4 @@ public class MyCameraController : MonoBehaviour
         //HorizontalLine.SetActive(GameManager.instance.HorizontalLineActive);
     }
 }
+*/
