@@ -1,7 +1,14 @@
 ----- Configurations -----
 
+// 使用する機体諸元（以下に利用可能な機体が列挙されます）
+// --------------------------------------------------------
+// ARG-2, Aria, Camellia, Gaillardia, Gardenia, ORCA18,
+// ORCA22, QX-18, QX-19, QX-20, UL01B,
+// --------------------------------------------------------
+AircraftName = ORCA22
+
 // 飛行中の画面の周囲に情報を表示する(True/False)
-HUDActive = True
+ShowHUD = True
 
 // 水平線を表示する(True/False)
 HorizontalLineActive = False
@@ -22,19 +29,22 @@ ExportLog = False
 GustRandom = False
 
 // 風速[m/s](初期値: 0.0)
-GustMagnitude = 5.0
+GustMagnitude = 0.0
 
 // 風上[deg](初期値: 0.0 / 範囲: [L]-180.0 ↔ [R]180.0)
-GustDirection = 5.0
+GustDirection = 0.0
 
-// 離陸時のスピード[m/s](初期値: 5.8)
-TakeoffSpeed = 6.0
+// 離陸時のスピード[m/s](初期値: 6.5)
+TakeoffSpeed = 3.0
 
 // 離陸時のロール[deg](初期値: 0.0)
-TakeoffRoll = -10.0
+TakeoffRoll = 0.0
 
 // 離陸時のピッチ[deg](初期値: 0.0)
-TakeoffPitch = -10.0
+TakeoffPitch = 0.0
 
 // 離陸時のヨー[deg](初期値: 0.0)
-TakeoffYaw = -2.7
+TakeoffYaw = 0.0
+
+
+

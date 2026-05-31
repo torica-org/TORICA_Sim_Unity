@@ -1252,9 +1252,6 @@ public class AerodynamicCalculator : SerialReceive
         }
         */
 
-        CsvData csvData = new();
-        csvData.MakeCustomPlaneDataFile();
-
         int recordCount = 50;
         int fieldCount = 20;
         using (CsvIO csv = new CsvIO(recordCount, fieldCount))

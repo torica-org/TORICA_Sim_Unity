@@ -1,3 +1,4 @@
+/*
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,3 +21,4 @@ public class VRModeChanger : MonoBehaviour
         GameManager.instance.VRMode = !GameManager.instance.VRMode;
     }
 }
+*/

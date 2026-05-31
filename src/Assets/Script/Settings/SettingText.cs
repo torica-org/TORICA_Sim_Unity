@@ -36,7 +36,7 @@ public class SettingText : MonoBehaviour
         }else{
             scoreText.text += "TPS"+"\n\n";
         }
-        if(Config.HUDActive){
+        if(Config.ShowHUD){
             scoreText.text += "ON"+"\n\n";
         }else{
             scoreText.text += "OFF"+"\n\n";

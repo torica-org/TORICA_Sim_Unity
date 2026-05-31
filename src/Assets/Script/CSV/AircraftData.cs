@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public static class AircraftData
 {
@@ -82,6 +84,7 @@ public static class AircraftData
     // ファイルシステムの変更を監視する`FileSystemWatcher`.
     private static FileSystemWatcher watcher;
 
+    private static SynchronizationContext context = SynchronizationContext.Current;
 
     // ===== ゲームのシーンがロードされる前に一度だけ呼び出される初期化メソッド. =========================
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)] // ゲームのシーンがロードされる前にこのメソッドを呼び出すための属性.
@@ -137,6 +140,15 @@ public static class AircraftData
         //}
 
         Debug.Log("Names synchronized with CSV files in `AircraftData` directory.");
+
+        // メインスレッドの文脈に処理を非同期的に戻す.
+        context.Post(
+            (_) =>
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            },
+            null
+        );
     }
 
     // ===== 指定されたCSVファイルから機体データを読み込む ===========================================================
