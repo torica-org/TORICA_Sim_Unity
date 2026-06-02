@@ -79,10 +79,10 @@ public class ResultScreen
         // トラブルの結果を表示
         string troubles = "";
         troubles += "風速: ";
-        troubles += Config.GustMagnitude.ToString("0.0") + "m/s";
+        troubles += Config.WindMagnitude.ToString("0.0") + "m/s";
         troubles += "    風上: ";
         string DirectionText;
-        if (Config.GustDirection >= 0)
+        if (Config.WindDirection >= 0)
         {
           DirectionText = "R ";
         }
@@ -90,7 +90,7 @@ public class ResultScreen
         {
           DirectionText = "L ";
         }
-        DirectionText += Mathf.Abs(Config.GustDirection).ToString("0");
+        DirectionText += Mathf.Abs(Config.WindDirection).ToString("0");
         troubles += DirectionText + "deg" + System.Environment.NewLine;
 
         troubles += "トラブル:\n";

@@ -19,9 +19,9 @@ public class GustDirectionSlider : MonoBehaviour
         CurrentSlider = GetComponent<Slider>();
 
         if(gm.SettingChanged){
-            CurrentSlider.value = Config.GustDirection/15f;
+            CurrentSlider.value = Config.WindDirection/15f;
         }else{
-            Config.GustDirection = CurrentSlider.value*15f;
+            Config.WindDirection = CurrentSlider.value*15f;
         }
 
         Method();
@@ -31,27 +31,27 @@ public class GustDirectionSlider : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(CurrentSlider.value != Config.GustDirection/15f)
+        if(CurrentSlider.value != Config.WindDirection/15f)
         {
-            CurrentSlider.value = Config.GustDirection/15f;
+            CurrentSlider.value = Config.WindDirection/15f;
         }
         //Debug.Log(Config.GustDirection);
     }
 
     public void Method()
     {
-        Config.GustDirection = CurrentSlider.value*15f;
+        Config.WindDirection = CurrentSlider.value*15f;
 
         string DirectionText = "";
-        if (Config.GustDirection > 0)
+        if (Config.WindDirection > 0)
         {
           DirectionText = "R ";
         }
-        else if (Config.GustDirection < 0)
+        else if (Config.WindDirection < 0)
         {
           DirectionText = "L ";
         }
-        scoreText.text = DirectionText + Mathf.Abs(Config.GustDirection).ToString("0");
+        scoreText.text = DirectionText + Mathf.Abs(Config.WindDirection).ToString("0");
 
         gm.SettingChanged = true;
     }

@@ -31,7 +31,7 @@ public class SettingText : MonoBehaviour
         scoreText.text = "\n";
         scoreText.text += GameManager.instance.FlightMode+"\n\n";
 
-        if(Config.IsMainDisplayTPS){
+        if(Config.MainCamera){
             scoreText.text += "FPS"+"\n\n";
         }else{
             scoreText.text += "TPS"+"\n\n";
@@ -41,7 +41,7 @@ public class SettingText : MonoBehaviour
         }else{
             scoreText.text += "OFF"+"\n\n";
         }
-        if(Config.MousePitchControl){
+        if(Config.UseMousePitchControl){
             scoreText.text += "Mouse"+"\n\n";
         }else{
             scoreText.text += "Keyboard"+"\n\n";

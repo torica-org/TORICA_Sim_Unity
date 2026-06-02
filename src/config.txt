@@ -1,23 +1,27 @@
------ Configurations -----
+----- Configurations ----- = 
+
+// 使用する機体の3Dモデル
+AircraftModelName = Tatsumi
 
 // 使用する機体諸元（以下に利用可能な機体が列挙されます）
 // --------------------------------------------------------
-// ARG-2, Aria, Camellia, Gaillardia, Gardenia, ORCA18,
-// ORCA22, QX-18, QX-19, QX-20, UL01B,
+// ~Tatsumi, ARG-2, Aria, Camellia, Gaillardia, Gardenia,
+// ORCA18, ORCA22, QX-18, QX-19, QX-20,
+// REWRITE_シミュデータ, UL01B,
 // --------------------------------------------------------
-AircraftName = ORCA22
+AircraftDataName = ARG-2
 
 // 飛行中の画面の周囲に情報を表示する(True/False)
 ShowHUD = True
 
 // 水平線を表示する(True/False)
-HorizontalLineActive = False
+ShowHorizontalLine = False
 
 // メインディスプレイを三人称視点にする(True/False)
-IsMainDisplayTPS = True
+MainCamera = True
 
 // マウスによる重心移動を有効化する(True/False)
-MousePitchControl = False
+UseMousePitchControl = False
 
 // マウス感度を設定する(初期値: 1.0)
 MouseSensitivity = 1.0
@@ -25,17 +29,23 @@ MouseSensitivity = 1.0
 // フライトログの出力を有効化する(True/False)
 ExportLog = False
 
-// ランダム風モードを有効化する(True/False)
-GustRandom = False
-
 // 風速[m/s](初期値: 0.0)
-GustMagnitude = 0.0
+WindMagnitude = 0.0
 
-// 風上[deg](初期値: 0.0 / 範囲: [L]-180.0 ↔ [R]180.0)
-GustDirection = 0.0
+// 風上[deg](範囲: [L]-180.0 ↔ [R]180.0) / 初期値: 0.0
+WindDirection = 0.0
+
+// 風の範囲指定(※「風速」「風上」の設定を上書きします / 初期値: None)
+// 以下の形式に従って入力してください（数値範囲はマイクラと同様）:
+//     風速:風向@開始距離..終了距離; 風速:風向@開始距離..終了距離; ...
+// 設定例:
+//     設定なし（「風速」「風上」の設定が適用されます）: `None`
+//     100mまで90degから2m/s，それ以降は90degから3m/s): `2:90@..100; 3:90@100..`
+//     300mから400mまでは-90degから1m/s，それ以外は風なし): `1:-90@300..400`
+WindRangeSpec = None
 
 // 離陸時のスピード[m/s](初期値: 6.5)
-TakeoffSpeed = 3.0
+TakeoffSpeed = 5.8
 
 // 離陸時のロール[deg](初期値: 0.0)
 TakeoffRoll = 0.0
@@ -45,6 +55,46 @@ TakeoffPitch = 0.0
 
 // 離陸時のヨー[deg](初期値: 0.0)
 TakeoffYaw = 0.0
+
+// 定常風をランダム化する(True/False)
+RandomizeWind = False
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

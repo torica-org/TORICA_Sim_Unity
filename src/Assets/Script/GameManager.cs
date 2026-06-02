@@ -22,8 +22,8 @@ public class GameManager : MonoBehaviour
     // ----- CSV ----------------------------------------------------------------------------
     // [System.NonSerialized] public bool SaveCsv = false;//CSVファイルへの保存の可否.
 
-    [System.NonSerialized] public bool customPlaneDataEnabled = false; // CSV機体データ読み込み.
-    [System.NonSerialized] public string customPlaneDataPath = ""; // CSVファイルのパス.
+    // [System.NonSerialized] public bool customPlaneDataEnabled = false; // CSV機体データ読み込み.
+    // [System.NonSerialized] public string customPlaneDataPath = ""; // CSVファイルのパス.
 
     //[System.NonSerialized] public bool updatePlaneData = true; // 最初は諸元を読み込む必要がある.
     // --------------------------------------------------------------------------------------
@@ -46,10 +46,10 @@ public class GameManager : MonoBehaviour
     [System.NonSerialized] public float FieldOfView = 90;
 
     //ロードセルのオフセット値
-    [System.NonSerialized] public float massLeft0 = 0;
-    [System.NonSerialized] public float massRight0 = 0;
-    [System.NonSerialized] public float massBackwardRight0 = 0;
-    [System.NonSerialized] public float massBackwardLeft0 = 0;
+    // [System.NonSerialized] public float massLeft0 = 0;
+    // [System.NonSerialized] public float massRight0 = 0;
+    // [System.NonSerialized] public float massBackwardRight0 = 0;
+    // [System.NonSerialized] public float massBackwardLeft0 = 0;
     [System.NonSerialized] public float JoyStick0 = 0;
 
     //ロードセルの調整用係数(この係数をロードセルの値に掛ける)

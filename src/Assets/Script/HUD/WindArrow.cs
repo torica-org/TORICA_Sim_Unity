@@ -19,7 +19,7 @@ public class WindArrow : MonoBehaviour
         Vector3 localAngle = myTransform.localEulerAngles;
         localAngle.x = 0; // ローカル座標を基準に、x軸を軸にした回転を10度に変更
         localAngle.y = 0; // ローカル座標を基準に、y軸を軸にした回転を10度に変更
-        localAngle.z = 180-Config.GustDirection; // ローカル座標を基準に、z軸を軸にした回転を10度に変更
+        localAngle.z = 180-Config.WindDirection; // ローカル座標を基準に、z軸を軸にした回転を10度に変更
         myTransform.localEulerAngles = localAngle; // 回転角度を設定
     }
 }

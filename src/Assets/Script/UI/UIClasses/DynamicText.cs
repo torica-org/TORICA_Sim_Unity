@@ -44,7 +44,7 @@ public sealed class DynamicText<T> : UIBase
         {
             _tmp.fontSize = fontSize;
         }
-        _tmp.alignment = TextAlignmentOptions.Center; // 中央寄せ
+        _tmp.alignment = TextAlignmentOptions.Left; // 左寄せ
 
         rectTransform = gameObject.GetComponent<RectTransform>(); // RectTransformを取得.
         _getter = getter ?? throw new ArgumentNullException(nameof(getter)); // ゲッターがnullでないことを確認し，フィールドに保存.

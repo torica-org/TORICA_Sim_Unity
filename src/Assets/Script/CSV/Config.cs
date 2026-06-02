@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 
 public static class Config
 {
+    // ===== setプロパティで外部のスクリプトからの変更を検知するための共通の処理メソッド. ===========================
     private static bool SetProperty<T>(ref T backingField, T value)
     {
         // 値が同じなら false を返して終了
@@ -23,15 +24,37 @@ public static class Config
         return true;
     }
 
+    // ---------------------------------------------------------------------
+    // 1変数につき，以下の3つを定義する:
+    //
+    // 1. 内部変数（例: `private static string aircraftModelName`）
+    // 2. デフォルト値（例: `private static readonly string defaultAircraftModelName`）
+    // 3. アクセサ（例: `public static string AircraftModelName`）
+    //
+    // さらに、以下のような内容を実装する:
+    // - 変数の内容を`Config.txt`に書き込むための処理（`Flush()`）
+    // - 変数の内容を`Config.txt`から読み込むための処理（`Load()`）
+    // - （必要なら）値の妥当性を検査して、修正するためのメソッド（`Validate()`）
+    // ---------------------------------------------------------------------
+
     // 設定値の内部変数とアクセサ.  
-    private static readonly string defaultAircraftName = "ARG-2";
-    private static string aircraftName = defaultAircraftName;
-    public static string AircraftName
+
+    private static readonly string defaultAircraftModelName = "Tatsumi";
+    private static string aircraftModelName = defaultAircraftModelName;
+    public static string AircraftModelName
     {
-        get => aircraftName;
-        
+        get => aircraftModelName;
+        set => SetProperty(ref aircraftModelName, value);
     }
 
+    private static readonly string defaultAircraftDataName = "ARG-2";
+    private static string aircraftDataName = defaultAircraftDataName;
+    public static string AircraftDataName
+    {
+        get => aircraftDataName;
+        set => SetProperty(ref aircraftDataName, value);
+    }
+    
     private static readonly bool defaultShowHUD = true;
     private static bool showHUD = defaultShowHUD;
     public static bool ShowHUD
@@ -40,129 +63,123 @@ public static class Config
         set => SetProperty(ref showHUD, value);
     }
 
-    private static readonly bool defaultHorizontalLineActive = false;
-    private static bool _HorizontalLineActive = defaultHorizontalLineActive;
-    public static bool HorizontalLineActive
+    private static readonly bool defaultShowHorizontalLine = false;
+    private static bool showHorizontalLine = defaultShowHorizontalLine;
+    public static bool ShowHorizontalLine
     {
-        get => _HorizontalLineActive;
-        set => SetProperty(ref _HorizontalLineActive, value);
+        get => showHorizontalLine;
+        set => SetProperty(ref showHorizontalLine, value);
     }
 
-    private static readonly bool defaultIsMainDisplayTPS = true;
-    private static bool _IsMainDisplayTPS = defaultIsMainDisplayTPS;
-    public static bool IsMainDisplayTPS
+    private static readonly bool defaultMainCamera = true;
+    private static bool mainCamera = defaultMainCamera;
+    public static bool MainCamera
     {
-        get => _IsMainDisplayTPS;
-        set => SetProperty(ref _IsMainDisplayTPS, value);
+        get => mainCamera;
+        set => SetProperty(ref mainCamera, value);
     }
 
-    private static readonly bool defaultMousePitchControl = false;
-    private static bool _MousePitchControl = defaultMousePitchControl;
-    public static bool MousePitchControl
+    private static readonly bool defaultUseMousePitchControl = false;
+    private static bool useMousePitchControl = defaultUseMousePitchControl;
+    public static bool UseMousePitchControl
     {
-        get => _MousePitchControl;
-        set => SetProperty(ref _MousePitchControl, value);
+        get => useMousePitchControl;
+        set => SetProperty(ref useMousePitchControl, value);
     }
 
     private static readonly float defaultMouseSensitivity = 1.0f;
-    private static float _MouseSensitivity = defaultMouseSensitivity;
+    private static float mouseSensitivity = defaultMouseSensitivity;
     public static float MouseSensitivity
     {
-        get => _MouseSensitivity;
-        set => SetProperty(ref _MouseSensitivity, value);
+        get => mouseSensitivity;
+        set => SetProperty(ref mouseSensitivity, value);
     }
 
     private static readonly bool defaultExportLog = false;
-    private static bool _ExportLog = defaultExportLog;
+    private static bool exportLog = defaultExportLog;
     public static bool ExportLog
     {
-        get => _ExportLog;
-        set => SetProperty(ref _ExportLog, value);
+        get => exportLog;
+        set => SetProperty(ref exportLog, value);
+    }
+    
+    private static readonly float defaultWindMagnitude = 0.0f;
+    private static float windMagnitude = defaultWindMagnitude;
+    public static float WindMagnitude
+    {
+        get => windMagnitude;
+        set => SetProperty(ref windMagnitude, value);
     }
 
-    private static readonly bool defaultGustRandom = false;
-    private static bool _GustRandom = defaultGustRandom;
-    public static bool GustRandom
+    private static readonly float defaultWindDirection = 0.0f;
+    private static float windDirection = defaultWindDirection;
+    public static float WindDirection
     {
-        get => _GustRandom;
-        set => SetProperty(ref _GustRandom, value);
+        get => windDirection;
+        set => SetProperty(ref windDirection, value);
     }
 
-    private static readonly float defaultGustMagnitude = 0.0f;
-    private static float _GustMagnitude = defaultGustMagnitude;
-    public static float GustMagnitude
+    private static readonly string defaultWindRangeSpec = "None";
+    private static string windRangeSpec = defaultWindRangeSpec;
+    public static string WindRangeSpec
     {
-        get => _GustMagnitude;
-        set => SetProperty(ref _GustMagnitude, value);
-    }
-
-    private static readonly float defaultGustDirection = 0.0f;
-    private static float _GustDirection = defaultGustDirection;
-    public static float GustDirection
-    {
-        get => _GustDirection;
-        set => SetProperty(ref _GustDirection, value);
+        get => windRangeSpec;
+        set => SetProperty(ref windRangeSpec, value);
     }
 
     private static readonly float defaultTakeoffSpeed = 6.5f;
-    private static float _TakeoffSpeed = defaultTakeoffSpeed;
+    private static float takeoffSpeed = defaultTakeoffSpeed;
     public static float TakeoffSpeed
     {
-        get => _TakeoffSpeed;
-        set => SetProperty(ref _TakeoffSpeed, value);
+        get => takeoffSpeed;
+        set => SetProperty(ref takeoffSpeed, value);
     }
 
     private static readonly float defaultTakeoffRoll = 0.0f;
-    private static float _TakeoffRoll = defaultTakeoffRoll;
+    private static float takeoffRoll = defaultTakeoffRoll;
     public static float TakeoffRoll
     {
-        get => _TakeoffRoll;
-        set => SetProperty(ref _TakeoffRoll, value);
+        get => takeoffRoll;
+        set => SetProperty(ref takeoffRoll, value);
     }
 
     private static readonly float defaultTakeoffPitch = 0.0f;
-    private static float _TakeoffPitch = defaultTakeoffPitch;
+    private static float takeoffPitch = defaultTakeoffPitch;
     public static float TakeoffPitch
     {
-        get => _TakeoffPitch;
-        set => SetProperty(ref _TakeoffPitch, value);
+        get => takeoffPitch;
+        set => SetProperty(ref takeoffPitch, value);
     }
 
     private static readonly float defaultTakeoffYaw = 0.0f;
-    private static float _TakeoffYaw = defaultTakeoffYaw;
+    private static float takeoffYaw = defaultTakeoffYaw;
     public static float TakeoffYaw
     {
-        get => _TakeoffYaw;
-        set => SetProperty(ref _TakeoffYaw, value);
+        get => takeoffYaw;
+        set => SetProperty(ref takeoffYaw, value);
     }
 
-    private static void SetDefault()
+    private static readonly bool defaultRandomizeWind = false;
+    private static bool randomizeWind = defaultRandomizeWind;
+    public static bool RandomizeWind
     {
-        aircraftName = defaultAircraftName;
-        showHUD = defaultShowHUD;
-        _HorizontalLineActive = defaultHorizontalLineActive;
-        _IsMainDisplayTPS = defaultIsMainDisplayTPS;
-        _MousePitchControl = defaultMousePitchControl;
-        _MouseSensitivity = defaultMouseSensitivity;
-        _ExportLog = defaultExportLog;
-        _GustRandom = defaultGustRandom;
-        _GustMagnitude = defaultGustMagnitude;
-        _GustDirection = defaultGustDirection;
-        _TakeoffSpeed = defaultTakeoffSpeed;
-        _TakeoffRoll = defaultTakeoffRoll;
-        _TakeoffPitch = defaultTakeoffPitch;
-        _TakeoffYaw = defaultTakeoffYaw;
+        get => randomizeWind;
+        set => SetProperty(ref randomizeWind, value);
     }
+
 
     private static void Validate()
     {
         // ----- AircraftName -----------------------------------------------------------------------------
-        int indexOfAircraft = AircraftData.Names.FindIndex(name => string.Compare(name, aircraftName, ignoreCase: true) == 0);
+        int indexOfAircraft = AircraftData.Names.FindIndex(name => string.Compare(name, aircraftDataName, ignoreCase: true) == 0);
         if (indexOfAircraft == -1)
         {
-            aircraftName = defaultAircraftName;
+            aircraftDataName = defaultAircraftDataName;
         }
-        aircraftName = AircraftData.Names[indexOfAircraft]; // 大文字小文字を無視してCSVファイルの機体名と一致するものを探し、見つかったものに置き換える.
+        else
+        {
+            aircraftDataName = AircraftData.Names[indexOfAircraft]; // 大文字小文字を無視してCSVファイルの機体名と一致するものを探し、見つかったものに置き換える.
+        }
     }
 
     // `Config.txt`を保存する`Application.dataPath`へのフルパス.
@@ -181,7 +198,7 @@ public static class Config
     private static DateTime _lastSyncTime = DateTime.MinValue;
 
     // `ConfigIO`クラスのインスタンス.
-    private static readonly int recordNum = 50; // インスタンスで扱える行数を指定.
+    private static readonly int recordNum = 100; // インスタンスで扱える行数を指定.
     private static readonly ConfigIO config = new(recordNum);
 
     private static SynchronizationContext context = SynchronizationContext.Current;
@@ -215,7 +232,7 @@ public static class Config
     }
 
     // ===== 設定を`Config.txt`と同期する ===================================================
-    private static void Sync()
+    public static void Sync()
     {
         Load();
         Flush();
@@ -233,8 +250,6 @@ public static class Config
     // ===== 設定を`Config.txt`から読み込む ================================================
     private static void Load()
     {
-        SetDefault(); // デフォルト値にリセット.
-
         if (File.Exists(_configFilePath)) // `Config.txt`が存在する場合.
         {
             try
@@ -247,27 +262,29 @@ public static class Config
                 Debug.LogError($"Failed to reload config file: {ex.Message}");
             }
 
-            aircraftName = CheckContent<string>("AircraftName");
-            showHUD = CheckContent<bool>("ShowHUD");
-            _HorizontalLineActive = CheckContent<bool>("HorizontalLineActive");
-            _IsMainDisplayTPS = CheckContent<bool>("IsMainDisplayTPS");
-            _MousePitchControl = CheckContent<bool>("MousePitchControl");
-            _MouseSensitivity = CheckContent<float>("MouseSensitivity");
-            _ExportLog = CheckContent<bool>("ExportLog");
-            _GustRandom = CheckContent<bool>("GustRandom");
-            _GustMagnitude = CheckContent<float>("GustMagnitude");
-            _GustDirection = CheckContent<float>("GustDirection");
-            _TakeoffSpeed = CheckContent<float>("TakeoffSpeed");
-            _TakeoffRoll = CheckContent<float>("TakeoffRoll");
-            _TakeoffPitch = CheckContent<float>("TakeoffPitch");
-            _TakeoffYaw = CheckContent<float>("TakeoffYaw");
+            aircraftModelName = CheckContent("AircraftModelName", defaultAircraftModelName);
+            aircraftDataName = CheckContent("AircraftDataName", defaultAircraftDataName);
+            showHUD = CheckContent("ShowHUD", defaultShowHUD);
+            showHorizontalLine = CheckContent("ShowHorizontalLine", defaultShowHorizontalLine);
+            mainCamera = CheckContent("MainCamera", defaultMainCamera);
+            useMousePitchControl = CheckContent("UseMousePitchControl", defaultUseMousePitchControl);
+            mouseSensitivity = CheckContent("MouseSensitivity", defaultMouseSensitivity);
+            exportLog = CheckContent("ExportLog", defaultExportLog);
+            randomizeWind = CheckContent("RandomizeWind", defaultRandomizeWind);
+            windMagnitude = CheckContent("WindMagnitude", defaultWindMagnitude);
+            windDirection = CheckContent("WindDirection", defaultWindDirection);
+            windRangeSpec = CheckContent("WindRangeSpec", defaultWindRangeSpec);
+            takeoffSpeed = CheckContent("TakeoffSpeed", defaultTakeoffSpeed);
+            takeoffRoll = CheckContent("TakeoffRoll", defaultTakeoffRoll);
+            takeoffPitch = CheckContent("TakeoffPitch", defaultTakeoffPitch);
+            takeoffYaw = CheckContent("TakeoffYaw", defaultTakeoffYaw);
 
             Validate(); // 読み込んだ値の妥当性を検査して、必要に応じて修正.
         }
     }
 
     // ===== 内容を確認し，存在すれば値を返す =====
-    private static T CheckContent<T>(string key) // 全ての型に対応するジェネリック型
+    private static T CheckContent<T>(string key, T defaultValue) // 全ての型に対応するジェネリック型
     {
         for (int i = 1; i <= recordNum; i++) // 全ての行で繰り返し.
         {
@@ -275,6 +292,12 @@ public static class Config
             {
                 // Debug.Log("Content exsists: " + key);
                 string valueString = config.Read(i, 2); // 該当行の`=`右側にある値を読み込む.
+
+                if (String.IsNullOrWhiteSpace(valueString)) // 値が空白のみで構成されている場合はデフォルト値を返す.
+                {
+                    Debug.LogWarning($"Value for {key} is empty or whitespace. Using default value: {defaultValue}");
+                    return defaultValue;
+                }
 
                 try
                 {
@@ -293,30 +316,36 @@ public static class Config
                 }
             }
         }
-        return default; // 見つからなかった場合は型のデフォルト値を返す.
+        return defaultValue; // 見つからなかった場合は指定されたデフォルト値を返す. 
     }
 
     // ===== `Config.txt`の内容を生成して書き込む ====================================
     private static bool Flush()
     {
         config.Clear();
-        config.Write(1, 1, "----- Configurations -----");
-        int linenumber = 3; // 2行目は空行，3行目から書き込み
+        int linenumber = 1;
+        
+        void newLine() => linenumber++; // Configの行を1つ進めるローカル関数
 
-        Action newLine = () => linenumber++; // Configの行を1つ進めるデリゲート
-
-        Action<string, string> addConfig = (key, value) => // Configに設定を追加するデリゲート
+        void addConfig(string key, string value) // Configに設定を追加するローカル関数
         {
             config.Write(linenumber, 1, key);
             config.Write(linenumber, 2, value);
             newLine();
         };
 
-        Action<string> addString = (str) => // Configに文字列を追加するデリゲート
+        void addString(string str) // Configに文字列を追加するローカル関数
         {
             config.Write(linenumber, 1, "// " + str);
             newLine();
         };
+
+        addString("----- Configurations -----");
+        newLine();
+
+        addString("使用する機体の3Dモデル");
+        addConfig("AircraftModelName", AircraftModelName);
+        newLine();
 
         addString("使用する機体諸元（以下に利用可能な機体が列挙されます）");
         addString("--------------------------------------------------------");
@@ -331,8 +360,9 @@ public static class Config
                 availableAircrafts = "";
             }
         }
+        if(availableAircrafts != "") addString(availableAircrafts);
         addString("--------------------------------------------------------");
-        addConfig("AircraftName", AircraftName);
+        addConfig("AircraftDataName", AircraftDataName);
         newLine();
 
         addString("飛行中の画面の周囲に情報を表示する(True/False)");
@@ -340,15 +370,15 @@ public static class Config
         newLine();
 
         addString("水平線を表示する(True/False)");
-        addConfig("HorizontalLineActive", HorizontalLineActive.ToString());
+        addConfig("ShowHorizontalLine", ShowHorizontalLine.ToString());
         newLine();
 
         addString("メインディスプレイを三人称視点にする(True/False)");
-        addConfig("IsMainDisplayTPS", IsMainDisplayTPS.ToString());
+        addConfig("MainCamera", MainCamera.ToString());
         newLine();
 
         addString("マウスによる重心移動を有効化する(True/False)");
-        addConfig("MousePitchControl", MousePitchControl.ToString());
+        addConfig("UseMousePitchControl", UseMousePitchControl.ToString());
         newLine();
 
         addString($"マウス感度を設定する(初期値: {defaultMouseSensitivity:0.0})");
@@ -359,16 +389,22 @@ public static class Config
         addConfig("ExportLog", ExportLog.ToString());
         newLine();
 
-        addString("ランダム風モードを有効化する(True/False)");
-        addConfig("GustRandom", GustRandom.ToString());
+        addString($"風速[m/s](初期値: {defaultWindMagnitude:0.0})");
+        addConfig("WindMagnitude", WindMagnitude.ToString("0.0"));
         newLine();
 
-        addString($"風速[m/s](初期値: {defaultGustMagnitude:0.0})");
-        addConfig("GustMagnitude", GustMagnitude.ToString("0.0"));
+        addString($"風上[deg](範囲: [L]-180.0 ↔ [R]180.0) / 初期値: {defaultWindDirection:0.0}");
+        addConfig("WindDirection", WindDirection.ToString("0.0"));
         newLine();
 
-        addString($"風上[deg](初期値: {defaultGustDirection:0.0} / 範囲: [L]-180.0 ↔ [R]180.0)");
-        addConfig("GustDirection", GustDirection.ToString("0.0"));
+        addString($"風の範囲指定(※「風速」「風上」の設定を上書きします / 初期値: {defaultWindRangeSpec})");
+        addString("以下の形式に従って入力してください（数値範囲はマイクラと同様）:");
+        addString("    風速:風向@開始距離..終了距離; 風速:風向@開始距離..終了距離; ...");
+        addString("設定例:");
+        addString("    設定なし（「風速」「風上」の設定が適用されます）: `None`");
+        addString("    100mまで90degから2m/s，それ以降は90degから3m/s): `2:90@..100; 3:90@100..` ");
+        addString("    300mから400mまでは-90degから1m/s，それ以外は風なし): `1:-90@300..400`");
+        addConfig("WindRangeSpec", WindRangeSpec);
         newLine();
 
         addString($"離陸時のスピード[m/s](初期値: {defaultTakeoffSpeed:0.0})");
@@ -385,6 +421,11 @@ public static class Config
 
         addString($"離陸時のヨー[deg](初期値: {defaultTakeoffYaw:0.0})");
         addConfig("TakeoffYaw", TakeoffYaw.ToString("0.0"));
+        newLine();
+
+        addString("定常風をランダム化する(True/False)");
+        addConfig("RandomizeWind", RandomizeWind.ToString());
+        newLine();
 
         try
         {

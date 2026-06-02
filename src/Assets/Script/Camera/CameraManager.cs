@@ -71,7 +71,7 @@ public class CameraManager : MonoBehaviour
         // "f5"キーが押されたらカメラを切り替える.
         if (Input.GetKeyDown("f5") && !gm.VRMode)
         {
-            Config.IsMainDisplayTPS = !Config.IsMainDisplayTPS;
+            Config.MainCamera = !Config.MainCamera;
         }
         // "v"キーが押されたらVRモードを切り替える.
         if (Input.GetKeyDown("v"))
@@ -183,7 +183,7 @@ public class CameraManager : MonoBehaviour
             FPSCamera.targetDisplay = displayNum + 1; // VR OFF -> 0, VR ON -> 1
         }
         */
-        if (Config.IsMainDisplayTPS)
+        if (Config.MainCamera)
         {
             TPSCamera.targetDisplay = 0; // VR OFF -> 0
             FPSCamera.targetDisplay = 1; // VR OFF -> 1

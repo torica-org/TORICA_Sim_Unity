@@ -31,7 +31,7 @@ public class SettingController : MonoBehaviour
             Time.timeScale=(float)Convert.ToInt32(!GameManager.instance.FlightSettingActive & !GameManager.instance.SettingActive & !GameManager.instance.Landing);
         }
         if(Input.GetKeyDown("c")){
-            Config.MousePitchControl = !Config.MousePitchControl;
+            Config.UseMousePitchControl = !Config.UseMousePitchControl;
         }
     }
 }

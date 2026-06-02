@@ -22,11 +22,10 @@ public class ConfigIO : CsvIO
         {
             string line = "";
             line += buff[i, 0];
-            string val = buff[i, 1];
 
-            if (!String.IsNullOrWhiteSpace(val))
+            if (!line.StartsWith("//") && line.Trim() != "") // コメント行や空行は区切り文字を入れない
             {
-                line += flushDelimiter + val;
+                line += flushDelimiter + buff[i, 1];
             }
 
             records[i] = line; // `Join`を使って1次元配列(fields)を区切り文字で文字列に
