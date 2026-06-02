@@ -47,32 +47,13 @@ public class FlightSettingScreen
             main = flightSettingObj.transform.Find("Main").gameObject;
         }
 
-        ActionButton toggleCustomDataButton = new(main, "toggleCustomDataButton", "CSV機体データ読み込み", () =>
-            {
-                gm.customPlaneDataEnabled = !gm.customPlaneDataEnabled;
-                ac.InputSpecifications();
-            }
-        );
-        RectTransform rectToggleCustomData = toggleCustomDataButton.rectTransform;
-        rectToggleCustomData.anchoredPosition = new Vector2(410, 100);
-        rectToggleCustomData.pivot = new Vector2(1f, 0.5f); // ピボット（ボタン自身の基準点）
-        rectToggleCustomData.localScale = new Vector3(1f, 1f, 1f); // テキストのサイズを変更する
-        rectToggleCustomData.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 300); // RectTransformのx軸方向のサイズを変更する
-
-        DynamicText<bool> isCustomDataEnabled = new(main,
-            "isCustomDataEnabled", () => gm.customPlaneDataEnabled);
-        RectTransform rectIsCustomDataEnabled = isCustomDataEnabled.rectTransform;
-        rectIsCustomDataEnabled.anchoredPosition = new Vector2(400, 100);
-        rectIsCustomDataEnabled.pivot = new Vector2(0f, 0.5f);
-        rectIsCustomDataEnabled.localScale = new Vector3(0.6f, 0.6f, 1f);
-
         DynamicText<string> AircraftDataName = new(main,
-            "AircraftDataName", () => Config.AircraftName);
+            "AircraftDataName", () => Config.AircraftDataName);
         RectTransform rectAircraftDataName = AircraftDataName.rectTransform;
-        rectAircraftDataName.anchoredPosition = new Vector2(0, 70);
-        rectAircraftDataName.pivot = new Vector2(0.5f, 0.5f);
+        rectAircraftDataName.anchoredPosition = new Vector2(-100, 70);
+        rectAircraftDataName.pivot = new Vector2(0f, 0.5f);
         rectAircraftDataName.localScale = new Vector3(0.6f, 0.6f, 1f);
-
+        rectAircraftDataName.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 1000); // RectTransformのx軸方向のサイズを変更する
 
         // ----- Connection -----------------------------------------------------------------------------
         if (connection == null)

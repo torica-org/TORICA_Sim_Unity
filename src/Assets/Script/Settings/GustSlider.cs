@@ -18,27 +18,27 @@ public class GustSlider : MonoBehaviour
         CurrentSlider = GetComponent<Slider>();
 
         if(GameManager.instance.SettingChanged){
-            CurrentSlider.value = Config.GustMagnitude*10f;
+            CurrentSlider.value = Config.WindMagnitude*10f;
         }else{
-            Config.GustMagnitude = CurrentSlider.value*0.1f;
+            Config.WindMagnitude = CurrentSlider.value*0.1f;
         }
         
-        scoreText.text = Config.GustMagnitude.ToString("0.000");
+        scoreText.text = Config.WindMagnitude.ToString("0.000");
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(CurrentSlider.value != Config.GustMagnitude*10f){
-            CurrentSlider.value = Config.GustMagnitude*10f;
+        if(CurrentSlider.value != Config.WindMagnitude*10f){
+            CurrentSlider.value = Config.WindMagnitude*10f;
         }
     }
 
     public void Method()
     {
-        Config.GustMagnitude = CurrentSlider.value*0.1f;
-        scoreText.text = Config.GustMagnitude.ToString("0.000");
+        Config.WindMagnitude = CurrentSlider.value*0.1f;
+        scoreText.text = Config.WindMagnitude.ToString("0.000");
         GameManager.instance.SettingChanged = true;
     }
 }

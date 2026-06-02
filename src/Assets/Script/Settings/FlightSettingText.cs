@@ -30,7 +30,7 @@ public class FlightSettingText : MonoBehaviour
     {
         scoreText.text = "";
         
-        if(Config.GustRandom){
+        if(Config.RandomizeWind){
             scoreText.text += "ON"+"\n\n\n\n\n\n\n\n";
         }else{
             scoreText.text += "OFF"+"\n\n\n\n\n\n\n\n";

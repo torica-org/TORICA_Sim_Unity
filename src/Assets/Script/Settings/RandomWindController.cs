@@ -7,9 +7,9 @@ public class RandomWindController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if(Config.GustRandom){
-            Config.GustMagnitude = Random.Range(0,60)*0.1f;
-            Config.GustDirection =Random.Range(-12,12)*15f;
+        if(Config.RandomizeWind){
+            Config.WindMagnitude = Random.Range(0,60)*0.1f;
+            Config.WindDirection =Random.Range(-12,12)*15f;
             GameManager.instance.SettingChanged = true;
         }
     }
@@ -18,10 +18,10 @@ public class RandomWindController : MonoBehaviour
     void Update()
     {
         if(Input.GetKeyDown("k")){
-            Config.GustRandom = !Config.GustRandom;
-            if(Config.GustRandom){
-                Config.GustMagnitude = Random.Range(0,60)*0.1f;
-                Config.GustDirection =Random.Range(-12,12)*15f;
+            Config.RandomizeWind = !Config.RandomizeWind;
+            if(Config.RandomizeWind){
+                Config.WindMagnitude = Random.Range(0,60)*0.1f;
+                Config.WindDirection =Random.Range(-12,12)*15f;
                 GameManager.instance.SettingChanged = true;
             }
         }

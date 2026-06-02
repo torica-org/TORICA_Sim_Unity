@@ -31,7 +31,7 @@ public class HUDController : MonoBehaviour
             //SideViewCamera.SetActive(GameManager.instance.HUDActive);
         }
 
-        if(Config.IsMainDisplayTPS && Input.GetKeyDown("l")){
+        if(Config.MainCamera && Input.GetKeyDown("l")){
             //HorizontalLine.SetActive(!GameManager.instance.HorizontalLineActive);
             //GameManager.instance.HorizontalLineActive = !GameManager.instance.HorizontalLineActive;
         }
