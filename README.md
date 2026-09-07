@@ -1,5 +1,5 @@
 # 最新は本リポジトリではありません！最終版は以下
-<https://github.com/torica-org/torica-sim2026-unity/tree/main>
+<https://github.com/torica-org/TORICA_Sim2027_Unity/tree/main>
 
 # Name
 TORICA simulator(Made from BRSimulator https://github.com/mtkbirdman/BRSimulator/tree/main)
