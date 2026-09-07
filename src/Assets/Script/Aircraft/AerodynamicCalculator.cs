@@ -434,7 +434,11 @@ public class AerodynamicCalculator
             float W = aero.PlaneRigidbody.mass * Physics.gravity.magnitude;//重力
             float L = 0.5f * aero.rho * aero.Airspeed * aero.Airspeed * aero.Sw * (aero.Cx * Mathf.Sin(Mathf.Deg2Rad * aero.theta) - aero.Cz * Mathf.Cos(Mathf.Deg2Rad * aero.theta));//揚力
             float N = (W - L) * Mathf.Cos(Mathf.Deg2Rad * 3.5f); // N=(W-L)*cos(3.5deg)//翼持ちの抵抗力
-            float P = (aero.PlaneRigidbody.mass * Config.TakeoffSpeed * Config.TakeoffSpeed) / (2f * 10f); // P=m*Vto*Vto/2*L//推進力
+            float BaseP = 1.30f * (aero.PlaneRigidbody.mass * Config.TakeoffSpeed * Config.TakeoffSpeed) / (2f * 10f); // P=m*Vto*Vto/2*L//推進力
+
+            float progress = (Distance + 10f) / 10f; // 離陸台の長さは10mなので、距離を正規化
+            float P = BaseP * (0.3f + 0.7f * Mathf.Cos(progress * Mathf.PI * 0.5f)); // 推進力を距離に応じて変化させる（離陸台の端にではBasePの50%まで減衰）
+            Debug.Log($"Distance={Distance}, progress={progress}, P={P}");
 
             //離陸方向をYaw回転に合わせて水平方向に修正
             //Vector3 takeoffDirection = Quaternion.Euler(0f, Config.TakeoffYaw, 0f) * Vector3.forward;
